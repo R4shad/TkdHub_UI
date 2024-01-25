@@ -51,6 +51,10 @@ export class OrganizerLoginComponent implements OnInit {
       )
       .subscribe((data) => {
         console.log(data);
+        this.router.navigate([
+          'championship/' + this.championship.championshipId + '/Organizer',
+        ]);
+        localStorage.setItem('token', data.token);
         //this.championships = data;
         //console.log(this.championships);
       });
