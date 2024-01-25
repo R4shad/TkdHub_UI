@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OrganizerLoginComponent } from './components/organizer-login/organizer-login.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ChampionshipViewComponent } from './pages/championship-view/championship-view.component';
+import { LoginComponent } from './pages/login/login.component';
 
 
 
@@ -10,7 +11,8 @@ import { ChampionshipViewComponent } from './pages/championship-view/championshi
   declarations: [
     OrganizerLoginComponent,
     MainPageComponent,
-    ChampionshipViewComponent
+    ChampionshipViewComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule

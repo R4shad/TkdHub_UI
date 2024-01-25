@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../../core/services/api.service';
 import { ChampionshipI } from 'src/app/shared/models/Championship';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-championship-view',
@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ChampionshipViewComponent implements OnInit {
   championship!: ChampionshipI;
+
   constructor(
     private api: ApiService,
     private router: Router,
@@ -19,21 +20,29 @@ export class ChampionshipViewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('OnInit called');
-    this.getInfo();
+
+    // Suscríbete a los cambios en los parámetros de la ruta
+    this.route.paramMap
+      .pipe(
+        switchMap((params) => {
+          // Obtén el championshipId del parámetro de la ruta
+          const championshipId: number = Number(params.get('championshipId'));
+
+          // Utiliza championshipId para hacer la solicitud al servicio
+          return this.api.getChampionshipInfo(championshipId);
+        })
+      )
+      .subscribe((data) => {
+        this.championship = data;
+        console.log(this.championship);
+      });
   }
 
-  getInfo() {
-    const championshipId: number = Number(
-      this.route.snapshot.paramMap.get('championshipId')
-    );
+  goToLogin() {
+    // Obtén el championshipId del campeonato actual
+    const championshipId = this.championship.championshipId; // Asegúrate de tener la propiedad correcta que almacena el id
 
-    // Ahora puedes usar championshipId como sea necesario
-    console.log('Championship ID:', championshipId);
-
-    // Luego, puedes utilizar championshipId para hacer la solicitud al servicio
-    this.api.getChampionshipInfo(championshipId).subscribe((data) => {
-      this.championship = data;
-      console.log(this.championship);
-    });
+    // Navega a la ruta http://localhost:4200/championship/8/login
+    this.router.navigate(['/championship', championshipId, 'login']);
   }
 }
