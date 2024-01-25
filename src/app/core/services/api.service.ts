@@ -9,6 +9,7 @@ import {
 } from 'src/app/shared/models/Championship';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { tokenI } from 'src/app/shared/models/token';
 @Injectable({
   providedIn: 'root',
 })
@@ -38,5 +39,22 @@ export class ApiService {
         return response.data;
       })
     );
+  }
+
+  getOrganizerToken(
+    championshipId: number,
+    username: string,
+    password: string
+  ): Observable<tokenI> {
+    let direccion = this.APIurl + 'championship/login/' + championshipId;
+
+    const body = { organizer: username, password: password };
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post<tokenI>(direccion, body, httpOptions);
   }
 }

@@ -4,18 +4,15 @@ import { OrganizerLoginComponent } from './components/organizer-login/organizer-
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ChampionshipViewComponent } from './pages/championship-view/championship-view.component';
 import { LoginComponent } from './pages/login/login.component';
-
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     OrganizerLoginComponent,
     MainPageComponent,
     ChampionshipViewComponent,
-    LoginComponent
+    LoginComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, FormsModule],
 })
-export class UsersModule { }
+export class UsersModule {}

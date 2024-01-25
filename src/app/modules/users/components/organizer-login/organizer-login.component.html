@@ -15,24 +15,23 @@
 
                 <form>
                   <div class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control" placeholder="Nombre Organización" />
+                    <input [(ngModel)]="username" type="email" id="form2Example11" name="username" class="form-control"
+                      placeholder="Nombre Organización" />
                     <label class="form-label" for="form2Example11">Organizacion</label>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" />
+                    <input [(ngModel)]="password" type="password" id="form2Example22" name="password"
+                      class="form-control" />
                     <label class="form-label" for="form2Example22">Contraseña</label>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
-
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Log
-                      in</button>
+                    <button (click)="login()" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                      type="button">Log in</button>
                   </div>
-
-
-
                 </form>
+
 
               </div>
             </div>
