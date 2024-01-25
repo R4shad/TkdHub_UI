@@ -1,0 +1,19 @@
+.championship-container {
+  display: flex;
+  flex-direction: column; /* Alinear los elementos verticalmente (uno debajo del otro) */
+
+  text-align: center; /* Centrar el texto dentro de los elementos */
+}
+.informacion {
+  flex: 1;
+}
+.titulo {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.descripcion {
+  font-size: 28px;
+  margin: 0;
+}

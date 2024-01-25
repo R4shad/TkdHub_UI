@@ -8,6 +8,7 @@ import { CompetitorViewComponent } from './modules/trainers/pages/competitor-vie
 import { CompetitorRegistrationComponent } from './modules/trainers/pages/competitor-registration/competitor-registration.component';
 
 import { MainPageComponent } from './modules/users/pages/main-page/main-page.component';
+import { ChampionshipViewComponent } from './modules/users/pages/championship-view/championship-view.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: '',
     component: MainPageComponent,
+  },
+  {
+    path: 'championship/:championshipId',
+    component: ChampionshipViewComponent, // Componente para los detalles del campeonato
   },
 ];
 

@@ -8,7 +8,12 @@ export interface ChampionshipI {
   createdAt: string; // Puedes cambiar este tipo según el formato real de fecha que recibas
   updatedAt: string; // Puedes cambiar este tipo según el formato real de fecha que recibas
 }
-export interface responseChampionshipI {
+export interface responseChampionshipsI {
   status: number;
   data: ChampionshipI[];
+}
+
+export interface responseChampionshipI {
+  status: number;
+  data: ChampionshipI;
 }
