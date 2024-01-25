@@ -1,0 +1,35 @@
+.championship-container {
+  display: flex;
+  flex-direction: column; /* Alinear los elementos verticalmente (uno debajo del otro) */
+
+  text-align: center; /* Centrar el texto dentro de los elementos */
+}
+.rectangulo {
+  width: 400px;
+  padding-top: 4px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #ccc;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+}
+
+.informacion {
+  flex: 1;
+}
+.titulo {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.descripcion {
+  font-size: 28px;
+  margin: 0;
+}
