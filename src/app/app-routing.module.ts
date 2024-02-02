@@ -51,6 +51,10 @@ const routes: Routes = [
     path: 'championship/:championshipId/Organizer',
     component: ChampionshipSummaryComponent, // Componente para los detalles del campeonato
   },
+  {
+    path: 'championship/:championshipId/Organizer/TraineeRegistration',
+    component: TrainerRegistrationComponent, // Componente para los detalles del campeonato
+  },
 ];
 
 @NgModule({

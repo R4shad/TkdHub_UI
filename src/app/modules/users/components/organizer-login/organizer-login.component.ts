@@ -37,8 +37,8 @@ export class OrganizerLoginComponent implements OnInit {
   }
 
   login(): void {
-    console.log('Nombre de usuario:', this.username);
-    console.log('Contraseña:', this.password);
+    //console.log('Nombre de usuario:', this.username);
+    //console.log('Contraseña:', this.password);
 
     this.api
       .getOrganizerToken(
@@ -47,7 +47,7 @@ export class OrganizerLoginComponent implements OnInit {
         this.password
       )
       .subscribe((data) => {
-        console.log(data);
+        // console.log(data);
         this.authService.setAuthenticated(true, data.token);
         this.router.navigate([
           'championship/' + this.championship.championshipId + '/Organizer',
