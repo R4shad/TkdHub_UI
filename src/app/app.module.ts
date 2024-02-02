@@ -13,7 +13,7 @@ import { UsersModule } from './modules/users/users.module';
 import { TrainersModule } from './modules/trainers/trainers.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { AddTokenInterceptor } from './core/utils/add-token.interceptor';
-
+import { AuthService } from './core/services/auth.service';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -31,6 +31,7 @@ import { AddTokenInterceptor } from './core/utils/add-token.interceptor';
       useClass: AddTokenInterceptor,
       multi: true,
     },
+    AuthService,
   ],
   bootstrap: [AppComponent],
 })

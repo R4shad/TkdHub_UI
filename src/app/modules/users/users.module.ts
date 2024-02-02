@@ -5,7 +5,7 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ChampionshipViewComponent } from './pages/championship-view/championship-view.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule } from '@angular/forms';
-
+import { AuthService } from '../../core/services/auth.service';
 @NgModule({
   declarations: [
     OrganizerLoginComponent,
@@ -14,5 +14,6 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
   ],
   imports: [CommonModule, FormsModule],
+  providers: [AuthService],
 })
 export class UsersModule {}
