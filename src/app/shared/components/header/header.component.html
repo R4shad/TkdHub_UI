@@ -1,1 +1,5 @@
-<p>header works!</p>
+<header class='header-container'>
+  <p class="text-logo">TkdHub</p>
+  <p class="nombre-campeonato">{{nombreCampeonato}}</p>
+  <button *ngIf="token" class="btn btn-outline-success" (click)="logOut()">Logout</button>
+</header>
