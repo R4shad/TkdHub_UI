@@ -10,6 +10,8 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tokenI } from 'src/app/shared/models/token';
+import { clubI, responseClubI } from 'src/app/shared/models/Club';
+import { coachI, responseCoachI } from 'src/app/shared/models/Coach';
 @Injectable({
   providedIn: 'root',
 })
@@ -56,5 +58,31 @@ export class ApiService {
       }),
     };
     return this.http.post<tokenI>(direccion, body, httpOptions);
+  }
+
+  postClub(
+    nuevoClub: clubI,
+    championshipId: number
+  ): Observable<responseClubI> {
+    let direccion = this.APIurl + 'club/' + championshipId;
+    let clubInfo = {
+      codigoClub: nuevoClub.clubCode,
+      nombre: nuevoClub.name,
+    };
+    return this.http.post<responseClubI>(direccion, clubInfo);
+  }
+
+  postCoach(
+    nuevoClub: clubI,
+    championshipId: number
+  ): Observable<responseCoachI> {
+    let direccion = this.APIurl + 'entrenador/' + championshipId;
+    let entrenadorInfo: coachI = {
+      coachCi: nuevoClub.coach.coachCi,
+      name: nuevoClub.coach.name,
+      clubCode: nuevoClub.coach.clubCode,
+    };
+    console.log(entrenadorInfo);
+    return this.http.post<responseCoachI>(direccion, entrenadorInfo);
   }
 }
