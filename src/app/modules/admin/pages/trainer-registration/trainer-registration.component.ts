@@ -42,54 +42,65 @@ export class TrainerRegistrationComponent implements OnInit {
   };
 
   clubForm = new FormGroup({
-    nombre: new FormControl('', [
+    name: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(20),
     ]),
-    codigoClub: new FormControl('', [
+    clubCode: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(3),
     ]),
-    clubCoach: new FormControl('', [
+    coachName: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
       Validators.maxLength(40),
     ]),
-    clubCoachCi: new FormControl('', [
+    coachCi: new FormControl('', [
       Validators.required,
       Validators.minLength(7),
       Validators.maxLength(8),
     ]),
   });
 
-  get nombre() {
-    return this.clubForm.get('nombre');
+  get name() {
+    return this.clubForm.get('name');
   }
 
-  get codigoClub() {
-    return this.clubForm.get('codigoClub');
+  get clubCode() {
+    return this.clubForm.get('clubCode');
   }
 
-  get clubCoach() {
-    return this.clubForm.get('clubCoach');
+  get coachName() {
+    return this.clubForm.get('coachName');
   }
 
-  get clubCoachCi() {
-    return this.clubForm.get('clubCoachCi');
+  get coachCi() {
+    return this.clubForm.get('coachCi');
   }
 
   send() {
-    var newClub: clubI = this.clubForm.value;
+    let info = this.clubForm.value;
+    var newClub: clubI = {
+      name: info.name,
+      clubCode: info.clubCode,
+      coach: {
+        name: info.coachName,
+        coachCi: info.coachCi,
+        clubCode: info.clubCode,
+      },
+    };
+    console.log(newClub);
     this.api
       .postClub(newClub, this.championshipId)
       .subscribe((response: responseClubI) => {
-        if (response.status == 200) {
+        if (response.status == 201) {
+          console.log('entre 201');
           this.api
             .postCoach(newClub, this.championshipId)
             .subscribe((response: responseCoachI) => {
-              if (response.status == 200) {
+              if (response.status == 201) {
                 alert('Club creado correctamente');
               }
             });

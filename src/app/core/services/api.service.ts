@@ -66,8 +66,8 @@ export class ApiService {
   ): Observable<responseClubI> {
     let direccion = this.APIurl + 'club/' + championshipId;
     let clubInfo = {
-      codigoClub: nuevoClub.clubCode,
-      nombre: nuevoClub.name,
+      clubCode: nuevoClub.clubCode,
+      name: nuevoClub.name,
     };
     return this.http.post<responseClubI>(direccion, clubInfo);
   }
@@ -76,7 +76,7 @@ export class ApiService {
     nuevoClub: clubI,
     championshipId: number
   ): Observable<responseCoachI> {
-    let direccion = this.APIurl + 'entrenador/' + championshipId;
+    let direccion = this.APIurl + 'coach/' + championshipId;
     let entrenadorInfo: coachI = {
       coachCi: nuevoClub.coach.coachCi,
       name: nuevoClub.coach.name,

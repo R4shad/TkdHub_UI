@@ -1,1 +1,75 @@
-<p>trainer-registration works!</p>
+<div class='form-container'>
+  <hr>
+  <div class="inputs-container">
+    <p class="nombre-form">Registro de Clubes</p>
+    <hr>
+    <form [formGroup]="clubForm" (ngSubmit)="send">
+      <div>
+        <div class='form-floating mb-3'>
+          <input type='Nombre del Club' formControlName='name' class='form-control fs-5'
+            placeholder="'Nombre del Club'" />
+          <label for="floatingInput">Nombre del Club:</label>
+        </div>
+        <div class="alert" [hidden]="name?.valid || name?.pristine">
+          <span class="form-text text-danger" *ngIf="name?.errors?.['required']">
+            El campo 'Nombre del Club' es obligatorio.
+          </span>
+          <span class="form-text text-danger" *ngIf=" !name?.errors?.['required'] && inputLength">
+            El campo 'Nombre del Club' debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type='Abreviatura del Club' formControlName='clubCode' class='form-control fs-5'
+            placeholder="'Abreviatura del Club'" />
+          <label for="floatingInput">Abreviatura del Club:</label>
+        </div>
+        <div class="alert" [hidden]="clubCode?.valid || clubCode?.pristine">
+          <span class="form-text text-danger" *ngIf="clubCode?.errors?.['required']">
+            El campo 'Abreviatura del Club' es obligatorio.
+          </span>
+          <span class="form-text text-danger" *ngIf=" !clubCode?.errors?.['required'] && inputLength">
+            El campo 'Abreviatura del Club' debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type='Nombre del Entrenador' formControlName='coachName' class='form-control fs-5'
+            placeholder="'Nombre del Entrenador'" />
+          <label for="floatingInput">Nombre del Entrenador:</label>
+        </div>
+        <div class="alert" [hidden]="coachName?.valid || coachName?.pristine">
+          <span class="form-text text-danger" *ngIf="coachName?.errors?.['required']">
+            El campo 'Nombre del Entrenador' es obligatorio.
+          </span>
+          <span class="form-text text-danger" *ngIf=" !coachName?.errors?.['required'] && inputLength">
+            El campo 'Nombre del Entrenador' debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type='Ci del Entrenador' formControlName='coachCi' class='form-control fs-5'
+            placeholder="'Ci del Entrenador'" />
+          <label for="floatingInput">Ci del Entrenador:</label>
+        </div>
+        <div class="alert" [hidden]="coachCi?.valid || coachCi?.pristine">
+          <span class="form-text text-danger" *ngIf="coachCi?.errors?.['required']">
+            El campo 'Ci del Entrenador' es obligatorio.
+          </span>
+          <span class="form-text text-danger" *ngIf=" !coachCi?.errors?.['required'] && inputLength">
+            El campo 'Ci del Entrenador' debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <button [disabled]="clubForm.invalid" (click)="send()" class="btn btn-dark btn-lg">Registrar Club</button>
+    </form>
+  </div>
+
+</div>

@@ -3,17 +3,14 @@ import { CommonModule } from '@angular/common';
 import { TrainerRegistrationComponent } from './pages/trainer-registration/trainer-registration.component';
 import { ChampionshipConfigurationComponent } from './pages/championship-configuration/championship-configuration.component';
 import { ChampionshipSummaryComponent } from './pages/championship-summary/championship-summary.component';
-
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     TrainerRegistrationComponent,
     ChampionshipConfigurationComponent,
-    ChampionshipSummaryComponent
+    ChampionshipSummaryComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, ReactiveFormsModule],
 })
-export class AdminModule { }
+export class AdminModule {}
