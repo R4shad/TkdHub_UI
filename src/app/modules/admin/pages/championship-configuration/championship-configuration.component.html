@@ -1,1 +1,9 @@
-<p>championship-configuration works!</p>
+<div *ngIf="currentStep === 1">
+  <app-age-selector></app-age-selector>
+</div>
+
+
+<!-- Agrega más divs para los siguientes pasos -->
+
+<button (click)="nextStep()">Siguiente</button>
+<button (click)="previousStep()">Anterior</button>

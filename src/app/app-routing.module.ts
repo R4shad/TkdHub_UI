@@ -23,11 +23,6 @@ const routes: Routes = [
     component: ChampionshipSummaryComponent,
   },
   {
-    path: 'Configuracion-Campeonato',
-    component: ChampionshipConfigurationComponent,
-  },
-
-  {
     path: 'Vista-Competidores',
     component: CompetitorViewComponent,
   },
@@ -54,6 +49,10 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Organizer/TraineeRegistration',
     component: TrainerRegistrationComponent, // Componente para los detalles del campeonato
+  },
+  {
+    path: 'championship/:championshipId/Organizer/ChampionshipConfiguration',
+    component: ChampionshipConfigurationComponent,
   },
 ];
 

@@ -20,4 +20,11 @@ export class ChampionshipSummaryComponent implements OnInit {
     // Navega a la ruta actual con '/TraineeRegistration' agregado
     this.router.navigate([currentRoute, 'TraineeRegistration']);
   }
+
+  goToChampionshipConfiguration() {
+    const currentRoute = this.getCurrentRoute();
+
+    // Navega a la ruta actual con '/TraineeRegistration' agregado
+    this.router.navigate([currentRoute, 'ChampionshipConfiguration']);
+  }
 }
