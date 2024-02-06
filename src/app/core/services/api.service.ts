@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 import { tokenI } from 'src/app/shared/models/token';
 import { clubI, responseClubI } from 'src/app/shared/models/Club';
 import { coachI, responseCoachI } from 'src/app/shared/models/Coach';
+import { agesI, responseAgesI } from 'src/app/shared/models/ages';
 @Injectable({
   providedIn: 'root',
 })
@@ -84,5 +85,14 @@ export class ApiService {
     };
     console.log(entrenadorInfo);
     return this.http.post<responseCoachI>(direccion, entrenadorInfo);
+  }
+
+  getAges(): Observable<agesI[]> {
+    let direccion = this.APIurl + 'ageInterval';
+    return this.http.get<responseAgesI>(direccion).pipe(
+      map((response: responseAgesI) => {
+        return response.data;
+      })
+    );
   }
 }
