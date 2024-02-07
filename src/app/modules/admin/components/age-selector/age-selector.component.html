@@ -1,60 +1,57 @@
 <div class='ages-selector-container'>
   <h1>Que Edades Participaran En El Campeonato</h1>
 
-  <form [formGroup]="edadForm">
-    <div class="rectangulo" *ngFor="let edad of edades" id="{{edad.nombreEdad}}">
+  <form [formGroup]="agesForm">
+    <div class="rectangulo" *ngFor="let edad of ages" id="{{edad.name}}">
       <div class="informacion">
-        <p class="titulo">{{edad.nombreEdad}}</p>
-        <p *ngIf="edad.edadMaxima==100" class="descripcion">+{{ edad.edadMinima }}</p>
-        <p *ngIf="edad.edadMaxima!=100" class="descripcion">{{ edad.edadMinima }}-{{ edad.edadMaxima }} años.</p>
+        <p class="titulo">{{edad.name}}</p>
+        <p *ngIf="edad.maxAge==100" class="descripcion">+{{ edad.minAge }}</p>
+        <p *ngIf="edad.maxAge!=100" class="descripcion">{{ edad.minAge }}-{{ edad.maxAge }} años.</p>
         <p class="descripcion">Pesos no definidos</p>
       </div>
       <div class="botones">
-        <button class="boton-cuadrado" (click)="eliminarEdad(edad)">
-          <img class="icono-boton" src="./../../../assets/eliminar.png" alt="Eliminar">
-        </button>
         <button class="boton-cuadrado" (click)="openModal(modalContent,edad)">
-          <img class="icono-boton" src="./../../../assets/editar.png" alt="Eliminar">
+          <img class="icono-boton" src="./../../../../../assets/editar.png" alt="Eliminar">
+        </button>
+        <button class="boton-cuadrado" (click)="deleteAge(edad)">
+          <img class="icono-boton" src="./../../../../../assets/eliminar.png" alt="Eliminar">
         </button>
       </div>
     </div>
 
     <ng-template #modalContent let-c="close" let-d="dismiss">
       <div class="modal-header">
-        <h4 class="modal-title">Editando: {{edadEditando.nombreEdad}}</h4>
+        <h4 class="modal-title">Editando: {{agesEditing.name}}</h4>
       </div>
       <div class="modal-body">
         <div class='form-input-container'>
           <div class='description'>
             <label>Nombre del nombre Edad:</label>
           </div>
-          <input type="text" formControlName='nombreEdad' class='input-container'
-            placeholder="{{edadEditando.nombreEdad}}" />
+          <input type="text" formControlName='name' class='input-container' placeholder="{{agesEditing.name}}" />
         </div>
 
         <div class='form-input-container'>
           <div class='description'>
             <label>Edad Minima</label>
           </div>
-          <input type="number" formControlName='edadMinima' class='input-container'
-            placeholder="{{edadEditando.edadMinima}}" />
+          <input type="number" formControlName='minAge' class='input-container' placeholder="{{agesEditing.minAge}}" />
         </div>
 
         <div class='form-input-container'>
           <div class='description'>
             <label>Edad Maxima</label>
           </div>
-          <input type="number" formControlName='edadMaxima' class='input-container'
-            placeholder="{{edadEditando.edadMaxima}}" />
+          <input type="number" formControlName='maxAge' class='input-container' placeholder="{{agesEditing.maxAge}}" />
         </div>
         <div>
           <a routerLink="/vista-pesos" routerLinkActive="active">Definir Pesos</a>
         </div>
       </div>
       <div class="modal-footer">
-        <div *ngIf="errorMensaje" class="alert alert-danger">{{ errorMensaje }}</div>
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
         <button class="btn btn-secondary" (click)="c('Close')">Cerrar</button>
-        <button class="btn btn-primary" [disabled]="edadForm.invalid" (click)="guardar()">Guardar</button>
+        <button class="btn btn-primary" [disabled]="agesForm.invalid" (click)="save()">Guardar</button>
       </div>
     </ng-template>
   </form>

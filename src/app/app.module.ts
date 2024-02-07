@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsersModule } from './modules/users/users.module';
 import { TrainersModule } from './modules/trainers/trainers.module';
 import { AdminModule } from './modules/admin/admin.module';
@@ -24,6 +24,7 @@ import { AuthService } from './core/services/auth.service';
     SharedModule,
     TrainersModule,
     AdminModule,
+    NgbModule,
   ],
   providers: [
     {
