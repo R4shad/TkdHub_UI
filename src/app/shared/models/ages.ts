@@ -1,5 +1,6 @@
 export interface agesI {
-  name: string;
+  id: number;
+  ageIntervalName: string;
   minAge: number;
   maxAge: number;
 }

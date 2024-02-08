@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ApiService } from 'src/app/core/services/api.service';
 import { agesI } from 'src/app/shared/models/ages';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,8 @@ export class AgeSelectorComponent implements OnInit {
   ages: agesI[] = [];
   modalRef?: NgbModalRef;
   agesEditing: agesI = {
-    name: '',
+    id: 0,
+    ageIntervalName: '',
     minAge: 0,
     maxAge: 0,
   };
@@ -42,11 +43,8 @@ export class AgeSelectorComponent implements OnInit {
     this.showAges();
   }
 
-  openModal(content: any, edadAEditar: agesI) {
+  openModal(content: any) {
     this.modalRef = this.modalService.open(content);
-    // Establecer valores del formulario al abrir el modal
-    this.agesEditing = edadAEditar;
-    this.agesForm.patchValue(edadAEditar);
   }
 
   showAges() {
@@ -63,7 +61,7 @@ export class AgeSelectorComponent implements OnInit {
     this.errorMessage = null; // Reinicia el mensaje de error
     if (this.agesForm.valid) {
       const modifiedIndex = this.ages.findIndex(
-        (age) => age.name === this.agesEditing.name
+        (age) => age.ageIntervalName === this.agesEditing.ageIntervalName
       );
 
       if (modifiedIndex !== -1) {
@@ -71,29 +69,29 @@ export class AgeSelectorComponent implements OnInit {
           min: this.agesForm.value.edadMinima,
           max: this.agesForm.value.edadMaxima,
         };
-        if (this.validateOverlap(actualRange)) {
-          this.errorMessage = 'Error: Las edades se sobreponen.';
-          return; // Evita que se guarde la edad si hay superposición
-        } else {
-          this.ages[modifiedIndex] = this.agesForm.value;
-        }
       }
 
       this.modalRef?.close();
     }
   }
 
-  validateOverlap(currentRange: { min: number; max: number }): boolean {
-    return this.ages.some((age) => {
-      if (age.name !== this.agesEditing.name) {
-        const ageRange = { min: age.minAge, max: age.maxAge };
-        if (currentRange.min + currentRange.max > ageRange.min + ageRange.max) {
-          return currentRange.min <= ageRange.max;
-        } else {
-          return currentRange.max >= ageRange.min;
-        }
-      }
-      return false;
-    });
+  ageSelected!: agesI;
+  display = true;
+  defineWeight(age: agesI) {
+    this.ageSelected = age;
+    this.display = false;
+  }
+
+  logAges() {
+    console.log(this.ages);
+  }
+
+  cancel() {}
+
+  confirm() {
+    // Aquí puedes realizar alguna acción, como guardar los cambios
+    console.log('Cambios confirmados');
+    // Luego cierra el modal
+    this.cancel();
   }
 }

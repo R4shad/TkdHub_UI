@@ -13,6 +13,7 @@ import { tokenI } from 'src/app/shared/models/token';
 import { clubI, responseClubI } from 'src/app/shared/models/Club';
 import { coachI, responseCoachI } from 'src/app/shared/models/Coach';
 import { agesI, responseAgesI } from 'src/app/shared/models/ages';
+import { divisionI, responseDivisionI } from 'src/app/shared/models/division';
 @Injectable({
   providedIn: 'root',
 })
@@ -91,6 +92,15 @@ export class ApiService {
     let direccion = this.APIurl + 'ageInterval';
     return this.http.get<responseAgesI>(direccion).pipe(
       map((response: responseAgesI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getDivision(ageIntervalId: number): Observable<divisionI[]> {
+    let direccion = this.APIurl + 'division/' + ageIntervalId;
+    return this.http.get<responseDivisionI>(direccion).pipe(
+      map((response: responseDivisionI) => {
         return response.data;
       })
     );

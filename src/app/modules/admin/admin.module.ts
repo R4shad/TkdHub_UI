@@ -5,6 +5,7 @@ import { ChampionshipConfigurationComponent } from './pages/championship-configu
 import { ChampionshipSummaryComponent } from './pages/championship-summary/championship-summary.component';
 import { AgeSelectorComponent } from './components/age-selector/age-selector.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WeightSelectorComponent } from './components/weight-selector/weight-selector.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ChampionshipConfigurationComponent,
     ChampionshipSummaryComponent,
     AgeSelectorComponent,
+    WeightSelectorComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule],
 })

@@ -1,58 +1,51 @@
-<div class='ages-selector-container'>
+<div *ngIf="display" class='ages-selector-container'>
   <h1>Que Edades Participaran En El Campeonato</h1>
 
-  <form [formGroup]="agesForm">
-    <div class="rectangulo" *ngFor="let edad of ages" id="{{edad.name}}">
-      <div class="informacion">
-        <p class="titulo">{{edad.name}}</p>
-        <p *ngIf="edad.maxAge==100" class="descripcion">+{{ edad.minAge }}</p>
-        <p *ngIf="edad.maxAge!=100" class="descripcion">{{ edad.minAge }}-{{ edad.maxAge }} años.</p>
-        <p class="descripcion">Pesos no definidos</p>
-      </div>
-      <div class="botones">
-        <button class="boton-cuadrado" (click)="openModal(modalContent,edad)">
-          <img class="icono-boton" src="./../../../../../assets/editar.png" alt="Eliminar">
-        </button>
-        <button class="boton-cuadrado" (click)="deleteAge(edad)">
-          <img class="icono-boton" src="./../../../../../assets/eliminar.png" alt="Eliminar">
+  <div class="rectangulo" *ngFor="let edad of ages" id="{{edad.ageIntervalName}}">
+    <div class="informacion">
+      <p class="titulo">{{edad.ageIntervalName}}</p>
+      <p *ngIf="edad.maxAge==100" class="descripcion">+{{ edad.minAge }}</p>
+      <p *ngIf="edad.maxAge!=100" class="descripcion">{{ edad.minAge }}-{{ edad.maxAge }} años.</p>
+      <div class="weight-container">
+        <p class="descripcion">Ver Pesos</p>
+        <button class="boton-cuadrado" (click)="defineWeight(edad)">
+          <img class="icono-boton2" src="./../../../../../assets/definir.png" alt="Eliminar">
         </button>
       </div>
     </div>
+    <div class="botones">
+      <!-- <button class="boton-cuadrado" (click)="openModal(modalContent,edad)">
+          <img class="icono-boton" src="./../../../../../assets/editar.png" alt="Eliminar">
+        </button> -->
+      <button class="boton-cuadrado" (click)="deleteAge(edad)">
+        <img class="icono-boton" src="./../../../../../assets/eliminar.png" alt="Eliminar">
+      </button>
+    </div>
+  </div>
 
-    <ng-template #modalContent let-c="close" let-d="dismiss">
-      <div class="modal-header">
-        <h4 class="modal-title">Editando: {{agesEditing.name}}</h4>
-      </div>
-      <div class="modal-body">
-        <div class='form-input-container'>
-          <div class='description'>
-            <label>Nombre del nombre Edad:</label>
-          </div>
-          <input type="text" formControlName='name' class='input-container' placeholder="{{agesEditing.name}}" />
+  <ng-template #modalContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">ALERTA</h4>
+    </div>
+    <div class="modal-body">
+      <div class='form-input-container'>
+        <div class='description'>
+          <label>Verifique que los intervalos de edades estén correctos. No se podrán hacer modificaciones.</label>
+        </div>
+        <div class="botones">
+          <button class="btn btn-primary" (click)="cancel()">Cancelar</button>
+          <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
         </div>
 
-        <div class='form-input-container'>
-          <div class='description'>
-            <label>Edad Minima</label>
-          </div>
-          <input type="number" formControlName='minAge' class='input-container' placeholder="{{agesEditing.minAge}}" />
-        </div>
+      </div>
+    </div>
+  </ng-template>
 
-        <div class='form-input-container'>
-          <div class='description'>
-            <label>Edad Maxima</label>
-          </div>
-          <input type="number" formControlName='maxAge' class='input-container' placeholder="{{agesEditing.maxAge}}" />
-        </div>
-        <div>
-          <a routerLink="/vista-pesos" routerLinkActive="active">Definir Pesos</a>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-        <button class="btn btn-secondary" (click)="c('Close')">Cerrar</button>
-        <button class="btn btn-primary" [disabled]="agesForm.invalid" (click)="save()">Guardar</button>
-      </div>
-    </ng-template>
-  </form>
+
+  <button class="btn btn-primary" (click)="openModal(modalContent)">Imprimir Edades</button>
+</div>
+<div>
+  <app-weight-selector *ngIf="!display" [ageInterval]="ageSelected" (returnToAgeSelector)="display = true">
+  </app-weight-selector>
+
 </div>

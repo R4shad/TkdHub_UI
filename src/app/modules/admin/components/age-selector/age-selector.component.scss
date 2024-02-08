@@ -45,7 +45,7 @@
 
 .boton-cuadrado {
   width: 40px;
-  height: 40px;
+  height: 50px;
 
   background-color: #f2f2f2;
   border: 1px solid #ccc;
@@ -67,6 +67,10 @@
   width: 25px;
   height: 25px;
 }
+.icono-boton2 {
+  width: 30px;
+  height: 25px;
+}
 
 .modal-body {
   display: flex;
@@ -77,4 +81,12 @@
 .modal-footer {
   display: flex;
   flex-wrap: nowrap;
+}
+.weight-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.botones {
+  display: flex;
 }

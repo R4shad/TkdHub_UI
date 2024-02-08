@@ -1,0 +1,56 @@
+<div>
+  <div class="container">
+    <h1>{{ ageInterval.ageIntervalName }}</h1>
+    <table class="table">
+      <thead>
+        <ng-container *ngIf="!hasBothGenders; else bothGenders">
+          <tr>
+            <th colspan="2">Femenino</th>
+            <th colspan="2">Masculino</th>
+          </tr>
+        </ng-container>
+        <ng-template #bothGenders>
+          <tr>
+            <th colspan="2">Damas y Varones</th>
+          </tr>
+        </ng-template>
+        <tr>
+          <th>Nombre Division</th>
+          <th>Intervalo de Peso</th>
+          <ng-container *ngIf="!hasBothGenders">
+            <th>Nombre Division</th>
+            <th>Intervalo de Peso</th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let division of divisions; let i = index">
+          <tr>
+            <ng-container *ngIf="hasBothGenders; else separateGenders">
+              <ng-container *ngIf="division.gender === 'Ambos'">
+                <td>{{ division.divisionName }}</td>
+                <td>{{ division.minWeight }} - {{ division.maxWeight }} KG.</td>
+              </ng-container>
+            </ng-container>
+            <ng-template #separateGenders>
+              <td *ngIf="division.gender === 'Femenino'">{{ division.divisionName }}</td>
+              <td *ngIf="division.gender === 'Femenino'">{{ division.minWeight }} - {{ division.maxWeight }} KG.</td>
+
+              <td *ngIf="division.gender === 'Masculino'"></td>
+              <td *ngIf="division.gender === 'Masculino'"></td>
+              <td *ngIf="division.gender === 'Masculino'">{{ division.divisionName }}</td>
+              <td *ngIf="division.gender === 'Masculino'">{{ division.minWeight }} - {{ division.maxWeight }} KG.</td>
+            </ng-template>
+            <ng-template #separateGenders>
+              <td></td>
+
+              <td *ngIf="division.gender === 'Masculino'">{{ division.divisionName }}</td>
+              <td *ngIf="division.gender === 'Masculino'">{{ division.minWeight }} - {{ division.maxWeight }} KG.</td>
+            </ng-template>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <button (click)="returnAgeIntervalSelector()">Volver</button>
+</div>
