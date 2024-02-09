@@ -12,7 +12,12 @@ import { map } from 'rxjs/operators';
 import { tokenI } from 'src/app/shared/models/token';
 import { clubI, responseClubI } from 'src/app/shared/models/Club';
 import { coachI, responseCoachI } from 'src/app/shared/models/Coach';
-import { agesI, responseAgesI } from 'src/app/shared/models/ages';
+import {
+  agesI,
+  responseAgesI,
+  responseChampionshipAgesI,
+  championshipAgesI,
+} from 'src/app/shared/models/ages';
 import { divisionI, responseDivisionI } from 'src/app/shared/models/division';
 @Injectable({
   providedIn: 'root',
@@ -103,6 +108,20 @@ export class ApiService {
       map((response: responseDivisionI) => {
         return response.data;
       })
+    );
+  }
+
+  postChampionshipAgeInterval(
+    ageInterval: agesI,
+    championshipId: number
+  ): Observable<responseChampionshipAgesI> {
+    let championshipAgeInterval: championshipAgesI = {
+      ageIntervalId: ageInterval.id,
+    };
+    let direccion = this.APIurl + 'championshipAgeInterval/' + championshipId;
+    return this.http.post<responseChampionshipAgesI>(
+      direccion,
+      championshipAgeInterval
     );
   }
 }

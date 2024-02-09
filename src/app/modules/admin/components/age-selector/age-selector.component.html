@@ -1,6 +1,5 @@
 <div *ngIf="display" class='ages-selector-container'>
   <h1>Que Edades Participaran En El Campeonato</h1>
-
   <div class="rectangulo" *ngFor="let edad of ages" id="{{edad.ageIntervalName}}">
     <div class="informacion">
       <p class="titulo">{{edad.ageIntervalName}}</p>
@@ -14,9 +13,6 @@
       </div>
     </div>
     <div class="botones">
-      <!-- <button class="boton-cuadrado" (click)="openModal(modalContent,edad)">
-          <img class="icono-boton" src="./../../../../../assets/editar.png" alt="Eliminar">
-        </button> -->
       <button class="boton-cuadrado" (click)="deleteAge(edad)">
         <img class="icono-boton" src="./../../../../../assets/eliminar.png" alt="Eliminar">
       </button>
@@ -36,7 +32,6 @@
           <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
           <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
         </div>
-
       </div>
     </div>
   </ng-template>
@@ -47,5 +42,4 @@
 <div>
   <app-weight-selector *ngIf="!display" [ageInterval]="ageSelected" (returnToAgeSelector)="display = true">
   </app-weight-selector>
-
 </div>
