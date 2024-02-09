@@ -18,7 +18,12 @@ import {
   responseChampionshipAgesI,
   championshipAgesI,
 } from 'src/app/shared/models/ages';
-import { divisionI, responseDivisionI } from 'src/app/shared/models/division';
+import {
+  championshipDivisionI,
+  divisionI,
+  responseChampionshipDivisionI,
+  responseDivisionI,
+} from 'src/app/shared/models/division';
 @Injectable({
   providedIn: 'root',
 })
@@ -120,6 +125,19 @@ export class ApiService {
     };
     let direccion = this.APIurl + 'championshipAgeInterval/' + championshipId;
     return this.http.post<responseChampionshipAgesI>(
+      direccion,
+      championshipAgeInterval
+    );
+  }
+  postChampionshipDivision(
+    division: divisionI,
+    championshipId: number
+  ): Observable<responseChampionshipDivisionI> {
+    let championshipAgeInterval: championshipDivisionI = {
+      divisionName: division.divisionName,
+    };
+    let direccion = this.APIurl + 'championshipDivision/' + championshipId;
+    return this.http.post<responseChampionshipDivisionI>(
       direccion,
       championshipAgeInterval
     );

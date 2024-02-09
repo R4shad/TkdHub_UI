@@ -13,8 +13,7 @@ export interface responseAgesI {
   status: number;
   data: agesI[];
 }
-
 export interface responseChampionshipAgesI {
-  championshipId: number;
-  ageIntervalId: number;
+  status: number;
+  divisionName: string;
 }

@@ -6,7 +6,16 @@ export interface divisionI {
   gender: string;
   grouping: string;
 }
+
+export interface championshipDivisionI {
+  divisionName: string;
+}
+
 export interface responseDivisionI {
   status: number;
   data: divisionI[];
+}
+export interface responseChampionshipDivisionI {
+  status: number;
+  ageIntervalId: number;
 }

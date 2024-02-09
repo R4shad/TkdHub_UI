@@ -97,6 +97,16 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
         },
       });
     }
+    for (const division of this.divisions) {
+      this.api.postChampionshipDivision(division, championshipId).subscribe({
+        next: (response) => {
+          console.log('Division agregada:', response);
+        },
+        error: (error) => {
+          console.error('Error al agregar la division:', error);
+        },
+      });
+    }
     console.log('Cambios confirmados');
     this.modalRef?.close();
   }
