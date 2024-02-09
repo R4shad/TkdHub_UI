@@ -142,4 +142,13 @@ export class ApiService {
       championshipAgeInterval
     );
   }
+
+  getChampionshipAges(championshipId: number): Observable<agesI[]> {
+    let direccion = this.APIurl + 'championshipAgeInterval/' + championshipId;
+    return this.http.get<responseAgesI>(direccion).pipe(
+      map((response: responseAgesI) => {
+        return response.data;
+      })
+    );
+  }
 }

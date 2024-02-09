@@ -17,7 +17,7 @@ import { switchMap } from 'rxjs/operators';
 export class AgeSelectorComponent implements OnInit, OnDestroy {
   championship!: ChampionshipI;
   display = true;
-
+  agesAndDivisionRegistered: boolean = false;
   modalRef?: NgbModalRef;
   subscriptions: Subscription[] = [];
   ages: agesI[] = [];
@@ -32,12 +32,9 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    this.showAges();
-
     this.route.paramMap
       .pipe(
         switchMap((params) => {
-          // Obtén el championshipId del parámetro de la ruta
           const championshipId: number = Number(params.get('championshipId'));
 
           // Utiliza championshipId para hacer la solicitud al servicio
@@ -46,8 +43,18 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         this.championship = data;
-        console.log(this.championship);
+
+        this.api
+          .getChampionshipAges(this.championship.championshipId)
+          .subscribe((data) => {
+            if (data.length > 0) {
+              this.agesAndDivisionRegistered = true;
+            }
+          });
       });
+
+    this.verifyRegistered();
+    this.showAges();
   }
 
   openModal(content: any) {
@@ -75,6 +82,7 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
       this.ages = data;
     });
   }
+  verifyRegistered() {}
   deleteAge(ageRemoved: agesI) {
     this.ages = this.ages.filter((edad) => edad !== ageRemoved);
   }
@@ -82,9 +90,7 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
     this.ageSelected = age;
     this.display = false;
   }
-  logAges() {
-    //console.log(this.ages);
-  }
+  logAges() {}
   confirm() {
     const championshipId = this.championship.championshipId;
     for (const age of this.ages) {
@@ -108,6 +114,7 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
       });
     }
     console.log('Cambios confirmados');
+    this.agesAndDivisionRegistered = true;
     this.modalRef?.close();
   }
 }

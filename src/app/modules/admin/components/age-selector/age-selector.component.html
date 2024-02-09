@@ -1,4 +1,4 @@
-<div *ngIf="display" class='ages-selector-container'>
+<div *ngIf="display && !agesAndDivisionRegistered" class='ages-selector-container'>
   <h1>Que Edades Participaran En El Campeonato</h1>
   <div class="rectangulo" *ngFor="let edad of ages" id="{{edad.ageIntervalName}}">
     <div class="informacion">
@@ -42,4 +42,7 @@
 <div>
   <app-weight-selector *ngIf="!display" [ageInterval]="ageSelected" (returnToAgeSelector)="display = true">
   </app-weight-selector>
+</div>
+<div *ngIf="agesAndDivisionRegistered">
+  <p>EDADES Y PESOS YA REGISTRADOS</p>
 </div>
