@@ -24,6 +24,12 @@ import {
   responseChampionshipDivisionI,
   responseDivisionI,
 } from 'src/app/shared/models/division';
+import {
+  categoryI,
+  championshipCategoryI,
+  responseCategoryI,
+  responseChampionshipCategoryI,
+} from 'src/app/shared/models/category';
 @Injectable({
   providedIn: 'root',
 })
@@ -149,6 +155,38 @@ export class ApiService {
       map((response: responseAgesI) => {
         return response.data;
       })
+    );
+  }
+
+  getCategories(): Observable<categoryI[]> {
+    let direccion = this.APIurl + 'category';
+    return this.http.get<responseCategoryI>(direccion).pipe(
+      map((response: responseCategoryI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getChampionshipCategory(championshipId: number): Observable<categoryI[]> {
+    let direccion = this.APIurl + 'championshipCategory/' + championshipId;
+    return this.http.get<responseCategoryI>(direccion).pipe(
+      map((response: responseCategoryI) => {
+        return response.data;
+      })
+    );
+  }
+
+  postChampionshipCategory(
+    category: categoryI,
+    championshipId: number
+  ): Observable<responseChampionshipCategoryI> {
+    let championshipAgeInterval: championshipCategoryI = {
+      categoryName: category.categoryName,
+    };
+    let direccion = this.APIurl + 'championshipCategory/' + championshipId;
+    return this.http.post<responseChampionshipCategoryI>(
+      direccion,
+      championshipAgeInterval
     );
   }
 }

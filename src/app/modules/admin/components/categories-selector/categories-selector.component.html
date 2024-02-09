@@ -1,56 +1,32 @@
 <div class='ages-selector-container'>
-  <h1>Categorias que participaran en el Campeonato</h1>
+  <h1>Categorías que participarán en el Campeonato</h1>
+  <div class="rectangulo" *ngFor="let category of categories" id="{{category.categoryName}}">
+    <div class="informacion">
+      <p class="titulo">{{category.categoryName}}</p>
+      <p class="descripcion">{{ category.gradeMin }} - {{ category.gradeMax }}</p>
+    </div>
+    <div class="botones">
+      <button class="boton-cuadrado" (click)="eliminarCategoria(category)">
+        <img class="icono-boton" src="./../../../assets/eliminar.png" alt="Eliminar">
+      </button>
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="imprimirCategorias(modalContent)">Imprimir Categorías</button>
+</div>
 
-  <form [formGroup]="categoriaForm">
-    <div class="rectangulo" *ngFor="let categoria of categorias" id="{{categoria.categoryName}}">
-      <div class="informacion">
-        <p class="titulo">{{categoria.categoryName}}</p>
-        <p class="descripcion">{{ categoria.gradeMin }} - {{ categoria.gradeMax }}</p>
+<ng-template #modalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">ALERTA</h4>
+  </div>
+  <div class="modal-body">
+    <div class='form-input-container'>
+      <div class='description'>
+        <label>Verifique que las categorias estén correctos. No se podrán hacer modificaciones.</label>
       </div>
       <div class="botones">
-        <button class="boton-cuadrado" (click)="eliminarCategoria(categoria)">
-          <img class="icono-boton" src="./../../../assets/eliminar.png" alt="Eliminar">
-        </button>
-        <button class="boton-cuadrado" (click)="openModal(modalContent, categoria)">
-          <img class="icono-boton" src="./../../../assets/editar.png" alt="Eliminar">
-        </button>
+        <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
+        <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
       </div>
     </div>
-
-    <ng-template #modalContent let-c="close" let-d="dismiss">
-      <div class="modal-header">
-        <h4 class="modal-title">Editando: {{categoriaEditando.categoryName}}</h4>
-      </div>
-      <div class="modal-body">
-        <div class='form-input-container'>
-          <div class='description'>
-            <label>Nombre de la categoria:</label>
-          </div>
-          <input type="text" formControlName='nombreCategoria' class='input-container'
-            placeholder="{{categoriaEditando.categoryName}}" />
-        </div>
-
-        <div class='form-input-container'>
-          <div class='description'>
-            <label>Grado Minimo</label>
-          </div>
-          <input type="text" formControlName='gradoMinimo' class='input-container'
-            placeholder="{{categoriaEditando.gradeMin}}" />
-        </div>
-
-        <div class='form-input-container'>
-          <div class='description'>
-            <label>Grado Maximo</label>
-          </div>
-          <input type="text" formControlName='gradoMaximo' class='input-container'
-            placeholder="{{categoriaEditando.gradeMax}}" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div *ngIf="errorMensaje" class="alert alert-danger">{{ errorMensaje }}</div>
-        <button class="btn btn-secondary" (click)="c('Close')">Cerrar</button>
-        <button class="btn btn-primary" [disabled]="categoriaForm.invalid" (click)="guardarCategoria()">Guardar</button>
-      </div>
-    </ng-template>
-  </form>
-</div>
+  </div>
+</ng-template>
