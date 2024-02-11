@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ApiService } from '../../../../core/services/api.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { ChampionshipI } from 'src/app/shared/models/Championship';
 @Component({
   selector: 'app-championship-configuration',
   templateUrl: './championship-configuration.component.html',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChampionshipConfigurationComponent implements OnInit {
   currentStep: number = 1;
-  constructor() {}
+  championship!: ChampionshipI;
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap
+      .pipe(
+        switchMap((params) => {
+          // Obtén el championshipId del parámetro de la ruta
+          const championshipId: number = Number(params.get('championshipId'));
+
+          // Utiliza championshipId para hacer la solicitud al servicio
+          return this.api.getChampionshipInfo(championshipId);
+        })
+      )
+      .subscribe((data) => {
+        this.championship = data;
+        console.log(this.championship);
+      });
+  }
 
   nextStep() {
     this.currentStep++;
@@ -17,5 +40,10 @@ export class ChampionshipConfigurationComponent implements OnInit {
 
   previousStep() {
     this.currentStep--;
+  }
+
+  returnToSummary() {
+    const championshipId = this.championship.championshipId;
+    this.router.navigate(['/championship', championshipId, 'Organizer']);
   }
 }

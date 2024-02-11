@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../../core/services/api.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { clubI, responseClubI } from 'src/app/shared/models/Club';
-import { switchMap } from 'rxjs/operators';
 import { responseCoachI } from 'src/app/shared/models/Coach';
+
+import { Router, ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { ChampionshipI } from 'src/app/shared/models/Championship';
 
 @Component({
   selector: 'app-trainer-registration',
@@ -14,7 +16,7 @@ import { responseCoachI } from 'src/app/shared/models/Coach';
 })
 export class TrainerRegistrationComponent implements OnInit {
   championshipId: number = 1;
-
+  championship!: ChampionshipI;
   constructor(
     private api: ApiService,
     private router: Router,
@@ -106,5 +108,9 @@ export class TrainerRegistrationComponent implements OnInit {
             });
         }
       });
+  }
+
+  returnToSummary() {
+    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
   }
 }

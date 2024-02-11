@@ -1,4 +1,4 @@
-<div class='ages-selector-container'>
+<div *ngIf="!categoryRegistered" class='ages-selector-container'>
   <h1>Categorías que participarán en el Campeonato</h1>
   <div class="rectangulo" *ngFor="let category of categories" id="{{category.categoryName}}">
     <div class="informacion">
@@ -30,3 +30,6 @@
     </div>
   </div>
 </ng-template>
+<div *ngIf="categoryRegistered">
+  <p>CATEGORIAS YA REGISTRADAS</p>
+</div>
