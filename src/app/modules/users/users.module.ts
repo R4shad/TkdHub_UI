@@ -6,12 +6,16 @@ import { ChampionshipViewComponent } from './pages/championship-view/championshi
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import { TrainerLoginComponent } from './components/trainer-login/trainer-login.component';
+import { ResponsibleLoginComponent } from './components/responsible-login/responsible-login.component';
 @NgModule({
   declarations: [
     OrganizerLoginComponent,
     MainPageComponent,
     ChampionshipViewComponent,
     LoginComponent,
+    TrainerLoginComponent,
+    ResponsibleLoginComponent,
   ],
   imports: [CommonModule, FormsModule],
   providers: [AuthService],

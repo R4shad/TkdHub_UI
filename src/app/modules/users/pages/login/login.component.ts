@@ -6,7 +6,12 @@ import { OrganizerLoginComponent } from '../../components/organizer-login/organi
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  userLogin: string = 'trainer';
   constructor() {}
 
   ngOnInit(): void {}
+
+  selectUser(user: string): void {
+    this.userLogin = user;
+  }
 }

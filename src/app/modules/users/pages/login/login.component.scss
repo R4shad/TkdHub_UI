@@ -1,0 +1,47 @@
+.selector {
+  margin-top: 20px;
+}
+
+.container {
+}
+
+.row {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.col-xl-4 {
+  flex: 0 0 30%;
+}
+
+.card {
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.selected {
+  background-color: #add8e6; /* Cambiar al color celeste deseado */
+}
+
+.mt-1 {
+  margin-top: 5px;
+}
+
+.mb-5 {
+  margin-bottom: 20px;
+}
+
+.pb-1 {
+  padding-bottom: 5px;
+}

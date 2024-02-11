@@ -1,4 +1,43 @@
 <div>
+  <section class="selector">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4" (click)="selectUser('trainer')" [ngClass]="{ 'selected': userLogin === 'Entrenador' }">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-center">
+                <h4 class="">Entrenador</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4" (click)="selectUser('responsible')"
+          [ngClass]="{ 'selected': userLogin === 'Responsable' }">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-center">
+                <h4 class="">Responsable</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4" (click)="selectUser('organizer')" [ngClass]="{ 'selected': userLogin === 'Organizador' }">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-center">
+                <h4 class="">Organizador</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 
-  <app-organizer-login></app-organizer-login>
+
+<div>
+  <app-organizer-login *ngIf="userLogin==='organizer'"></app-organizer-login>
+  <app-trainer-login *ngIf="userLogin==='trainer'"></app-trainer-login>
+  <app-responsible-login *ngIf="userLogin==='responsible'"></app-responsible-login>
 </div>
