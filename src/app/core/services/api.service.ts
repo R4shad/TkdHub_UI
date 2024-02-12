@@ -78,6 +78,40 @@ export class ApiService {
     return this.http.post<tokenI>(direccion, body, httpOptions);
   }
 
+  getTrainerToken(
+    championshipId: number,
+    coachCi: string,
+    password: string
+  ): Observable<tokenI> {
+    let direccion = this.APIurl + 'coach/login/' + championshipId;
+
+    const body = { coachCi: coachCi, password: password };
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post<tokenI>(direccion, body, httpOptions);
+  }
+
+  getResponsibleToken(
+    championshipId: number,
+    responsibleCi: string,
+    password: string
+  ): Observable<tokenI> {
+    let direccion = this.APIurl + 'responsible/login/' + championshipId;
+
+    const body = { responsibleCi: responsibleCi, password: password };
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post<tokenI>(direccion, body, httpOptions);
+  }
+
   postClub(
     nuevoClub: clubI,
     championshipId: number
