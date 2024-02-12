@@ -37,9 +37,6 @@ export class OrganizerLoginComponent implements OnInit {
   }
 
   login(): void {
-    //console.log('Nombre de usuario:', this.username);
-    //console.log('Contraseña:', this.password);
-
     this.api
       .getOrganizerToken(
         this.championship.championshipId,

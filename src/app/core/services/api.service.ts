@@ -11,7 +11,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tokenI } from 'src/app/shared/models/token';
 import { clubI, responseClubI } from 'src/app/shared/models/Club';
-import { coachI, responseCoachI } from 'src/app/shared/models/Coach';
+import {
+  coachI,
+  responseCoachI,
+  responseCoach2I,
+} from 'src/app/shared/models/Coach';
 import {
   agesI,
   responseAgesI,
@@ -61,6 +65,13 @@ export class ApiService {
     );
   }
 
+  getClubCode(coachCi: number): Observable<string> {
+    let direccion = `${this.APIurl}coach/getClubCode/${coachCi}`;
+    return this.http
+      .get<responseCoach2I>(direccion)
+      .pipe(map((response: responseCoach2I) => response.data.clubCode));
+  }
+
   getOrganizerToken(
     championshipId: number,
     username: string,
@@ -80,7 +91,7 @@ export class ApiService {
 
   getTrainerToken(
     championshipId: number,
-    coachCi: string,
+    coachCi: number,
     password: string
   ): Observable<tokenI> {
     let direccion = this.APIurl + 'coach/login/' + championshipId;

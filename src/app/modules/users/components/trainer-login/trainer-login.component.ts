@@ -11,7 +11,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class TrainerLoginComponent implements OnInit {
   championship!: ChampionshipI;
-  username: string = '';
+  coachCi: number = 0;
   password: string = '';
   constructor(
     private api: ApiService,
@@ -34,22 +34,23 @@ export class TrainerLoginComponent implements OnInit {
       });
   }
   login(): void {
-    //console.log('Nombre de usuario:', this.username);
-    //console.log('Contraseña:', this.password);
-
     this.api
-      .getOrganizerToken(
+      .getTrainerToken(
         this.championship.championshipId,
-        this.username,
+        this.coachCi,
         this.password
       )
-      .subscribe((data) => {
-        // console.log(data);
-        this.authService.setAuthenticated(true, data.token);
-        this.router.navigate([
-          'championship/' + this.championship.championshipId + '/Organizer',
-        ]);
-        localStorage.setItem('token', data.token);
+      .subscribe((tokenData: any) => {
+        this.api.getClubCode(this.coachCi).subscribe((clubCode: string) => {
+          this.authService.setAuthenticated(true, tokenData.token);
+          this.router.navigate([
+            'championship/' +
+              this.championship.championshipId +
+              '/Coach/' +
+              clubCode,
+          ]);
+          localStorage.setItem('token', tokenData.token);
+        });
       });
   }
 }
