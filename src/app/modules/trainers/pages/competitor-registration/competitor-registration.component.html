@@ -1,1 +1,128 @@
-<p>competitor-registration works!</p>
+<div class='form-container'>
+  <div class="inputs-container">
+    <p class="nombre-form">Registro de Competidores</p>
+    <hr>
+    <form [formGroup]="inscritoForm" (ngSubmit)="send">
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type="Ci del Inscrito" formControlName='inscritoCi' class='form-control fs-5' placeholder="00000000" />
+          <label for="floatingInput">Ci del Inscrito:</label>
+        </div>
+        <div class="alert" [hidden]="inscritoCi?.valid || inscritoCi?.pristine">
+          <span *ngIf="inscritoCi?.errors?.['required']" class="form-text text-danger">
+            El campo Ci del Inscrito es obligatorio.
+          </span>
+          <span *ngIf=" !inscritoCi?.errors?.['required'] && inputLength" class="form-text text-danger">
+            El campo Ci del Inscrito debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type="Nombres del Inscrito" formControlName='nombres' class='form-control fs-5'
+            placeholder="Juan Carlos" />
+          <label for="floatingInput">Nombres del Inscrito:</label>
+        </div>
+        <div class="alert" [hidden]="nombres?.valid || nombres?.pristine">
+          <span *ngIf="nombres?.errors?.['required']" class="form-text text-danger">
+            El campo Nombres del Inscrito es obligatorio.
+          </span>
+          <span *ngIf=" !nombres?.errors?.['required'] && inputLength" class="form-text text-danger">
+            El campo Nombres del Inscrito debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type="Apellidos del Inscrito" formControlName='apellidos' class='form-control fs-5'
+            placeholder="Vargas Rocha" />
+          <label for="floatingInput">Apellidos del Inscrito:</label>
+        </div>
+        <div class="alert" [hidden]="apellidos?.valid || apellidos?.pristine">
+          <span *ngIf="apellidos?.errors?.['required']" class="form-text text-danger">
+            El campo Apellidos del Inscrito es obligatorio.
+          </span>
+          <span *ngIf=" !apellidos?.errors?.['required'] && inputLength" class="form-text text-danger">
+            El campo Apellidos del Inscrito debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type="Edad del Inscrito" formControlName='edad' class='form-control fs-5' placeholder="20" />
+          <label for="floatingInput">Edad del Inscrito:</label>
+        </div>
+        <div class="alert" [hidden]="edad?.valid || edad?.pristine">
+          <span *ngIf="edad?.errors?.['required']" class="form-text text-danger">
+            El campo Edad del Inscrito es obligatorio.
+          </span>
+          <span *ngIf=" !edad?.errors?.['required'] && inputLength" class="form-text text-danger">
+            El campo Edad del Inscrito debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class='form-floating mb-3'>
+          <input type="Peso del Inscrito" formControlName='peso' class='form-control fs-5' placeholder="70" />
+          <label for="floatingInput">Peso del Inscrito:</label>
+        </div>
+        <div class="alert" [hidden]="peso?.valid || peso?.pristine">
+          <span *ngIf="peso?.errors?.['required']" class="form-text text-danger">
+            El campo Peso del Inscrito es obligatorio.
+          </span>
+          <span *ngIf=" !peso?.errors?.['required'] && inputLength" class="form-text text-danger">
+            El campo Peso del Inscrito debe ser del tamaño valido.
+          </span>
+        </div>
+      </div>
+
+      <div class="selector-container">
+        <div class="form-floating">
+          <select class="form-select" id="GradoSelector" formControlName='grado'>
+            <option selected>*Elige el grado*</option>
+            <option value='franja amarillo'>Franja Amarillo</option>
+            <option value='amarillo'>Amarillo</option>
+            <option value='franja verde'>Franja Verde</option>
+            <option value='verde'>Verde</option>
+            <option value='franja azul'>Franja Azul</option>
+            <option value='azul'>Azul</option>
+            <option value='franja rojo'>Franja Rojo</option>
+            <option value='rojo'>Rojo</option>
+            <option value='franja negro'>Franja Negro</option>
+            <option value='negro'>Negro</option>
+          </select>
+          <label for="floatingSelect">Grado del Inscrito:</label>
+        </div>
+        <div class="alert" [hidden]="grado?.invalid && !grado?.pristine && grado?.value==defaultGrado">
+          <span *ngIf=" grado?.value==defaultGrado " class="form-text text-danger">
+            Debe seleccionar un Grado.
+          </span>
+        </div>
+      </div>
+
+      <div class="selector-container">
+        <div class="form-floating">
+          <select class="form-select" id="SexoSelector" formControlName='sexo'>
+            <option selected>*Elige el sexo*</option>
+            <option value='Masculino'>Masculino</option>
+            <option value='Memenino'>Femenino</option>
+          </select>
+          <label for="floatingSelect">Sexo del Inscrito:</label>
+        </div>
+        <div class="alert" [hidden]="sexo?.invalid && !sexo?.pristine && sexo?.value==defaultSexo">
+          <span *ngIf=" sexo?.value==defaultSexo " class="form-text text-danger">
+            Debe seleccionar un Sexo.
+          </span>
+        </div>
+      </div>
+
+      <button [disabled]="inscritoForm.invalid" (click)="send()" class="btn btn-dark btn-lg">Registrar
+        Competidor</button>
+    </form>
+  </div>
+</div>

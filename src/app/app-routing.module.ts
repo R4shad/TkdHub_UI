@@ -54,6 +54,14 @@ const routes: Routes = [
     path: 'championship/:championshipId/Organizer/ChampionshipConfiguration',
     component: ChampionshipConfigurationComponent,
   },
+  {
+    path: 'championship/:championshipId/Coach/:clubCode',
+    component: CompetitorViewComponent,
+  },
+  {
+    path: 'championship/:championshipId/Coach/:clubCode/ParticipantRegistration',
+    component: CompetitorRegistrationComponent,
+  },
 ];
 
 @NgModule({
