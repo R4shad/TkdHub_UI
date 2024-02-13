@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { WeightSelectorComponent } from './components/weight-selector/weight-selector.component';
 import { CategoriesSelectorComponent } from './components/categories-selector/categories-selector.component';
 import { FormsModule } from '@angular/forms';
+import { ParticipantValidationComponent } from './pages/participant-validation/participant-validation.component';
 @NgModule({
   declarations: [
     TrainerRegistrationComponent,
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     AgeSelectorComponent,
     WeightSelectorComponent,
     CategoriesSelectorComponent,
+    ParticipantValidationComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })

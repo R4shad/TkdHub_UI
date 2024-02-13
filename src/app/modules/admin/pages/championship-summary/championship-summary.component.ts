@@ -50,6 +50,13 @@ export class ChampionshipSummaryComponent implements OnInit {
     this.router.navigate([currentRoute, 'ChampionshipConfiguration']);
   }
 
+  goToParticipantValidation() {
+    const currentRoute = this.getCurrentRoute();
+
+    // Navega a la ruta actual con '/TraineeRegistration' agregado
+    this.router.navigate([currentRoute, 'ParticipantValidation']);
+  }
+
   displayParticipants() {
     this.api.getParticipants(this.championshipId).subscribe((data) => {
       console.log(data);

@@ -15,7 +15,7 @@ import { ChampionshipI } from 'src/app/shared/models/Championship';
   styleUrls: ['./trainer-registration.component.scss'],
 })
 export class TrainerRegistrationComponent implements OnInit {
-  championshipId: number = 1;
+  championshipId: number = 0;
   championship!: ChampionshipI;
   constructor(
     private api: ApiService,

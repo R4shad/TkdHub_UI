@@ -36,7 +36,9 @@ import {
 } from 'src/app/shared/models/category';
 import {
   participantI,
+  participantToValidateI,
   responseParticipantI,
+  responseParticipantToValidateI,
 } from 'src/app/shared/models/participant';
 @Injectable({
   providedIn: 'root',
@@ -265,6 +267,18 @@ export class ApiService {
     let direccion = this.APIurl + 'participant/' + ChampionshipId;
     return this.http.get<responseParticipantI>(direccion).pipe(
       map((response: responseParticipantI) => {
+        console.log(response);
+        return response.data;
+      })
+    );
+  }
+
+  getParticipantsToVerify(
+    ChampionshipId: number
+  ): Observable<participantToValidateI[]> {
+    let direccion = this.APIurl + 'participant/' + ChampionshipId;
+    return this.http.get<responseParticipantToValidateI>(direccion).pipe(
+      map((response: responseParticipantToValidateI) => {
         console.log(response);
         return response.data;
       })

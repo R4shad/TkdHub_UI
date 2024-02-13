@@ -12,6 +12,7 @@ import { ChampionshipViewComponent } from './modules/users/pages/championship-vi
 import { LoginComponent } from './modules/users/pages/login/login.component';
 
 import { ChampionshipSummaryComponent } from './modules/admin/pages/championship-summary/championship-summary.component';
+import { ParticipantValidationComponent } from './modules/admin/pages/participant-validation/participant-validation.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Organizer/TraineeRegistration',
     component: TrainerRegistrationComponent, // Componente para los detalles del campeonato
+  },
+  {
+    path: 'championship/:championshipId/Organizer/ParticipantValidation',
+    component: ParticipantValidationComponent, // Componente para los detalles del campeonato
   },
   {
     path: 'championship/:championshipId/Organizer/ChampionshipConfiguration',
