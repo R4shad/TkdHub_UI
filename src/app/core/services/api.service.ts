@@ -34,6 +34,10 @@ import {
   responseCategoryI,
   responseChampionshipCategoryI,
 } from 'src/app/shared/models/category';
+import {
+  participantI,
+  responseParticipantI,
+} from 'src/app/shared/models/participant';
 @Injectable({
   providedIn: 'root',
 })
@@ -233,5 +237,13 @@ export class ApiService {
       direccion,
       championshipAgeInterval
     );
+  }
+
+  postParticipant(
+    participant: participantI,
+    championshipId: number
+  ): Observable<responseParticipantI> {
+    let direccion = this.APIurl + 'participant/' + championshipId;
+    return this.http.post<responseParticipantI>(direccion, participant);
   }
 }

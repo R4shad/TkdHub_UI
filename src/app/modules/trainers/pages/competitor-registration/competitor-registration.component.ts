@@ -17,6 +17,7 @@ import {
 })
 export class CompetitorRegistrationComponent implements OnInit {
   championshipId: number = 1;
+  clubCode: string = '';
   championship!: ChampionshipI;
   constructor(
     private api: ApiService,
@@ -26,88 +27,90 @@ export class CompetitorRegistrationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap
-      .pipe(
-        switchMap((params) => {
-          this.championshipId = Number(params.get('championshipId'));
-          return this.api.getChampionshipInfo(this.championshipId);
-        })
-      )
-      .subscribe((championshipInfo) => {});
+    this.route.paramMap.subscribe((params) => {
+      this.championshipId = Number(params.get('championshipId'));
+    });
+
+    this.route.paramMap.subscribe((params) => {
+      this.clubCode = params.get('clubCode')!;
+    });
   }
 
-  defaultGrado = '*Elige el grado*';
-  defaultSexo = '*Elige el sexo*';
+  defaultGrado = '*Elige el grade*';
+  defaultSexo = '*Elige el gender*';
   inputLength = function (input: any): boolean {
     return (
       input.errors?.['minLength'] == null || input.errors?.['maxLength'] == null
     );
   };
   inscritoForm = new FormGroup({
-    inscritoCi: new FormControl('', [
+    participantCi: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
       Validators.maxLength(8),
     ]),
-    nombres: new FormControl('', [
+    firstNames: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(20),
     ]),
-    apellidos: new FormControl('', [
+    lastNames: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(20),
     ]),
-    edad: new FormControl('', [
+    age: new FormControl('', [
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(3),
     ]),
-    peso: new FormControl('', [
+    weight: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(3),
     ]),
-    grado: new FormControl('*Elige el grado*', Validators.required),
-    sexo: new FormControl('*Elige el sexo*', Validators.required),
+    grade: new FormControl('*Elige el grade*', Validators.required),
+    gender: new FormControl('*Elige el gender*', Validators.required),
   });
 
-  get inscritoCi() {
-    return this.inscritoForm.get('inscritoCi');
+  get participantCi() {
+    return this.inscritoForm.get('participantCi');
   }
-  get nombres() {
-    return this.inscritoForm.get('nombres');
-  }
-
-  get apellidos() {
-    return this.inscritoForm.get('apellidos');
+  get firstNames() {
+    return this.inscritoForm.get('firstNames');
   }
 
-  get edad() {
-    return this.inscritoForm.get('edad');
+  get lastNames() {
+    return this.inscritoForm.get('lastNames');
   }
 
-  get peso() {
-    return this.inscritoForm.get('peso');
+  get age() {
+    return this.inscritoForm.get('age');
   }
 
-  get grado() {
-    return this.inscritoForm.get('grado');
+  get weight() {
+    return this.inscritoForm.get('weight');
   }
 
-  get sexo() {
-    return this.inscritoForm.get('sexo');
+  get grade() {
+    return this.inscritoForm.get('grade');
+  }
+
+  get gender() {
+    return this.inscritoForm.get('gender');
   }
 
   send() {
-    //var nuevoInscrito: inscritoI = this.inscritoForm.value;
-    //nuevoInscrito.codigoClub = 'LIN';
-    //console.log(nuevoInscrito);
-    //this.api.postInscrito(nuevoInscrito).subscribe((response: ResponseI) => {
-    //  if (response.status == 200) {
-    //    alert('Inscrito agregado correctamente');
-    //  }
-    //});
+    var newParticipant: participantI = this.inscritoForm.value;
+    newParticipant.clubCode = this.clubCode;
+    console.log(newParticipant);
+    console.log(this.championshipId);
+    this.api
+      .postParticipant(newParticipant, this.championshipId)
+      .subscribe((response: responseParticipantI) => {
+        if (response.status == 200) {
+          alert('Inscrito agregado correctamente');
+        }
+      });
   }
 }

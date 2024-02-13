@@ -7,7 +7,6 @@ export interface participantI {
   weight: number;
   grade: string;
   gender: string;
-  verified: boolean;
 }
 export interface responseParticipantI {
   status: number;
