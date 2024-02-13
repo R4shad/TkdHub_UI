@@ -40,6 +40,7 @@ import {
   responseParticipantI,
   responseParticipantToValidateI,
 } from 'src/app/shared/models/participant';
+import { responseI } from 'src/app/shared/models/response';
 @Injectable({
   providedIn: 'root',
 })
@@ -291,6 +292,20 @@ export class ApiService {
       map((response: responseClubI) => {
         console.log(response);
         return response.data;
+      })
+    );
+  }
+
+  verifyParticipant(
+    ChampionshipId: number,
+    participantCi: number
+  ): Observable<responseI> {
+    let direccion =
+      this.APIurl + 'participant/' + ChampionshipId + '/' + participantCi;
+    return this.http.patch<responseI>(direccion, {}).pipe(
+      map((response: responseI) => {
+        console.log(response);
+        return response;
       })
     );
   }

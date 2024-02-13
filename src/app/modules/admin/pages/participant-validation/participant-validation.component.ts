@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
-import { participantToValidateI } from 'src/app/shared/models/participant';
+import {
+  participantI,
+  participantToValidateI,
+} from 'src/app/shared/models/participant';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -32,5 +35,13 @@ export class ParticipantValidationComponent implements OnInit {
       this.participants = data;
       this.participantsFilter = data;
     });
+  }
+
+  verificateParticipant(participant: participantI) {
+    this.api
+      .verifyParticipant(this.championshipId, participant.participantCi)
+      .subscribe((data) => {
+        console.log(data.message);
+      });
   }
 }
