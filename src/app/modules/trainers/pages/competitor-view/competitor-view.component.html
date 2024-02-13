@@ -1,5 +1,5 @@
 <button (click)="goToParticipantRegistration()">Registrar Participantes</button>
-<div>
+<div class="mt-4 mb-4">
   <label for="filtroSexo">Filtrar por Sexo:</label>
   <select id="filtroSexo" [formControl]="filtroSexo" (change)="filter()">
     <option value="todos">Todos</option>
@@ -7,29 +7,32 @@
     <option value="Femenino">Femenino</option>
   </select>
 </div>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Inscrito Ci</th>
-      <th>Código Club</th>
-      <th>Apellidos</th>
-      <th>Nombres</th>
-      <th>Edad</th>
-      <th>Peso</th>
-      <th>Grado</th>
-      <th>Sexo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let participant of participantsFilter">
-      <td>{{ participant.participantCi }}</td>
-      <td>{{ participant.clubCode }}</td>
-      <td>{{ participant.lastNames }}</td>
-      <td>{{ participant.firstNames }}</td>
-      <td>{{ participant.age }}</td>
-      <td>{{ participant.weight }}</td>
-      <td>{{ participant.grade }}</td>
-      <td>{{ participant.gender }}</td>
-    </tr>
-  </tbody>
-</table>
+
+<div class="w-80 col-md-8 mx-auto">
+  <table border="1" class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Inscrito Ci</th>
+        <th>Código Club</th>
+        <th>Apellidos</th>
+        <th>Nombres</th>
+        <th>Edad</th>
+        <th>Peso</th>
+        <th>Grado</th>
+        <th>Sexo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let participant of participantsFilter">
+        <td>{{ participant.participantCi }}</td>
+        <td>{{ participant.clubCode }}</td>
+        <td>{{ participant.lastNames }}</td>
+        <td>{{ participant.firstNames }}</td>
+        <td>{{ participant.age }}</td>
+        <td>{{ participant.weight }}</td>
+        <td>{{ participant.grade }}</td>
+        <td>{{ participant.gender }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

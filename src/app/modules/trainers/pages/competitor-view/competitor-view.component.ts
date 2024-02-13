@@ -42,7 +42,7 @@ export class CompetitorViewComponent implements OnInit {
 
   displayParticipants() {
     this.api
-      .getParticipants(this.championshipId, this.clubCode)
+      .getParticipantsClub(this.championshipId, this.clubCode)
       .subscribe((data) => {
         console.log(data);
         this.participants = data;

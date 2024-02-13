@@ -247,7 +247,7 @@ export class ApiService {
     return this.http.post<responseParticipantI>(direccion, participant);
   }
 
-  getParticipants(
+  getParticipantsClub(
     ChampionshipId: number,
     clubCode: string
   ): Observable<participantI[]> {
@@ -255,6 +255,26 @@ export class ApiService {
       this.APIurl + 'participant/club/' + ChampionshipId + '/' + clubCode;
     return this.http.get<responseParticipantI>(direccion).pipe(
       map((response: responseParticipantI) => {
+        console.log(response);
+        return response.data;
+      })
+    );
+  }
+
+  getParticipants(ChampionshipId: number): Observable<participantI[]> {
+    let direccion = this.APIurl + 'participant/' + ChampionshipId;
+    return this.http.get<responseParticipantI>(direccion).pipe(
+      map((response: responseParticipantI) => {
+        console.log(response);
+        return response.data;
+      })
+    );
+  }
+
+  getClubs(ChampionshipId: number): Observable<clubI[]> {
+    let direccion = this.APIurl + 'club/' + ChampionshipId;
+    return this.http.get<responseClubI>(direccion).pipe(
+      map((response: responseClubI) => {
         console.log(response);
         return response.data;
       })
