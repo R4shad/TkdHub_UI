@@ -246,4 +246,18 @@ export class ApiService {
     let direccion = this.APIurl + 'participant/' + championshipId;
     return this.http.post<responseParticipantI>(direccion, participant);
   }
+
+  getParticipants(
+    ChampionshipId: number,
+    clubCode: string
+  ): Observable<participantI[]> {
+    let direccion =
+      this.APIurl + 'participant/club/' + ChampionshipId + '/' + clubCode;
+    return this.http.get<responseParticipantI>(direccion).pipe(
+      map((response: responseParticipantI) => {
+        console.log(response);
+        return response.data;
+      })
+    );
+  }
 }

@@ -113,4 +113,13 @@ export class CompetitorRegistrationComponent implements OnInit {
         }
       });
   }
+
+  returnToSummary() {
+    this.router.navigate([
+      '/championship',
+      this.championshipId,
+      'Coach',
+      this.clubCode,
+    ]);
+  }
 }
