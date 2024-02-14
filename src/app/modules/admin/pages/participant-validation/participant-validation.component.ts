@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 import { participantToValidateI } from 'src/app/shared/models/participant';
+import { categoryI } from 'src/app/shared/models/category';
+import { divisionI } from 'src/app/shared/models/division';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -11,7 +13,8 @@ export class ParticipantValidationComponent implements OnInit {
   championshipId: number = 0;
   participants: participantToValidateI[] = [];
   participantsFilter: participantToValidateI[] = [];
-  verifiedParticipants: participantToValidateI[] = [];
+  championshipCategories: categoryI[] = [];
+  championshipDivisions: divisionI[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -29,10 +32,28 @@ export class ParticipantValidationComponent implements OnInit {
 
   displayParticipants() {
     this.api.getParticipantsToVerify(this.championshipId).subscribe((data) => {
-      console.log(data);
       this.participants = data;
       this.participantsFilter = data;
     });
+    console.log('AQUI');
+    this.getApiCategories();
+    this.getApiDivisions();
+  }
+
+  getApiDivisions() {
+    this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
+      console.log(data);
+      this.championshipDivisions = data;
+    });
+  }
+
+  getApiCategories() {
+    this.api
+      .getChampionshipCategories(this.championshipId)
+      .subscribe((data) => {
+        console.log(data);
+        this.championshipCategories = data;
+      });
   }
 
   verificateParticipant(participant: participantToValidateI) {
@@ -43,11 +64,5 @@ export class ParticipantValidationComponent implements OnInit {
         // Actualizar el estado del participante a "Verificado"
         participant.verified = true;
       });
-  }
-
-  isParticipantVerified(participant: participantToValidateI): boolean {
-    return this.verifiedParticipants.some(
-      (p) => p.participantCi === participant.participantCi
-    );
   }
 }

@@ -41,6 +41,10 @@ import {
   responseParticipantToValidateI,
 } from 'src/app/shared/models/participant';
 import { responseI } from 'src/app/shared/models/response';
+import {
+  competitorI,
+  responseCompetitorI,
+} from 'src/app/shared/models/competitor';
 @Injectable({
   providedIn: 'root',
 })
@@ -250,6 +254,14 @@ export class ApiService {
     return this.http.post<responseParticipantI>(direccion, participant);
   }
 
+  postCompetitor(
+    competitor: competitorI,
+    championshipId: number
+  ): Observable<responseCompetitorI> {
+    let direccion = this.APIurl + 'competitor/' + championshipId;
+    return this.http.post<responseCompetitorI>(direccion, competitor);
+  }
+
   getParticipantsClub(
     ChampionshipId: number,
     clubCode: string
@@ -306,6 +318,24 @@ export class ApiService {
       map((response: responseI) => {
         console.log(response);
         return response;
+      })
+    );
+  }
+
+  getChampionshipCategories(championshipId: number): Observable<categoryI[]> {
+    let direccion = this.APIurl + 'category/' + championshipId;
+    return this.http.get<responseCategoryI>(direccion).pipe(
+      map((response: responseCategoryI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getChampionshipDivisions(championshipId: number): Observable<divisionI[]> {
+    let direccion = this.APIurl + 'division/' + championshipId;
+    return this.http.get<responseDivisionI>(direccion).pipe(
+      map((response: responseDivisionI) => {
+        return response.data;
       })
     );
   }
