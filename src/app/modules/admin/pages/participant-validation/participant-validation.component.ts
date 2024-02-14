@@ -8,7 +8,10 @@ import {
 } from 'src/app/shared/models/category';
 import { divisionI } from 'src/app/shared/models/division';
 import { agesI, championshipAgesI } from 'src/app/shared/models/ages';
-import { competitorI } from 'src/app/shared/models/competitor';
+import {
+  competitorI,
+  responseCompetitorI,
+} from 'src/app/shared/models/competitor';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -71,7 +74,6 @@ export class ParticipantValidationComponent implements OnInit {
             gradeMax: this.obtenerValorNumerico(category.gradeMax),
           });
         }
-        console.log(this.championshipCategories);
       });
   }
 
@@ -79,25 +81,32 @@ export class ParticipantValidationComponent implements OnInit {
     this.api
       .verifyParticipant(this.championshipId, participant.participantCi)
       .subscribe((data) => {
-        console.log(data.message);
-        // Actualizar el estado del participante a "Verificado"
-        participant.verified = true;
-
         const gradoParticipante = this.obtenerValorNumerico(participant.grade);
         const competitoryCategory: string =
           this.getCompetitoryCategory(gradoParticipante);
-        const ageIntervalId: number = this.getCompetitoryAgeIntervalId(
+        const ageIntervalId: number = this.getCompetitorAgeIntervalId(
           participant.age
         );
+        const competitorDivision: string = this.getCompetitorDivisionName(
+          ageIntervalId,
+          participant.weight
+        );
+        let newCompetitor: competitorI = {
+          participantCi: participant.participantCi,
+          championshipId: this.championshipId,
+          divisionName: competitoryCategory,
+          categoryName: competitorDivision,
+        };
+        console.log(newCompetitor);
 
-        /*let newCompetitor: competitorI = {
-          participantCi= participant.participantCi,
-          championshipId: this.championshipId;
-          divisionName: competitoryCategory;
-          categoryName: ageIntervalId;
-        }*/
-        console.log(competitoryCategory);
-        console.log(ageIntervalId);
+        this.api
+          .postCompetitor(newCompetitor, this.championshipId)
+          .subscribe((response: responseCompetitorI) => {
+            if (response.status == 201) {
+              //alert('Verificado Correctamente');
+              participant.verified = true;
+            }
+          });
       });
   }
 
@@ -140,12 +149,30 @@ export class ParticipantValidationComponent implements OnInit {
     return '';
   }
 
-  getCompetitoryAgeIntervalId(age: number): number {
+  getCompetitorAgeIntervalId(age: number): number {
     for (const ageInterval of this.championshipAgeIntreval) {
       if (age >= ageInterval.minAge && age <= ageInterval.maxAge) {
         return ageInterval.id;
       }
     }
     return 0;
+  }
+
+  getCompetitorDivisionName(
+    ageIntervalId: number,
+    competitorWeight: number
+  ): string {
+    const filteredDivisions = this.championshipDivisions.filter(
+      (division) => division.ageIntervalId === ageIntervalId
+    );
+    for (const division of filteredDivisions) {
+      if (
+        competitorWeight >= division.minWeight &&
+        competitorWeight <= division.maxWeight
+      ) {
+        return division.divisionName;
+      }
+    }
+    return '';
   }
 }

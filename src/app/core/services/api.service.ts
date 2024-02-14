@@ -157,7 +157,6 @@ export class ApiService {
       name: nuevoClub.coach.name,
       clubCode: nuevoClub.coach.clubCode,
     };
-    console.log(entrenadorInfo);
     return this.http.post<responseCoachI>(direccion, entrenadorInfo);
   }
 
@@ -271,7 +270,6 @@ export class ApiService {
       this.APIurl + 'participant/club/' + ChampionshipId + '/' + clubCode;
     return this.http.get<responseParticipantI>(direccion).pipe(
       map((response: responseParticipantI) => {
-        console.log(response);
         return response.data;
       })
     );
@@ -281,7 +279,6 @@ export class ApiService {
     let direccion = this.APIurl + 'participant/' + ChampionshipId;
     return this.http.get<responseParticipantI>(direccion).pipe(
       map((response: responseParticipantI) => {
-        console.log(response);
         return response.data;
       })
     );
@@ -293,7 +290,6 @@ export class ApiService {
     let direccion = this.APIurl + 'participant/' + ChampionshipId;
     return this.http.get<responseParticipantToValidateI>(direccion).pipe(
       map((response: responseParticipantToValidateI) => {
-        console.log(response);
         return response.data;
       })
     );
@@ -303,7 +299,6 @@ export class ApiService {
     let direccion = this.APIurl + 'club/' + ChampionshipId;
     return this.http.get<responseClubI>(direccion).pipe(
       map((response: responseClubI) => {
-        console.log(response);
         return response.data;
       })
     );
@@ -317,7 +312,6 @@ export class ApiService {
       this.APIurl + 'participant/' + ChampionshipId + '/' + participantCi;
     return this.http.patch<responseI>(direccion, {}).pipe(
       map((response: responseI) => {
-        console.log(response);
         return response;
       })
     );
