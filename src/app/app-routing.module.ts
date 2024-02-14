@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TrainerRegistrationComponent } from './modules/admin/pages/trainer-registration/trainer-registration.component';
 
 import { ChampionshipConfigurationComponent } from './modules/admin/pages/championship-configuration/championship-configuration.component';
-
+import { GroupingCompetitorsComponent } from './modules/admin/pages/grouping-competitors/grouping-competitors.component';
 import { CompetitorViewComponent } from './modules/trainers/pages/competitor-view/competitor-view.component';
 import { CompetitorRegistrationComponent } from './modules/trainers/pages/competitor-registration/competitor-registration.component';
 
@@ -58,6 +58,10 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Organizer/ChampionshipConfiguration',
     component: ChampionshipConfigurationComponent,
+  },
+  {
+    path: 'championship/:championshipId/Organizer/Grouping',
+    component: GroupingCompetitorsComponent,
   },
   {
     path: 'championship/:championshipId/Coach/:clubCode',

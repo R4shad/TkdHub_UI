@@ -9,6 +9,7 @@ import { WeightSelectorComponent } from './components/weight-selector/weight-sel
 import { CategoriesSelectorComponent } from './components/categories-selector/categories-selector.component';
 import { FormsModule } from '@angular/forms';
 import { ParticipantValidationComponent } from './pages/participant-validation/participant-validation.component';
+import { GroupingCompetitorsComponent } from './pages/grouping-competitors/grouping-competitors.component';
 @NgModule({
   declarations: [
     TrainerRegistrationComponent,
@@ -18,6 +19,7 @@ import { ParticipantValidationComponent } from './pages/participant-validation/p
     WeightSelectorComponent,
     CategoriesSelectorComponent,
     ParticipantValidationComponent,
+    GroupingCompetitorsComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })

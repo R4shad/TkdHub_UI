@@ -6,11 +6,11 @@ import { FormControl } from '@angular/forms';
 import { clubI } from 'src/app/shared/models/Club';
 
 @Component({
-  selector: 'app-championship-summary',
-  templateUrl: './championship-summary.component.html',
-  styleUrls: ['./championship-summary.component.scss'],
+  selector: 'app-grouping-competitors',
+  templateUrl: './grouping-competitors.component.html',
+  styleUrls: ['./grouping-competitors.component.scss'],
 })
-export class ChampionshipSummaryComponent implements OnInit {
+export class GroupingCompetitorsComponent implements OnInit {
   participants: participantI[] = [];
   clubs: clubI[] = [];
   participantsFilter: participantI[] = [];
