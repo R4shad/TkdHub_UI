@@ -24,9 +24,10 @@
         <td>{{ participant.grade }}</td>
         <td>{{ participant.gender }}</td>
         <td>
-          <span *ngIf="participant.verified; else notVerified">Peso verificado</span>
-          <ng-template #notVerified>Peso no verificado</ng-template>
-          <button (click)="verificateParticipant(participant)">Cambiar</button>
+          <span *ngIf="participant.verified">Verificado</span>
+          <button *ngIf="!participant.verified" (click)="verificateParticipant(participant)">
+            Verificar
+          </button>
         </td>
       </tr>
     </tbody>

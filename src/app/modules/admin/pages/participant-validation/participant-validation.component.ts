@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
-import {
-  participantI,
-  participantToValidateI,
-} from 'src/app/shared/models/participant';
+import { participantToValidateI } from 'src/app/shared/models/participant';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -14,6 +11,7 @@ export class ParticipantValidationComponent implements OnInit {
   championshipId: number = 0;
   participants: participantToValidateI[] = [];
   participantsFilter: participantToValidateI[] = [];
+  verifiedParticipants: participantToValidateI[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -37,11 +35,19 @@ export class ParticipantValidationComponent implements OnInit {
     });
   }
 
-  verificateParticipant(participant: participantI) {
+  verificateParticipant(participant: participantToValidateI) {
     this.api
       .verifyParticipant(this.championshipId, participant.participantCi)
       .subscribe((data) => {
         console.log(data.message);
+        // Actualizar el estado del participante a "Verificado"
+        participant.verified = true;
       });
+  }
+
+  isParticipantVerified(participant: participantToValidateI): boolean {
+    return this.verifiedParticipants.some(
+      (p) => p.participantCi === participant.participantCi
+    );
   }
 }
