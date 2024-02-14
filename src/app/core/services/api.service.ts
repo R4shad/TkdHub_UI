@@ -44,7 +44,9 @@ import {
 import { responseI } from 'src/app/shared/models/response';
 import {
   competitorI,
+  completeCompetitorI,
   responseCompetitorI,
+  responseCompleteCompetitorI,
 } from 'src/app/shared/models/competitor';
 @Injectable({
   providedIn: 'root',
@@ -264,10 +266,10 @@ export class ApiService {
 
   getChampionshipCompetitors(
     championshipId: number
-  ): Observable<competitorI[]> {
+  ): Observable<completeCompetitorI[]> {
     let direccion = this.APIurl + 'competitor/' + championshipId;
-    return this.http.get<responseCompetitorI>(direccion).pipe(
-      map((response: responseCompetitorI) => {
+    return this.http.get<responseCompleteCompetitorI>(direccion).pipe(
+      map((response: responseCompleteCompetitorI) => {
         return response.data;
       })
     );

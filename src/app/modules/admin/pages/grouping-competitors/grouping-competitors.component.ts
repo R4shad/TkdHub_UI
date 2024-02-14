@@ -4,6 +4,10 @@ import { ApiService } from '../../../../core/services/api.service';
 import { participantI } from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
 import { clubI } from 'src/app/shared/models/Club';
+import {
+  competitorI,
+  completeCompetitorI,
+} from 'src/app/shared/models/competitor';
 
 @Component({
   selector: 'app-grouping-competitors',
@@ -11,9 +15,9 @@ import { clubI } from 'src/app/shared/models/Club';
   styleUrls: ['./grouping-competitors.component.scss'],
 })
 export class GroupingCompetitorsComponent implements OnInit {
-  participants: participantI[] = [];
+  competitors: completeCompetitorI[] = [];
   clubs: clubI[] = [];
-  participantsFilter: participantI[] = [];
+  competitorsFilter: completeCompetitorI[] = [];
   genterFilter = new FormControl('');
   clubFilter = new FormControl('');
   championshipId: number = 0;
@@ -29,47 +33,21 @@ export class GroupingCompetitorsComponent implements OnInit {
       this.championshipId = Number(params.get('championshipId'));
     });
     this.getClubs();
-    this.displayParticipants();
+    this.displayCompetitors();
   }
 
   getCurrentRoute(): string {
     return this.route.snapshot.url.map((segment) => segment.path).join('/');
   }
 
-  goToTraineeRegistration() {
-    const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
-    this.router.navigate([currentRoute, 'TraineeRegistration']);
-  }
-
-  goToChampionshipConfiguration() {
-    const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
-    this.router.navigate([currentRoute, 'ChampionshipConfiguration']);
-  }
-
-  goToParticipantValidation() {
-    const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
-    this.router.navigate([currentRoute, 'ParticipantValidation']);
-  }
-
-  goToCompetitorsGrouping() {
-    const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
-    this.router.navigate([currentRoute, 'Grouping']);
-  }
-
-  displayParticipants() {
-    this.api.getParticipants(this.championshipId).subscribe((data) => {
-      console.log(data);
-      this.participants = data;
-      this.participantsFilter = data;
-    });
+  displayCompetitors() {
+    this.api
+      .getChampionshipCompetitors(this.championshipId)
+      .subscribe((data) => {
+        console.log(data);
+        this.competitors = data;
+        this.competitorsFilter = data;
+      });
   }
 
   getClubs() {
@@ -83,11 +61,11 @@ export class GroupingCompetitorsComponent implements OnInit {
     const genderFilter = this.genterFilter.value;
     console.log(genderFilter);
     if (genderFilter === 'todos') {
-      this.participantsFilter = this.participants;
+      this.competitorsFilter = this.competitors;
     } else {
       // Filtrar inscritos por sexo
-      this.participantsFilter = this.participants.filter(
-        (participant) => participant.gender === genderFilter
+      this.competitorsFilter = this.competitors.filter(
+        (competitor) => competitor.Participant.gender === genderFilter
       );
     }
   }
@@ -96,12 +74,16 @@ export class GroupingCompetitorsComponent implements OnInit {
     const clubFilter = this.clubFilter.value;
     console.log(clubFilter);
     if (clubFilter === 'todos') {
-      this.participantsFilter = this.participants;
+      this.competitorsFilter = this.competitors;
     } else {
       // Filtrar inscritos por sexo
-      this.participantsFilter = this.participants.filter(
-        (participant) => participant.clubCode === clubFilter
+      this.competitorsFilter = this.competitors.filter(
+        (competitor) => competitor.Participant.clubCode === clubFilter
       );
     }
+  }
+
+  returnToSummary() {
+    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
   }
 }
