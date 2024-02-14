@@ -4,6 +4,12 @@ export interface categoryI {
   gradeMax: string;
 }
 
+export interface categoryWithNumericValueI {
+  categoryName: string;
+  gradeMin: number;
+  gradeMax: number;
+}
+
 export interface championshipCategoryI {
   categoryName: string;
 }

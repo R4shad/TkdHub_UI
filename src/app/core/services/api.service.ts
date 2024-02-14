@@ -21,6 +21,7 @@ import {
   responseAgesI,
   responseChampionshipAgesI,
   championshipAgesI,
+  responseAgeI,
 } from 'src/app/shared/models/ages';
 import {
   championshipDivisionI,
@@ -331,10 +332,28 @@ export class ApiService {
     );
   }
 
+  getChampionshipAgeInterval(championshipId: number): Observable<agesI[]> {
+    let direccion = this.APIurl + 'ageInterval/' + championshipId;
+    return this.http.get<responseAgesI>(direccion).pipe(
+      map((response: responseAgesI) => {
+        return response.data;
+      })
+    );
+  }
+
   getChampionshipDivisions(championshipId: number): Observable<divisionI[]> {
     let direccion = this.APIurl + 'division/' + championshipId;
     return this.http.get<responseDivisionI>(direccion).pipe(
       map((response: responseDivisionI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getAgeIntervalId(age: number): Observable<agesI> {
+    let direccion = this.APIurl + 'ageInterval/byAge/' + age;
+    return this.http.get<responseAgeI>(direccion).pipe(
+      map((response: responseAgeI) => {
         return response.data;
       })
     );
