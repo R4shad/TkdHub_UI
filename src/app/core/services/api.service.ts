@@ -7,7 +7,7 @@ import {
   responseChampionshipI,
   responseChampionshipsI,
 } from 'src/app/shared/models/Championship';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tokenI } from 'src/app/shared/models/token';
 import { clubI, responseClubI } from 'src/app/shared/models/Club';
@@ -41,13 +41,14 @@ import {
   responseParticipantI,
   responseParticipantToValidateI,
 } from 'src/app/shared/models/participant';
-import { responseI } from 'src/app/shared/models/response';
 import {
   competitorI,
   completeCompetitorI,
   responseCompetitorI,
   responseCompleteCompetitorI,
 } from 'src/app/shared/models/competitor';
+import { responseI } from 'src/app/shared/models/response';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -262,6 +263,30 @@ export class ApiService {
   ): Observable<responseCompetitorI> {
     let direccion = this.APIurl + 'competitor/' + championshipId;
     return this.http.post<responseCompetitorI>(direccion, competitor);
+  }
+
+  incrementCategoryAndDivision(
+    championshipId: number,
+    divisionName: string,
+    categoryName: string
+  ): Observable<responseI[]> {
+    let direccionDivision =
+      this.APIurl +
+      'championshipDivision/increment/' +
+      championshipId +
+      '/' +
+      divisionName;
+    let direccionCategory =
+      this.APIurl +
+      'championshipCategory/increment/' +
+      championshipId +
+      '/' +
+      categoryName;
+    let responses: responseI[] = [];
+
+    const requestDivision = this.http.put<responseI>(direccionDivision, {});
+    const requestCategory = this.http.put<responseI>(direccionCategory, {});
+    return forkJoin([requestDivision, requestCategory]);
   }
 
   getChampionshipCompetitors(

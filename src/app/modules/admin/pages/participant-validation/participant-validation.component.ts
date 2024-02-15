@@ -12,6 +12,7 @@ import {
   competitorI,
   responseCompetitorI,
 } from 'src/app/shared/models/competitor';
+import { responseI } from 'src/app/shared/models/response';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -105,6 +106,16 @@ export class ParticipantValidationComponent implements OnInit {
             if (response.status == 201) {
               //alert('Verificado Correctamente');
               participant.verified = true;
+
+              this.api
+                .incrementCategoryAndDivision(
+                  this.championshipId,
+                  competitorDivision,
+                  competitoryCategory
+                )
+                .subscribe((response: responseI[]) => {
+                  console.log(response);
+                });
             }
           });
       });
