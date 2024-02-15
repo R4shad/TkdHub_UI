@@ -8,6 +8,13 @@ import {
   competitorI,
   completeCompetitorI,
 } from 'src/app/shared/models/competitor';
+import { championshipCategoryI } from 'src/app/shared/models/category';
+import { championshipDivisionI } from 'src/app/shared/models/division';
+import {
+  bracketI,
+  responseBracketI,
+  responseBracketsI,
+} from 'src/app/shared/models/bracket';
 
 @Component({
   selector: 'app-grouping-competitors',
@@ -22,6 +29,10 @@ export class GroupingCompetitorsComponent implements OnInit {
   clubFilter = new FormControl('');
   championshipId: number = 0;
   clubCode: string = '';
+
+  championshipCategories: championshipCategoryI[] = [];
+  championshipDivisions: championshipDivisionI[] = [];
+  brackets: bracketI[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -34,6 +45,9 @@ export class GroupingCompetitorsComponent implements OnInit {
     });
     this.getClubs();
     this.displayCompetitors();
+
+    this.getApiDivisions();
+    this.getApiCategories();
   }
 
   getCurrentRoute(): string {
@@ -85,5 +99,39 @@ export class GroupingCompetitorsComponent implements OnInit {
 
   returnToSummary() {
     this.router.navigate(['/championship', this.championshipId, 'Organizer']);
+  }
+
+  createGroupings() {
+    for (const category of this.championshipCategories) {
+      for (const division of this.championshipDivisions) {
+        const bracket: bracketI = {
+          categoryName: category.categoryName,
+          divisionName: division.divisionName,
+          championshipId: this.championshipId,
+        };
+
+        this.api
+          .postBracket(bracket)
+          .subscribe((response: responseBracketI) => {
+            console.log(response);
+            this.brackets.push(response.data);
+          });
+      }
+    }
+  }
+
+  getApiDivisions() {
+    this.api
+      .getDivisionsWithCompetitors(this.championshipId)
+      .subscribe((data) => {
+        this.championshipDivisions = data;
+      });
+  }
+  getApiCategories() {
+    this.api
+      .getCategoriesWithCompetitors(this.championshipId)
+      .subscribe((data) => {
+        this.championshipCategories = data;
+      });
   }
 }

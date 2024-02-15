@@ -48,6 +48,7 @@ import {
   responseCompleteCompetitorI,
 } from 'src/app/shared/models/competitor';
 import { responseI } from 'src/app/shared/models/response';
+import { bracketI, responseBracketI } from 'src/app/shared/models/bracket';
 
 @Injectable({
   providedIn: 'root',
@@ -389,5 +390,38 @@ export class ApiService {
         return response.data;
       })
     );
+  }
+
+  getCategoriesWithCompetitors(
+    championshipId: number
+  ): Observable<categoryI[]> {
+    let direccion =
+      this.APIurl +
+      'championshipCategory/' +
+      championshipId +
+      '/withCompetitors';
+    return this.http.get<responseCategoryI>(direccion).pipe(
+      map((response: responseCategoryI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getDivisionsWithCompetitors(championshipId: number): Observable<divisionI[]> {
+    let direccion =
+      this.APIurl +
+      'championshipDivision/' +
+      championshipId +
+      '/withCompetitors';
+    return this.http.get<responseDivisionI>(direccion).pipe(
+      map((response: responseDivisionI) => {
+        return response.data;
+      })
+    );
+  }
+
+  postBracket(bracket: bracketI): Observable<responseBracketI> {
+    let direccion = this.APIurl + 'bracket/';
+    return this.http.post<responseBracketI>(direccion, bracket);
   }
 }
