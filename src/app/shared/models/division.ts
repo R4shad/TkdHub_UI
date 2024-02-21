@@ -5,6 +5,7 @@ export interface divisionI {
   maxWeight: number;
   gender: string;
   grouping: string;
+  numberOfCompetitors: number;
 }
 
 export interface championshipDivisionI {

@@ -2,6 +2,7 @@ export interface categoryI {
   categoryName: string;
   gradeMin: string;
   gradeMax: string;
+  numberOfCompetitors: number;
 }
 
 export interface categoryWithNumericValueI {

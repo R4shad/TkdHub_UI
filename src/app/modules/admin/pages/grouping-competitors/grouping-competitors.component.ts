@@ -8,11 +8,19 @@ import {
   competitorI,
   completeCompetitorI,
 } from 'src/app/shared/models/competitor';
-import { championshipCategoryI } from 'src/app/shared/models/category';
-import { championshipDivisionI } from 'src/app/shared/models/division';
+import {
+  categoryI,
+  championshipCategoryI,
+} from 'src/app/shared/models/category';
+import {
+  championshipDivisionI,
+  divisionI,
+} from 'src/app/shared/models/division';
 import {
   bracketI,
+  bracketWithCompetitorsI,
   responseBracketI,
+  responseBracketWithCompetitorI,
   responseBracketsI,
 } from 'src/app/shared/models/bracket';
 
@@ -30,9 +38,9 @@ export class GroupingCompetitorsComponent implements OnInit {
   championshipId: number = 0;
   clubCode: string = '';
 
-  championshipCategories: championshipCategoryI[] = [];
-  championshipDivisions: championshipDivisionI[] = [];
-  brackets: bracketI[] = [];
+  championshipCategories: categoryI[] = [];
+  championshipDivisions: divisionI[] = [];
+  brackets: bracketWithCompetitorsI[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -48,6 +56,7 @@ export class GroupingCompetitorsComponent implements OnInit {
 
     this.getApiDivisions();
     this.getApiCategories();
+    this.getBrackets();
   }
 
   getCurrentRoute(): string {
@@ -65,10 +74,18 @@ export class GroupingCompetitorsComponent implements OnInit {
   }
 
   getClubs() {
-    console.log(this.championshipId);
     this.api.getClubs(this.championshipId).subscribe((data) => {
       this.clubs = data;
     });
+  }
+
+  getBrackets() {
+    this.api
+      .getBracketsWithCompetitors(this.championshipId)
+      .subscribe((data) => {
+        this.brackets = data;
+        console.log(this.brackets);
+      });
   }
 
   filterGender() {
@@ -86,7 +103,7 @@ export class GroupingCompetitorsComponent implements OnInit {
 
   filterClub() {
     const clubFilter = this.clubFilter.value;
-    console.log(clubFilter);
+    //console.log(clubFilter);
     if (clubFilter === 'todos') {
       this.competitorsFilter = this.competitors;
     } else {
@@ -104,18 +121,27 @@ export class GroupingCompetitorsComponent implements OnInit {
   createGroupings() {
     for (const category of this.championshipCategories) {
       for (const division of this.championshipDivisions) {
-        const bracket: bracketI = {
-          categoryName: category.categoryName,
-          divisionName: division.divisionName,
-          championshipId: this.championshipId,
-        };
+        const competitorsInDivision = this.competitors.filter(
+          (competitor) =>
+            competitor.divisionName === division.divisionName &&
+            competitor.categoryName === category.categoryName
+        );
 
-        this.api
-          .postBracket(bracket)
-          .subscribe((response: responseBracketI) => {
-            console.log(response);
-            this.brackets.push(response.data);
-          });
+        if (competitorsInDivision.length >= 2) {
+          const bracket: bracketWithCompetitorsI = {
+            categoryName: category.categoryName,
+            divisionName: division.divisionName,
+            championshipId: this.championshipId,
+            competitors: competitorsInDivision,
+          };
+
+          this.api
+            .postBracket(bracket)
+            .subscribe((response: responseBracketWithCompetitorI) => {
+              console.log(response);
+              this.brackets.push(response.data);
+            });
+        }
       }
     }
   }

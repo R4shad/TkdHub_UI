@@ -62,7 +62,7 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
     const subscriptions: Subscription[] = [];
     this.modalRef = this.modalService.open(content);
     for (const age of this.ages) {
-      const subscription = this.api.getDivision(age.id).subscribe({
+      const subscription = this.api.getDivisionsByAge(age.id).subscribe({
         next: (data) => {
           this.divisions.push(...data);
           console.log('Divisiones obtenidas:', this.divisions);

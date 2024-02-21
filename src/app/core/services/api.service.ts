@@ -48,7 +48,14 @@ import {
   responseCompleteCompetitorI,
 } from 'src/app/shared/models/competitor';
 import { responseI } from 'src/app/shared/models/response';
-import { bracketI, responseBracketI } from 'src/app/shared/models/bracket';
+import {
+  bracketI,
+  bracketWithCompetitorsI,
+  responseBracketI,
+  responseBracketWithCompetitorI,
+  responseBracketWithCompetitorsI,
+  responseBracketsI,
+} from 'src/app/shared/models/bracket';
 
 @Injectable({
   providedIn: 'root',
@@ -173,8 +180,8 @@ export class ApiService {
     );
   }
 
-  getDivision(ageIntervalId: number): Observable<divisionI[]> {
-    let direccion = this.APIurl + 'division/' + ageIntervalId;
+  getDivisionsByAge(ageIntervalId: number): Observable<divisionI[]> {
+    let direccion = this.APIurl + 'division/ages/' + ageIntervalId;
     return this.http.get<responseDivisionI>(direccion).pipe(
       map((response: responseDivisionI) => {
         return response.data;
@@ -420,8 +427,28 @@ export class ApiService {
     );
   }
 
-  postBracket(bracket: bracketI): Observable<responseBracketI> {
+  postBracket(bracket: bracketI): Observable<responseBracketWithCompetitorI> {
     let direccion = this.APIurl + 'bracket/';
-    return this.http.post<responseBracketI>(direccion, bracket);
+    return this.http.post<responseBracketWithCompetitorI>(direccion, bracket);
+  }
+
+  getBrackets(championshipId: number): Observable<bracketI[]> {
+    let direccion = this.APIurl + 'bracket/' + championshipId;
+    return this.http.get<responseBracketsI>(direccion).pipe(
+      map((response: responseBracketsI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getBracketsWithCompetitors(
+    championshipId: number
+  ): Observable<bracketWithCompetitorsI[]> {
+    let direccion = this.APIurl + 'bracket/withCompetitors/' + championshipId;
+    return this.http.get<responseBracketWithCompetitorsI>(direccion).pipe(
+      map((response: responseBracketWithCompetitorsI) => {
+        return response.data;
+      })
+    );
   }
 }

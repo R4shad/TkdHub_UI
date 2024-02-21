@@ -3,7 +3,7 @@
   <div class="rectangulo" *ngFor="let edad of ages" id="{{edad.ageIntervalName}}">
     <div class="informacion">
       <p class="titulo">{{edad.ageIntervalName}}</p>
-      <p *ngIf="edad.maxAge==100" class="descripcion">+{{ edad.minAge }}</p>
+      <p *ngIf="edad.maxAge==100" class="descripcion">+{{ edad.minAge }} años.</p>
       <p *ngIf="edad.maxAge!=100" class="descripcion">{{ edad.minAge }}-{{ edad.maxAge }} años.</p>
       <div class="weight-container">
         <p class="descripcion">Ver Pesos</p>
@@ -37,7 +37,7 @@
   </ng-template>
 
 
-  <button class="btn btn-primary" (click)="openModal(modalContent)">Imprimir Edades</button>
+  <button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>
 </div>
 <div>
   <app-weight-selector *ngIf="!display" [ageInterval]="ageSelected" (returnToAgeSelector)="display = true">

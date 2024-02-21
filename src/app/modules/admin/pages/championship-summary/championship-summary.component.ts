@@ -66,14 +66,14 @@ export class ChampionshipSummaryComponent implements OnInit {
 
   displayParticipants() {
     this.api.getParticipants(this.championshipId).subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.participants = data;
       this.participantsFilter = data;
     });
   }
 
   getClubs() {
-    console.log(this.championshipId);
+    //console.log(this.championshipId);
     this.api.getClubs(this.championshipId).subscribe((data) => {
       this.clubs = data;
     });
@@ -81,7 +81,7 @@ export class ChampionshipSummaryComponent implements OnInit {
 
   filterGender() {
     const genderFilter = this.genterFilter.value;
-    console.log(genderFilter);
+    //console.log(genderFilter);
     if (genderFilter === 'todos') {
       this.participantsFilter = this.participants;
     } else {
@@ -94,7 +94,7 @@ export class ChampionshipSummaryComponent implements OnInit {
 
   filterClub() {
     const clubFilter = this.clubFilter.value;
-    console.log(clubFilter);
+    //console.log(clubFilter);
     if (clubFilter === 'todos') {
       this.participantsFilter = this.participants;
     } else {

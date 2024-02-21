@@ -14,7 +14,6 @@ export class WeightSelectorComponent implements OnInit {
   divisions: divisionI[] = [];
   divisionsF: divisionI[] = [];
   divisionsM: divisionI[] = [];
-  hasBothGenders: boolean = false;
   rowComplete: boolean = false;
   dataLoaded: boolean = false;
 
@@ -29,23 +28,17 @@ export class WeightSelectorComponent implements OnInit {
   }
 
   getDivision() {
-    this.api.getDivision(this.ageInterval.id).subscribe((data) => {
+    this.api.getDivisionsByAge(this.ageInterval.id).subscribe((data) => {
       this.divisions = data;
-      // Verificar si hay divisiones con género "Ambos"
-      this.hasBothGenders = this.divisions.some(
-        (division) => division.gender === 'Ambos'
+
+      // Filtrar las divisiones según el género
+      this.divisionsF = this.divisions.filter(
+        (division) => division.gender === 'Femenino'
       );
 
-      if (!this.hasBothGenders) {
-        // Filtrar las divisiones según el género
-        this.divisionsF = this.divisions.filter(
-          (division) => division.gender === 'Femenino'
-        );
-
-        this.divisionsM = this.divisions.filter(
-          (division) => division.gender === 'Masculino'
-        );
-      }
+      this.divisionsM = this.divisions.filter(
+        (division) => division.gender === 'Masculino'
+      );
 
       // Una vez que los datos están listos, establecer dataLoaded en true
       this.dataLoaded = true;

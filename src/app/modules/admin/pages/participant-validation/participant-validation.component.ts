@@ -95,8 +95,8 @@ export class ParticipantValidationComponent implements OnInit {
         let newCompetitor: competitorI = {
           participantCi: participant.participantCi,
           championshipId: this.championshipId,
-          divisionName: competitoryCategory,
-          categoryName: competitorDivision,
+          divisionName: competitorDivision,
+          categoryName: competitoryCategory,
         };
         console.log(newCompetitor);
 

@@ -108,7 +108,7 @@ export class CompetitorRegistrationComponent implements OnInit {
     this.api
       .postParticipant(newParticipant, this.championshipId)
       .subscribe((response: responseParticipantI) => {
-        if (response.status == 200) {
+        if (response.status == 201) {
           alert('Inscrito agregado correctamente');
         }
       });
