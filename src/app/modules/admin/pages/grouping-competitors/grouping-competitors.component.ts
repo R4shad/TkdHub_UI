@@ -120,6 +120,15 @@ export class GroupingCompetitorsComponent implements OnInit {
     this.router.navigate(['/championship', this.championshipId, 'Organizer']);
   }
 
+  goToBracketDraw() {
+    this.router.navigate([
+      '/championship',
+      this.championshipId,
+      'Organizer',
+      'BracketDraw',
+    ]);
+  }
+
   createGroupings() {
     for (const category of this.championshipCategories) {
       for (const division of this.championshipDivisions) {

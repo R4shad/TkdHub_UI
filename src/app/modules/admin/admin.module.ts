@@ -10,6 +10,7 @@ import { CategoriesSelectorComponent } from './components/categories-selector/ca
 import { FormsModule } from '@angular/forms';
 import { ParticipantValidationComponent } from './pages/participant-validation/participant-validation.component';
 import { GroupingCompetitorsComponent } from './pages/grouping-competitors/grouping-competitors.component';
+import { BracketDrawComponent } from './pages/bracket-draw/bracket-draw.component';
 @NgModule({
   declarations: [
     TrainerRegistrationComponent,
@@ -20,6 +21,7 @@ import { GroupingCompetitorsComponent } from './pages/grouping-competitors/group
     CategoriesSelectorComponent,
     ParticipantValidationComponent,
     GroupingCompetitorsComponent,
+    BracketDrawComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })

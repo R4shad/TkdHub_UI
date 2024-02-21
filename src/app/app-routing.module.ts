@@ -4,6 +4,7 @@ import { TrainerRegistrationComponent } from './modules/admin/pages/trainer-regi
 
 import { ChampionshipConfigurationComponent } from './modules/admin/pages/championship-configuration/championship-configuration.component';
 import { GroupingCompetitorsComponent } from './modules/admin/pages/grouping-competitors/grouping-competitors.component';
+import { BracketDrawComponent } from './modules/admin/pages/bracket-draw/bracket-draw.component';
 import { CompetitorViewComponent } from './modules/trainers/pages/competitor-view/competitor-view.component';
 import { CompetitorRegistrationComponent } from './modules/trainers/pages/competitor-registration/competitor-registration.component';
 
@@ -62,6 +63,10 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Organizer/Grouping',
     component: GroupingCompetitorsComponent,
+  },
+  {
+    path: 'championship/:championshipId/Organizer/BracketDraw',
+    component: BracketDrawComponent,
   },
   {
     path: 'championship/:championshipId/Coach/:clubCode',

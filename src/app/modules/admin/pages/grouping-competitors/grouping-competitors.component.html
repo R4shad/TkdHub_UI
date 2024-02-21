@@ -48,7 +48,13 @@
     </table>
   </div>
 
+  <h1 class="text-center">
+    AGRUPACIONES
+  </h1>
   <div *ngFor="let bracket of brackets">
+    <div>
+      <p>Cantidad de Competidores: {{bracket.competitors.length}}</p>
+    </div>
     <p class="text-center">
       {{ getBracketGrouping(bracket) }} - ({{getBracketWeightInterval(bracket)}} Kg) - {{ bracket.categoryName }}
     </p>
@@ -80,4 +86,10 @@
     </div>
   </div>
 
+  <h1 class="text-center">
+    NO PELEAN
+  </h1>
+  <p>Cantidad de Competidores: 0</p>
   <button (click)="returnToSummary()">Volver</button>
+
+  <button (click)="goToBracketDraw()">Sortear Llaves</button>
