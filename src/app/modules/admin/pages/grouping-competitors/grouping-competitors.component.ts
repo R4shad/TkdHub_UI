@@ -48,6 +48,8 @@ export class GroupingCompetitorsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.brackets);
+    console.log(this.brackets.length);
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
     });
@@ -139,7 +141,7 @@ export class GroupingCompetitorsComponent implements OnInit {
             .postBracket(bracket)
             .subscribe((response: responseBracketWithCompetitorI) => {
               console.log(response);
-              this.brackets.push(response.data);
+              this.brackets.push(bracket);
             });
         }
       }
@@ -151,6 +153,16 @@ export class GroupingCompetitorsComponent implements OnInit {
       .getDivisionsWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.championshipDivisions = data;
+
+        for (const division of this.championshipDivisions) {
+          this.api.getDivisionData(division.divisionName).subscribe((data) => {
+            division.ageIntervalId = data.ageIntervalId;
+            division.gender = data.gender;
+            division.grouping = data.grouping;
+            division.minWeight = data.minWeight;
+            division.maxWeight = data.maxWeight;
+          });
+        }
       });
   }
   getApiCategories() {
@@ -159,5 +171,24 @@ export class GroupingCompetitorsComponent implements OnInit {
       .subscribe((data) => {
         this.championshipCategories = data;
       });
+  }
+  getBracketGrouping(bracket: bracketI) {
+    const matchingDivision = this.championshipDivisions.find(
+      (div) => div.divisionName === bracket.divisionName
+    );
+    if (matchingDivision) {
+      return matchingDivision.grouping;
+    }
+    return null;
+  }
+
+  getBracketWeightInterval(bracket: bracketI) {
+    const matchingDivision = this.championshipDivisions.find(
+      (div) => div.divisionName === bracket.divisionName
+    );
+    if (matchingDivision) {
+      return matchingDivision.minWeight + '-' + matchingDivision.maxWeight;
+    }
+    return null;
   }
 }

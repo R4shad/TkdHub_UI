@@ -90,7 +90,8 @@ export class ParticipantValidationComponent implements OnInit {
         );
         const competitorDivision: string = this.getCompetitorDivisionName(
           ageIntervalId,
-          participant.weight
+          participant.weight,
+          participant.gender
         );
         let newCompetitor: competitorI = {
           participantCi: participant.participantCi,
@@ -171,10 +172,13 @@ export class ParticipantValidationComponent implements OnInit {
 
   getCompetitorDivisionName(
     ageIntervalId: number,
-    competitorWeight: number
+    competitorWeight: number,
+    competitorGender: string
   ): string {
     const filteredDivisions = this.championshipDivisions.filter(
-      (division) => division.ageIntervalId === ageIntervalId
+      (division) =>
+        division.ageIntervalId === ageIntervalId &&
+        division.gender === competitorGender
     );
     for (const division of filteredDivisions) {
       if (

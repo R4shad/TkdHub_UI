@@ -12,9 +12,13 @@ export interface championshipDivisionI {
   divisionName: string;
 }
 
-export interface responseDivisionI {
+export interface responseDivisionsI {
   status: number;
   data: divisionI[];
+}
+export interface responseDivisionI {
+  status: number;
+  data: divisionI;
 }
 export interface responseChampionshipDivisionI {
   status: number;
