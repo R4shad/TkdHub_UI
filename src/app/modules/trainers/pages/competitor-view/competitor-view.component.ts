@@ -14,8 +14,8 @@ interface ParticipantEI extends participantI {
   styleUrls: ['./competitor-view.component.scss'],
 })
 export class CompetitorViewComponent implements OnInit {
-  participants: participantI[] = [];
-  participantsFilter: participantI[] = [];
+  participants: ParticipantEI[] = [];
+  participantsFilter: ParticipantEI[] = [];
   filtroSexo = new FormControl('');
   championshipId: number = 0;
   clubCode: string = '';
@@ -45,10 +45,15 @@ export class CompetitorViewComponent implements OnInit {
   displayParticipants() {
     this.api
       .getParticipantsClub(this.championshipId, this.clubCode)
-      .subscribe((data) => {
-        console.log(data);
-        this.participants = data;
-        this.participantsFilter = data;
+      .subscribe((data: participantI[]) => {
+        // Asegúrate de tipar correctamente los datos recibidos
+        const participantsWithEditFlag = data.map((participant) => ({
+          ...participant,
+          isEdit: false,
+        }));
+        console.log(participantsWithEditFlag); // Verifica los datos mapeados en la consola
+        this.participants = participantsWithEditFlag;
+        this.participantsFilter = participantsWithEditFlag;
       });
   }
   filter() {
@@ -63,5 +68,7 @@ export class CompetitorViewComponent implements OnInit {
     }
   }
 
-  onEdit(participant: participantI) {}
+  onEdit(participant: ParticipantEI) {
+    participant.isEdit = true;
+  }
 }

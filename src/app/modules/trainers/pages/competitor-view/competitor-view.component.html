@@ -28,55 +28,55 @@
       <tbody>
         <tr *ngFor="let participant of participantsFilter">
           <td>
-            <div>
+            <div *ngIf="participant.isEdit">
               <input class="container-fluid" type="text" [(ngModel)]="participant.lastNames">
             </div>
-            <div>
+            <div *ngIf="!participant.isEdit">
               {{ participant.lastNames }}
             </div>
           </td>
           <td>
-            <div>
+            <div *ngIf="participant.isEdit">
               <input class="container-fluid" type="text" [(ngModel)]="participant.firstNames">
             </div>
-            <div>
+            <div *ngIf="!participant.isEdit">
               {{ participant.firstNames }}
             </div>
           </td>
           <td>
-            <div>
+            <div *ngIf="participant.isEdit">
               <input class="container-fluid" type="text" [(ngModel)]="participant.age">
             </div>
-            <div>
+            <div *ngIf="!participant.isEdit">
               {{ participant.age }}
             </div>
           </td>
           <td>
-            <div>
+            <div *ngIf="participant.isEdit">
               <input class="container-fluid" type="text" [(ngModel)]="participant.weight">
             </div>
-            <div>
+            <div *ngIf="!participant.isEdit">
               {{ participant.weight }}
             </div>
           </td>
           <td>
-            <div>
+            <div *ngIf="participant.isEdit">
               <input class="container-fluid" type="text" [(ngModel)]="participant.grade">
             </div>
-            <div>
+            <div *ngIf="!participant.isEdit">
               {{ participant.grade }}
             </div>
           </td>
           <td>
-            <div>
+            <div *ngIf="participant.isEdit">
               <input class="container-fluid" type="text" [(ngModel)]="participant.gender">
             </div>
-            <div>
+            <div *ngIf="!participant.isEdit">
               {{ participant.gender }}
             </div>
           </td>
           <td class="text-center">
-            <i class="fa fa-pencil px-2" aria-hidden="true"></i>
+            <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
             <i class="fa fa-trash" aria-hidden="true"></i>
           </td>
         </tr>
