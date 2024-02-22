@@ -12,8 +12,8 @@ import { switchMap } from 'rxjs/operators';
 })
 export class OrganizerLoginComponent implements OnInit {
   championship!: ChampionshipI;
-  username: string = '';
-  password: string = '';
+  organizerCi!: number;
+  organizerPassword: string = '';
 
   constructor(
     private api: ApiService,
@@ -40,8 +40,8 @@ export class OrganizerLoginComponent implements OnInit {
     this.api
       .getOrganizerToken(
         this.championship.championshipId,
-        this.username,
-        this.password
+        this.organizerCi,
+        this.organizerPassword
       )
       .subscribe((data) => {
         // console.log(data);

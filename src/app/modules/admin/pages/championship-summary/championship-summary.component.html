@@ -1,24 +1,20 @@
-<div class="mt-4">
-  <button (click)="goToChampionshipConfiguration()">Configuracion de Campeonato</button>
-  <button (click)="goToTraineeRegistration()">Registrar Entrenadores</button>
-  <button (click)="goToParticipantValidation()">Validacion del pesaje</button>
-  <button (click)="goToCompetitorsGrouping()">Agrupaciones</button>
-</div>
 <div>
-  <div class="mt-4 mb-4">
+  <div class=" mt-4 mb-4">
     <label for="filtroSexo">Filtrar por Sexo:</label>
-    <select id="filtroSexo" [formControl]="genterFilter" (change)="filterGender()">
+    <select class="form-select w-auto d-inline-block" id="filtroSexo" [formControl]="genterFilter"
+      (change)="filterGender()">
       <option value="todos">Todos</option>
       <option value="Masculino">Masculino</option>
       <option value="Femenino">Femenino</option>
     </select>
 
     <label for="filtroClub">Filtrar por Club:</label>
-    <select id="filtroClub" [formControl]="clubFilter" (change)="filterClub()">
+    <select class="form-select w-auto d-inline-block" id="filtroClub" [formControl]="clubFilter"
+      (change)="filterClub()">
       <option value="todos">Todos</option>
       <option *ngFor="let club of clubs" [value]="club.clubCode">{{ club.name }}</option>
     </select>
-    <div>
+    <div class="mt-2">
       <p>Cantidad de Participantes: {{participants.length}}</p>
     </div>
   </div>
@@ -50,4 +46,16 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="mt-4">
+    <button type="button" class="mx-1 btn btn-outline-primary  btn-block mb-3 text-L"
+      (click)="goToChampionshipConfiguration()">Configuracion de
+      Campeonato</button>
+    <button (click)="goToTraineeRegistration()" class="mx-1 btn btn-outline-primary  btn-block mb-3 text-L"
+      type="button">Registrar Entrenadores</button>
+    <button (click)="goToParticipantValidation()" class="mx-1 btn btn-outline-primary  btn-block mb-3 text-L"
+      type="button">Validacion del pesaje</button>
+    <button (click)="goToCompetitorsGrouping()" class="btn mx-1 btn-outline-primary  btn-block mb-3 text-L"
+      type="button">Agrupaciones</button>
   </div>

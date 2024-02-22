@@ -98,12 +98,15 @@ export class ApiService {
 
   getOrganizerToken(
     championshipId: number,
-    username: string,
-    password: string
+    organizerCi: number,
+    organizerPassword: string
   ): Observable<tokenI> {
     let direccion = this.APIurl + 'championship/login/' + championshipId;
 
-    const body = { organizer: username, password: password };
+    const body = {
+      organizerCi: organizerCi,
+      organizerPassword: organizerPassword,
+    };
 
     const httpOptions = {
       headers: new HttpHeaders({

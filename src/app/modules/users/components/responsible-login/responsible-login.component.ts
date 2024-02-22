@@ -12,7 +12,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class ResponsibleLoginComponent implements OnInit {
   championship!: ChampionshipI;
-  username: string = '';
+  username: number = 0;
   password: string = '';
   constructor(
     private api: ApiService,
