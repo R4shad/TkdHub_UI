@@ -2,13 +2,15 @@
   <h1>Que Edades Participaran En El Campeonato</h1>
   <div class="rectangulo" *ngFor="let edad of ages" id="{{edad.ageIntervalName}}">
     <div class="informacion">
-      <p class="titulo">{{edad.ageIntervalName}}</p>
-      <p *ngIf="edad.maxAge==100" class="descripcion">+{{ edad.minAge }} años.</p>
-      <p *ngIf="edad.maxAge!=100" class="descripcion">{{ edad.minAge }}-{{ edad.maxAge }} años.</p>
+      <div class="en_linea">
+        <p class="text-L">{{edad.ageIntervalName}} </p>
+        <p *ngIf="edad.maxAge==100" class=" text-M"> (+{{ edad.minAge }} años.)</p>
+        <p *ngIf="edad.maxAge!=100" class=" text-M"> ({{ edad.minAge }}-{{ edad.maxAge }} años.)</p>
+      </div>
       <div class="weight-container">
-        <p class="descripcion">Ver Pesos</p>
+        <p class="">Ver Pesos</p>
         <button class="boton-cuadrado" (click)="defineWeight(edad)">
-          <img class="icono-boton2" src="./../../../../../assets/definir.png" alt="Eliminar">
+          <img class="icono-boton2" src="./../../../../../assets/ver.png" alt="Eliminar">
         </button>
       </div>
     </div>

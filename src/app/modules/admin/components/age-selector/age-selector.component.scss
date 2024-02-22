@@ -1,22 +1,17 @@
 .ages-selector-container {
   display: flex;
-  flex-direction: column; /* Alinear los elementos verticalmente (uno debajo del otro) */
+  flex-direction: column;
 
-  text-align: center; /* Centrar el texto dentro de los elementos */
+  text-align: center;
 }
 .rectangulo {
-  width: 400px;
-  padding-top: 4px;
+  background: #6d88a1;
+  width: 350px;
   margin: 0 auto;
   margin-bottom: 10px;
   margin-top: 10px;
-  //background-image: url("ruta-de-la-imagen.jpg"); /* Ruta de la imagen de fondo */
-  background-size: cover;
-  background-position: center;
   border: 1px solid #ccc;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
-  text-align: center;
-
+  box-shadow: 3px 3px 5px rgba(81, 74, 211, 0.2);
   display: flex;
   align-items: center;
 }
@@ -28,39 +23,19 @@
 .botones {
   display: block;
   justify-content: space-around;
-
   flex: 0;
-}
-
-.titulo {
-  font-size: 32px;
-  font-weight: bold;
-  margin: 0;
-}
-
-.descripcion {
-  font-size: 28px;
-  margin: 0;
 }
 
 .boton-cuadrado {
   width: 40px;
-  height: 50px;
-
-  background-color: #f2f2f2;
+  height: 40px;
+  background-color: #ff8b7a;
   border: 1px solid #ccc;
-
-  text-align: center;
-  //line-height: 100px;
-  cursor: pointer;
-  margin: 10px 20px 10px 20px;
-
+  margin: 10px;
   border-radius: 5px;
-
-  display: flex; /* Hace que el contenido se comporte como un contenedor flexible */
-  align-items: center; /* Centra verticalmente el contenido dentro del botón */
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 0px 0px 0px 0px;
 }
 
 .icono-boton {
@@ -85,8 +60,26 @@
 .weight-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 .botones {
   display: flex;
+}
+
+.text-L {
+  font-size: 24px;
+  padding: 0;
+  margin: 0;
+}
+
+.text-M {
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+}
+.en_linea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
