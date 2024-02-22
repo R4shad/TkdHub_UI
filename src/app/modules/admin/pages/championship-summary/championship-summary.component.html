@@ -23,7 +23,6 @@
     <table border="1" class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th>Inscrito Ci</th>
           <th>Código Club</th>
           <th>Apellidos</th>
           <th>Nombres</th>
@@ -35,7 +34,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let participant of participantsFilter">
-          <td>{{ participant.participantCi }}</td>
           <td>{{ participant.clubCode }}</td>
           <td>{{ participant.lastNames }}</td>
           <td>{{ participant.firstNames }}</td>

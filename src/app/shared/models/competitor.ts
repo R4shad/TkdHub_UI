@@ -1,12 +1,12 @@
 export interface competitorI {
-  participantCi: number;
+  participantId: number;
   championshipId: number;
   divisionName: string;
   categoryName: string;
 }
 
 export interface completeCompetitorI {
-  participantCi: number;
+  participantId: number;
   divisionName: string;
   categoryName: string;
   Participant: {

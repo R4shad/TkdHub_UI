@@ -1,5 +1,5 @@
 export interface participantI {
-  participantCi: number;
+  participantId: number;
   clubCode: string;
   firstNames: string;
   lastNames: string;
@@ -10,7 +10,7 @@ export interface participantI {
 }
 
 export interface participantToValidateI {
-  participantCi: number;
+  participantId: number;
   clubCode: string;
   firstNames: string;
   lastNames: string;

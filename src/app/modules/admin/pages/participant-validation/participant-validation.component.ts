@@ -80,7 +80,7 @@ export class ParticipantValidationComponent implements OnInit {
 
   verificateParticipant(participant: participantToValidateI) {
     this.api
-      .verifyParticipant(this.championshipId, participant.participantCi)
+      .verifyParticipant(this.championshipId, participant.participantId)
       .subscribe((data) => {
         const gradoParticipante = this.obtenerValorNumerico(participant.grade);
         const competitoryCategory: string =
@@ -94,7 +94,7 @@ export class ParticipantValidationComponent implements OnInit {
           participant.gender
         );
         let newCompetitor: competitorI = {
-          participantCi: participant.participantCi,
+          participantId: participant.participantId,
           championshipId: this.championshipId,
           divisionName: competitorDivision,
           categoryName: competitoryCategory,

@@ -3,6 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { participantI } from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
 import { ApiService } from '../../../../core/services/api.service';
+
+interface ParticipantEI extends participantI {
+  isEdit: boolean;
+}
+
 @Component({
   selector: 'app-competitor-view',
   templateUrl: './competitor-view.component.html',
@@ -30,16 +35,13 @@ export class CompetitorViewComponent implements OnInit {
 
     this.displayParticipants();
   }
-
-  getCurrentRoute(): string {
-    return this.route.snapshot.url.map((segment) => segment.path).join('/');
-  }
   goToParticipantRegistration() {
-    const currentRoute = this.getCurrentRoute();
+    const currentRoute = this.route.snapshot.url
+      .map((segment) => segment.path)
+      .join('/');
     // Navega a la ruta actual con '/TraineeRegistration' agregado
     this.router.navigate([currentRoute, 'ParticipantRegistration']);
   }
-
   displayParticipants() {
     this.api
       .getParticipantsClub(this.championshipId, this.clubCode)
@@ -49,7 +51,6 @@ export class CompetitorViewComponent implements OnInit {
         this.participantsFilter = data;
       });
   }
-
   filter() {
     const genderFilter = this.filtroSexo.value;
     if (genderFilter === 'todos') {
@@ -61,4 +62,6 @@ export class CompetitorViewComponent implements OnInit {
       );
     }
   }
+
+  onEdit(participant: participantI) {}
 }
