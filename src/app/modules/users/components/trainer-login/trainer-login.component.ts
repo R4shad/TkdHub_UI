@@ -11,7 +11,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class TrainerLoginComponent implements OnInit {
   championship!: ChampionshipI;
-  coachCi: number = 0;
+  coachCi!: number;
   password: string = '';
   constructor(
     private api: ApiService,
