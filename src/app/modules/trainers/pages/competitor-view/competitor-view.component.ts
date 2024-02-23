@@ -69,6 +69,28 @@ export class CompetitorViewComponent implements OnInit {
   }
 
   onEdit(participant: ParticipantEI) {
+    this.participants.forEach((participant) => {
+      participant.isEdit = false;
+    });
     participant.isEdit = true;
+  }
+
+  cancelEdit(participant: ParticipantEI) {
+    participant.isEdit = false;
+  }
+
+  addParticipant() {
+    const newParticipant: ParticipantEI = {
+      participantId: 0,
+      clubCode: '',
+      firstNames: '',
+      lastNames: '',
+      age: 0,
+      weight: 0,
+      grade: '',
+      gender: '',
+      isEdit: true,
+    };
+    this.participants.unshift(newParticipant);
   }
 }
