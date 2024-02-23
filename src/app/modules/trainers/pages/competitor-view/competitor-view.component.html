@@ -1,14 +1,16 @@
-<div class="mt-4 mb-4">
-  <label for="filtroSexo">Filtrar por Sexo:</label>
-  <select class="form-select-sm" id="filtroSexo" [formControl]="filtroSexo" (change)="filter()">
-    <option value="todos">Todos</option>
-    <option value="Masculino">Masculino</option>
-    <option value="Femenino">Femenino</option>
-  </select>
-  <div class="row">
-    <p>Cantidad de Participantes: {{participants.length}}</p>
-    <div class="col-12">
-      <button class="mx-1 btn btn-outline-primary  btn-block mb-3 text-L" (click)="addParticipant()">Agregar
+<div class="col-12">
+  <div class="participants mt-4 mb-2">
+    <div>
+      <label for="filtroSexo">Filtrar por Sexo:</label>
+      <select class="form-select-sm" id="filtroSexo" [formControl]="filtroSexo" (change)="filter()">
+        <option value="todos">Todos</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+      </select>
+    </div>
+    <p class="cant">Cantidad de Participantes: {{participants.length}}</p>
+    <div>
+      <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="addParticipant()">Agregar
         Participante</button>
     </div>
   </div>
@@ -96,7 +98,7 @@
           <td class="text-center">
             <div *ngIf="!participant.isEdit">
               <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
-              <i class="fa fa-trash" aria-hidden="true"></i>
+              <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(participant)"></i>
             </div>
             <div *ngIf="participant.isEdit">
               <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>

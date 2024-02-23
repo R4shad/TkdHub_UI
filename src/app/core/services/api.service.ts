@@ -275,8 +275,8 @@ export class ApiService {
   }
 
   deleteParticipant(
-    participantId: number,
-    championshipId: number
+    championshipId: number,
+    participantId: number
   ): Observable<responseParticipantI> {
     let direccion =
       this.APIurl + 'participant/' + championshipId + '/' + participantId;

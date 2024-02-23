@@ -58,7 +58,6 @@ export class CompetitorViewComponent implements OnInit {
           ...participant,
           isEdit: false,
         }));
-        console.log(participantsWithEditFlag); // Verifica los datos mapeados en la consola
         this.participants = participantsWithEditFlag;
         this.participantsFilter = participantsWithEditFlag;
       });
@@ -137,5 +136,26 @@ export class CompetitorViewComponent implements OnInit {
           participant.isEdit = false;
         }
       });
+  }
+
+  onDelete(participant: ParticipantEI) {
+    const confirmation = window.confirm(
+      '¿Estás seguro que quieres eliminar este participante?'
+    );
+    if (confirmation) {
+      this.api
+        .deleteParticipant(this.championshipId, participant.id)
+        .subscribe((response: responseParticipantI) => {
+          if (response.status == 200) {
+            this.participants = this.participants.filter(
+              (p) => p !== participant
+            );
+            this.participantsFilter = this.participantsFilter.filter(
+              (p) => p !== participant
+            );
+            alert('Eliminado correctamente');
+          }
+        });
+    }
   }
 }
