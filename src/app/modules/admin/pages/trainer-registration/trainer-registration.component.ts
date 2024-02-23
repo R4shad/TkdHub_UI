@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../../../core/services/api.service';
-import { AuthService } from '../../../../core/services/auth.service';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { clubI, responseClubI } from 'src/app/shared/models/Club';
-import { responseCoachI } from 'src/app/shared/models/Coach';
-
 import { Router, ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { ChampionshipI } from 'src/app/shared/models/Championship';
+import { FormControl } from '@angular/forms';
+import { ApiService } from '../../../../core/services/api.service';
+import {
+  clubI,
+  clubNameI,
+  responseClubI,
+  responseClubsI,
+} from 'src/app/shared/models/Club';
+
+interface clubEI extends clubI {
+  isEdit: boolean;
+}
 
 @Component({
   selector: 'app-trainer-registration',
@@ -15,99 +19,92 @@ import { ChampionshipI } from 'src/app/shared/models/Championship';
   styleUrls: ['./trainer-registration.component.scss'],
 })
 export class TrainerRegistrationComponent implements OnInit {
+  clubs: clubEI[] = [];
   championshipId: number = 0;
-  championship!: ChampionshipI;
   constructor(
     private api: ApiService,
     private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService
+    private route: ActivatedRoute
   ) {}
-
   ngOnInit(): void {
-    this.route.paramMap
-      .pipe(
-        switchMap((params) => {
-          this.championshipId = Number(params.get('championshipId'));
-          return this.api.getChampionshipInfo(this.championshipId);
-        })
-      )
-      .subscribe((championshipInfo) => {
-        // Puedes realizar acciones adicionales si es necesario con championshipInfo
-      });
+    this.route.paramMap.subscribe((params) => {
+      this.championshipId = Number(params.get('championshipId'));
+    });
+    this.displayClubs();
   }
 
-  inputLength = function (input: any): boolean {
-    return (
-      input.errors?.['minLength'] == null || input.errors?.['maxLength'] == null
-    );
-  };
-
-  clubForm = new FormGroup({
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(20),
-    ]),
-    clubCode: new FormControl('', [
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(3),
-    ]),
-    coachName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(10),
-      Validators.maxLength(40),
-    ]),
-    coachCi: new FormControl('', [
-      Validators.required,
-      Validators.minLength(7),
-      Validators.maxLength(8),
-    ]),
-  });
-
-  get name() {
-    return this.clubForm.get('name');
+  displayClubs() {
+    this.api.getClubs(this.championshipId).subscribe((data: clubI[]) => {
+      const clubsWithEditFlag = data.map((club) => ({
+        ...club,
+        isEdit: false,
+      }));
+      this.clubs = clubsWithEditFlag;
+    });
+    console.log(this.clubs);
   }
 
-  get clubCode() {
-    return this.clubForm.get('clubCode');
+  onEdit(club: clubEI) {
+    this.clubs.forEach((club) => {
+      club.isEdit = false;
+    });
+    club.isEdit = true;
   }
 
-  get coachName() {
-    return this.clubForm.get('coachName');
+  cancelEdit(club: clubEI) {
+    club.isEdit = false;
   }
 
-  get coachCi() {
-    return this.clubForm.get('coachCi');
-  }
-
-  send() {
-    let info = this.clubForm.value;
-    var newClub: clubI = {
-      name: info.name,
-      clubCode: info.clubCode,
-      coach: {
-        name: info.coachName,
-        coachCi: info.coachCi,
-        clubCode: info.clubCode,
-      },
+  addParticipant() {
+    const newClub: clubI = {
+      clubCode: '',
+      name: '',
     };
-    console.log(newClub);
+
     this.api
-      .postClub(newClub, this.championshipId)
+      .postClub(this.championshipId, newClub)
       .subscribe((response: responseClubI) => {
         if (response.status == 201) {
-          console.log('entre 201');
-          this.api
-            .postCoach(newClub, this.championshipId)
-            .subscribe((response: responseCoachI) => {
-              if (response.status == 201) {
-                alert('Club creado correctamente');
-              }
-            });
+          const newClubEditable: clubEI = {
+            clubCode: newClub.clubCode,
+            name: newClub.name,
+            isEdit: true,
+          };
+
+          this.clubs.unshift(newClubEditable);
+          alert('Creado correctamente');
         }
       });
+  }
+
+  confirmEdit(club: clubEI) {
+    const newClub: clubNameI = {
+      name: club.name,
+    };
+    this.api
+      .editClub(this.championshipId, club.clubCode, newClub)
+      .subscribe((response: responseClubI) => {
+        if (response.status == 200) {
+          alert('Editado correctamente');
+          club.isEdit = false;
+        }
+      });
+  }
+
+  onDelete(club: clubEI) {
+    const confirmation = window.confirm(
+      '¿Estás seguro que quieres eliminar este participante?'
+    );
+    if (confirmation) {
+      this.api
+        .deleteClub(this.championshipId, club.clubCode)
+        .subscribe((response: responseClubI) => {
+          if (response.status == 200) {
+            this.clubs = this.clubs.filter((c) => c !== club);
+            alert('Eliminado correctamente');
+          }
+        });
+    }
   }
 
   returnToSummary() {

@@ -5,7 +5,6 @@ import {
   participantToCreateI,
   participantToEditI,
   responseParticipantI,
-  responseParticipantToCreateI,
   responseParticipantToEditI,
 } from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
@@ -14,7 +13,6 @@ import { ApiService } from '../../../../core/services/api.service';
 interface ParticipantEI extends participantI {
   isEdit: boolean;
 }
-
 @Component({
   selector: 'app-competitor-view',
   templateUrl: './competitor-view.component.html',

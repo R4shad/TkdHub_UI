@@ -10,7 +10,13 @@ import {
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tokenI } from 'src/app/shared/models/token';
-import { clubI, responseClubI } from 'src/app/shared/models/Club';
+import {
+  clubI,
+  clubNameI,
+  clubWithCoachI,
+  responseClubI,
+  responseClubsI,
+} from 'src/app/shared/models/Club';
 import {
   coachI,
   responseCoachI,
@@ -156,19 +162,15 @@ export class ApiService {
   }
 
   postClub(
-    nuevoClub: clubI,
-    championshipId: number
+    championshipId: number,
+    nuevoClub: clubI
   ): Observable<responseClubI> {
     let direccion = this.APIurl + 'club/' + championshipId;
-    let clubInfo = {
-      clubCode: nuevoClub.clubCode,
-      name: nuevoClub.name,
-    };
-    return this.http.post<responseClubI>(direccion, clubInfo);
+    return this.http.post<responseClubI>(direccion, nuevoClub);
   }
 
   postCoach(
-    nuevoClub: clubI,
+    nuevoClub: clubWithCoachI,
     championshipId: number
   ): Observable<responseCoachI> {
     let direccion = this.APIurl + 'coach/' + championshipId;
@@ -283,6 +285,14 @@ export class ApiService {
     return this.http.delete<responseParticipantI>(direccion);
   }
 
+  deleteClub(
+    championshipId: number,
+    clubCode: string
+  ): Observable<responseClubI> {
+    let direccion = this.APIurl + 'club/' + championshipId + '/' + clubCode;
+    return this.http.delete<responseClubI>(direccion);
+  }
+
   editParticipant(
     championshipId: number,
     participantId: number,
@@ -291,6 +301,15 @@ export class ApiService {
     let direccion =
       this.APIurl + 'participant/' + championshipId + '/' + participantId;
     return this.http.patch<responseParticipantToEditI>(direccion, participant);
+  }
+
+  editClub(
+    championshipId: number,
+    clubCode: string,
+    club: clubNameI
+  ): Observable<responseClubI> {
+    let direccion = this.APIurl + 'club/' + championshipId + '/' + clubCode;
+    return this.http.patch<responseClubI>(direccion, club);
   }
 
   postCompetitor(
@@ -371,8 +390,8 @@ export class ApiService {
 
   getClubs(ChampionshipId: number): Observable<clubI[]> {
     let direccion = this.APIurl + 'club/' + ChampionshipId;
-    return this.http.get<responseClubI>(direccion).pipe(
-      map((response: responseClubI) => {
+    return this.http.get<responseClubsI>(direccion).pipe(
+      map((response: responseClubsI) => {
         return response.data;
       })
     );
