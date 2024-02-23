@@ -99,7 +99,7 @@
               <i class="fa fa-trash" aria-hidden="true"></i>
             </div>
             <div *ngIf="participant.isEdit">
-              <i class="fa fa-floppy-o px-2" aria-hidden="true"></i>
+              <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
             </div>
           </td>

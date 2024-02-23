@@ -38,9 +38,14 @@ import {
 } from 'src/app/shared/models/category';
 import {
   participantI,
+  participantToCreateI,
+  participantToEditI,
   participantToValidateI,
   responseParticipantI,
+  responseParticipantToCreateI,
+  responseParticipantToEditI,
   responseParticipantToValidateI,
+  responseParticipantsI,
 } from 'src/app/shared/models/participant';
 import {
   competitorI,
@@ -262,11 +267,30 @@ export class ApiService {
   }
 
   postParticipant(
-    participant: participantI,
+    participant: participantToCreateI,
     championshipId: number
   ): Observable<responseParticipantI> {
     let direccion = this.APIurl + 'participant/' + championshipId;
     return this.http.post<responseParticipantI>(direccion, participant);
+  }
+
+  deleteParticipant(
+    participantId: number,
+    championshipId: number
+  ): Observable<responseParticipantI> {
+    let direccion =
+      this.APIurl + 'participant/' + championshipId + '/' + participantId;
+    return this.http.delete<responseParticipantI>(direccion);
+  }
+
+  editParticipant(
+    championshipId: number,
+    participantId: number,
+    participant: participantToEditI
+  ): Observable<responseParticipantToEditI> {
+    let direccion =
+      this.APIurl + 'participant/' + championshipId + '/' + participantId;
+    return this.http.patch<responseParticipantToEditI>(direccion, participant);
   }
 
   postCompetitor(
@@ -318,8 +342,8 @@ export class ApiService {
   ): Observable<participantI[]> {
     let direccion =
       this.APIurl + 'participant/club/' + ChampionshipId + '/' + clubCode;
-    return this.http.get<responseParticipantI>(direccion).pipe(
-      map((response: responseParticipantI) => {
+    return this.http.get<responseParticipantsI>(direccion).pipe(
+      map((response: responseParticipantsI) => {
         return response.data;
       })
     );
@@ -327,8 +351,8 @@ export class ApiService {
 
   getParticipants(ChampionshipId: number): Observable<participantI[]> {
     let direccion = this.APIurl + 'participant/' + ChampionshipId;
-    return this.http.get<responseParticipantI>(direccion).pipe(
-      map((response: responseParticipantI) => {
+    return this.http.get<responseParticipantsI>(direccion).pipe(
+      map((response: responseParticipantsI) => {
         return response.data;
       })
     );

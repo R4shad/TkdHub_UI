@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { participantI } from 'src/app/shared/models/participant';
+import {
+  participantI,
+  participantToCreateI,
+  participantToEditI,
+  responseParticipantI,
+  responseParticipantToCreateI,
+  responseParticipantToEditI,
+} from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
 import { ApiService } from '../../../../core/services/api.service';
 
@@ -80,17 +87,55 @@ export class CompetitorViewComponent implements OnInit {
   }
 
   addParticipant() {
-    const newParticipant: ParticipantEI = {
-      participantId: 0,
-      clubCode: '',
+    const newParticipant: participantToCreateI = {
+      clubCode: this.clubCode,
       firstNames: '',
       lastNames: '',
       age: 0,
       weight: 0,
       grade: '',
       gender: '',
-      isEdit: true,
     };
-    this.participants.unshift(newParticipant);
+
+    this.api
+      .postParticipant(newParticipant, this.championshipId)
+      .subscribe((response: responseParticipantI) => {
+        if (response.status == 201) {
+          const newParticipantEditable: ParticipantEI = {
+            id: response.data.id,
+            clubCode: newParticipant.clubCode,
+            firstNames: newParticipant.firstNames,
+            lastNames: newParticipant.lastNames,
+            age: newParticipant.age,
+            weight: newParticipant.weight,
+            grade: newParticipant.grade,
+            gender: newParticipant.gender,
+            isEdit: true,
+          };
+
+          this.participants.unshift(newParticipantEditable);
+          alert('Creado correctamente');
+        }
+      });
+  }
+
+  confirmEdit(participant: ParticipantEI) {
+    const newParticipant: participantToEditI = {
+      lastNames: participant.lastNames,
+      firstNames: participant.firstNames,
+      age: participant.age,
+      weight: participant.weight,
+      grade: participant.grade,
+      gender: participant.gender,
+    };
+
+    this.api
+      .editParticipant(this.championshipId, participant.id, newParticipant)
+      .subscribe((response: responseParticipantToEditI) => {
+        if (response.status == 200) {
+          alert('Editado correctamente');
+          participant.isEdit = false;
+        }
+      });
   }
 }
