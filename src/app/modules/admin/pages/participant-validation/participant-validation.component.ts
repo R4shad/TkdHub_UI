@@ -13,6 +13,9 @@ import {
   responseCompetitorI,
 } from 'src/app/shared/models/competitor';
 import { responseI } from 'src/app/shared/models/response';
+import { clubI } from 'src/app/shared/models/Club';
+import { FormControl } from '@angular/forms';
+import { clearScreenDown } from 'readline';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -25,6 +28,9 @@ export class ParticipantValidationComponent implements OnInit {
   championshipCategories: categoryWithNumericValueI[] = [];
   championshipDivisions: divisionI[] = [];
   championshipAgeIntreval: agesI[] = [];
+  clubs: clubI[] = [];
+  filtroClub = new FormControl('Todos');
+  filtroSexo = new FormControl('Todos');
   constructor(
     private api: ApiService,
     private router: Router,
@@ -48,11 +54,13 @@ export class ParticipantValidationComponent implements OnInit {
     this.getApiCategories();
     this.getApiDivisions();
     this.getApiAgeInterval();
+    this.getApiClubs();
   }
 
   getApiDivisions() {
     this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
       this.championshipDivisions = data;
+      console.log(data);
     });
   }
 
@@ -61,7 +69,15 @@ export class ParticipantValidationComponent implements OnInit {
       .getChampionshipAgeInterval(this.championshipId)
       .subscribe((data) => {
         this.championshipAgeIntreval = data;
+        console.log(data);
       });
+  }
+
+  getApiClubs() {
+    this.api.getClubs(this.championshipId).subscribe((data) => {
+      this.clubs = data;
+      console.log(data);
+    });
   }
 
   getApiCategories() {
@@ -74,6 +90,7 @@ export class ParticipantValidationComponent implements OnInit {
             gradeMin: this.obtenerValorNumerico(category.gradeMin),
             gradeMax: this.obtenerValorNumerico(category.gradeMax),
           });
+          console.log(this.championshipCategories);
         }
       });
   }
@@ -189,5 +206,33 @@ export class ParticipantValidationComponent implements OnInit {
       }
     }
     return '';
+  }
+
+  filter() {
+    const genderFilter = this.filtroSexo.value;
+    const clubFilter = this.filtroClub.value;
+    console.log(genderFilter, ',', clubFilter);
+    console.log(clubFilter);
+    if (genderFilter === 'Todos' && clubFilter === 'Todos') {
+      console.log('iguales');
+      this.participantsFilter = this.participants;
+    } else if (genderFilter === 'Todos') {
+      this.participantsFilter = this.participants.filter(
+        (participant) => participant.clubCode === clubFilter
+      );
+    } else if (clubFilter === 'Todos') {
+      console.log('club Todos');
+      this.participantsFilter = this.participants.filter(
+        (participant) => participant.gender === genderFilter
+      );
+    } else {
+      console.log();
+      this.participantsFilter = this.participants.filter(
+        (participant) =>
+          participant.gender === genderFilter &&
+          participant.clubCode === clubFilter
+      );
+    }
+    console.log(this.participantsFilter);
   }
 }
