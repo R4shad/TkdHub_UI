@@ -1,95 +1,61 @@
 <div class="mt-4 mb-4">
-  <label for="filtroSexo">Filtrar por Sexo:</label>
-  <select id="filtroSexo" [formControl]="genterFilter" (change)="filterGender()">
-    <option value="todos">Todos</option>
-    <option value="Masculino">Masculino</option>
-    <option value="Femenino">Femenino</option>
-  </select>
-
-  <label for="filtroClub">Filtrar por Club:</label>
-  <select id="filtroClub" [formControl]="clubFilter" (change)="filterClub()">
-    <option value="todos">Todos</option>
-    <option *ngFor="let club of clubs" [value]="club.clubCode">{{ club.name }}</option>
-  </select>
-  <div>
-    <p>Cantidad de Participantes: {{competitors.length}}</p>
-    <button (click)="createGroupings()">Crear Agrupaciones</button>
+  <div class="buttons">
+    <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
+    <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="createGroupings()">Crear
+      Agrupaciones</button>
+    <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="goToBracketDraw()">Sortear Llaves</button>
   </div>
-
-
-  <div class="w-80 col-md-8 mx-auto">
-    <table border="1" class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>Apellidos</th>
-          <th>Nombres</th>
-          <th>Division</th>
-          <th>Categoria</th>
-          <th>Club</th>
-          <th>Edad</th>
-          <th>Peso</th>
-          <th>Grado</th>
-          <th>Sexo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let competitor of competitorsFilter">
-          <td>{{ competitor.Participant.lastNames }}</td>
-          <td>{{ competitor.Participant.firstNames }}</td>
-          <td>{{ competitor.divisionName }}</td>
-          <td>{{ competitor.categoryName }}</td>
-          <td>{{ competitor.Participant.clubCode }}</td>
-          <td>{{ competitor.Participant.age }}</td>
-          <td>{{ competitor.Participant.weight }}</td>
-          <td>{{ competitor.Participant.grade }}</td>
-          <td>{{ competitor.Participant.gender }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h1 class="text-center">
-    AGRUPACIONES
-  </h1>
-  <div *ngFor="let bracket of brackets">
+  <div *ngIf="brackets.length>0">
     <div>
-      <p>Cantidad de Competidores: {{bracket.competitors.length}}</p>
-    </div>
-    <p class="text-center">
-      {{ getBracketGrouping(bracket) }} - ({{getBracketWeightInterval(bracket)}} Kg) - {{ bracket.categoryName }}
-    </p>
-    <div class="w-80 col-md-8 mx-auto">
-      <table border="1" class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Apellidos</th>
-            <th>Nombres</th>
-            <th>Club</th>
-            <th>Edad</th>
-            <th>Peso</th>
-            <th>Grado</th>
-            <th>Sexo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let competitor of bracket.competitors">
-            <td>{{ competitor.Participant.lastNames }}</td>
-            <td>{{ competitor.Participant.firstNames }}</td>
-            <td>{{ competitor.Participant.clubCode }}</td>
-            <td>{{ competitor.Participant.age }}</td>
-            <td>{{ competitor.Participant.weight }}</td>
-            <td>{{ competitor.Participant.grade }}</td>
-            <td>{{ competitor.Participant.gender }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+      <h1 class="text-center">
+        AGRUPACIONES
+      </h1>
+      <div *ngFor="let bracket of brackets">
+        <div class="bracket-description">
+          <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
+          <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
+            (- {{getBracketMaxWeightInterval(bracket)}} Kg)
+          </p>
+          <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)!=0">
+            ({{getBracketMinWeightInterval(bracket)}} -C
+            {{getBracketMaxWeightInterval(bracket)}} Kg)
+          </p>
+          <p class="text-M">{{ bracket.categoryName}}</p>
+        </div>
+        <div>
+          <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
+        </div>
+        <div class="w-80 col-md-8 mx-auto">
+          <table border="1" class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Apellidos</th>
+                <th>Nombres</th>
+                <th>Club</th>
+                <th>Edad</th>
+                <th>Peso</th>
+                <th>Grado</th>
+                <th>Sexo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let competitor of bracket.competitors">
+                <td>{{ competitor.Participant.lastNames }}</td>
+                <td>{{ competitor.Participant.firstNames }}</td>
+                <td>{{ competitor.Participant.clubCode }}</td>
+                <td>{{ competitor.Participant.age }}</td>
+                <td>{{ competitor.Participant.weight }}</td>
+                <td>{{ competitor.Participant.grade }}</td>
+                <td>{{ competitor.Participant.gender }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-  <h1 class="text-center">
-    NO PELEAN
-  </h1>
-  <p>Cantidad de Competidores: 0</p>
-  <button (click)="returnToSummary()">Volver</button>
-
-  <button (click)="goToBracketDraw()">Sortear Llaves</button>
+      </div>
+      <div>
+        <h1 class="text-center">
+          NO PELEAN
+        </h1>
+      </div>
+    </div>
