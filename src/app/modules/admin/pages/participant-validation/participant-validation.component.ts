@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 import { participantToValidateI } from 'src/app/shared/models/participant';
-import {
-  categoryI,
-  categoryWithNumericValueI,
-} from 'src/app/shared/models/category';
+import { categoryWithNumericValueI } from 'src/app/shared/models/category';
 import { divisionI } from 'src/app/shared/models/division';
-import { agesI, championshipAgesI } from 'src/app/shared/models/ages';
+import { agesI } from 'src/app/shared/models/ages';
 import {
   competitorI,
   responseCompetitorI,
@@ -15,7 +12,12 @@ import {
 import { responseI } from 'src/app/shared/models/response';
 import { clubI } from 'src/app/shared/models/Club';
 import { FormControl } from '@angular/forms';
-import { clearScreenDown } from 'readline';
+import {
+  obtenerValorNumerico,
+  getCompetitoryCategory,
+  getCompetitorAgeIntervalId,
+  getCompetitorDivisionName,
+} from './../../utils/participantValidation.utils';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -23,12 +25,18 @@ import { clearScreenDown } from 'readline';
 })
 export class ParticipantValidationComponent implements OnInit {
   championshipId: number = 0;
+
   participants: participantToValidateI[] = [];
   participantsFilter: participantToValidateI[] = [];
-  championshipCategories: categoryWithNumericValueI[] = [];
-  championshipDivisions: divisionI[] = [];
-  championshipAgeIntrevals: agesI[] = [];
+
+  categories: categoryWithNumericValueI[] = [];
+
+  divisions: divisionI[] = [];
+  divisionsFilter: divisionI[] = [];
+
+  ageIntervals: agesI[] = [];
   clubs: clubI[] = [];
+
   filtroClub = new FormControl('Todos');
   filtroSexo = new FormControl('Todos');
   filtroPeso = new FormControl('Todos');
@@ -44,52 +52,36 @@ export class ParticipantValidationComponent implements OnInit {
     });
     this.displayParticipants();
   }
-  returnToSummary() {
-    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
-  }
 
   displayParticipants() {
     this.api.getParticipantsToVerify(this.championshipId).subscribe((data) => {
       this.participants = data;
       this.participantsFilter = data;
     });
-    this.getApiCategories();
-    this.getApiDivisions();
-    this.getApiAgeInterval();
-    this.getApiClubs();
+    this.getData();
   }
 
-  getApiDivisions() {
+  getData() {
     this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
-      this.championshipDivisions = data;
+      this.divisions = data;
+      this.divisionsFilter = data;
     });
-  }
-
-  getApiAgeInterval() {
     this.api
       .getChampionshipAgeInterval(this.championshipId)
       .subscribe((data) => {
-        this.championshipAgeIntrevals = data;
-        this.filtroEdad.setValue(JSON.stringify({ min: 0, max: 0 })); // Valor por defecto
-        console.log(data);
+        this.ageIntervals = data;
       });
-  }
-
-  getApiClubs() {
     this.api.getClubs(this.championshipId).subscribe((data) => {
       this.clubs = data;
     });
-  }
-
-  getApiCategories() {
     this.api
       .getChampionshipCategories(this.championshipId)
       .subscribe((data) => {
         for (const category of data) {
-          this.championshipCategories.push({
+          this.categories.push({
             categoryName: category.categoryName,
-            gradeMin: this.obtenerValorNumerico(category.gradeMin),
-            gradeMax: this.obtenerValorNumerico(category.gradeMax),
+            gradeMin: obtenerValorNumerico(category.gradeMin),
+            gradeMax: obtenerValorNumerico(category.gradeMax),
           });
         }
       });
@@ -99,13 +91,17 @@ export class ParticipantValidationComponent implements OnInit {
     this.api
       .verifyParticipant(this.championshipId, participant.participantId)
       .subscribe((data) => {
-        const gradoParticipante = this.obtenerValorNumerico(participant.grade);
-        const competitoryCategory: string =
-          this.getCompetitoryCategory(gradoParticipante);
-        const ageIntervalId: number = this.getCompetitorAgeIntervalId(
+        const gradoParticipante = obtenerValorNumerico(participant.grade);
+        const competitoryCategory: string = getCompetitoryCategory(
+          this.categories,
+          gradoParticipante
+        );
+        const ageIntervalId: number = getCompetitorAgeIntervalId(
+          this.ageIntervals,
           participant.age
         );
-        const competitorDivision: string = this.getCompetitorDivisionName(
+        const competitorDivision: string = getCompetitorDivisionName(
+          this.divisions,
           ageIntervalId,
           participant.weight,
           participant.gender
@@ -136,86 +132,21 @@ export class ParticipantValidationComponent implements OnInit {
       });
   }
 
-  obtenerValorNumerico(grado: string): number {
-    switch (grado.toLowerCase()) {
-      case 'franja amarillo':
-        return 1;
-      case 'amarillo':
-        return 2;
-      case 'franja verde':
-        return 3;
-      case 'verde':
-        return 4;
-      case 'franja azul':
-        return 5;
-      case 'azul':
-        return 6;
-      case 'franja rojo':
-        return 7;
-      case 'rojo':
-        return 8;
-      case 'franja negro':
-        return 9;
-      case 'negro':
-        return 10;
-      default:
-        return 0; // Valor por defecto o para casos no manejados
-    }
-  }
-
-  getCompetitoryCategory(gradoParticipante: number): string {
-    for (const categoria of this.championshipCategories) {
-      if (
-        gradoParticipante >= categoria.gradeMin &&
-        gradoParticipante <= categoria.gradeMax
-      ) {
-        return categoria.categoryName;
-      }
-    }
-    return '';
-  }
-
-  getCompetitorAgeIntervalId(age: number): number {
-    for (const ageInterval of this.championshipAgeIntrevals) {
-      if (age >= ageInterval.minAge && age <= ageInterval.maxAge) {
-        return ageInterval.id;
-      }
-    }
-    return 0;
-  }
-
-  getCompetitorDivisionName(
-    ageIntervalId: number,
-    competitorWeight: number,
-    competitorGender: string
-  ): string {
-    const filteredDivisions = this.championshipDivisions.filter(
-      (division) =>
-        division.ageIntervalId === ageIntervalId &&
-        division.gender === competitorGender
-    );
-    for (const division of filteredDivisions) {
-      if (
-        competitorWeight >= division.minWeight &&
-        competitorWeight <= division.maxWeight
-      ) {
-        return division.divisionName;
-      }
-    }
-    return '';
-  }
-
   filter() {
     const genderFilter = this.filtroSexo.value;
     const clubFilter = this.filtroClub.value;
+    const ageFilter = this.filtroEdad.value;
     const weightFilter = this.filtroPeso.value;
-    let ageFilter = JSON.parse(this.filtroEdad.value); // Convertir el valor a un objeto
-    console.log(ageFilter);
+
+    const ageFilterNumber = parseInt(ageFilter, 10);
+    const intervalEncontrado = this.ageIntervals.find(
+      (interval) => interval.id === ageFilterNumber
+    );
     if (
       genderFilter === 'Todos' &&
       clubFilter === 'Todos' &&
-      weightFilter === 'Todos' &&
-      ageFilter === 'Todos'
+      ageFilter === 'Todos' &&
+      weightFilter === 'Todos'
     ) {
       this.participantsFilter = this.participants;
     } else {
@@ -224,21 +155,25 @@ export class ParticipantValidationComponent implements OnInit {
           genderFilter === 'Todos' || participant.gender === genderFilter;
         let passesClubFilter =
           clubFilter === 'Todos' || participant.clubCode === clubFilter;
-        let passesWeightFilter =
-          weightFilter === 'Todos' ||
-          (participant.weight >= weightFilter.min &&
-            participant.weight <= weightFilter.max);
         let passesAgeFilter =
           ageFilter === 'Todos' ||
-          (participant.age >= ageFilter.min &&
-            participant.age <= ageFilter.max);
+          (participant.age >= intervalEncontrado!.minAge &&
+            participant.age <= intervalEncontrado!.maxAge);
+        let passesWeightFilter =
+          weightFilter === 'Todos' ||
+          this.isParticipantWithinWeightRange(participant, weightFilter);
 
         return (
           passesGenderFilter &&
           passesClubFilter &&
-          passesWeightFilter &&
-          passesAgeFilter
+          passesAgeFilter &&
+          passesWeightFilter
         );
+      });
+
+      // Filtrar las divisiones basadas en el ageIntervalId seleccionado
+      this.divisionsFilter = this.divisions.filter((division) => {
+        return division.ageIntervalId === intervalEncontrado!.id;
       });
     }
   }
@@ -250,5 +185,22 @@ export class ParticipantValidationComponent implements OnInit {
     const minWeight = weightRange.min;
     const maxWeight = weightRange.max;
     return participant.weight >= minWeight && participant.weight <= maxWeight;
+  }
+
+  isDivisionWithinAgeInterval(
+    division: divisionI,
+    ageIntervalValue: string
+  ): boolean {
+    if (ageIntervalValue === 'Todos') {
+      return true;
+    } else {
+      const ageFilter = this.filtroEdad.value;
+      const ageFilterNumber = parseInt(ageFilter, 10);
+      return division.ageIntervalId === ageFilterNumber;
+    }
+  }
+
+  returnToSummary() {
+    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
   }
 }

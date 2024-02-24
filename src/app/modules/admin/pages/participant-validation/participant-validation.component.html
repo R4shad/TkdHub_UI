@@ -20,28 +20,28 @@
       <select class="form-select-sm" id="filtroEdad" [formControl]="filtroEdad" (change)="filter()">
         <option value="Todos">Todos</option>
         <!-- Iterar sobre los intervalos de edades -->
-        <option *ngFor="let intervalo of championshipAgeIntrevals"
-          [value]="{ min: intervalo.minAge, max: intervalo.maxAge } | json">
-          {{ intervalo.ageIntervalName }} ({{ intervalo.minAge }}-{{ intervalo.maxAge }})
+        <option *ngFor="let intervalo of ageIntervals" [value]="intervalo.id">
+          {{ intervalo.ageIntervalName }} ({{ intervalo.minAge }} - {{ intervalo.maxAge }})
         </option>
       </select>
     </div>
-
     <div>
       <label for="filtroPeso">Filtrar por Peso:</label>
       <select class="form-select-sm" id="filtroPeso" [formControl]="filtroPeso" (change)="filter()">
         <option value="Todos">Todos</option>
-        <option *ngFor="let division of championshipDivisions"
-          [ngValue]="{ min: division.minWeight, max: division.maxWeight }">
-          {{ division.divisionName }} ({{ division.minWeight }} - {{ division.maxWeight }} kg)
-        </option>
+        <ng-container *ngFor="let division of divisionsFilter">
+          <!-- Filtrar las divisiones basadas en el intervalo de edad seleccionado -->
+          <option [ngValue]="{ min: division.minWeight, max: division.maxWeight }"
+            *ngIf="isDivisionWithinAgeInterval(division, filtroEdad.value)">
+            {{ division.divisionName }} ({{ division.minWeight }} - {{ division.maxWeight }} kg)
+          </option>
+        </ng-container>
       </select>
     </div>
-
-    <p class="cant">Cantidad de Participantes: {{participants.length}}</p>
+    <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
   </div>
 </div>
-<div class="row col-12 ">
+<div class="row col-12">
   <div class="table-responsive">
     <table class="table table-striped table-bordered">
       <thead>
@@ -74,7 +74,6 @@
         </tr>
       </tbody>
     </table>
-
-    <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="returnToSummary()">Volver</button>
+    <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
   </div>
 </div>
