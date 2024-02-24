@@ -88,13 +88,11 @@ export class ParticipantValidationComponent implements OnInit {
             gradeMin: obtenerValorNumerico(category.gradeMin),
             gradeMax: obtenerValorNumerico(category.gradeMax),
           });
-          console.log(this.categories);
         }
       });
   }
 
   verificateParticipant(participant: participantToValidateI) {
-    console.log(participant);
     this.api
       .verifyParticipant(this.championshipId, participant.id)
       .subscribe((data) => {
