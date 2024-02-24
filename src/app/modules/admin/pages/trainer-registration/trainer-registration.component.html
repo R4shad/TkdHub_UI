@@ -1,77 +1,71 @@
-<div class='form-container'>
-  <hr>
-  <div class="inputs-container">
-    <p class="nombre-form">Registro de Clubes</p>
-    <hr>
-    <form [formGroup]="clubForm" (ngSubmit)="send">
-      <div>
-        <div class='form-floating mb-3'>
-          <input type='Nombre del Club' formControlName='name' class='form-control fs-5'
-            placeholder="'Nombre del Club'" />
-          <label for="floatingInput">Nombre del Club:</label>
-        </div>
-        <div class="alert" [hidden]="name?.valid || name?.pristine">
-          <span class="form-text text-danger" *ngIf="name?.errors?.['required']">
-            El campo 'Nombre del Club' es obligatorio.
-          </span>
-          <span class="form-text text-danger" *ngIf=" !name?.errors?.['required'] && inputLength">
-            El campo 'Nombre del Club' debe ser del tamaño valido.
-          </span>
-        </div>
-      </div>
-
-      <div>
-        <div class='form-floating mb-3'>
-          <input type='Abreviatura del Club' formControlName='clubCode' class='form-control fs-5'
-            placeholder="'Abreviatura del Club'" />
-          <label for="floatingInput">Abreviatura del Club:</label>
-        </div>
-        <div class="alert" [hidden]="clubCode?.valid || clubCode?.pristine">
-          <span class="form-text text-danger" *ngIf="clubCode?.errors?.['required']">
-            El campo 'Abreviatura del Club' es obligatorio.
-          </span>
-          <span class="form-text text-danger" *ngIf=" !clubCode?.errors?.['required'] && inputLength">
-            El campo 'Abreviatura del Club' debe ser del tamaño valido.
-          </span>
-        </div>
-      </div>
-
-      <div>
-        <div class='form-floating mb-3'>
-          <input type='Nombre del Entrenador' formControlName='coachName' class='form-control fs-5'
-            placeholder="'Nombre del Entrenador'" />
-          <label for="floatingInput">Nombre del Entrenador:</label>
-        </div>
-        <div class="alert" [hidden]="coachName?.valid || coachName?.pristine">
-          <span class="form-text text-danger" *ngIf="coachName?.errors?.['required']">
-            El campo 'Nombre del Entrenador' es obligatorio.
-          </span>
-          <span class="form-text text-danger" *ngIf=" !coachName?.errors?.['required'] && inputLength">
-            El campo 'Nombre del Entrenador' debe ser del tamaño valido.
-          </span>
-        </div>
-      </div>
-
-      <div>
-        <div class='form-floating mb-3'>
-          <input type='Ci del Entrenador' formControlName='coachCi' class='form-control fs-5'
-            placeholder="'Ci del Entrenador'" />
-          <label for="floatingInput">Ci del Entrenador:</label>
-        </div>
-        <div class="alert" [hidden]="coachCi?.valid || coachCi?.pristine">
-          <span class="form-text text-danger" *ngIf="coachCi?.errors?.['required']">
-            El campo 'Ci del Entrenador' es obligatorio.
-          </span>
-          <span class="form-text text-danger" *ngIf=" !coachCi?.errors?.['required'] && inputLength">
-            El campo 'Ci del Entrenador' debe ser del tamaño valido.
-          </span>
-        </div>
-      </div>
-
-      <button [disabled]="clubForm.invalid" (click)="send()" class="btn btn-dark btn-lg">Registrar Club</button>
-    </form>
+<div class="col-12">
+  <div class="participants mt-4 mb-2">
+    <p class="cant">Cantidad de Clubes: {{clubs.length}}</p>
+    <div>
+      <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="addClub()">Agregar
+        Club</button>
+    </div>
   </div>
-
 </div>
 
-<button (click)="returnToSummary()">Volver</button>
+<div class="row col-12 ">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr class="bg text-white">
+          <th>Codigo de Club</th>
+          <th>Nombre del club</th>
+          <th>Coach Ci</th>
+          <th>Nombre del coach</th>
+          <th>Accion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let club of clubs" class="text-S">
+          <td>
+            <div *ngIf="club.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="club.clubCode">
+            </div>
+            <div *ngIf="!club.isEdit">
+              {{ club.clubCode }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="club.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="club.name">
+            </div>
+            <div *ngIf="!club.isEdit">
+              {{ club.name }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="club.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="club.coachCi">
+            </div>
+            <div *ngIf="!club.isEdit">
+              {{ club.coachCi }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="club.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="club.coachName">
+            </div>
+            <div *ngIf="!club.isEdit">
+              {{ club.coachName }}
+            </div>
+          </td>
+          <td class="text-center">
+            <div *ngIf="!club.isEdit">
+              <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(club)"></i>
+              <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(club)"></i>
+            </div>
+            <div *ngIf="club.isEdit">
+              <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(club)"></i>
+              <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(club)"></i>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

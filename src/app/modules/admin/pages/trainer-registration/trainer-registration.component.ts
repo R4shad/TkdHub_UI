@@ -21,6 +21,7 @@ interface clubEI extends clubI {
 export class TrainerRegistrationComponent implements OnInit {
   clubs: clubEI[] = [];
   championshipId: number = 0;
+  correntClubCode: string = '';
   constructor(
     private api: ApiService,
     private router: Router,
@@ -49,40 +50,54 @@ export class TrainerRegistrationComponent implements OnInit {
       club.isEdit = false;
     });
     club.isEdit = true;
+    this.correntClubCode = club.clubCode;
   }
 
   cancelEdit(club: clubEI) {
     club.isEdit = false;
   }
 
-  addParticipant() {
+  addClub() {
     const newClub: clubI = {
-      clubCode: '',
+      clubCode: 'NEW',
       name: '',
+      coachCi: 0,
+      coachName: '',
     };
-
-    this.api
-      .postClub(this.championshipId, newClub)
-      .subscribe((response: responseClubI) => {
-        if (response.status == 201) {
-          const newClubEditable: clubEI = {
-            clubCode: newClub.clubCode,
-            name: newClub.name,
-            isEdit: true,
-          };
-
-          this.clubs.unshift(newClubEditable);
-          alert('Creado correctamente');
-        }
-      });
+    const exists = this.clubs.some((club) => club.clubCode === 'NEW');
+    if (!exists) {
+      this.api
+        .postClub(this.championshipId, newClub)
+        .subscribe((response: responseClubI) => {
+          console.log(response.status);
+          if (response.status == 201) {
+            const newClubEditable: clubEI = {
+              clubCode: newClub.clubCode,
+              name: newClub.name,
+              coachCi: newClub.coachCi,
+              coachName: newClub.coachName,
+              isEdit: true,
+            };
+            this.correntClubCode = newClub.clubCode;
+            this.clubs.unshift(newClubEditable);
+            alert('Creado correctamente');
+          }
+        });
+    } else {
+      alert('Crea un club a la vez');
+    }
   }
 
   confirmEdit(club: clubEI) {
-    const newClub: clubNameI = {
+    club.clubCode = club.clubCode.toUpperCase();
+    const newClub: clubI = {
       name: club.name,
+      clubCode: club.clubCode.toUpperCase(),
+      coachCi: club.coachCi,
+      coachName: club.coachName,
     };
     this.api
-      .editClub(this.championshipId, club.clubCode, newClub)
+      .editClub(this.championshipId, this.correntClubCode, newClub)
       .subscribe((response: responseClubI) => {
         if (response.status == 200) {
           alert('Editado correctamente');

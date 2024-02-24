@@ -34,7 +34,7 @@ export class TrainerLoginComponent implements OnInit {
       });
   }
   login(): void {
-    this.api
+    /* this.api
       .getTrainerToken(
         this.championship.championshipId,
         this.coachCi,
@@ -51,6 +51,6 @@ export class TrainerLoginComponent implements OnInit {
           ]);
           localStorage.setItem('token', tokenData.token);
         });
-      });
+      }); */
   }
 }

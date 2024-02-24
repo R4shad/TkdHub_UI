@@ -13,15 +13,10 @@ import { tokenI } from 'src/app/shared/models/token';
 import {
   clubI,
   clubNameI,
-  clubWithCoachI,
   responseClubI,
   responseClubsI,
 } from 'src/app/shared/models/Club';
-import {
-  coachI,
-  responseCoachI,
-  responseCoach2I,
-} from 'src/app/shared/models/Coach';
+
 import {
   agesI,
   responseAgesI,
@@ -100,13 +95,6 @@ export class ApiService {
     );
   }
 
-  getClubCode(coachCi: number): Observable<string> {
-    let direccion = `${this.APIurl}coach/getClubCode/${coachCi}`;
-    return this.http
-      .get<responseCoach2I>(direccion)
-      .pipe(map((response: responseCoach2I) => response.data.clubCode));
-  }
-
   getOrganizerToken(
     championshipId: number,
     organizerCi: number,
@@ -167,19 +155,6 @@ export class ApiService {
   ): Observable<responseClubI> {
     let direccion = this.APIurl + 'club/' + championshipId;
     return this.http.post<responseClubI>(direccion, nuevoClub);
-  }
-
-  postCoach(
-    nuevoClub: clubWithCoachI,
-    championshipId: number
-  ): Observable<responseCoachI> {
-    let direccion = this.APIurl + 'coach/' + championshipId;
-    let entrenadorInfo: coachI = {
-      coachCi: nuevoClub.coach.coachCi,
-      name: nuevoClub.coach.name,
-      clubCode: nuevoClub.coach.clubCode,
-    };
-    return this.http.post<responseCoachI>(direccion, entrenadorInfo);
   }
 
   getAges(): Observable<agesI[]> {
