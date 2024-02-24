@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 import { participantToValidateI } from 'src/app/shared/models/participant';
-import { categoryWithNumericValueI } from 'src/app/shared/models/category';
+import {
+  categoryI,
+  categoryWithNumericValueI,
+} from 'src/app/shared/models/category';
 import { divisionI } from 'src/app/shared/models/division';
 import { agesI } from 'src/app/shared/models/ages';
 import {
@@ -29,7 +32,8 @@ export class ParticipantValidationComponent implements OnInit {
   participants: participantToValidateI[] = [];
   participantsFilter: participantToValidateI[] = [];
 
-  categories: categoryWithNumericValueI[] = [];
+  categories: categoryI[] = [];
+  categoriesWithNumericValue: categoryWithNumericValueI[] = [];
 
   divisions: divisionI[] = [];
   divisionsFilter: divisionI[] = [];
@@ -77,23 +81,26 @@ export class ParticipantValidationComponent implements OnInit {
     this.api
       .getChampionshipCategories(this.championshipId)
       .subscribe((data) => {
+        this.categories = data;
         for (const category of data) {
-          this.categories.push({
+          this.categoriesWithNumericValue.push({
             categoryName: category.categoryName,
             gradeMin: obtenerValorNumerico(category.gradeMin),
             gradeMax: obtenerValorNumerico(category.gradeMax),
           });
+          console.log(this.categories);
         }
       });
   }
 
   verificateParticipant(participant: participantToValidateI) {
+    console.log(participant);
     this.api
-      .verifyParticipant(this.championshipId, participant.participantId)
+      .verifyParticipant(this.championshipId, participant.id)
       .subscribe((data) => {
         const gradoParticipante = obtenerValorNumerico(participant.grade);
         const competitoryCategory: string = getCompetitoryCategory(
-          this.categories,
+          this.categoriesWithNumericValue,
           gradoParticipante
         );
         const ageIntervalId: number = getCompetitorAgeIntervalId(
@@ -107,7 +114,7 @@ export class ParticipantValidationComponent implements OnInit {
           participant.gender
         );
         let newCompetitor: competitorI = {
-          participantId: participant.participantId,
+          participantId: participant.id,
           championshipId: this.championshipId,
           divisionName: competitorDivision,
           categoryName: competitoryCategory,

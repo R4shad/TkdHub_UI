@@ -29,7 +29,7 @@ export interface participantToEditI {
 }
 
 export interface participantToValidateI {
-  participantId: number;
+  id: number;
   clubCode: string;
   firstNames: string;
   lastNames: string;
