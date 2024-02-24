@@ -1,13 +1,6 @@
 <div class="col-12">
   <div class="participants mt-4 mb-2">
     <div>
-      <label for="filtroClub">Filtrar por Club:</label>
-      <select class="form-select-sm" id="filtroClub" [formControl]="filtroClub" (change)="filter()">
-        <option value="Todos">Todos</option>
-        <option *ngFor="let club of clubs" [value]="club.clubCode">{{ club.clubCode }}</option>
-      </select>
-    </div>
-    <div>
       <label for="filtroSexo">Filtrar por Sexo:</label>
       <select class="form-select-sm" id="filtroSexo" [formControl]="filtroSexo" (change)="filter()">
         <option value="Todos">Todos</option>
@@ -15,6 +8,36 @@
         <option value="Femenino">Femenino</option>
       </select>
     </div>
+    <div>
+      <label for="filtroClub">Filtrar por Club:</label>
+      <select class="form-select-sm" id="filtroClub" [formControl]="filtroClub" (change)="filter()">
+        <option value="Todos">Todos</option>
+        <option *ngFor="let club of clubs" [value]="club.clubCode">{{ club.clubCode }}</option>
+      </select>
+    </div>
+    <div>
+      <label for="filtroEdad">Filtrar por Edad:</label>
+      <select class="form-select-sm" id="filtroEdad" [formControl]="filtroEdad" (change)="filter()">
+        <option value="Todos">Todos</option>
+        <!-- Iterar sobre los intervalos de edades -->
+        <option *ngFor="let intervalo of championshipAgeIntrevals"
+          [value]="{ min: intervalo.minAge, max: intervalo.maxAge } | json">
+          {{ intervalo.ageIntervalName }} ({{ intervalo.minAge }}-{{ intervalo.maxAge }})
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="filtroPeso">Filtrar por Peso:</label>
+      <select class="form-select-sm" id="filtroPeso" [formControl]="filtroPeso" (change)="filter()">
+        <option value="Todos">Todos</option>
+        <option *ngFor="let division of championshipDivisions"
+          [ngValue]="{ min: division.minWeight, max: division.maxWeight }">
+          {{ division.divisionName }} ({{ division.minWeight }} - {{ division.maxWeight }} kg)
+        </option>
+      </select>
+    </div>
+
     <p class="cant">Cantidad de Participantes: {{participants.length}}</p>
   </div>
 </div>

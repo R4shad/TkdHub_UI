@@ -27,10 +27,12 @@ export class ParticipantValidationComponent implements OnInit {
   participantsFilter: participantToValidateI[] = [];
   championshipCategories: categoryWithNumericValueI[] = [];
   championshipDivisions: divisionI[] = [];
-  championshipAgeIntreval: agesI[] = [];
+  championshipAgeIntrevals: agesI[] = [];
   clubs: clubI[] = [];
   filtroClub = new FormControl('Todos');
   filtroSexo = new FormControl('Todos');
+  filtroPeso = new FormControl('Todos');
+  filtroEdad = new FormControl('Todos');
   constructor(
     private api: ApiService,
     private router: Router,
@@ -60,7 +62,6 @@ export class ParticipantValidationComponent implements OnInit {
   getApiDivisions() {
     this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
       this.championshipDivisions = data;
-      console.log(data);
     });
   }
 
@@ -68,7 +69,8 @@ export class ParticipantValidationComponent implements OnInit {
     this.api
       .getChampionshipAgeInterval(this.championshipId)
       .subscribe((data) => {
-        this.championshipAgeIntreval = data;
+        this.championshipAgeIntrevals = data;
+        this.filtroEdad.setValue(JSON.stringify({ min: 0, max: 0 })); // Valor por defecto
         console.log(data);
       });
   }
@@ -76,7 +78,6 @@ export class ParticipantValidationComponent implements OnInit {
   getApiClubs() {
     this.api.getClubs(this.championshipId).subscribe((data) => {
       this.clubs = data;
-      console.log(data);
     });
   }
 
@@ -90,7 +91,6 @@ export class ParticipantValidationComponent implements OnInit {
             gradeMin: this.obtenerValorNumerico(category.gradeMin),
             gradeMax: this.obtenerValorNumerico(category.gradeMax),
           });
-          console.log(this.championshipCategories);
         }
       });
   }
@@ -116,7 +116,6 @@ export class ParticipantValidationComponent implements OnInit {
           divisionName: competitorDivision,
           categoryName: competitoryCategory,
         };
-        console.log(newCompetitor);
 
         this.api
           .postCompetitor(newCompetitor, this.championshipId)
@@ -131,9 +130,7 @@ export class ParticipantValidationComponent implements OnInit {
                   competitorDivision,
                   competitoryCategory
                 )
-                .subscribe((response: responseI[]) => {
-                  console.log(response);
-                });
+                .subscribe((response: responseI[]) => {});
             }
           });
       });
@@ -179,7 +176,7 @@ export class ParticipantValidationComponent implements OnInit {
   }
 
   getCompetitorAgeIntervalId(age: number): number {
-    for (const ageInterval of this.championshipAgeIntreval) {
+    for (const ageInterval of this.championshipAgeIntrevals) {
       if (age >= ageInterval.minAge && age <= ageInterval.maxAge) {
         return ageInterval.id;
       }
@@ -211,28 +208,47 @@ export class ParticipantValidationComponent implements OnInit {
   filter() {
     const genderFilter = this.filtroSexo.value;
     const clubFilter = this.filtroClub.value;
-    console.log(genderFilter, ',', clubFilter);
-    console.log(clubFilter);
-    if (genderFilter === 'Todos' && clubFilter === 'Todos') {
-      console.log('iguales');
+    const weightFilter = this.filtroPeso.value;
+    let ageFilter = JSON.parse(this.filtroEdad.value); // Convertir el valor a un objeto
+    console.log(ageFilter);
+    if (
+      genderFilter === 'Todos' &&
+      clubFilter === 'Todos' &&
+      weightFilter === 'Todos' &&
+      ageFilter === 'Todos'
+    ) {
       this.participantsFilter = this.participants;
-    } else if (genderFilter === 'Todos') {
-      this.participantsFilter = this.participants.filter(
-        (participant) => participant.clubCode === clubFilter
-      );
-    } else if (clubFilter === 'Todos') {
-      console.log('club Todos');
-      this.participantsFilter = this.participants.filter(
-        (participant) => participant.gender === genderFilter
-      );
     } else {
-      console.log();
-      this.participantsFilter = this.participants.filter(
-        (participant) =>
-          participant.gender === genderFilter &&
-          participant.clubCode === clubFilter
-      );
+      this.participantsFilter = this.participants.filter((participant) => {
+        let passesGenderFilter =
+          genderFilter === 'Todos' || participant.gender === genderFilter;
+        let passesClubFilter =
+          clubFilter === 'Todos' || participant.clubCode === clubFilter;
+        let passesWeightFilter =
+          weightFilter === 'Todos' ||
+          (participant.weight >= weightFilter.min &&
+            participant.weight <= weightFilter.max);
+        let passesAgeFilter =
+          ageFilter === 'Todos' ||
+          (participant.age >= ageFilter.min &&
+            participant.age <= ageFilter.max);
+
+        return (
+          passesGenderFilter &&
+          passesClubFilter &&
+          passesWeightFilter &&
+          passesAgeFilter
+        );
+      });
     }
-    console.log(this.participantsFilter);
+  }
+
+  isParticipantWithinWeightRange(
+    participant: participantToValidateI,
+    weightRange: any
+  ): boolean {
+    const minWeight = weightRange.min;
+    const maxWeight = weightRange.max;
+    return participant.weight >= minWeight && participant.weight <= maxWeight;
   }
 }
