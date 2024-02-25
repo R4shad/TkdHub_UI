@@ -20,6 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["canvg"],
             "outputPath": "dist/tkd-hub",
             "index": "src/index.html",
             "main": "src/main.ts",
