@@ -28,7 +28,10 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": [
+              "node_modules/jspdf/dist/jspdf.umd.min.js",
+              "node_modules/html2canvas/dist/html2canvas.min.js"
+            ]
           },
           "configurations": {
             "production": {
