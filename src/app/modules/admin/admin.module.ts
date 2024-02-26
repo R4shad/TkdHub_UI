@@ -11,8 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { ParticipantValidationComponent } from './pages/participant-validation/participant-validation.component';
 import { GroupingCompetitorsComponent } from './pages/grouping-competitors/grouping-competitors.component';
 import { BracketDrawComponent } from './pages/bracket-draw/bracket-draw.component';
+import { EightParticipantsBracketComponent } from './components/eight-participants-bracket/eight-participants-bracket.component';
 import { TwoParticipantsBracketComponent } from './components/two-participants-bracket/two-participants-bracket.component';
 import { FourParticipantsBracketComponent } from './components/four-participants-bracket/four-participants-bracket.component';
+import { SixteenParticipantsBracketComponent } from './components/sixteen-participants-bracket/sixteen-participants-bracket.component';
 @NgModule({
   declarations: [
     TrainerRegistrationComponent,
@@ -25,7 +27,9 @@ import { FourParticipantsBracketComponent } from './components/four-participants
     GroupingCompetitorsComponent,
     BracketDrawComponent,
     TwoParticipantsBracketComponent,
+    EightParticipantsBracketComponent,
     FourParticipantsBracketComponent,
+    SixteenParticipantsBracketComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })
