@@ -1,89 +1,4 @@
-.theme {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-}
-
-.bracket {
-  padding: 40px;
-  margin: 5px;
-  display: flex;
-  flex-direction: row;
-  position: relative;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  justify-content: space-around;
-  align-content: center;
-}
-
-.match {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 240px;
-  max-width: 240px;
-  height: 62px;
-  margin: 12px 24px 12px 0;
-}
-
-.competitor {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border: 1px solid black;
-  position: relative;
-}
-
-.competitor span {
-  padding-left: 8px;
-}
-
-.competitor span:last-child {
-  padding-right: 4px;
-}
-
-.score {
-  margin-left: auto;
-}
-
-.match-lines {
-  display: block;
-  position: absolute;
-  top: 50%;
-  bottom: 0;
-  margin-top: 0px;
-  right: -1px;
-}
-
-.line {
-  background: black;
-  position: absolute;
-  border-bottom: 4px solid black;
-}
-
-.line.horizontal {
-  height: 1px;
-  width: 13px;
-  left: -1px;
-}
-
-.match-lines.alt {
-  left: -12px;
-}
-
-.line.vertical {
-  height: 44px;
-  width: 1px;
-  left: 11px;
-}
-
-.match:nth-child(even) .line.vertical {
-  transform: translate(0, -100%);
-}
+@import "./../../pages/bracket-draw/bracket-draw.component.scss";
 
 .column:nth-child(2) .line.vertical {
   height: 88px;
@@ -93,41 +8,8 @@
   display: none;
 }
 
-.column:first-child .match-lines.alt {
-  display: none;
-}
-
 .match-container {
   display: flex;
   flex-direction: row;
   width: 100%;
-}
-.match-number {
-  display: flex;
-  align-items: center;
-  width: 24px;
-  border: 1px solid black;
-  font-size: 16px;
-  padding-left: 2px;
-}
-
-.match-competitors {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 210px;
-  max-width: 240px;
-  height: 62px;
-  width: 100%;
-}
-
-.winner {
-  height: 32px;
-  background: #a1a16d;
-}
-.blue {
-  background: #6d88a1;
-}
-.red {
-  background: #a16d6d;
 }
