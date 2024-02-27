@@ -40,7 +40,6 @@ export class BracketDrawComponent implements OnInit {
       .getBracketsWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
-        console.log(this.brackets);
       });
     this.api
       .getDivisionsWithCompetitors(this.championshipId)
@@ -56,41 +55,6 @@ export class BracketDrawComponent implements OnInit {
           });
         }
       });
-  }
-  organizeBrackets() {
-    this.brackets.forEach((bracket) => {
-      const numberOfCompetitors = bracket.competitors.length;
-      switch (numberOfCompetitors) {
-        case 2:
-          console.log('Utilizando el componente para dos competidores');
-          break;
-        case 3:
-        case 4:
-          console.log('Utilizando el componente para cuatro competidores');
-          break;
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-          console.log('Utilizando el componente para ocho competidores');
-          break;
-        case 9:
-        case 10:
-          console.log('Utilizando el componente para diez competidores');
-          break;
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-          console.log('Utilizando el componente para diez y seis competidores');
-          break;
-        // Agrega más casos según la lógica para cada cantidad de competidores
-        default:
-          console.log('Número de competidores no manejado');
-      }
-    });
   }
 
   getBracketGrouping(bracket: bracketI) {

@@ -19,6 +19,7 @@ import {
 import {
   bracketI,
   bracketWithCompetitorsI,
+  bracketWithCompetitorsToPostI,
   responseBracketI,
   responseBracketWithCompetitorI,
   responseBracketsI,
@@ -97,7 +98,7 @@ export class GroupingCompetitorsComponent implements OnInit {
         );
 
         if (competitorsInDivision.length >= 2) {
-          const bracket: bracketWithCompetitorsI = {
+          const bracket: bracketWithCompetitorsToPostI = {
             categoryName: category.categoryName,
             divisionName: division.divisionName,
             championshipId: this.championshipId,
@@ -108,7 +109,7 @@ export class GroupingCompetitorsComponent implements OnInit {
             .postBracket(bracket)
             .subscribe((response: responseBracketWithCompetitorI) => {
               console.log(response);
-              this.brackets.push(bracket);
+              this.brackets.push(response.data);
             });
         }
       }

@@ -6,7 +6,8 @@ export interface competitorI {
 }
 
 export interface completeCompetitorI {
-  participantId: number;
+  participantId: string;
+  competitorId: string;
   divisionName: string;
   categoryName: string;
   Participant: {

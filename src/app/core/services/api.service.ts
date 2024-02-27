@@ -68,7 +68,10 @@ import {
 import {
   matchI,
   matchToCreateI,
+  matchWithCompetitorsI,
   responseMatchI,
+  responseMatchesI,
+  responseMatchesWithCompetitorsI,
 } from 'src/app/shared/models/match';
 
 @Injectable({
@@ -492,10 +495,10 @@ export class ApiService {
 
   getBracketsWithMatches(
     championshipId: number
-  ): Observable<bracketWithCompetitorsI[]> {
+  ): Observable<bracketWithMatchesI[]> {
     let direccion = this.APIurl + 'bracket/withMatchs/' + championshipId;
-    return this.http.get<responseBracketWithCompetitorsI>(direccion).pipe(
-      map((response: responseBracketWithCompetitorsI) => {
+    return this.http.get<responseBracketWithMatchesI>(direccion).pipe(
+      map((response: responseBracketWithMatchesI) => {
         return response.data;
       })
     );
@@ -507,5 +510,17 @@ export class ApiService {
   ): Observable<responseMatchI> {
     let direccion = this.APIurl + 'match/' + championshipId;
     return this.http.post<responseMatchI>(direccion, match);
+  }
+
+  getMatches(
+    championshipId: number,
+    bracketId: number
+  ): Observable<matchWithCompetitorsI[]> {
+    let direccion = this.APIurl + 'match/' + championshipId + '/' + bracketId;
+    return this.http.get<responseMatchesWithCompetitorsI>(direccion).pipe(
+      map((response: responseMatchesWithCompetitorsI) => {
+        return response.data;
+      })
+    );
   }
 }

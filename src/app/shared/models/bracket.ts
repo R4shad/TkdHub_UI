@@ -18,6 +18,14 @@ export interface responseBracketsI {
 }
 
 export interface bracketWithCompetitorsI {
+  bracketId: number;
+  divisionName: string;
+  categoryName: string;
+  championshipId: number;
+  competitors: completeCompetitorI[];
+}
+
+export interface bracketWithCompetitorsToPostI {
   divisionName: string;
   categoryName: string;
   championshipId: number;
