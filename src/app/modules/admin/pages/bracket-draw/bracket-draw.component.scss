@@ -14,6 +14,7 @@
   display: flex;
   background-color: bisque;
   margin: 10px;
+  width: 100%;
 }
 
 .column {
@@ -25,9 +26,11 @@
 .match {
   position: relative;
   display: flex;
+  min-width: 240px;
   flex-direction: column;
-  height: 62px;
+
   margin: 12px 24px 12px 0;
+  justify-content: center;
 }
 
 .match-competitors {
@@ -47,6 +50,13 @@
   width: 100%;
   border: 1px solid black;
   position: relative;
+  min-height: 32px;
+}
+.competitor.blue {
+  border-radius: 0 8px 0 0;
+}
+.competitor.red {
+  border-radius: 0 0 8px 0;
 }
 
 .competitor span {
@@ -103,17 +113,25 @@
   border: 1px solid black;
   font-size: 16px;
   padding-left: 2px;
+  border-radius: 8px 0 0 8px;
+}
+
+.winner.competitor {
+  border-radius: 8px 8px 8px 8px;
 }
 
 .winner {
   height: fit-content;
-  background: #a1a16d;
+  //background: #a1a16d;
+  background: rgba(255, 204, 0, 1);
 }
 .blue {
-  background: #6d88a1;
+  //background: #0077cc;
+  background: rgba(0, 119, 204, 0.4);
 }
 .red {
-  background: #a16d6d;
+  //background: #ff4444;
+  background: rgba(255, 68, 68, 0.4);
 }
 
 .line.vertical {
@@ -131,8 +149,8 @@
 .match-container {
   display: flex;
   flex-direction: row;
-  min-width: 260px;
-  max-width: 260px;
+  min-width: 270px;
+  max-width: 270px;
 }
 .number {
   writing-mode: vertical-lr;
