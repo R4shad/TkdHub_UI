@@ -31,7 +31,6 @@ import {
 })
 export class GroupingCompetitorsComponent implements OnInit {
   championshipId: number = 0;
-
   competitors: completeCompetitorI[] = [];
 
   categories: categoryI[] = [];
@@ -134,7 +133,6 @@ export class GroupingCompetitorsComponent implements OnInit {
     }
     return null;
   }
-
   getBracketMaxWeightInterval(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
       (div) => div.divisionName === bracket.divisionName

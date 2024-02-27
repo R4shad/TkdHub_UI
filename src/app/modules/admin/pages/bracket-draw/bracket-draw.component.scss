@@ -1,3 +1,19 @@
+.text-L {
+  font-size: 24px;
+}
+.text-M {
+  font-size: 20x;
+  margin-bottom: 0px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+.bracket-description {
+  display: flex;
+  justify-content: space-around;
+}
+
 .bloque {
   display: flex;
   flex-direction: column;
@@ -15,6 +31,7 @@
   background-color: bisque;
   margin: 10px;
   width: 100%;
+  justify-content: center;
 }
 
 .column {

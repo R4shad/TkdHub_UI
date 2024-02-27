@@ -1,4 +1,5 @@
 import { completeCompetitorI } from './competitor';
+import { matchI } from './match';
 
 export interface bracketI {
   divisionName: string;
@@ -21,6 +22,18 @@ export interface bracketWithCompetitorsI {
   categoryName: string;
   championshipId: number;
   competitors: completeCompetitorI[];
+}
+
+export interface bracketWithMatchesI {
+  divisionName: string;
+  categoryName: string;
+  championshipId: number;
+  matchs: matchI[];
+}
+
+export interface responseBracketWithMatchesI {
+  status: number;
+  data: bracketWithMatchesI[];
 }
 
 export interface responseBracketWithCompetitorsI {
