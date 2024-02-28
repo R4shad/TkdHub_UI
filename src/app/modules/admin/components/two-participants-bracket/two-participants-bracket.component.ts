@@ -26,7 +26,11 @@ export class TwoParticipantsBracketComponent implements OnInit {
   ngOnInit(): void {
     this.getMatches();
   }
-
+  changesEditor: boolean = false;
+  changeOrder() {
+    this.changesEditor = !this.changesEditor;
+    console.log(this.bracket);
+  }
   constructor(private api: ApiService) {}
 
   getMatches() {

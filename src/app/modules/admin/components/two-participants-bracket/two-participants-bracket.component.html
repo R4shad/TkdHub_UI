@@ -1,50 +1,60 @@
-<div>
-  <div class="buttons">
-    <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="createMatch()">Crear Llave</button>
-  </div>
-  <div class="bracket-container" *ngIf="matchesWithCompetitors.length>0">
-    <div class="bracket">
-      <div class="column final">
-        <div class="match ">
-          <div class="match-container">
-            <div class="match-number">
-              <span class="number">12</span>
-            </div>
-            <div class="match-competitors">
-              <div class="competitor blue">
-                <span class="clubCode">{{ finalMatch.blueCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ finalMatch.blueCompetitor.Participant.firstNames }}
-                  {{ finalMatch.blueCompetitor.Participant.lastNames }}</span>
-                <span class="score">2</span>
-              </div>
-              <div class="competitor red">
-                <span class="clubCode">{{ finalMatch.redCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ finalMatch.redCompetitor.Participant.firstNames }}
-                  {{ finalMatch.redCompetitor.Participant.lastNames }}</span>
-                <span class="score">1</span>
-              </div>
-            </div>
+<div class="buttons">
+  <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="createMatch()">Crear Llave</button>
+</div>
+
+<div class="bracket-container" *ngIf="matchesWithCompetitors.length>0">
+  <div class="bracket">
+    <div class="column final">
+      <div class="match ">
+        <div class="match-container">
+          <div class="match-number">
+            <span class="number">12</span>
           </div>
-          <div class="match-lines">
-            <div class="line horizontal"></div>
-            <div class="line vertical"></div>
-          </div>
-          <div class="match-lines alt">
-            <div class="line horizontal"></div>
+          <div class="match-competitors">
+            <div class="competitor blue">
+              <span class="clubCode">{{ finalMatch.blueCompetitor.Participant.clubCode }}</span>
+              <span class="name">{{ finalMatch.blueCompetitor.Participant.firstNames }} {{
+                finalMatch.blueCompetitor.Participant.lastNames }}</span>
+              <span class="score"></span>
+              <div class="select-wrapper" *ngIf="changesEditor">
+                <select class="form-select text-S">
+                  <option value="">Intercambiar con:</option>
+                  <option *ngFor="let competitor of bracket.competitors" [value]="competitor.competitorId">{{
+                    competitor.Participant.clubCode }} - {{
+                    competitor.Participant.firstNames }} {{competitor.Participant.lastNames}}</option>
+                </select>
+              </div>
+              <div class="icons">
+                <i *ngIf="!changesEditor" (click)="changeOrder()" class="fa fa-sort px-2" aria-hidden="true"></i>
+                <i *ngIf="changesEditor" (click)="changeOrder()" class="fa fa-times-circle" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="competitor red">
+              <span class="clubCode">{{ finalMatch.redCompetitor.Participant.clubCode }}</span>
+              <span class="name">{{ finalMatch.redCompetitor.Participant.firstNames }} {{
+                finalMatch.redCompetitor.Participant.lastNames }}</span>
+              <span class="score"></span>
+            </div>
           </div>
         </div>
+        <div class="match-lines">
+          <div class="line horizontal"></div>
+          <div class="line vertical"></div>
+        </div>
+        <div class="match-lines alt">
+          <div class="line horizontal"></div>
+        </div>
       </div>
-
-      <div class="column four">
-        <div class="match">
-          <div class="competitor winner">
-            <span class="clubCode"></span>
-            <span class="name"></span>
-            <span class="score"></span>
-          </div>
-          <div class="match-lines alt">
-            <div class="line horizontal"></div>
-          </div>
+    </div>
+    <div class="column four">
+      <div class="match">
+        <div class="competitor winner">
+          <span class="clubCode"></span>
+          <span class="name"></span>
+          <span class="score"></span>
+        </div>
+        <div class="match-lines alt">
+          <div class="line horizontal"></div>
         </div>
       </div>
     </div>

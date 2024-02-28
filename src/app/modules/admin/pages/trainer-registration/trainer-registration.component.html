@@ -25,7 +25,7 @@
         <tr *ngFor="let club of clubs" class="text-S">
           <td>
             <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.clubCode">
+              <input class="form-control text-S" type="text" (ngModel)="club.clubCode">
             </div>
             <div *ngIf="!club.isEdit">
               {{ club.clubCode }}
@@ -33,7 +33,7 @@
           </td>
           <td>
             <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.name">
+              <input class="form-control text-S" type="text" (ngModel)="club.name">
             </div>
             <div *ngIf="!club.isEdit">
               {{ club.name }}
@@ -41,7 +41,7 @@
           </td>
           <td>
             <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.coachCi">
+              <input class="form-control text-S" type="text" (ngModel)="club.coachCi">
             </div>
             <div *ngIf="!club.isEdit">
               {{ club.coachCi }}
@@ -49,7 +49,7 @@
           </td>
           <td>
             <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.coachName">
+              <input class="form-control text-S" type="text" (ngModel)="club.coachName">
             </div>
             <div *ngIf="!club.isEdit">
               {{ club.coachName }}
