@@ -66,8 +66,10 @@ import {
   responseBracketsI,
 } from 'src/app/shared/models/bracket';
 import {
+  matchEmptyToCreateI,
   matchI,
   matchToCreateI,
+  matchToEditI,
   matchWithCompetitorsI,
   responseMatchI,
   responseMatchesI,
@@ -505,7 +507,7 @@ export class ApiService {
   }
 
   postMatch(
-    match: matchToCreateI,
+    match: MatchToCreate,
     championshipId: number
   ): Observable<responseMatchI> {
     let direccion = this.APIurl + 'match/' + championshipId;
@@ -516,11 +518,16 @@ export class ApiService {
     championshipId: number,
     bracketId: number
   ): Observable<matchWithCompetitorsI[]> {
-    let direccion = this.APIurl + 'match/' + championshipId + '/' + bracketId;
-    return this.http.get<responseMatchesWithCompetitorsI>(direccion).pipe(
-      map((response: responseMatchesWithCompetitorsI) => {
-        return response.data;
-      })
-    );
+    const direccion = `${this.APIurl}match/${championshipId}/${bracketId}`;
+    return this.http
+      .get<responseMatchesWithCompetitorsI>(direccion)
+      .pipe(map((response) => response.data));
+  }
+
+  editMatch(matchId: number, matchEdited: any): Observable<responseMatchI> {
+    let direccion = this.APIurl + 'match/' + matchId;
+    return this.http.patch<responseMatchI>(direccion, matchEdited);
   }
 }
+
+type MatchToCreate = matchToCreateI | matchEmptyToCreateI;

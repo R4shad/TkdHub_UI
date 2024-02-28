@@ -1,8 +1,18 @@
 export interface matchI {
   matchId: string;
   bracketId: number;
-  blueParticipantId: string;
-  redParticipantId: string;
+  blueCompetitorId: string;
+  redCompetitorId: string;
+  round: string;
+  blueRounds: number;
+  redRounds: number;
+  championshipId: number;
+}
+
+export interface matchToEditI {
+  bracketId: number;
+  blueCompetitorId: string;
+  redCompetitorId: string;
   round: string;
   blueRounds: number;
   redRounds: number;
@@ -10,10 +20,10 @@ export interface matchI {
 }
 
 export interface matchWithCompetitorsI {
-  matchId: string;
+  matchId: number;
   bracketId: number;
-  blueParticipantId: string;
-  redParticipantId: string;
+  blueCompetitorId: string;
+  redCompetitorId: string;
   round: string;
   blueRounds: number;
   redRounds: number;
@@ -38,8 +48,13 @@ export interface matchWithCompetitorsI {
 
 export interface matchToCreateI {
   bracketId: number;
-  blueParticipantId: string;
-  redParticipantId: string;
+  blueCompetitorId: string | null;
+  redCompetitorId: string | null;
+  round: string;
+}
+
+export interface matchEmptyToCreateI {
+  bracketId: number;
   round: string;
 }
 
@@ -57,3 +72,30 @@ export interface responseMatchesWithCompetitorsI {
   status: number;
   data: matchWithCompetitorsI[];
 }
+
+export const emptyMatch: matchWithCompetitorsI = {
+  matchId: 0,
+  bracketId: 0,
+  blueCompetitorId: '',
+  redCompetitorId: '',
+  round: '',
+  blueRounds: 0,
+  redRounds: 0,
+  championshipId: 0,
+  redCompetitor: {
+    competitorId: '',
+    Participant: {
+      lastNames: '',
+      firstNames: '',
+      clubCode: '',
+    },
+  },
+  blueCompetitor: {
+    competitorId: '',
+    Participant: {
+      lastNames: '',
+      firstNames: '',
+      clubCode: '',
+    },
+  },
+};

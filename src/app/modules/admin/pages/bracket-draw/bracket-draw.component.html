@@ -6,7 +6,7 @@
     <div *ngIf="brackets.length > 0">
       <div>
         <h1 class="text-center">
-          AGRUPACIONES
+          LLAVES
         </h1>
         <div *ngFor="let bracket of brackets">
           <div class="bracket-description mt-5">
@@ -15,7 +15,7 @@
               (- {{getBracketMaxWeightInterval(bracket)}} Kg)
             </p>
             <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket) != 0">
-              ({{getBracketMinWeightInterval(bracket)}} -C
+              ({{getBracketMinWeightInterval(bracket)}} -
               {{getBracketMaxWeightInterval(bracket)}} Kg)
             </p>
             <p class="text-M">{{ bracket.categoryName}}</p>
@@ -26,18 +26,12 @@
             <ng-container *ngIf="bracket.competitors.length === 2">
               <app-two-participants-bracket [bracket]="bracket"></app-two-participants-bracket>
             </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 4">
+            <!-- <ng-container *ngIf="bracket.competitors.length === 3">
               <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
             </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 8">
-              <app-eight-participants-bracket [bracket]="bracket"></app-eight-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 9">
-              <app-nine-participants-bracket [bracket]="bracket"></app-nine-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 16">
-              <app-sixteen-participants-bracket [bracket]="bracket"></app-sixteen-participants-bracket>
-            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 4">
+              <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
+            </ng-container> -->
           </div>
         </div>
         <div>

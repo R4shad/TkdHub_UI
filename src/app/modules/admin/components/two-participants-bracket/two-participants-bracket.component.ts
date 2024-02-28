@@ -4,6 +4,7 @@ import {
   bracketWithCompetitorsI,
 } from 'src/app/shared/models/bracket';
 import {
+  emptyMatch,
   matchI,
   matchToCreateI,
   matchWithCompetitorsI,
@@ -20,8 +21,9 @@ export class TwoParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
+  finalMatch: matchWithCompetitorsI = emptyMatch;
+
   ngOnInit(): void {
-    console.log('Datos del bracket:', this.bracket);
     this.getMatches();
   }
 
@@ -32,26 +34,22 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
-        console.log(this.matchesWithCompetitors);
-
-        if (this.matchesWithCompetitors.length === 0) {
-          this.createMatch();
-        }
+        this.finalMatch = this.matchesWithCompetitors.find(
+          (match) => match.round === 'final'
+        )!;
       });
   }
 
   createMatch() {
     const newMatch: matchToCreateI = {
       bracketId: this.bracket.bracketId,
-      blueParticipantId: this.bracket.competitors[0].competitorId,
-      redParticipantId: this.bracket.competitors[0].competitorId,
+      blueCompetitorId: this.bracket.competitors[0].competitorId,
+      redCompetitorId: this.bracket.competitors[1].competitorId,
       round: 'final',
     };
-    console.log(newMatch);
     this.api
       .postMatch(newMatch, this.bracket.championshipId)
       .subscribe((response: responseMatchI) => {
-        console.log(response);
         this.getMatches();
       });
   }

@@ -9,13 +9,15 @@
           </div>
           <div class="match-competitors">
             <div class="competitor blue">
-              <span class="clubCode">LIN</span>
-              <span class="name">Competidor1</span>
+              <span class="clubCode">{{ semiFinal1.blueCompetitor.Participant.clubCode }}</span>
+              <span class="name">{{ semiFinal1.blueCompetitor.Participant.firstNames }}
+                {{ semiFinal1.blueCompetitor.Participant.lastNames }}</span>
               <span class="score">2</span>
             </div>
             <div class="competitor red">
-              <span class="clubCode">LIN</span>
-              <span class="name">Competidor2</span>
+              <span class="clubCode">{{ semiFinal1.redCompetitor.Participant.clubCode }}</span>
+              <span class="name">{{ semiFinal1.redCompetitor.Participant.firstNames }}
+                {{ semiFinal1.redCompetitor.Participant.lastNames }}</span>
               <span class="score">1</span>
             </div>
           </div>
@@ -35,16 +37,34 @@
             <span class="number">12
             </span>
           </div>
-          <div class="match-competitors">
+          <div class="match-competitors"
+            *ngIf="semiFinal2.blueCompetitor.competitorId !=semiFinal2.redCompetitor.competitorId">
             <div class="competitor blue">
-              <span class="clubCode">LIN</span>
-              <span class="name">Competidor3</span>
+              <span class="clubCode">{{ semiFinal2.blueCompetitor.Participant.clubCode }}</span>
+              <span class="name">{{ semiFinal2.blueCompetitor.Participant.firstNames }}
+                {{ semiFinal2.blueCompetitor.Participant.lastNames }}</span>
               <span class="score">2</span>
             </div>
             <div class="competitor red">
-              <span class="clubCode">LIN</span>
-              <span class="name">Competidor4</span>
+              <span class="clubCode">{{ semiFinal2.redCompetitor.Participant.clubCode }}</span>
+              <span class="name">{{ semiFinal2.redCompetitor.Participant.firstNames }}
+                {{ semiFinal2.redCompetitor.Participant.lastNames }}</span>
               <span class="score">1</span>
+            </div>
+          </div>
+
+          <div class="match-competitors"
+            *ngIf="semiFinal2.blueCompetitor.competitorId === semiFinal2.redCompetitor.competitorId">
+            <div class="competitor blue">
+              <span class="clubCode">{{ semiFinal2.redCompetitor.Participant.clubCode }}</span>
+              <span class="name">{{ semiFinal2.redCompetitor.Participant.firstNames }}
+                {{ semiFinal2.redCompetitor.Participant.lastNames }}</span>
+              <span class="score">2</span>
+            </div>
+            <div class="competitor red">
+              <span class="clubCode"></span>
+              <span class="name">Bye</span>
+              <span class="score">0</span>
             </div>
           </div>
         </div>
@@ -67,14 +87,15 @@
           </div>
           <div class="match-competitors">
             <div class="competitor blue">
-              <span class="clubCode">LIN</span>
-              <span class="name">Competidor1</span>
+              <span class="clubCode"></span>
+              <span class="name"></span>
               <span class="score">2</span>
             </div>
             <div class="competitor red">
-              <span class="clubCode">LIN</span>
-              <span class="name">Competidor3</span>
-              <span class="score">1</span>
+              <span class="clubCode">{{final.redCompetitor.Participant.clubCode}}</span>
+              <span class="name">{{final.redCompetitor.Participant.firstNames}}
+                {{final.redCompetitor.Participant.lastNames}}</span>
+              <span class="score"></span>
             </div>
           </div>
         </div>
