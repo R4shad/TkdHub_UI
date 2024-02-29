@@ -22,7 +22,7 @@ export class TwoParticipantsBracketComponent implements OnInit {
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
   finalMatch: matchWithCompetitorsI = emptyMatch;
-  editingBracket: boolean = false;
+  editingBracket: string = '';
   selectedCompetitorId: string | null = null;
   ngOnInit(): void {
     this.getMatches();
@@ -70,8 +70,12 @@ export class TwoParticipantsBracketComponent implements OnInit {
       });
   }
 
-  changeOrder() {
-    this.editingBracket = !this.editingBracket;
+  editCompetitor(competitorId: string) {
+    this.editingBracket = competitorId;
+  }
+
+  cancelEdit() {
+    this.editingBracket = '';
   }
   onSelectCompetitor(event: any) {
     const competitorId = event.target?.value;
@@ -93,7 +97,7 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .editMatch(matchId, editedMatch)
       .subscribe((response: responseMatchI) => {
         this.getMatches();
-        this.editingBracket = false;
+        this.editingBracket = '';
       });
   }
 }

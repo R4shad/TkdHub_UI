@@ -175,3 +175,31 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+i {
+  font-size: 20px;
+}
+.form-control,
+.form-select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #494248;
+}
+.text-S {
+  font-size: 16px;
+  padding-left: 4px;
+}
+.form-select {
+  position: absolute;
+  z-index: 9999;
+  margin-right: 4px;
+  height: 32px;
+  width: 220px;
+  padding: 0;
+
+  left: 40px;
+  top: -16px;
+}
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
