@@ -59,7 +59,7 @@
               <div class="icons">
                 <i *ngIf="editingBracket===semiFinal1.redCompetitor.competitorId && selectedCompetitorId"
                   class="fa fa-floppy-o px-2" aria-hidden="true"
-                  (click)="confirmEdit(semiFinal1.matchId,selectedCompetitorId,semiFinal1.redCompetitor.competitorId)"></i>
+                  (click)="confirmEdit(semiFinal1.matchId,semiFinal1.redCompetitor.competitorId,selectedCompetitorId)"></i>
                 <i *ngIf="editingBracket===''" (click)="editCompetitor(semiFinal1.redCompetitor.competitorId)"
                   class="fa fa-sort px-2" aria-hidden="true"></i>
                 <i *ngIf="editingBracket===semiFinal1.redCompetitor.competitorId" (click)="cancelEdit()"
@@ -132,7 +132,7 @@
               <div class="icons">
                 <i *ngIf="editingBracket===semiFinal2.redCompetitor.competitorId && selectedCompetitorId"
                   class="fa fa-floppy-o px-2" aria-hidden="true"
-                  (click)="confirmEdit(semiFinal2.matchId,selectedCompetitorId,semiFinal2.redCompetitor.competitorId)"></i>
+                  (click)="confirmEdit(semiFinal2.matchId,semiFinal2.redCompetitor.competitorId,selectedCompetitorId)"></i>
                 <i *ngIf="editingBracket===''" (click)="editCompetitor(semiFinal2.redCompetitor.competitorId)"
                   class="fa fa-sort px-2" aria-hidden="true"></i>
                 <i *ngIf="editingBracket===semiFinal2.redCompetitor.competitorId" (click)="cancelEdit()"

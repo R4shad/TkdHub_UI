@@ -116,7 +116,6 @@ export class FourParticipantsBracketComponent implements OnInit {
 
   editCompetitor(competitorId: string) {
     this.editingBracket = competitorId;
-    console.log(this.editingBracket);
   }
 
   cancelEdit() {
@@ -128,6 +127,62 @@ export class FourParticipantsBracketComponent implements OnInit {
       this.selectedCompetitorId = competitorId;
     }
   }
+  //yara nicle // michelle // nicole //
+  defineMatch1(match1Id: number, competitor1Id: string, competitor2Id: string) {
+    const currentMatch1 = this.matchesWithCompetitors.find(
+      (match) => match.matchId === match1Id
+    );
+    if (currentMatch1?.blueCompetitorId === currentMatch1?.redCompetitorId) {
+      const editedMatch1 = {
+        blueCompetitorId: competitor2Id,
+        redCompetitorId: competitor2Id,
+      };
+      this.editMatch(match1Id, editedMatch1);
+      this.editFinal(competitor2Id);
+    }
+
+    if (competitor1Id === currentMatch1?.blueCompetitorId) {
+      const editedMatch1 = {
+        blueCompetitorId: competitor2Id,
+        redCompetitorId: currentMatch1.redCompetitorId,
+      };
+      this.editMatch(match1Id, editedMatch1);
+    } else {
+      const editedMatch1 = {
+        blueCompetitorId: currentMatch1?.blueCompetitorId,
+        redCompetitorId: competitor2Id,
+      };
+      this.editMatch(match1Id, editedMatch1);
+    }
+  }
+
+  defineMatch2(competitor1Id: string, match2Id: number, competitor2Id: string) {
+    const currentMatch2 = this.matchesWithCompetitors.find(
+      (match) => match.matchId === match2Id
+    );
+    if (currentMatch2?.blueCompetitorId === currentMatch2?.redCompetitorId) {
+      const editedMatch2 = {
+        blueCompetitorId: competitor1Id,
+        redCompetitorId: competitor1Id,
+      };
+      this.editMatch(match2Id, editedMatch2);
+      this.editFinal(competitor1Id);
+    }
+
+    if (competitor2Id === currentMatch2?.blueCompetitorId) {
+      const editedMatch2 = {
+        blueCompetitorId: competitor1Id,
+        redCompetitorId: currentMatch2.redCompetitorId,
+      };
+      this.editMatch(match2Id, editedMatch2);
+    } else {
+      const editedMatch2 = {
+        blueCompetitorId: currentMatch2?.blueCompetitorId,
+        redCompetitorId: competitor1Id,
+      };
+      this.editMatch(match2Id, editedMatch2);
+    }
+  }
 
   confirmEdit(match1Id: number, competitor1Id: string, competitor2Id: string) {
     const match2 = this.matchesWithCompetitors.find(
@@ -136,8 +191,10 @@ export class FourParticipantsBracketComponent implements OnInit {
         match.redCompetitorId === competitor2Id
     );
     const match2Id = match2?.matchId;
+
     if (match2Id !== undefined) {
       if (match1Id === match2Id) {
+        //Cambios en el mismo match
         const currentMatch = this.matchesWithCompetitors.find(
           (match) => match.matchId === match1Id
         );
@@ -155,52 +212,8 @@ export class FourParticipantsBracketComponent implements OnInit {
           this.editMatch(match1Id, editedMatch);
         }
       } else {
-        const currentMatch1 = this.matchesWithCompetitors.find(
-          (match) => match.matchId === match1Id
-        );
-        const currentMatch2 = this.matchesWithCompetitors.find(
-          (match) => match.matchId === match2Id
-        );
-
-        if (competitor1Id === currentMatch1?.blueCompetitorId) {
-          const editedMatch1 = {
-            blueCompetitorId: competitor2Id,
-            redCompetitorId: currentMatch1.redCompetitorId,
-          };
-          this.editMatch(match1Id, editedMatch1);
-          if (competitor2Id === currentMatch2?.blueCompetitorId) {
-            const editedMatch2 = {
-              blueCompetitorId: competitor1Id,
-              redCompetitorId: currentMatch2.redCompetitorId,
-            };
-            this.editMatch(match2Id, editedMatch2);
-          } else {
-            const editedMatch2 = {
-              blueCompetitorId: currentMatch2?.blueCompetitorId,
-              redCompetitorId: competitor1Id,
-            };
-            this.editMatch(match2Id, editedMatch2);
-          }
-        } else {
-          const editedMatch1 = {
-            blueCompetitorId: currentMatch1?.redCompetitorId,
-            redCompetitorId: competitor2Id,
-          };
-          this.editMatch(match1Id, editedMatch1);
-          if (competitor2Id === currentMatch2?.blueCompetitorId) {
-            const editedMatch2 = {
-              blueCompetitorId: competitor1Id,
-              redCompetitorId: currentMatch2.redCompetitorId,
-            };
-            this.editMatch(match2Id, editedMatch2);
-          } else {
-            const editedMatch2 = {
-              blueCompetitorId: currentMatch2?.blueCompetitorId,
-              redCompetitorId: competitor1Id,
-            };
-            this.editMatch(match2Id, editedMatch2);
-          }
-        }
+        this.defineMatch1(match1Id, competitor1Id, competitor2Id);
+        this.defineMatch2(competitor1Id, match2Id, competitor2Id);
       }
     }
   }
@@ -211,6 +224,14 @@ export class FourParticipantsBracketComponent implements OnInit {
       .subscribe((response: responseMatchI) => {
         this.getMatches();
         this.editingBracket = '';
+        this.selectedCompetitorId = null;
       });
+  }
+
+  editFinal(competitorId: string) {
+    const editedMatch = {
+      redCompetitorId: competitorId,
+    };
+    this.editMatch(this.final.matchId, editedMatch);
   }
 }
