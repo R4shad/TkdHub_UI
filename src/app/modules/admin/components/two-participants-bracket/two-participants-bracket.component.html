@@ -16,17 +16,27 @@
               <span class="name">{{ finalMatch.blueCompetitor.Participant.firstNames }} {{
                 finalMatch.blueCompetitor.Participant.lastNames }}</span>
               <span class="score"></span>
-              <div class="select-wrapper" *ngIf="changesEditor">
-                <select class="form-select text-S">
+              <div class="select-wrapper" *ngIf="editingBracket">
+                <select class="form-select text-S" (change)="onSelectCompetitor($event)">
                   <option value="">Intercambiar con:</option>
-                  <option *ngFor="let competitor of bracket.competitors" [value]="competitor.competitorId">{{
-                    competitor.Participant.clubCode }} - {{
-                    competitor.Participant.firstNames }} {{competitor.Participant.lastNames}}</option>
+                  <ng-container *ngFor="let competitor of bracket.competitors">
+                    <ng-container *ngIf="competitor.competitorId !== finalMatch.blueCompetitor.competitorId">
+                      <option [value]="competitor.competitorId">
+                        {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
+                        competitor.Participant.lastNames }}
+                      </option>
+                    </ng-container>
+                  </ng-container>
                 </select>
               </div>
+
               <div class="icons">
-                <i *ngIf="!changesEditor" (click)="changeOrder()" class="fa fa-sort px-2" aria-hidden="true"></i>
-                <i *ngIf="changesEditor" (click)="changeOrder()" class="fa fa-times-circle" aria-hidden="true"></i>
+                <i *ngIf="editingBracket && selectedCompetitorId" class="fa fa-floppy-o px-2" aria-hidden="true"
+                  (click)="confirmEdit(finalMatch.matchId,finalMatch.blueCompetitor.competitorId,selectedCompetitorId)"></i>
+
+                <i *ngIf="!editingBracket" (click)="changeOrder()" class="fa fa-sort px-2" aria-hidden="true"></i>
+                <i *ngIf="editingBracket" (click)="changeOrder()" class="fa fa-times-circle px-2"
+                  aria-hidden="true"></i>
               </div>
             </div>
             <div class="competitor red">

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import {
   bracketI,
   bracketWithCompetitorsI,
@@ -11,7 +12,6 @@ import {
   responseMatchI,
 } from 'src/app/shared/models/match';
 import { ApiService } from '../../../../core/services/api.service';
-import { bracketWithMatchesI } from './../../../../shared/models/bracket';
 @Component({
   selector: 'app-two-participants-bracket',
   templateUrl: './two-participants-bracket.component.html',
@@ -20,17 +20,13 @@ import { bracketWithMatchesI } from './../../../../shared/models/bracket';
 export class TwoParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
-
+  selectedCompetitorId: string | null = null;
   finalMatch: matchWithCompetitorsI = emptyMatch;
-
+  editingBracket: boolean = false;
   ngOnInit(): void {
     this.getMatches();
   }
-  changesEditor: boolean = false;
-  changeOrder() {
-    this.changesEditor = !this.changesEditor;
-    console.log(this.bracket);
-  }
+
   constructor(private api: ApiService) {}
 
   getMatches() {
@@ -55,6 +51,33 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .postMatch(newMatch, this.bracket.championshipId)
       .subscribe((response: responseMatchI) => {
         this.getMatches();
+      });
+  }
+
+  changeOrder() {
+    this.editingBracket = !this.editingBracket;
+  }
+  onSelectCompetitor(event: any) {
+    const competitorId = event.target?.value;
+    if (competitorId !== undefined) {
+      this.selectedCompetitorId = competitorId;
+    }
+  }
+
+  confirmEdit(
+    matchId: number,
+    blueCompetitorId: string,
+    redCompetitorId: string
+  ) {
+    const editedMatch = {
+      blueCompetitorId: redCompetitorId,
+      redCompetitorId: blueCompetitorId,
+    };
+    this.api
+      .editMatch(matchId, editedMatch)
+      .subscribe((response: responseMatchI) => {
+        this.getMatches();
+        this.editingBracket = false;
       });
   }
 }
