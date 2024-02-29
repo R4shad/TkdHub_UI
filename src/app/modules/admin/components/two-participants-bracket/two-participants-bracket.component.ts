@@ -20,7 +20,6 @@ import { ApiService } from '../../../../core/services/api.service';
 export class TwoParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
-
   finalMatch: matchWithCompetitorsI = emptyMatch;
   editingBracket: string = '';
   selectedCompetitorId: string | null = null;
@@ -35,7 +34,6 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
-        console.log('eppepapas');
         for (const match of this.matchesWithCompetitors) {
           const blueFullName = joinNames(
             match.blueCompetitor.Participant.firstNames,
