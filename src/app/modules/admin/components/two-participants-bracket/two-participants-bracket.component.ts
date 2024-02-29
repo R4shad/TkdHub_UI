@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { joinNames } from './../../utils/joinCompetitorNames.utils';
 import {
   bracketI,
   bracketWithCompetitorsI,
@@ -20,9 +20,10 @@ import { ApiService } from '../../../../core/services/api.service';
 export class TwoParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
-  selectedCompetitorId: string | null = null;
+
   finalMatch: matchWithCompetitorsI = emptyMatch;
   editingBracket: boolean = false;
+  selectedCompetitorId: string | null = null;
   ngOnInit(): void {
     this.getMatches();
   }
@@ -34,13 +35,28 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
+        console.log('eppepapas');
+        for (const match of this.matchesWithCompetitors) {
+          const blueFullName = joinNames(
+            match.blueCompetitor.Participant.firstNames,
+            match.blueCompetitor.Participant.lastNames
+          );
+          const redFullName = joinNames(
+            match.redCompetitor.Participant.firstNames,
+            match.redCompetitor.Participant.lastNames
+          );
+
+          match.blueCompetitor.Participant.fullName = blueFullName;
+          match.redCompetitor.Participant.fullName = redFullName;
+        }
+
         this.finalMatch = this.matchesWithCompetitors.find(
           (match) => match.round === 'final'
         )!;
       });
   }
 
-  createMatch() {
+  createMatches() {
     const newMatch: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: this.bracket.competitors[0].competitorId,

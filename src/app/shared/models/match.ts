@@ -34,6 +34,7 @@ export interface matchWithCompetitorsI {
       lastNames: string;
       firstNames: string;
       clubCode: string;
+      fullName: string;
     };
   };
   blueCompetitor: {
@@ -42,6 +43,7 @@ export interface matchWithCompetitorsI {
       lastNames: string;
       firstNames: string;
       clubCode: string;
+      fullName: string;
     };
   };
 }
@@ -88,6 +90,7 @@ export const emptyMatch: matchWithCompetitorsI = {
       lastNames: '',
       firstNames: '',
       clubCode: '',
+      fullName: '',
     },
   },
   blueCompetitor: {
@@ -96,6 +99,7 @@ export const emptyMatch: matchWithCompetitorsI = {
       lastNames: '',
       firstNames: '',
       clubCode: '',
+      fullName: '',
     },
   },
 };
