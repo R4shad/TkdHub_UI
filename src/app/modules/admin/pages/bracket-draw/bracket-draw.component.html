@@ -26,18 +26,13 @@
             <ng-container *ngIf="bracket.competitors.length === 2">
               <app-two-participants-bracket [bracket]="bracket"></app-two-participants-bracket>
             </ng-container>
-            <!-- <ng-container *ngIf="bracket.competitors.length === 3">
+            <ng-container *ngIf="bracket.competitors.length === 3">
               <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
-            </ng-container> -->
+            </ng-container>
             <ng-container *ngIf="bracket.competitors.length === 4">
               <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
             </ng-container>
           </div>
-        </div>
-        <div>
-          <h1 class="text-center">
-            NO PELEAN
-          </h1>
         </div>
       </div>
     </div>

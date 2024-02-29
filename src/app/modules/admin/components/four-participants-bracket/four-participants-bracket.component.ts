@@ -38,17 +38,18 @@ export class FourParticipantsBracketComponent implements OnInit {
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
         for (const match of this.matchesWithCompetitors) {
-          const blueFullName = joinNames(
-            match.blueCompetitor.Participant.firstNames,
-            match.blueCompetitor.Participant.lastNames
-          );
           const redFullName = joinNames(
             match.redCompetitor.Participant.firstNames,
             match.redCompetitor.Participant.lastNames
           );
-
-          match.blueCompetitor.Participant.fullName = blueFullName;
           match.redCompetitor.Participant.fullName = redFullName;
+          if (match.blueCompetitorId != null) {
+            const blueFullName = joinNames(
+              match.blueCompetitor.Participant.firstNames,
+              match.blueCompetitor.Participant.lastNames
+            );
+            match.blueCompetitor.Participant.fullName = blueFullName;
+          }
         }
         this.semiFinal1 = this.matchesWithCompetitors.find(
           (match) => match.round === 'semiFinal1'
@@ -128,17 +129,85 @@ export class FourParticipantsBracketComponent implements OnInit {
     }
   }
 
-  confirmEdit(
-    matchId: number,
-    blueCompetitorId: string,
-    redCompetitorId: string
-  ) {
-    const editedMatch = {
-      blueCompetitorId: redCompetitorId,
-      redCompetitorId: blueCompetitorId,
-    };
+  confirmEdit(match1Id: number, competitor1Id: string, competitor2Id: string) {
+    const match2 = this.matchesWithCompetitors.find(
+      (match) =>
+        match.blueCompetitorId === competitor2Id ||
+        match.redCompetitorId === competitor2Id
+    );
+    const match2Id = match2?.matchId;
+    if (match2Id !== undefined) {
+      if (match1Id === match2Id) {
+        const currentMatch = this.matchesWithCompetitors.find(
+          (match) => match.matchId === match1Id
+        );
+        if (competitor1Id === currentMatch?.blueCompetitorId) {
+          const editedMatch = {
+            blueCompetitorId: competitor2Id,
+            redCompetitorId: competitor1Id,
+          };
+          this.editMatch(match1Id, editedMatch);
+        } else {
+          const editedMatch = {
+            blueCompetitorId: competitor1Id,
+            redCompetitorId: competitor2Id,
+          };
+          this.editMatch(match1Id, editedMatch);
+        }
+      } else {
+        const currentMatch1 = this.matchesWithCompetitors.find(
+          (match) => match.matchId === match1Id
+        );
+        const currentMatch2 = this.matchesWithCompetitors.find(
+          (match) => match.matchId === match2Id
+        );
+
+        if (competitor1Id === currentMatch1?.blueCompetitorId) {
+          const editedMatch1 = {
+            blueCompetitorId: competitor2Id,
+            redCompetitorId: currentMatch1.redCompetitorId,
+          };
+          this.editMatch(match1Id, editedMatch1);
+          if (competitor2Id === currentMatch2?.blueCompetitorId) {
+            const editedMatch2 = {
+              blueCompetitorId: competitor1Id,
+              redCompetitorId: currentMatch2.redCompetitorId,
+            };
+            this.editMatch(match2Id, editedMatch2);
+          } else {
+            const editedMatch2 = {
+              blueCompetitorId: currentMatch2?.blueCompetitorId,
+              redCompetitorId: competitor1Id,
+            };
+            this.editMatch(match2Id, editedMatch2);
+          }
+        } else {
+          const editedMatch1 = {
+            blueCompetitorId: currentMatch1?.redCompetitorId,
+            redCompetitorId: competitor2Id,
+          };
+          this.editMatch(match1Id, editedMatch1);
+          if (competitor2Id === currentMatch2?.blueCompetitorId) {
+            const editedMatch2 = {
+              blueCompetitorId: competitor1Id,
+              redCompetitorId: currentMatch2.redCompetitorId,
+            };
+            this.editMatch(match2Id, editedMatch2);
+          } else {
+            const editedMatch2 = {
+              blueCompetitorId: currentMatch2?.blueCompetitorId,
+              redCompetitorId: competitor1Id,
+            };
+            this.editMatch(match2Id, editedMatch2);
+          }
+        }
+      }
+    }
+  }
+
+  editMatch(matchId: number, editMatch: any) {
     this.api
-      .editMatch(matchId, editedMatch)
+      .editMatch(matchId, editMatch)
       .subscribe((response: responseMatchI) => {
         this.getMatches();
         this.editingBracket = '';
