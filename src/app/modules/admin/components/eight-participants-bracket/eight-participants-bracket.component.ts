@@ -72,10 +72,19 @@ export class EightParticipantsBracketComponent implements OnInit {
         this.eights4 = this.matchesWithCompetitors.find(
           (match) => match.round === 'eights4'
         )!;
-        if (this.bracket.competitors.length === 3)
-          this.final = this.matchesWithCompetitors.find(
-            (match) => match.round === 'final'
+        if (this.bracket.competitors.length === 5) {
+          this.semiFinal1 = this.matchesWithCompetitors.find(
+            (match) => match.round === 'semifinal1'
           )!;
+        }
+        if (
+          this.bracket.competitors.length === 6 ||
+          this.bracket.competitors.length === 7
+        ) {
+          this.semiFinal2 = this.matchesWithCompetitors.find(
+            (match) => match.round === 'semifinal2'
+          )!;
+        }
       });
   }
 

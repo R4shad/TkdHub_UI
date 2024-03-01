@@ -194,25 +194,18 @@
             <span class="number">12
             </span>
           </div>
-          <div class="match-competitors" *ngIf="final.bracketId===0">
+          <div class="match-competitors">
             <div class="competitor blue">
               <span class="clubCode"></span>
               <span class="name"></span>
               <span class="score"></span>
             </div>
-            <div class="competitor red">
+            <div class="competitor red" *ngIf="final.bracketId===0">
               <span class="clubCode"></span>
               <span class="name"></span>
               <span class="score"></span>
             </div>
-          </div>
-          <div class="match-competitors" *ngIf="final.bracketId!=0">
-            <div class="competitor blue">
-              <span class="clubCode"></span>
-              <span class="name"></span>
-              <span class="score"></span>
-            </div>
-            <div class="competitor red">
+            <div class="competitor red" *ngIf="final.bracketId!=0">
               <span class="clubCode">{{ final.redCompetitor.Participant.clubCode }}</span>
               <span class="name">{{ final.redCompetitor.Participant.fullName }}</span>
               <span class="score"></span>
