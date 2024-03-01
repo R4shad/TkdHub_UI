@@ -97,6 +97,7 @@ export class ParticipantValidationComponent implements OnInit {
       .verifyParticipant(this.championshipId, participant.id)
       .subscribe((data) => {
         const gradoParticipante = obtenerValorNumerico(participant.grade);
+        console.log('grado:', participant.grade);
         const competitoryCategory: string = getCompetitoryCategory(
           this.categoriesWithNumericValue,
           gradoParticipante
@@ -117,7 +118,7 @@ export class ParticipantValidationComponent implements OnInit {
           divisionName: competitorDivision,
           categoryName: competitoryCategory,
         };
-
+        console.log(newCompetitor);
         this.api
           .postCompetitor(newCompetitor, this.championshipId)
           .subscribe((response: responseCompetitorI) => {

@@ -33,6 +33,9 @@ export function getCompetitoryCategory(
   championshipCategories: categoryWithNumericValueI[],
   gradoParticipante: number
 ): string {
+  console.log('en funcions');
+  console.log(championshipCategories);
+  console.log(gradoParticipante);
   for (const categoria of championshipCategories) {
     if (
       gradoParticipante >= categoria.gradeMin &&

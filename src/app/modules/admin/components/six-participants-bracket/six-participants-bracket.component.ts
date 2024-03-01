@@ -12,11 +12,11 @@ import { joinNames } from '../../utils/joinCompetitorNames.utils';
 import { shuffleArray } from '../../utils/shuffleParticipants.utils';
 
 @Component({
-  selector: 'app-five-participants-bracket',
-  templateUrl: './five-participants-bracket.component.html',
-  styleUrls: ['./five-participants-bracket.component.scss'],
+  selector: 'app-six-participants-bracket',
+  templateUrl: './six-participants-bracket.component.html',
+  styleUrls: ['./six-participants-bracket.component.scss'],
 })
-export class FiveParticipantsBracketComponent implements OnInit {
+export class SixParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
@@ -104,14 +104,14 @@ export class FiveParticipantsBracketComponent implements OnInit {
     const eights3: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: bracketSort3[3].competitorId,
-      redCompetitorId: bracketSort3[3].competitorId,
+      redCompetitorId: bracketSort3[4].competitorId,
       round: 'eights3',
     };
     this.postMatch(eights3);
     const eights4: matchToCreateI = {
       bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[4].competitorId,
-      redCompetitorId: bracketSort3[4].competitorId,
+      blueCompetitorId: bracketSort3[5].competitorId,
+      redCompetitorId: bracketSort3[5].competitorId,
       round: 'eights4',
     };
     this.postMatch(eights4);
@@ -125,8 +125,8 @@ export class FiveParticipantsBracketComponent implements OnInit {
     this.postMatch(semifinal1);
     const semifinal2: matchToCreateI = {
       bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[3].competitorId,
-      redCompetitorId: bracketSort3[4].competitorId,
+      blueCompetitorId: null,
+      redCompetitorId: bracketSort3[5].competitorId,
       round: 'semifinal2',
     };
     this.postMatch(semifinal2);
@@ -156,7 +156,6 @@ export class FiveParticipantsBracketComponent implements OnInit {
     const match2Id = match2?.matchId;
     if (match2Id !== undefined) {
       if (match1Id === match2Id) {
-        //Cambios en el mismo match
         const currentMatch = this.matchesWithCompetitors.find(
           (match) => match.matchId === match1Id
         );
