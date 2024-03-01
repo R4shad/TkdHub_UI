@@ -114,31 +114,9 @@
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ eights2.redCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ eights2.redCompetitor.Participant.fullName }}</span>
+                <span class="clubCode"></span>
+                <span class="name">Bye</span>
                 <span class="score"></span>
-                <div class="select-wrapper" *ngIf="editingBracket===eights2.redCompetitor.competitorId">
-                  <select class="form-select text-S" (change)="onSelectCompetitor($event)">
-                    <option value="">Intercambiar con:</option>
-                    <ng-container *ngFor="let competitor of bracket.competitors">
-                      <ng-container *ngIf="competitor.competitorId !== eights2.redCompetitor.competitorId">
-                        <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
-                        </option>
-                      </ng-container>
-                    </ng-container>
-                  </select>
-                </div>
-                <div class="icons">
-                  <i *ngIf="editingBracket===eights2.redCompetitor.competitorId && selectedCompetitorId"
-                    class="fa fa-floppy-o px-2" aria-hidden="true"
-                    (click)="confirmEdit(eights2.matchId,eights2.redCompetitor.competitorId,selectedCompetitorId)"></i>
-                  <i *ngIf="editingBracket===''" (click)="editCompetitor(eights2.redCompetitor.competitorId)"
-                    class="fa fa-sort px-2" aria-hidden="true"></i>
-                  <i *ngIf="editingBracket===eights2.redCompetitor.competitorId" (click)="cancelEdit()"
-                    class="fa fa-times-circle px-2" aria-hidden="true"></i>
-                </div>
               </div>
             </div>
           </div>
@@ -188,31 +166,9 @@
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ eights3.redCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ eights3.redCompetitor.Participant.fullName }}</span>
+                <span class="clubCode"></span>
+                <span class="name">Bye</span>
                 <span class="score"></span>
-                <div class="select-wrapper" *ngIf="editingBracket===eights3.redCompetitor.competitorId">
-                  <select class="form-select text-S" (change)="onSelectCompetitor($event)">
-                    <option value="">Intercambiar con:</option>
-                    <ng-container *ngFor="let competitor of bracket.competitors">
-                      <ng-container *ngIf="competitor.competitorId !== eights3.redCompetitor.competitorId">
-                        <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
-                        </option>
-                      </ng-container>
-                    </ng-container>
-                  </select>
-                </div>
-                <div class="icons">
-                  <i *ngIf="editingBracket===eights3.redCompetitor.competitorId && selectedCompetitorId"
-                    class="fa fa-floppy-o px-2" aria-hidden="true"
-                    (click)="confirmEdit(eights3.matchId,eights3.redCompetitor.competitorId,selectedCompetitorId)"></i>
-                  <i *ngIf="editingBracket===''" (click)="editCompetitor(eights3.redCompetitor.competitorId)"
-                    class="fa fa-sort px-2" aria-hidden="true"></i>
-                  <i *ngIf="editingBracket===eights3.redCompetitor.competitorId" (click)="cancelEdit()"
-                    class="fa fa-times-circle px-2" aria-hidden="true"></i>
-                </div>
               </div>
             </div>
           </div>
@@ -261,31 +217,9 @@
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ eights4.redCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ eights4.redCompetitor.Participant.fullName }}</span>
+                <span class="clubCode"></span>
+                <span class="name">Bye</span>
                 <span class="score"></span>
-                <div class="select-wrapper" *ngIf="editingBracket===eights4.redCompetitor.competitorId">
-                  <select class="form-select text-S" (change)="onSelectCompetitor($event)">
-                    <option value="">Intercambiar con:</option>
-                    <ng-container *ngFor="let competitor of bracket.competitors">
-                      <ng-container *ngIf="competitor.competitorId !== eights4.redCompetitor.competitorId">
-                        <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
-                        </option>
-                      </ng-container>
-                    </ng-container>
-                  </select>
-                </div>
-                <div class="icons">
-                  <i *ngIf="editingBracket===eights4.redCompetitor.competitorId && selectedCompetitorId"
-                    class="fa fa-floppy-o px-2" aria-hidden="true"
-                    (click)="confirmEdit(eights4.matchId,eights4.redCompetitor.competitorId,selectedCompetitorId)"></i>
-                  <i *ngIf="editingBracket===''" (click)="editCompetitor(eights4.redCompetitor.competitorId)"
-                    class="fa fa-sort px-2" aria-hidden="true"></i>
-                  <i *ngIf="editingBracket===eights4.redCompetitor.competitorId" (click)="cancelEdit()"
-                    class="fa fa-times-circle px-2" aria-hidden="true"></i>
-                </div>
               </div>
             </div>
           </div>
@@ -313,8 +247,8 @@
                 <span class="score"></span>
               </div>
               <div class="competitor red">
-                <span class="clubCode"></span>
-                <span class="name"></span>
+                <span class="clubCode">{{semiFinal1.redCompetitor.Participant.clubCode}}</span>
+                <span class="name">{{semiFinal1.redCompetitor.Participant.fullName}}</span>
                 <span class="score"></span>
               </div>
             </div>
@@ -335,13 +269,13 @@
             </div>
             <div class="match-competitors">
               <div class="competitor blue">
-                <span class="clubCode"></span>
-                <span class="name"></span>
+                <span class="clubCode">{{ semiFinal2.blueCompetitor.Participant.clubCode }}</span>
+                <span class="name">{{ semiFinal2.blueCompetitor.Participant.fullName }}</span>
                 <span class="score"></span>
               </div>
               <div class="competitor red">
-                <span class="clubCode"></span>
-                <span class="name"></span>
+                <span class="clubCode">{{ semiFinal2.redCompetitor.Participant.clubCode }}</span>
+                <span class="name">{{ semiFinal2.redCompetitor.Participant.fullName }}</span>
                 <span class="score"></span>
               </div>
             </div>
