@@ -96,6 +96,8 @@ export class TrainerRegistrationComponent implements OnInit {
       coachCi: club.coachCi,
       coachName: club.coachName,
     };
+    console.log(this.correntClubCode);
+    console.log(newClub);
     this.api
       .editClub(this.championshipId, this.correntClubCode, newClub)
       .subscribe((response: responseClubI) => {

@@ -34,7 +34,7 @@
         <tr *ngFor="let participant of participantsFilter" class="text-S">
           <td>
             <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [ngModel]="participant.lastNames">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.lastNames">
             </div>
             <div *ngIf="!participant.isEdit">
               {{ participant.lastNames }}
@@ -42,7 +42,7 @@
           </td>
           <td>
             <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [ngModel]="participant.firstNames">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.firstNames">
             </div>
             <div *ngIf="!participant.isEdit">
               {{ participant.firstNames }}
@@ -50,7 +50,7 @@
           </td>
           <td>
             <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [ngModel]="participant.age">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.age">
             </div>
             <div *ngIf="!participant.isEdit">
               {{ participant.age }}
@@ -58,7 +58,7 @@
           </td>
           <td>
             <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [ngModel]="participant.weight">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.weight">
             </div>
             <div *ngIf="!participant.isEdit">
               {{ participant.weight }}
@@ -66,7 +66,7 @@
           </td>
           <td>
             <div *ngIf="participant.isEdit">
-              <select class="form-select text-S" [ngModel]="participant.grade">
+              <select class="form-select text-S" [(ngModel)]="participant.grade">
                 <option [value]="'Franja Amarillo'">Franja Amarillo</option>
                 <option [value]="'Amarillo'">Amarillo</option>
                 <option [value]="'Franja Verde'">Franja Verde</option>
@@ -86,7 +86,7 @@
 
           <td>
             <div *ngIf="participant.isEdit">
-              <select class="form-select text-S" [ngModel]="participant.gender">
+              <select class="form-select text-S" [(ngModel)]="participant.gender">
                 <option [value]="'Masculino'">Masculino</option>
                 <option [value]="'Femenino'">Femenino</option>
               </select>
