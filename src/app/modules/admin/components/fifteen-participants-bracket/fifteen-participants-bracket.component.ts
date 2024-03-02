@@ -10,12 +10,13 @@ import {
 } from 'src/app/shared/models/match';
 import { joinNames } from '../../utils/joinCompetitorNames.utils';
 import { shuffleArray } from '../../utils/shuffleParticipants.utils';
+
 @Component({
-  selector: 'app-sixteen-participants-bracket',
-  templateUrl: './sixteen-participants-bracket.component.html',
-  styleUrls: ['./sixteen-participants-bracket.component.scss'],
+  selector: 'app-fifteen-participants-bracket',
+  templateUrl: './fifteen-participants-bracket.component.html',
+  styleUrls: ['./fifteen-participants-bracket.component.scss'],
 })
-export class SixteenParticipantsBracketComponent implements OnInit {
+export class FifteenParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
@@ -105,6 +106,7 @@ export class SixteenParticipantsBracketComponent implements OnInit {
         this.quarters4 = this.matchesWithCompetitors.find(
           (match) => match.round === 'quarters4'
         )!;
+        console.log(this.quarters4);
       });
   }
 
@@ -165,7 +167,7 @@ export class SixteenParticipantsBracketComponent implements OnInit {
     const eights8: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: bracketSort3[14].competitorId,
-      redCompetitorId: bracketSort3[15].competitorId,
+      redCompetitorId: bracketSort3[14].competitorId,
       round: 'eights8',
     };
     this.postMatch(eights8);
@@ -194,7 +196,7 @@ export class SixteenParticipantsBracketComponent implements OnInit {
     const quarters4: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: null,
-      redCompetitorId: null,
+      redCompetitorId: bracketSort3[14].competitorId,
       round: 'quarters4',
     };
     this.postMatch(quarters4);
@@ -287,6 +289,10 @@ export class SixteenParticipantsBracketComponent implements OnInit {
           }
         }
       }*/
+
+      if (currentMatch1?.matchId === this.eights8.matchId) {
+        this.editAdvance(competitor2Id, this.quarters4.matchId, 'red');
+      }
     }
 
     if (competitor1Id === currentMatch1?.blueCompetitorId) {
@@ -326,6 +332,10 @@ export class SixteenParticipantsBracketComponent implements OnInit {
           }
         }
       }*/
+
+      if (currentMatch2?.matchId === this.eights8.matchId) {
+        this.editAdvance(competitor1Id, this.quarters4.matchId, 'red');
+      }
     }
 
     if (competitor2Id === currentMatch2?.blueCompetitorId) {

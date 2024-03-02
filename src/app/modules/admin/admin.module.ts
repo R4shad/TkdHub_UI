@@ -19,6 +19,7 @@ import { NineParticipantsBracketComponent } from './components/nine-participants
 import { FiveParticipantsBracketComponent } from './components/five-participants-bracket/five-participants-bracket.component';
 import { SixParticipantsBracketComponent } from './components/six-participants-bracket/six-participants-bracket.component';
 import { SevenParticipantsBracketComponent } from './components/seven-participants-bracket/seven-participants-bracket.component';
+import { FifteenParticipantsBracketComponent } from './components/fifteen-participants-bracket/fifteen-participants-bracket.component';
 @NgModule({
   declarations: [
     TrainerRegistrationComponent,
@@ -38,6 +39,7 @@ import { SevenParticipantsBracketComponent } from './components/seven-participan
     FiveParticipantsBracketComponent,
     SixParticipantsBracketComponent,
     SevenParticipantsBracketComponent,
+    FifteenParticipantsBracketComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })
