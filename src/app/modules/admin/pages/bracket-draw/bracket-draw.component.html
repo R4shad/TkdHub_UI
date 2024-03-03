@@ -65,6 +65,9 @@
             <ng-container *ngIf="bracket.competitors.length === 11">
               <app-eleven-participants-bracket [bracket]="bracket"></app-eleven-participants-bracket>
             </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 10">
+              <app-ten-participants-bracket [bracket]="bracket"></app-ten-participants-bracket>
+            </ng-container>
           </div>
         </div>
       </div>
