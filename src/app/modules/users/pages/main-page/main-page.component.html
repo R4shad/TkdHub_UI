@@ -4,7 +4,7 @@
   <div class="rectangulo" *ngFor="let championship of championships"
     (click)="navigateToChampionship(championship.championshipId)">
     <div class="informacion">
-      <p class="titulo">{{championship.name}}</p>
+      <p class="titulo">{{championship.championshipName}}</p>
       <p class="descripcion">Organizador: {{championship.organizer}}</p>
       <p class="descripcion">Fecha del Campeonato: {{championship.championshipDate | date:'dd/MM/yyyy'}}</p>
     </div>

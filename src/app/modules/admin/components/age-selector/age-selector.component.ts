@@ -1,29 +1,18 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from 'src/app/core/services/api.service';
 import { agesI } from 'src/app/shared/models/ages';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { divisionI } from 'src/app/shared/models/division';
-import { Subscription } from 'rxjs';
-import { OnDestroy } from '@angular/core';
-import { ChampionshipI } from 'src/app/shared/models/Championship';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+
 @Component({
   selector: 'app-age-selector',
   templateUrl: './age-selector.component.html',
   styleUrls: ['./age-selector.component.scss'],
 })
 export class AgeSelectorComponent implements OnInit, OnDestroy {
-  championship!: ChampionshipI;
-  display = true;
-  agesAndDivisionRegistered: boolean = false;
-  modalRef?: NgbModalRef;
-  subscriptions: Subscription[] = [];
   ages: agesI[] = [];
-  ageSelected!: agesI;
-  divisions: divisionI[] = [];
-  errorMessage: string | null = null;
+  modalRef?: NgbModalRef;
 
   constructor(
     private api: ApiService,
@@ -31,90 +20,39 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute
   ) {}
+
   ngOnInit(): void {
     this.route.paramMap
       .pipe(
         switchMap((params) => {
           const championshipId: number = Number(params.get('championshipId'));
-
-          // Utiliza championshipId para hacer la solicitud al servicio
-          return this.api.getChampionshipInfo(championshipId);
+          return this.api.getAges();
         })
       )
       .subscribe((data) => {
-        this.championship = data;
-
-        this.api
-          .getChampionshipAges(this.championship.championshipId)
-          .subscribe((data) => {
-            if (data.length > 0) {
-              this.agesAndDivisionRegistered = true;
-            }
-          });
+        this.ages = data;
+        console.log(this.ages);
       });
+  }
 
-    this.verifyRegistered();
-    this.showAges();
+  ngOnDestroy() {
+    // Cualquier limpieza necesaria aquí
   }
 
   openModal(content: any) {
-    this.divisions = [];
-    const subscriptions: Subscription[] = [];
     this.modalRef = this.modalService.open(content);
-    for (const age of this.ages) {
-      const subscription = this.api.getDivisionsByAge(age.id).subscribe({
-        next: (data) => {
-          this.divisions.push(...data);
-          console.log('Divisiones obtenidas:', this.divisions);
-        },
-        error: (error) => {
-          console.error('Error al obtener divisiones:', error);
-        },
-      });
-      subscriptions.push(subscription);
-    }
   }
-  ngOnDestroy() {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
-  showAges() {
-    this.api.getAges().subscribe((data) => {
-      this.ages = data;
-    });
-  }
-  verifyRegistered() {}
+
   deleteAge(ageRemoved: agesI) {
-    this.ages = this.ages.filter((edad) => edad !== ageRemoved);
+    // Lógica para eliminar la edad seleccionada
   }
+
   defineWeight(age: agesI) {
-    this.ageSelected = age;
-    this.display = false;
+    // Lógica para definir el peso
   }
-  logAges() {}
+
   confirm() {
-    const championshipId = this.championship.championshipId;
-    for (const age of this.ages) {
-      this.api.postChampionshipAgeInterval(age, championshipId).subscribe({
-        next: (response) => {
-          console.log('Intervalo de edad agregado:', response);
-        },
-        error: (error) => {
-          console.error('Error al agregar intervalo de edad:', error);
-        },
-      });
-    }
-    for (const division of this.divisions) {
-      this.api.postChampionshipDivision(division, championshipId).subscribe({
-        next: (response) => {
-          console.log('Division agregada:', response);
-        },
-        error: (error) => {
-          console.error('Error al agregar la division:', error);
-        },
-      });
-    }
-    console.log('Cambios confirmados');
-    this.agesAndDivisionRegistered = true;
-    this.modalRef?.close();
+    // Lógica para confirmar los cambios
   }
+  editAge(age: any) {}
 }

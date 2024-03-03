@@ -2,10 +2,10 @@
   <div>
     <button (click)="goToLogin()">Ir a Login</button>
   </div>
-  <div class='championship-container'>
-    <h1>{{ championship?.name }}</h1>
-    <p class="descripcion">Organizador: {{ championship?.organizer }}</p>
-    <p class="descripcion">Fecha del Campeonato: {{ championship?.championshipDate | date:'dd/MM/yyyy' }}</p>
+  <div class='championship-container' *ngIf="championship">
+    <h1>{{ championship.championshipName }}</h1>
+    <p class="descripcion">Organizador: {{ championship.organizer }}</p>
+    <p class="descripcion">Fecha del Campeonato: {{ championship.championshipDate | date:'dd/MM/yyyy' }}</p>
 
   </div>
 </div>

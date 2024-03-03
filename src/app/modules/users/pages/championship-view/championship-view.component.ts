@@ -19,30 +19,17 @@ export class ChampionshipViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('OnInit called');
-
-    // Suscríbete a los cambios en los parámetros de la ruta
-    this.route.paramMap
-      .pipe(
-        switchMap((params) => {
-          // Obtén el championshipId del parámetro de la ruta
-          const championshipId: number = Number(params.get('championshipId'));
-
-          // Utiliza championshipId para hacer la solicitud al servicio
-          return this.api.getChampionshipInfo(championshipId);
-        })
-      )
-      .subscribe((data) => {
+    this.route.paramMap.subscribe((params) => {
+      const championshipId: number = Number(params.get('championshipId'));
+      this.api.getChampionshipInfo(championshipId).subscribe((data) => {
         this.championship = data;
         console.log(this.championship);
       });
+    });
   }
 
   goToLogin() {
-    // Obtén el championshipId del campeonato actual
-    const championshipId = this.championship.championshipId; // Asegúrate de tener la propiedad correcta que almacena el id
-
-    // Navega a la ruta http://localhost:4200/championship/8/login
+    const championshipId = this.championship.championshipId;
     this.router.navigate(['/championship', championshipId, 'login']);
   }
 }

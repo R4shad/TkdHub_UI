@@ -1,12 +1,9 @@
 export interface ChampionshipI {
   championshipId: number;
-  name: string;
+  championshipName: string;
   organizer: string;
-  password: string | null;
   active: boolean;
-  championshipDate: string; // Puedes cambiar este tipo según el formato real de fecha que recibas
-  createdAt: string; // Puedes cambiar este tipo según el formato real de fecha que recibas
-  updatedAt: string; // Puedes cambiar este tipo según el formato real de fecha que recibas
+  championshipDate: string;
 }
 export interface responseChampionshipsI {
   status: number;
