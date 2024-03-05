@@ -5,6 +5,15 @@ export interface ChampionshipI {
   active: boolean;
   championshipDate: string;
 }
+
+export interface ChampionshipToPostI {
+  championshipName: string;
+  organizer: string;
+  organizerCi: number;
+  organizerPassword: string;
+  championshipDate: string;
+}
+
 export interface responseChampionshipsI {
   status: number;
   data: ChampionshipI[];

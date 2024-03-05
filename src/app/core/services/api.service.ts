@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { OrganizerI } from 'src/app/shared/models/Organizer';
 import {
   ChampionshipI,
+  ChampionshipToPostI,
   responseChampionshipI,
   responseChampionshipsI,
 } from 'src/app/shared/models/Championship';
@@ -200,6 +201,7 @@ export class ApiService {
       championshipAgeInterval
     );
   }
+
   postChampionshipDivision(
     division: divisionI,
     championshipId: number
@@ -527,6 +529,13 @@ export class ApiService {
   editMatch(matchId: number, matchEdited: any): Observable<responseMatchI> {
     let direccion = this.APIurl + 'match/' + matchId;
     return this.http.patch<responseMatchI>(direccion, matchEdited);
+  }
+
+  createChampionship(
+    newChampionship: ChampionshipToPostI
+  ): Observable<responseChampionshipI> {
+    let direccion = this.APIurl + 'championship';
+    return this.http.post<responseChampionshipI>(direccion, newChampionship);
   }
 }
 

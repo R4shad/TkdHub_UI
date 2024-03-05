@@ -14,8 +14,12 @@ import { LoginComponent } from './modules/users/pages/login/login.component';
 
 import { ChampionshipSummaryComponent } from './modules/admin/pages/championship-summary/championship-summary.component';
 import { ParticipantValidationComponent } from './modules/admin/pages/participant-validation/participant-validation.component';
-
+import { ChampionshipCreatorComponent } from './modules/admin/pages/championship-creator/championship-creator.component';
 const routes: Routes = [
+  {
+    path: 'Rashad/crearCampeonato',
+    component: ChampionshipCreatorComponent,
+  },
   {
     path: 'Registro-Clubes',
     component: TrainerRegistrationComponent,
