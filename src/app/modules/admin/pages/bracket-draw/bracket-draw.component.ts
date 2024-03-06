@@ -46,7 +46,9 @@ export class BracketDrawComponent implements OnInit {
       .subscribe((data) => {
         this.divisions = data;
         for (const division of this.divisions) {
-          this.api.getDivisionData(division.divisionName).subscribe((data) => {
+          this.api.getDivisionData(division.divisionId).subscribe((data) => {
+            console.log(data);
+            console.log(data.ageIntervalId);
             division.ageIntervalId = data.ageIntervalId;
             division.gender = data.gender;
             division.grouping = data.grouping;
@@ -59,7 +61,7 @@ export class BracketDrawComponent implements OnInit {
 
   getBracketGrouping(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
-      (div) => div.divisionName === bracket.divisionName
+      (div) => div.divisionId === bracket.divisionId
     );
     if (matchingDivision) {
       return matchingDivision.grouping;
@@ -68,7 +70,7 @@ export class BracketDrawComponent implements OnInit {
   }
   getBracketMinWeightInterval(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
-      (div) => div.divisionName === bracket.divisionName
+      (div) => div.divisionId === bracket.divisionId
     );
     if (matchingDivision) {
       return matchingDivision.minWeight;
@@ -77,7 +79,7 @@ export class BracketDrawComponent implements OnInit {
   }
   getBracketMaxWeightInterval(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
-      (div) => div.divisionName === bracket.divisionName
+      (div) => div.divisionId === bracket.divisionId
     );
     if (matchingDivision) {
       return matchingDivision.maxWeight;

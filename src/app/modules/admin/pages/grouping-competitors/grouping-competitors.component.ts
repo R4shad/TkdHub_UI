@@ -63,7 +63,6 @@ export class GroupingCompetitorsComponent implements OnInit {
       .getBracketsWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
-        console.log(this.brackets);
       });
 
     this.api
@@ -77,7 +76,7 @@ export class GroupingCompetitorsComponent implements OnInit {
       .subscribe((data) => {
         this.divisions = data;
         for (const division of this.divisions) {
-          this.api.getDivisionData(division.divisionName).subscribe((data) => {
+          this.api.getDivisionData(division.divisionId).subscribe((data) => {
             division.ageIntervalId = data.ageIntervalId;
             division.gender = data.gender;
             division.grouping = data.grouping;
@@ -99,8 +98,8 @@ export class GroupingCompetitorsComponent implements OnInit {
 
         if (competitorsInDivision.length >= 2) {
           const bracket: bracketWithCompetitorsToPostI = {
-            categoryName: category.categoryName,
-            divisionName: division.divisionName,
+            categoryId: category.categoryId,
+            divisionId: division.divisionId,
             championshipId: this.championshipId,
             competitors: competitorsInDivision,
           };
@@ -108,7 +107,6 @@ export class GroupingCompetitorsComponent implements OnInit {
           this.api
             .postBracket(bracket)
             .subscribe((response: responseBracketWithCompetitorI) => {
-              console.log(response);
               this.brackets.push(response.data);
             });
         }
@@ -118,7 +116,7 @@ export class GroupingCompetitorsComponent implements OnInit {
 
   getBracketGrouping(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
-      (div) => div.divisionName === bracket.divisionName
+      (div) => div.divisionId === bracket.divisionId
     );
     if (matchingDivision) {
       return matchingDivision.grouping;
@@ -127,7 +125,7 @@ export class GroupingCompetitorsComponent implements OnInit {
   }
   getBracketMinWeightInterval(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
-      (div) => div.divisionName === bracket.divisionName
+      (div) => div.divisionId === bracket.divisionId
     );
     if (matchingDivision) {
       return matchingDivision.minWeight;
@@ -136,7 +134,7 @@ export class GroupingCompetitorsComponent implements OnInit {
   }
   getBracketMaxWeightInterval(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
-      (div) => div.divisionName === bracket.divisionName
+      (div) => div.divisionId === bracket.divisionId
     );
     if (matchingDivision) {
       return matchingDivision.maxWeight;

@@ -423,8 +423,8 @@ export class ApiService {
     );
   }
 
-  getDivisionData(divisionName: string): Observable<divisionI> {
-    let direccion = this.APIurl + 'division/data/' + divisionName;
+  getDivisionData(divisionId: number): Observable<divisionI> {
+    let direccion = this.APIurl + 'division/data/' + divisionId;
     return this.http.get<responseDivisionI>(direccion).pipe(
       map((response: responseDivisionI) => {
         return response.data;
