@@ -1,4 +1,5 @@
 export interface categoryI {
+  categoryId: number;
   categoryName: string;
   gradeMin: string;
   gradeMax: string;
@@ -6,6 +7,7 @@ export interface categoryI {
 }
 
 export interface categoryWithNumericValueI {
+  categoryId: number;
   categoryName: string;
   gradeMin: number;
   gradeMax: number;

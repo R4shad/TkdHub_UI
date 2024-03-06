@@ -93,8 +93,8 @@ export class GroupingCompetitorsComponent implements OnInit {
       for (const division of this.divisions) {
         const competitorsInDivision = this.competitors.filter(
           (competitor) =>
-            competitor.divisionName === division.divisionName &&
-            competitor.categoryName === category.categoryName
+            competitor.divisionId === division.divisionId &&
+            competitor.categoryId === category.categoryId
         );
 
         if (competitorsInDivision.length >= 2) {

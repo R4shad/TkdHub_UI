@@ -20,7 +20,7 @@
       <select class="form-select-sm" id="filtroEdad" [formControl]="filtroEdad" (change)="filter()">
         <option value="Todos">Todos</option>
         <!-- Iterar sobre los intervalos de edades -->
-        <option *ngFor="let intervalo of ageIntervals" [value]="intervalo.id">
+        <option *ngFor="let intervalo of ageIntervals" [value]="intervalo.ageIntervalId">
           {{ intervalo.ageIntervalName }} ({{ intervalo.minAge }} - {{ intervalo.maxAge }})
         </option>
       </select>
@@ -39,6 +39,8 @@
       </select>
     </div>
     <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
+    <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="verificateAll()">Confirmar
+      Todos</button>
   </div>
 </div>
 <div class="row col-12">

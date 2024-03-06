@@ -29,22 +29,19 @@ export function obtenerValorNumerico(grado: string): number {
   }
 }
 
-export function getCompetitoryCategory(
+export function getCompetitoryCategoryId(
   championshipCategories: categoryWithNumericValueI[],
   gradoParticipante: number
-): string {
-  console.log('en funcions');
-  console.log(championshipCategories);
-  console.log(gradoParticipante);
+): number {
   for (const categoria of championshipCategories) {
     if (
       gradoParticipante >= categoria.gradeMin &&
       gradoParticipante <= categoria.gradeMax
     ) {
-      return categoria.categoryName;
+      return categoria.categoryId;
     }
   }
-  return '';
+  return 0;
 }
 
 export function getCompetitorAgeIntervalId(
@@ -53,18 +50,18 @@ export function getCompetitorAgeIntervalId(
 ): number {
   for (const ageInterval of championshipAgeIntrevals) {
     if (age >= ageInterval.minAge && age <= ageInterval.maxAge) {
-      return ageInterval.id;
+      return ageInterval.ageIntervalId;
     }
   }
   return 0;
 }
 
-export function getCompetitorDivisionName(
+export function getCompetitorDivisionId(
   championshipDivisions: divisionI[],
   ageIntervalId: number,
   competitorWeight: number,
   competitorGender: string
-): string {
+): number {
   const filteredDivisions = championshipDivisions.filter(
     (division) =>
       division.ageIntervalId === ageIntervalId &&
@@ -75,8 +72,8 @@ export function getCompetitorDivisionName(
       competitorWeight >= division.minWeight &&
       competitorWeight <= division.maxWeight
     ) {
-      return division.divisionName;
+      return division.divisionId;
     }
   }
-  return '';
+  return 0;
 }

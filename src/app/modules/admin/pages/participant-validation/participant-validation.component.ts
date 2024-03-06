@@ -17,9 +17,9 @@ import { clubI } from 'src/app/shared/models/Club';
 import { FormControl } from '@angular/forms';
 import {
   obtenerValorNumerico,
-  getCompetitoryCategory,
+  getCompetitoryCategoryId,
   getCompetitorAgeIntervalId,
-  getCompetitorDivisionName,
+  getCompetitorDivisionId,
 } from './../../utils/participantValidation.utils';
 @Component({
   selector: 'app-participant-validation',
@@ -84,6 +84,7 @@ export class ParticipantValidationComponent implements OnInit {
         this.categories = data;
         for (const category of data) {
           this.categoriesWithNumericValue.push({
+            categoryId: category.categoryId,
             categoryName: category.categoryName,
             gradeMin: obtenerValorNumerico(category.gradeMin),
             gradeMax: obtenerValorNumerico(category.gradeMax),
@@ -98,7 +99,7 @@ export class ParticipantValidationComponent implements OnInit {
       .subscribe((data) => {
         const gradoParticipante = obtenerValorNumerico(participant.grade);
 
-        const competitoryCategory: string = getCompetitoryCategory(
+        const competitorCategoryId: number = getCompetitoryCategoryId(
           this.categoriesWithNumericValue,
           gradoParticipante
         );
@@ -106,7 +107,7 @@ export class ParticipantValidationComponent implements OnInit {
           this.ageIntervals,
           participant.age
         );
-        const competitorDivision: string = getCompetitorDivisionName(
+        const competitorDivisionId: number = getCompetitorDivisionId(
           this.divisions,
           ageIntervalId,
           participant.weight,
@@ -115,8 +116,8 @@ export class ParticipantValidationComponent implements OnInit {
         let newCompetitor: competitorI = {
           participantId: participant.id,
           championshipId: this.championshipId,
-          divisionName: competitorDivision,
-          categoryName: competitoryCategory,
+          divisionId: competitorDivisionId,
+          categoryId: competitorCategoryId,
         };
         this.api
           .postCompetitor(newCompetitor, this.championshipId)
@@ -128,13 +129,19 @@ export class ParticipantValidationComponent implements OnInit {
               this.api
                 .incrementCategoryAndDivision(
                   this.championshipId,
-                  competitorDivision,
-                  competitoryCategory
+                  competitorDivisionId,
+                  competitorCategoryId
                 )
                 .subscribe((response: responseI[]) => {});
             }
           });
       });
+  }
+
+  verificateAll() {
+    this.participants.forEach((participant) => {
+      this.verificateParticipant(participant);
+    });
   }
 
   filter() {
@@ -145,7 +152,7 @@ export class ParticipantValidationComponent implements OnInit {
 
     const ageFilterNumber = parseInt(ageFilter, 10);
     const intervalEncontrado = this.ageIntervals.find(
-      (interval) => interval.id === ageFilterNumber
+      (interval) => interval.ageIntervalId === ageFilterNumber
     );
     if (
       genderFilter === 'Todos' &&
@@ -178,7 +185,7 @@ export class ParticipantValidationComponent implements OnInit {
 
       // Filtrar las divisiones basadas en el ageIntervalId seleccionado
       this.divisionsFilter = this.divisions.filter((division) => {
-        return division.ageIntervalId === intervalEncontrado!.id;
+        return division.ageIntervalId === intervalEncontrado!.ageIntervalId;
       });
     }
   }

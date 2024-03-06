@@ -4,6 +4,10 @@ import { agesI } from 'src/app/shared/models/ages';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+interface agesEI extends agesI {
+  isEdit: boolean;
+}
 
 @Component({
   selector: 'app-age-selector',
@@ -11,7 +15,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./age-selector.component.scss'],
 })
 export class AgeSelectorComponent implements OnInit, OnDestroy {
-  ages: agesI[] = [];
+  ages: agesEI[] = [];
   modalRef?: NgbModalRef;
 
   constructor(
@@ -26,12 +30,11 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((params) => {
           const championshipId: number = Number(params.get('championshipId'));
-          return this.api.getAges();
+          return this.api.getChampionshipAges(championshipId);
         })
       )
       .subscribe((data) => {
-        this.ages = data;
-        console.log(this.ages);
+        this.ages = data.map((age) => ({ ...age, isEdit: false }));
       });
   }
 
@@ -43,16 +46,30 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.open(content);
   }
 
-  deleteAge(ageRemoved: agesI) {
-    // Lógica para eliminar la edad seleccionada
+  deleteAge(ageRemoved: agesEI) {
+    this.ages = this.ages.filter((age) => age !== ageRemoved);
   }
 
-  defineWeight(age: agesI) {
+  defineWeight(age: agesEI) {
     // Lógica para definir el peso
   }
 
   confirm() {
     // Lógica para confirmar los cambios
   }
-  editAge(age: any) {}
+
+  onEdit(age: agesEI) {
+    this.ages.forEach((age) => {
+      age.isEdit = false;
+    });
+    age.isEdit = true;
+  }
+
+  cancelEdit(age: agesEI) {
+    age.isEdit = false;
+  }
+
+  confirmEdit(age: agesEI) {
+    // Lógica para confirmar la edición de la edad
+  }
 }

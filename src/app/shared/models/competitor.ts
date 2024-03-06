@@ -1,15 +1,15 @@
 export interface competitorI {
   participantId: number;
   championshipId: number;
-  divisionName: string;
-  categoryName: string;
+  divisionId: number;
+  categoryId: number;
 }
 
 export interface completeCompetitorI {
   participantId: string;
   competitorId: string;
-  divisionName: string;
-  categoryName: string;
+  divisionId: number;
+  categoryId: number;
   Participant: {
     clubCode: string;
     firstNames: string;

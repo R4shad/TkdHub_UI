@@ -1,4 +1,5 @@
 export interface divisionI {
+  divisionId: number;
   divisionName: string;
   ageIntervalId: number;
   minWeight: number;

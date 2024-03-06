@@ -28,20 +28,22 @@ export class WeightSelectorComponent implements OnInit {
   }
 
   getDivision() {
-    this.api.getDivisionsByAge(this.ageInterval.id).subscribe((data) => {
-      this.divisions = data;
+    this.api
+      .getDivisionsByAge(this.ageInterval.ageIntervalId)
+      .subscribe((data) => {
+        this.divisions = data;
 
-      // Filtrar las divisiones según el género
-      this.divisionsF = this.divisions.filter(
-        (division) => division.gender === 'Femenino'
-      );
+        // Filtrar las divisiones según el género
+        this.divisionsF = this.divisions.filter(
+          (division) => division.gender === 'Femenino'
+        );
 
-      this.divisionsM = this.divisions.filter(
-        (division) => division.gender === 'Masculino'
-      );
+        this.divisionsM = this.divisions.filter(
+          (division) => division.gender === 'Masculino'
+        );
 
-      // Una vez que los datos están listos, establecer dataLoaded en true
-      this.dataLoaded = true;
-    });
+        // Una vez que los datos están listos, establecer dataLoaded en true
+        this.dataLoaded = true;
+      });
   }
 }

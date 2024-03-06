@@ -169,7 +169,7 @@ export class ApiService {
     let direccion = this.APIurl + 'club/' + championshipId;
     return this.http.post<responseClubI>(direccion, nuevoClub);
   }
-
+  /*
   getAges(): Observable<agesI[]> {
     let direccion = this.APIurl + 'ageInterval';
     return this.http.get<responseAgesI>(direccion).pipe(
@@ -177,7 +177,7 @@ export class ApiService {
         return response.data;
       })
     );
-  }
+  }*/
 
   getDivisionsByAge(ageIntervalId: number): Observable<divisionI[]> {
     let direccion = this.APIurl + 'division/ages/' + ageIntervalId;
@@ -193,9 +193,9 @@ export class ApiService {
     championshipId: number
   ): Observable<responseChampionshipAgesI> {
     let championshipAgeInterval: championshipAgesI = {
-      ageIntervalId: ageInterval.id,
+      ageIntervalId: ageInterval.ageIntervalId,
     };
-    let direccion = this.APIurl + 'championshipAgeInterval/' + championshipId;
+    let direccion = this.APIurl + 'ageInterval/' + championshipId;
     return this.http.post<responseChampionshipAgesI>(
       direccion,
       championshipAgeInterval
@@ -209,7 +209,7 @@ export class ApiService {
     let championshipAgeInterval: championshipDivisionI = {
       divisionName: division.divisionName,
     };
-    let direccion = this.APIurl + 'championshipDivision/' + championshipId;
+    let direccion = this.APIurl + 'division/' + championshipId;
     return this.http.post<responseChampionshipDivisionI>(
       direccion,
       championshipAgeInterval
@@ -217,7 +217,7 @@ export class ApiService {
   }
 
   getChampionshipAges(championshipId: number): Observable<agesI[]> {
-    let direccion = this.APIurl + 'championshipAgeInterval/' + championshipId;
+    let direccion = this.APIurl + 'ageInterval/' + championshipId;
     return this.http.get<responseAgesI>(direccion).pipe(
       map((response: responseAgesI) => {
         return response.data;
@@ -235,7 +235,7 @@ export class ApiService {
   }
 
   getChampionshipCategory(championshipId: number): Observable<categoryI[]> {
-    let direccion = this.APIurl + 'championshipCategory/' + championshipId;
+    let direccion = this.APIurl + 'category/' + championshipId;
     return this.http.get<responseCategoryI>(direccion).pipe(
       map((response: responseCategoryI) => {
         return response.data;
@@ -250,7 +250,7 @@ export class ApiService {
     let championshipAgeInterval: championshipCategoryI = {
       categoryName: category.categoryName,
     };
-    let direccion = this.APIurl + 'championshipCategory/' + championshipId;
+    let direccion = this.APIurl + 'category/' + championshipId;
     return this.http.post<responseChampionshipCategoryI>(
       direccion,
       championshipAgeInterval
@@ -305,27 +305,20 @@ export class ApiService {
     competitor: competitorI,
     championshipId: number
   ): Observable<responseCompetitorI> {
+    console.log(competitor);
     let direccion = this.APIurl + 'competitor/' + championshipId;
     return this.http.post<responseCompetitorI>(direccion, competitor);
   }
 
   incrementCategoryAndDivision(
     championshipId: number,
-    divisionName: string,
-    categoryName: string
+    divisionId: number,
+    categoryId: number
   ): Observable<responseI[]> {
     let direccionDivision =
-      this.APIurl +
-      'championshipDivision/increment/' +
-      championshipId +
-      '/' +
-      divisionName;
+      this.APIurl + 'division/increment/' + championshipId + '/' + divisionId;
     let direccionCategory =
-      this.APIurl +
-      'championshipCategory/increment/' +
-      championshipId +
-      '/' +
-      categoryName;
+      this.APIurl + 'category/increment/' + championshipId + '/' + categoryId;
     let responses: responseI[] = [];
 
     const requestDivision = this.http.put<responseI>(direccionDivision, {});
@@ -388,10 +381,14 @@ export class ApiService {
 
   verifyParticipant(
     ChampionshipId: number,
-    participantCi: number
+    participantId: number
   ): Observable<responseI> {
     let direccion =
-      this.APIurl + 'participant/' + ChampionshipId + '/' + participantCi;
+      this.APIurl +
+      'participant/validate/' +
+      ChampionshipId +
+      '/' +
+      participantId;
     return this.http.patch<responseI>(direccion, {}).pipe(
       map((response: responseI) => {
         return response;
@@ -448,10 +445,7 @@ export class ApiService {
     championshipId: number
   ): Observable<categoryI[]> {
     let direccion =
-      this.APIurl +
-      'championshipCategory/' +
-      championshipId +
-      '/withCompetitors';
+      this.APIurl + 'category/' + championshipId + '/withCompetitors';
     return this.http.get<responseCategoryI>(direccion).pipe(
       map((response: responseCategoryI) => {
         return response.data;
@@ -461,10 +455,7 @@ export class ApiService {
 
   getDivisionsWithCompetitors(championshipId: number): Observable<divisionI[]> {
     let direccion =
-      this.APIurl +
-      'championshipDivision/' +
-      championshipId +
-      '/withCompetitors';
+      this.APIurl + 'division/' + championshipId + '/withCompetitors';
     return this.http.get<responseDivisionsI>(direccion).pipe(
       map((response: responseDivisionsI) => {
         return response.data;

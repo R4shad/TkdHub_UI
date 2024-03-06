@@ -117,6 +117,7 @@ export class CompetitorViewComponent implements OnInit {
   }
 
   confirmEdit(participant: ParticipantEI) {
+    console.log(participant);
     const newParticipant: participantToEditI = {
       lastNames: participant.lastNames,
       firstNames: participant.firstNames,
@@ -125,10 +126,11 @@ export class CompetitorViewComponent implements OnInit {
       grade: participant.grade,
       gender: participant.gender,
     };
-
+    console.log(newParticipant);
     this.api
       .editParticipant(this.championshipId, participant.id, newParticipant)
       .subscribe((response: responseParticipantToEditI) => {
+        console.log(response.data);
         if (response.status == 200) {
           alert('Editado correctamente');
           participant.isEdit = false;
