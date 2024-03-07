@@ -40,6 +40,7 @@ export class BracketDrawComponent implements OnInit {
       .getBracketsWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
+        console.log(this.brackets);
       });
     this.api
       .getDivisionsWithCompetitors(this.championshipId)
@@ -47,8 +48,6 @@ export class BracketDrawComponent implements OnInit {
         this.divisions = data;
         for (const division of this.divisions) {
           this.api.getDivisionData(division.divisionId).subscribe((data) => {
-            console.log(data);
-            console.log(data.ageIntervalId);
             division.ageIntervalId = data.ageIntervalId;
             division.gender = data.gender;
             division.grouping = data.grouping;

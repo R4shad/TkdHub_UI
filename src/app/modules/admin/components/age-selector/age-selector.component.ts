@@ -17,7 +17,8 @@ interface agesEI extends agesI {
 export class AgeSelectorComponent implements OnInit, OnDestroy {
   ages: agesEI[] = [];
   modalRef?: NgbModalRef;
-
+  display = true;
+  ageSelected!: agesI;
   constructor(
     private api: ApiService,
     private modalService: NgbModal,
@@ -50,8 +51,9 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
     this.ages = this.ages.filter((age) => age !== ageRemoved);
   }
 
-  defineWeight(age: agesEI) {
-    // Lógica para definir el peso
+  seeWeights(age: agesEI) {
+    this.ageSelected = age;
+    this.display = false;
   }
 
   confirm() {

@@ -17,10 +17,11 @@
             (- {{getBracketMaxWeightInterval(bracket)}} Kg)
           </p>
           <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)!=0">
-            ({{getBracketMinWeightInterval(bracket)}} -C
+            ({{getBracketMinWeightInterval(bracket)}} -
             {{getBracketMaxWeightInterval(bracket)}} Kg)
           </p>
           <p class="text-M">{{ bracket.categoryName}}</p>
+          <p class="text-M">{{ bracket.competitors[0].Participant.gender}}</p>
           <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
         </div>
         <div>

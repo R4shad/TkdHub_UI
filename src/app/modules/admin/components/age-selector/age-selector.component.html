@@ -1,65 +1,68 @@
-<div class="col-12">
-  <div class="participants mt-4 mb-2">
-    <p class="cant">Cantidad de Edades: {{ ages.length }}</p>
+<div *ngIf="display">
+  <div class="col-12">
+    <div class="participants mt-4 mb-2">
+      <p class="cant">Cantidad de Edades: {{ ages.length }}</p>
+    </div>
+  </div>
+
+  <div class="row col-12 ">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr class="bg text-white">
+            <th>Edad</th>
+            <th>Rango menor</th>
+            <th>Rango mayor</th>
+            <th>Ver Pesos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let age of ages" class="text-S">
+            <td>
+              <div *ngIf="age.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="age.ageIntervalName">
+              </div>
+              <div *ngIf="!age.isEdit">
+                {{ age.ageIntervalName }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="age.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="age.minAge">
+              </div>
+              <div *ngIf="!age.isEdit">
+                {{ age.minAge }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="age.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="age.maxAge">
+              </div>
+              <div *ngIf="!age.isEdit">
+                {{ age.maxAge == 100 ? '+' : age.maxAge }}
+              </div>
+            </td>
+            <td>
+              <button class="btn btn-primary" (click)="seeWeights(age)">Ver Pesos</button>
+            </td>
+            <td class="text-center">
+              <div *ngIf="!age.isEdit">
+                <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(age)"></i>
+                <i class="fa fa-trash" aria-hidden="true" (click)="deleteAge(age)"></i>
+              </div>
+              <div *ngIf="age.isEdit">
+                <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(age)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(age)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
-<div class="row col-12 ">
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered">
-      <thead>
-        <tr class="bg text-white">
-          <th>Edad</th>
-          <th>Rango menor</th>
-          <th>Rango mayor</th>
-          <th>Ver Pesos</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let age of ages" class="text-S">
-          <td>
-            <div *ngIf="age.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="age.ageIntervalName">
-            </div>
-            <div *ngIf="!age.isEdit">
-              {{ age.ageIntervalName }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="age.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="age.minAge">
-            </div>
-            <div *ngIf="!age.isEdit">
-              {{ age.minAge }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="age.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="age.maxAge">
-            </div>
-            <div *ngIf="!age.isEdit">
-              {{ age.maxAge == 100 ? '+' : age.maxAge }}
-            </div>
-          </td>
-          <td>
-            <button class="btn btn-primary" (click)="defineWeight(age)">Ver Pesos</button>
-          </td>
-          <td class="text-center">
-            <div *ngIf="!age.isEdit">
-              <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(age)"></i>
-              <i class="fa fa-trash" aria-hidden="true" (click)="deleteAge(age)"></i>
-            </div>
-            <div *ngIf="age.isEdit">
-              <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(age)"></i>
-              <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(age)"></i>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 
 <ng-template #modalContent let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -77,5 +80,10 @@
     </div>
   </div>
 </ng-template>
+
+<div>
+  <app-weight-selector *ngIf="!display" [ageInterval]="ageSelected" (returnToAgeSelector)="display = true">
+  </app-weight-selector>
+</div>
 
 <button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>

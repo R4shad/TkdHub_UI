@@ -28,6 +28,7 @@ export class WeightSelectorComponent implements OnInit {
   }
 
   getDivision() {
+    console.log(this.ageInterval.ageIntervalId);
     this.api
       .getDivisionsByAge(this.ageInterval.ageIntervalId)
       .subscribe((data) => {
@@ -44,6 +45,9 @@ export class WeightSelectorComponent implements OnInit {
 
         // Una vez que los datos están listos, establecer dataLoaded en true
         this.dataLoaded = true;
+        console.log(this.divisions);
+        console.log(this.divisionsF);
+        console.log(this.divisionsM);
       });
   }
 }
