@@ -24,6 +24,7 @@ import {
   responseChampionshipAgesI,
   championshipAgesI,
   responseAgeI,
+  ageToEditI,
 } from 'src/app/shared/models/ages';
 import {
   championshipDivisionI,
@@ -290,6 +291,16 @@ export class ApiService {
     let direccion =
       this.APIurl + 'participant/' + championshipId + '/' + participantId;
     return this.http.patch<responseParticipantToEditI>(direccion, participant);
+  }
+
+  editAge(
+    championshipId: number,
+    ageIntervalId: number,
+    age: ageToEditI
+  ): Observable<responseAgeI> {
+    let direccion =
+      this.APIurl + 'ageInterval/' + championshipId + '/' + ageIntervalId;
+    return this.http.patch<responseAgeI>(direccion, age);
   }
 
   editClub(

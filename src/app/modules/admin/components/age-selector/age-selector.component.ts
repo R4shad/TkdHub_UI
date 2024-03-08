@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from 'src/app/core/services/api.service';
-import { agesI } from 'src/app/shared/models/ages';
+import { ageToEditI, agesI, responseAgeI } from 'src/app/shared/models/ages';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ interface agesEI extends agesI {
   templateUrl: './age-selector.component.html',
   styleUrls: ['./age-selector.component.scss'],
 })
-export class AgeSelectorComponent implements OnInit, OnDestroy {
+export class AgeSelectorComponent implements OnInit {
   ages: agesEI[] = [];
   modalRef?: NgbModalRef;
   display = true;
@@ -39,10 +39,6 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    // Cualquier limpieza necesaria aquí
-  }
-
   openModal(content: any) {
     this.modalRef = this.modalService.open(content);
   }
@@ -56,9 +52,7 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
     this.display = false;
   }
 
-  confirm() {
-    // Lógica para confirmar los cambios
-  }
+  confirm() {}
 
   onEdit(age: agesEI) {
     this.ages.forEach((age) => {
@@ -72,6 +66,21 @@ export class AgeSelectorComponent implements OnInit, OnDestroy {
   }
 
   confirmEdit(age: agesEI) {
-    // Lógica para confirmar la edición de la edad
+    console.log(age);
+    const newAge: ageToEditI = {
+      ageIntervalName: age.ageIntervalName,
+      minAge: age.minAge,
+      maxAge: age.maxAge,
+    };
+    console.log(newAge);
+    this.api
+      .editAge(age.championshipId, age.ageIntervalId, newAge)
+      .subscribe((response: responseAgeI) => {
+        console.log(response.data);
+        if (response.status == 200) {
+          alert('Editado correctamente');
+          age.isEdit = false;
+        }
+      });
   }
 }

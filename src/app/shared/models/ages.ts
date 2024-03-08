@@ -1,5 +1,12 @@
 export interface agesI {
+  championshipId: number;
   ageIntervalId: number;
+  ageIntervalName: string;
+  minAge: number;
+  maxAge: number;
+}
+
+export interface ageToEditI {
   ageIntervalName: string;
   minAge: number;
   maxAge: number;
