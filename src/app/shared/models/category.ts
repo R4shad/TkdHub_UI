@@ -1,5 +1,13 @@
 export interface categoryI {
+  championshipId: number;
   categoryId: number;
+  categoryName: string;
+  gradeMin: string;
+  gradeMax: string;
+  numberOfCompetitors: number;
+}
+
+export interface categoryToEditI {
   categoryName: string;
   gradeMin: string;
   gradeMax: string;

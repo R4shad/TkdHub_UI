@@ -1,17 +1,39 @@
-<div *ngIf="!categoryRegistered" class='ages-selector-container'>
-  <h1>Categorías que participarán en el Campeonato</h1>
-  <div class="rectangulo" *ngFor="let category of categories" id="{{category.categoryName}}">
-    <div class="informacion">
-      <p class="titulo">{{category.categoryName}}</p>
-      <p class="descripcion">{{ category.gradeMin }} - {{ category.gradeMax }}</p>
-    </div>
-    <div class="botones">
-      <button class="boton-cuadrado" (click)="eliminarCategoria(category)">
-        <img class="icono-boton" src="./../../../assets/eliminar.png" alt="Eliminar">
-      </button>
+<div>
+  <div class="col-12">
+    <h2 class="title">Define las Categorias</h2>
+  </div>
+
+  <div class="row col-12 ">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr class="bg text-white">
+            <th>Nombre</th>
+            <th>Grado Mínimo</th>
+            <th>Grado Máximo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categories" class="text-S">
+            <td>{{ category.categoryName }}</td>
+            <td>{{ category.gradeMin }}</td>
+            <td>{{ category.gradeMax }}</td>
+            <td class="text-center">
+              <div *ngIf="!category.isEdit">
+                <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(category)"></i>
+                <i class="fa fa-trash" aria-hidden="true" (click)="deleteCategory(category)"></i>
+              </div>
+              <div *ngIf="category.isEdit">
+                <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(category)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(category)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  <button class="btn btn-primary" (click)="imprimirCategorias(modalContent)">Confirmar</button>
 </div>
 
 <ng-template #modalContent let-c="close" let-d="dismiss">
@@ -21,7 +43,7 @@
   <div class="modal-body">
     <div class='form-input-container'>
       <div class='description'>
-        <label>Verifique que las categorias estén correctos. No se podrán hacer modificaciones.</label>
+        <label>Verifique que los intervalos de edades estén correctos. No se podrán hacer modificaciones.</label>
       </div>
       <div class="botones">
         <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
@@ -30,6 +52,5 @@
     </div>
   </div>
 </ng-template>
-<div *ngIf="categoryRegistered">
-  <p>CATEGORIAS YA REGISTRADAS</p>
-</div>
+
+<button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>

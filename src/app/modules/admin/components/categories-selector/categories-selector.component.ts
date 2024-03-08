@@ -1,11 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../../../core/services/api.service';
-import { categoryI } from '../../../../shared/models/category';
+import {
+  categoryI,
+  categoryToEditI,
+  responseCategoryI,
+} from '../../../../shared/models/category';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ChampionshipI } from 'src/app/shared/models/Championship';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+
+interface categoryEI extends categoryI {
+  isEdit: boolean;
+}
+
 @Component({
   selector: 'app-categories-selector',
   templateUrl: './categories-selector.component.html',
@@ -13,7 +22,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class CategoriesSelectorComponent implements OnInit {
   championship!: ChampionshipI;
-  categories: categoryI[] = [];
+  categories: categoryEI[] = [];
   modalRef?: NgbModalRef;
   categoryRegistered: boolean = false;
   constructor(
@@ -28,36 +37,26 @@ export class CategoriesSelectorComponent implements OnInit {
       .pipe(
         switchMap((params) => {
           const championshipId: number = Number(params.get('championshipId'));
-          return this.api.getChampionshipInfo(championshipId);
+          return this.api.getChampionshipCategory(championshipId);
         })
       )
       .subscribe((data) => {
-        this.championship = data;
-        this.api
-          .getChampionshipCategory(this.championship.championshipId)
-          .subscribe((data) => {
-            if (data.length > 0) {
-              this.categoryRegistered = true;
-            }
-          });
+        this.categories = data.map((category) => ({
+          ...category,
+          isEdit: false,
+        }));
       });
-
-    this.mostrarCategorias();
   }
 
   openModal(content: any) {
     this.modalRef = this.modalService.open(content);
   }
 
-  mostrarCategorias() {
-    this.api.getCategories().subscribe((data) => {
-      this.categories = data;
-    });
-  }
+  deleteCategory(categoryRemoved: categoryEI) {
+    this.api.deleteCategory(categoryRemoved.categoryId).subscribe((data) => {});
 
-  eliminarCategoria(categoriaEliminar: categoryI) {
     this.categories = this.categories.filter(
-      (categoria) => categoria !== categoriaEliminar
+      (category) => category !== categoryRemoved
     );
   }
 
@@ -80,5 +79,36 @@ export class CategoriesSelectorComponent implements OnInit {
     console.log('Cambios confirmados');
     this.categoryRegistered = true;
     this.modalRef?.close();
+  }
+
+  onEdit(category: categoryEI) {
+    this.categories.forEach((category) => {
+      category.isEdit = false;
+    });
+    category.isEdit = true;
+  }
+
+  cancelEdit(category: categoryEI) {
+    category.isEdit = false;
+  }
+
+  confirmEdit(category: categoryEI) {
+    console.log(category);
+    const newCategory: categoryToEditI = {
+      categoryName: category.categoryName,
+      gradeMin: category.gradeMin,
+      gradeMax: category.gradeMax,
+      numberOfCompetitors: category.numberOfCompetitors,
+    };
+    console.log(newCategory);
+    this.api
+      .editCategory(category.championshipId, category.categoryId, newCategory)
+      .subscribe((response: responseCategoryI) => {
+        console.log(response.data);
+        if (response.status == 200) {
+          alert('Editado correctamente');
+          category.isEdit = false;
+        }
+      });
   }
 }

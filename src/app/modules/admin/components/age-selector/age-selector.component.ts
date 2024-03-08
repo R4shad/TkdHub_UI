@@ -44,6 +44,10 @@ export class AgeSelectorComponent implements OnInit {
   }
 
   deleteAge(ageRemoved: agesEI) {
+    this.api
+      .deleteAgeInterval(ageRemoved.ageIntervalId)
+      .subscribe((data) => {});
+
     this.ages = this.ages.filter((age) => age !== ageRemoved);
   }
 

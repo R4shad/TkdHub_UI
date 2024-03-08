@@ -1,9 +1,7 @@
 <div *ngIf="display">
   <div class="col-12">
     <h2 class="title">Define las edades e intervalos de peso</h2>
-    <div class="participants mt-4 mb-2">
-      <p class="cant">Cantidad de Edades: {{ ages.length }}</p>
-    </div>
+
   </div>
 
   <div class="row col-12 ">
@@ -44,8 +42,9 @@
                 {{ age.maxAge == 100 ? '+' : age.maxAge }}
               </div>
             </td>
-            <td>
-              <button class="btn btn-primary" (click)="seeWeights(age)">Ver Pesos</button>
+            <td class="weights">
+              <i class="fa fa-table px-2" aria-hidden="true" (click)="seeWeights(age)"></i>
+              <div> Ver Pesos </div>
             </td>
             <td class="text-center">
               <div *ngIf="!age.isEdit">
@@ -82,9 +81,13 @@
   </div>
 </ng-template>
 
-<div>
-  <app-weight-selector *ngIf="!display" [ageInterval]="ageSelected" (returnToAgeSelector)="display = true">
+<div *ngIf="!display">
+  <app-weight-selector [ageInterval]="ageSelected" (returnToAgeSelector)="display = true">
   </app-weight-selector>
+</div>
+
+<div *ngIf="display">
+  <app-categories-selector></app-categories-selector>
 </div>
 
 <button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>

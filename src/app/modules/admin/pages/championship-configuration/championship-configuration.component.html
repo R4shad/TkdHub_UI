@@ -1,13 +1,7 @@
-<div *ngIf="currentStep === 1">
-  <app-age-selector></app-age-selector>
+<div class="container">
+  <h2 class="title">Espacio para Configurar las Categorias y Divisiones</h2>
+  <div>
+    <app-age-selector></app-age-selector>
+  </div>
+
 </div>
-<div *ngIf="currentStep === 2">
-  <app-categories-selector></app-categories-selector>
-</div>
-
-
-<!-- Agrega más divs para los siguientes pasos -->
-
-<button (click)="nextStep()">Siguiente</button>
-<button (click)="previousStep()">Anterior</button>
-<button (click)="returnToSummary()">Volver</button>

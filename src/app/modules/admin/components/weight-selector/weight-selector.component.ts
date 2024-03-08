@@ -61,6 +61,8 @@ export class WeightSelectorComponent implements OnInit {
   }
 
   deleteDivision(divisionRemoved: divisionI, gender: string) {
+    this.api.deleteDivision(divisionRemoved.divisionId).subscribe((data) => {});
+
     if (gender === 'Masculino') {
       this.divisionsM = this.divisionsM.filter(
         (division) => division !== divisionRemoved
@@ -82,7 +84,6 @@ export class WeightSelectorComponent implements OnInit {
         division.isEdit = false;
       });
     }
-
     division.isEdit = true;
   }
 

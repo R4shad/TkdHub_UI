@@ -1,0 +1,44 @@
+@import "./../../../../app.component.scss";
+.table {
+  td,
+  th {
+    background-color: transparent; // Establece el fondo de las celdas como transparente
+  }
+}
+.bg {
+  background-color: #6d88a1;
+}
+i {
+  color: #8fadcc;
+  font-size: 24px;
+}
+.container-fluid {
+  padding: 0;
+}
+.text-L {
+  font-size: 24px;
+}
+.form-control,
+.form-select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #494248;
+}
+.text-S {
+  font-size: 16px;
+  padding-left: 4px;
+}
+.participants {
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cant {
+  margin-bottom: 0px;
+}
+.table-centered {
+  display: flex;
+  justify-content: center;
+}

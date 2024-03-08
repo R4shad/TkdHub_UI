@@ -36,6 +36,7 @@ import {
 } from 'src/app/shared/models/division';
 import {
   categoryI,
+  categoryToEditI,
   championshipCategoryI,
   responseCategoryI,
   responseChampionshipCategoryI,
@@ -284,6 +285,31 @@ export class ApiService {
     return this.http.delete<responseClubI>(direccion);
   }
 
+  deleteAgeInterval(ageIntervalId: number): Observable<responseAgeI> {
+    let direccion = this.APIurl + 'ageInterval/' + ageIntervalId;
+    return this.http.delete<responseAgeI>(direccion);
+  }
+
+  deleteAllAgeInterval(championshipId: number): Observable<responseAgesI> {
+    let direccion = this.APIurl + 'ageInterval/deleteAll/' + championshipId;
+    return this.http.delete<responseAgesI>(direccion);
+  }
+
+  deleteCategory(categoryId: number): Observable<responseAgeI> {
+    let direccion = this.APIurl + 'category/' + categoryId;
+    return this.http.delete<responseAgeI>(direccion);
+  }
+
+  deleteAllCategories(championshipId: number): Observable<responseAgesI> {
+    let direccion = this.APIurl + 'category/deleteAll/' + championshipId;
+    return this.http.delete<responseAgesI>(direccion);
+  }
+
+  deleteDivision(divisionId: number): Observable<responseDivisionI> {
+    let direccion = this.APIurl + 'division/' + divisionId;
+    return this.http.delete<responseDivisionI>(direccion);
+  }
+
   editParticipant(
     championshipId: number,
     participantId: number,
@@ -312,6 +338,16 @@ export class ApiService {
     let direccion =
       this.APIurl + 'division/' + championshipId + '/' + divisionId;
     return this.http.patch<responseDivisionI>(direccion, division);
+  }
+
+  editCategory(
+    championshipId: number,
+    categoryId: number,
+    category: categoryToEditI
+  ): Observable<responseCategoryI> {
+    let direccion =
+      this.APIurl + 'category/' + championshipId + '/' + categoryId;
+    return this.http.patch<responseCategoryI>(direccion, category);
   }
 
   editClub(
