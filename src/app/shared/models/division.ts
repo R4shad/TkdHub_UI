@@ -1,5 +1,16 @@
 export interface divisionI {
+  championshipId: number;
   divisionId: number;
+  divisionName: string;
+  ageIntervalId: number;
+  minWeight: number;
+  maxWeight: number;
+  gender: string;
+  grouping: string;
+  numberOfCompetitors: number;
+}
+
+export interface divisionToEditI {
   divisionName: string;
   ageIntervalId: number;
   minWeight: number;

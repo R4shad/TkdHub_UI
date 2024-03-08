@@ -1,43 +1,115 @@
 <div>
-  <div class="container">
-    <h1>{{ ageInterval.ageIntervalName }}</h1>
-    <table class="table">
-      <thead>
-        <ng-container *ngIf="!divisionsF.length && !divisionsM.length; else bothGenders">
-          <tr>
-            <th colspan="2">Femenino</th>
-            <th colspan="2">Masculino</th>
-          </tr>
-        </ng-container>
-        <ng-template #bothGenders>
-          <tr>
-            <th colspan="4">Damas y Varones</th>
-          </tr>
-        </ng-template>
-        <tr>
-          <th>Nombre Division</th>
-          <th>Intervalo de Peso</th>
-          <th>Nombre Division</th>
-          <th>Intervalo de Peso</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let division of divisionsF; let i = index">
-          <tr>
-            <td>{{ division.divisionName }}</td>
-            <td>{{ division.minWeight }} - {{ division.maxWeight }} KG.</td>
-            <td *ngIf="divisionsM[i]">{{ divisionsM[i].divisionName }}</td>
-            <td *ngIf="divisionsM[i]">{{ divisionsM[i].minWeight }} - {{ divisionsM[i].maxWeight }} KG.</td>
-          </tr>
-        </ng-container>
-        <tr *ngIf="divisionsF.length || divisionsM.length">
-          <td></td>
-          <td></td>
-          <td *ngIf="divisionsM.length"></td>
-          <td *ngIf="divisionsM.length"></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="col-12">
+    <h2 class="title">Define las edades e intervalos de peso</h2>
+    <div class="participants mt-4 mb-2">
+    </div>
   </div>
-  <button (click)="returnAgeIntervalSelector()">Volver</button>
+
+  <div class="row col-12">
+    <div class="table-responsive">
+      <h3 class="subtitle">Femenino</h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr class="bg text-white">
+            <th>Nombre</th>
+            <th>Peso Mínimo</th>
+            <th>Peso Máximo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let division of divisionsF" class="text-S">
+            <td>
+              <div *ngIf="division.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="division.divisionName">
+              </div>
+              <div *ngIf="!division.isEdit">
+                {{ division.divisionName }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="division.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="division.minWeight">
+              </div>
+              <div *ngIf="!division.isEdit">
+                {{ division.minWeight }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="division.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="division.maxWeight">
+              </div>
+              <div *ngIf="!division.isEdit">
+                {{ division.maxWeight == 100 ? '+' : division.maxWeight }}
+              </div>
+            </td>
+            <td class="text-center">
+              <div *ngIf="!division.isEdit">
+                <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(division,'Masculino')"></i>
+                <i class="fa fa-trash" aria-hidden="true" (click)="deleteDivision(division,'Masculino')"></i>
+              </div>
+              <div *ngIf="division.isEdit">
+                <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(division)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(division)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row col-12">
+    <div class="table-responsive">
+      <h3 class="subtitle">Masculino</h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr class="bg text-white">
+            <th>Nombre</th>
+            <th>Peso Mínimo</th>
+            <th>Peso Máximo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let division of divisionsM" class="text-S">
+            <td>
+              <div *ngIf="division.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="division.divisionName">
+              </div>
+              <div *ngIf="!division.isEdit">
+                {{ division.divisionName }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="division.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="division.minWeight">
+              </div>
+              <div *ngIf="!division.isEdit">
+                {{ division.minWeight }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="division.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="division.maxWeight">
+              </div>
+              <div *ngIf="!division.isEdit">
+                {{ division.maxWeight == 100 ? '+' : division.maxWeight }}
+              </div>
+            </td>
+            <td class="text-center">
+              <div *ngIf="!division.isEdit">
+                <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(division,'Femenino')"></i>
+                <i class="fa fa-trash" aria-hidden="true" (click)="deleteDivision(division,'Femenino')"></i>
+              </div>
+              <div *ngIf="division.isEdit">
+                <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(division)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(division)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

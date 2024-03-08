@@ -29,6 +29,7 @@ import {
 import {
   championshipDivisionI,
   divisionI,
+  divisionToEditI,
   responseChampionshipDivisionI,
   responseDivisionI,
   responseDivisionsI,
@@ -301,6 +302,16 @@ export class ApiService {
     let direccion =
       this.APIurl + 'ageInterval/' + championshipId + '/' + ageIntervalId;
     return this.http.patch<responseAgeI>(direccion, age);
+  }
+
+  editDivision(
+    championshipId: number,
+    divisionId: number,
+    division: divisionToEditI
+  ): Observable<responseDivisionI> {
+    let direccion =
+      this.APIurl + 'division/' + championshipId + '/' + divisionId;
+    return this.http.patch<responseDivisionI>(direccion, division);
   }
 
   editClub(
