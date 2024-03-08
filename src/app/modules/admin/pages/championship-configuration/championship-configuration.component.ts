@@ -46,4 +46,28 @@ export class ChampionshipConfigurationComponent implements OnInit {
     const championshipId = this.championship.championshipId;
     this.router.navigate(['/championship', championshipId, 'Organizer']);
   }
+
+  resetInitialData() {
+    console.log('reiniciando');
+    this.api
+      .deleteAllAgeInterval(this.championship.championshipId)
+      .subscribe((data) => {
+        console.log(data);
+      });
+    this.api
+      .deleteAllCategories(this.championship.championshipId)
+      .subscribe((data) => {
+        console.log(data);
+      });
+    this.api
+      .postChampionshipCategory(this.championship.championshipId)
+      .subscribe((data) => {
+        console.log(data);
+      });
+    this.api
+      .postChampionshipDivision(this.championship.championshipId)
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
 }

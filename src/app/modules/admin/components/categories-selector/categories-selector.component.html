@@ -16,9 +16,30 @@
         </thead>
         <tbody>
           <tr *ngFor="let category of categories" class="text-S">
-            <td>{{ category.categoryName }}</td>
-            <td>{{ category.gradeMin }}</td>
-            <td>{{ category.gradeMax }}</td>
+            <td>
+              <div *ngIf="category.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="category.categoryName">
+              </div>
+              <div *ngIf="!category.isEdit">
+                {{ category.categoryName }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="category.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMin">
+              </div>
+              <div *ngIf="!category.isEdit">
+                {{ category.gradeMin }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="category.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMax">
+              </div>
+              <div *ngIf="!category.isEdit">
+                {{ category.gradeMax }}
+              </div>
+            </td>
             <td class="text-center">
               <div *ngIf="!category.isEdit">
                 <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(category)"></i>

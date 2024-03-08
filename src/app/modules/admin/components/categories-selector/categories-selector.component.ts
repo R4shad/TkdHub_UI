@@ -64,22 +64,7 @@ export class CategoriesSelectorComponent implements OnInit {
     this.modalRef = this.modalService.open(content);
   }
 
-  confirm() {
-    const championshipId = this.championship.championshipId;
-    for (const category of this.categories) {
-      this.api.postChampionshipCategory(category, championshipId).subscribe({
-        next: (response) => {
-          console.log('Categoria agregado:', response);
-        },
-        error: (error) => {
-          console.error('Error al agregar la Categoria:', error);
-        },
-      });
-    }
-    console.log('Cambios confirmados');
-    this.categoryRegistered = true;
-    this.modalRef?.close();
-  }
+  confirm() {}
 
   onEdit(category: categoryEI) {
     this.categories.forEach((category) => {

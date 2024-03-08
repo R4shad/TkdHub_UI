@@ -190,7 +190,7 @@ export class ApiService {
       })
     );
   }
-
+  /*
   postChampionshipAgeInterval(
     ageInterval: agesI,
     championshipId: number
@@ -203,8 +203,8 @@ export class ApiService {
       direccion,
       championshipAgeInterval
     );
-  }
-
+  }*/
+  /* 
   postChampionshipDivision(
     division: divisionI,
     championshipId: number
@@ -217,6 +217,20 @@ export class ApiService {
       direccion,
       championshipAgeInterval
     );
+  }
+*/
+  postChampionshipDivision(
+    championshipId: number
+  ): Observable<responseChampionshipDivisionI> {
+    let direccion = this.APIurl + 'division/' + championshipId;
+    return this.http.post<responseChampionshipDivisionI>(direccion, {});
+  }
+
+  postChampionshipCategory(
+    championshipId: number
+  ): Observable<responseChampionshipDivisionI> {
+    let direccion = this.APIurl + 'category/' + championshipId;
+    return this.http.post<responseChampionshipDivisionI>(direccion, {});
   }
 
   getChampionshipAges(championshipId: number): Observable<agesI[]> {
@@ -245,7 +259,7 @@ export class ApiService {
       })
     );
   }
-
+  /*
   postChampionshipCategory(
     category: categoryI,
     championshipId: number
@@ -258,7 +272,7 @@ export class ApiService {
       direccion,
       championshipAgeInterval
     );
-  }
+  }*/
 
   postParticipant(
     participant: participantToCreateI,

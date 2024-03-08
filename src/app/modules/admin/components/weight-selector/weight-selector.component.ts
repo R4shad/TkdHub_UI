@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../../../core/services/api.service';
 import {
   divisionI,
@@ -20,6 +20,7 @@ interface divisionEI extends divisionI {
 })
 export class WeightSelectorComponent implements OnInit {
   @Input() ageInterval!: agesI;
+  @Output() returnToAgeSelector = new EventEmitter<void>();
   divisions: divisionEI[] = [];
   divisionsF: divisionEI[] = [];
   divisionsM: divisionEI[] = [];
@@ -112,5 +113,9 @@ export class WeightSelectorComponent implements OnInit {
           division.isEdit = false;
         }
       });
+  }
+
+  returnAgeIntervalSelector() {
+    this.returnToAgeSelector.emit();
   }
 }
