@@ -14,7 +14,7 @@ import { shuffleArray } from '../../utils/shuffleParticipants.utils';
 @Component({
   selector: 'app-ten-participants-bracket',
   templateUrl: './ten-participants-bracket.component.html',
-  styleUrls: ['./ten-participants-bracket.component.scss']
+  styleUrls: ['./ten-participants-bracket.component.scss'],
 })
 export class TenParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
@@ -25,7 +25,6 @@ export class TenParticipantsBracketComponent implements OnInit {
 
   eights5: matchWithCompetitorsI = emptyMatch;
   eights6: matchWithCompetitorsI = emptyMatch;
-
 
   quarters1: matchWithCompetitorsI = emptyMatch;
   quarters2: matchWithCompetitorsI = emptyMatch;
@@ -88,6 +87,11 @@ export class TenParticipantsBracketComponent implements OnInit {
         this.quarters4 = this.matchesWithCompetitors.find(
           (match) => match.round === 'quarters4'
         )!;
+        console.log(this.matchesWithCompetitors);
+        console.log('MATCHES');
+        console.log(this.eights5);
+        console.log(this.eights6);
+        console.log(this.quarters2);
         console.log(this.quarters4);
       });
   }
@@ -116,14 +120,14 @@ export class TenParticipantsBracketComponent implements OnInit {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: bracketSort3[3].competitorId,
       redCompetitorId: bracketSort3[4].competitorId,
-      round: 'eights6',
+      round: 'eights5',
     };
     this.postMatch(eights5);
     const eights6: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: bracketSort3[5].competitorId,
       redCompetitorId: bracketSort3[5].competitorId,
-      round: 'eights8',
+      round: 'eights6',
     };
     this.postMatch(eights6);
 
