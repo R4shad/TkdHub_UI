@@ -53,21 +53,21 @@ export class ChampionshipConfigurationComponent implements OnInit {
       .deleteAllAgeInterval(this.championship.championshipId)
       .subscribe((data) => {
         console.log(data);
+        this.api
+          .postChampionshipDivision(this.championship.championshipId)
+          .subscribe((data) => {
+            console.log(data);
+          });
       });
     this.api
       .deleteAllCategories(this.championship.championshipId)
       .subscribe((data) => {
         console.log(data);
-      });
-    this.api
-      .postChampionshipCategory(this.championship.championshipId)
-      .subscribe((data) => {
-        console.log(data);
-      });
-    this.api
-      .postChampionshipDivision(this.championship.championshipId)
-      .subscribe((data) => {
-        console.log(data);
+        this.api
+          .postChampionshipCategory(this.championship.championshipId)
+          .subscribe((data) => {
+            console.log(data);
+          });
       });
   }
 }

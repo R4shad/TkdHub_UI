@@ -36,6 +36,7 @@ export class AgeSelectorComponent implements OnInit {
       )
       .subscribe((data) => {
         this.ages = data.map((age) => ({ ...age, isEdit: false }));
+        this.ages = this.ages.slice().sort((a, b) => a.minAge - b.minAge);
       });
   }
 

@@ -9,11 +9,11 @@
       <table class="table table-striped table-bordered">
         <thead>
           <tr class="bg text-white">
-            <th>Edad</th>
-            <th>Rango menor</th>
-            <th>Rango mayor</th>
-            <th>Ver Pesos</th>
-            <th>Acciones</th>
+            <th class="text-center">Edad</th>
+            <th class="text-center">Minima Edad</th>
+            <th class="text-center">Maxima Edad</th>
+            <th class="text-center">Pesos</th>
+            <th class="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +39,7 @@
                 <input class="form-control text-S" type="text" [(ngModel)]="age.maxAge">
               </div>
               <div *ngIf="!age.isEdit">
-                {{ age.maxAge == 100 ? '+' : age.maxAge }}
+                {{ age.maxAge }}
               </div>
             </td>
             <td class="weights">
