@@ -1,0 +1,9 @@
+@import "./../../pages/bracket-results/bracket-results.component.scss";
+
+.column:nth-child(2) .line.vertical {
+  height: 88px;
+}
+
+.column:nth-child(3) .line.vertical {
+  display: none;
+}

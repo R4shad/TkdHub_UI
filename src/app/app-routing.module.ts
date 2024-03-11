@@ -15,6 +15,7 @@ import { LoginComponent } from './modules/users/pages/login/login.component';
 import { ChampionshipSummaryComponent } from './modules/admin/pages/championship-summary/championship-summary.component';
 import { ParticipantValidationComponent } from './modules/admin/pages/participant-validation/participant-validation.component';
 import { ChampionshipCreatorComponent } from './modules/admin/pages/championship-creator/championship-creator.component';
+import { BracketResultsComponent } from './modules/responsibles/pages/bracket-results/bracket-results.component';
 const routes: Routes = [
   {
     path: 'Rashad/crearCampeonato',
@@ -79,6 +80,10 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Coach/:clubCode/ParticipantRegistration',
     component: CompetitorRegistrationComponent,
+  },
+  {
+    path: 'championship/:championshipId/Responsible/BracketResults',
+    component: BracketResultsComponent,
   },
 ];
 

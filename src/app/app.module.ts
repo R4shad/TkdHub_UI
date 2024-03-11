@@ -11,6 +11,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsersModule } from './modules/users/users.module';
 import { TrainersModule } from './modules/trainers/trainers.module';
+import { ResponsiblesModule } from './modules/responsibles/responsibles.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { AddTokenInterceptor } from './core/utils/add-token.interceptor';
 import { AuthService } from './core/services/auth.service';
@@ -22,6 +23,7 @@ import { AuthService } from './core/services/auth.service';
     HttpClientModule,
     UsersModule,
     SharedModule,
+    ResponsiblesModule,
     TrainersModule,
     AdminModule,
     NgbModule,

@@ -1,0 +1,77 @@
+<div>
+  <div class="mt-4 mb-4">
+    <div class="buttons">
+      <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
+    </div>
+    <div *ngIf="brackets.length > 0">
+      <div>
+        <h1 class="text-center">
+          LLAVES
+        </h1>
+        <div *ngFor="let bracket of brackets">
+          <div class="bracket-description mt-5">
+            <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
+            <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
+              (- {{getBracketMaxWeightInterval(bracket)}} Kg)
+            </p>
+            <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket) != 0">
+              ({{getBracketMinWeightInterval(bracket)}} -
+              {{getBracketMaxWeightInterval(bracket)}} Kg)
+            </p>
+            <p class="text-M">{{ bracket.categoryName}}</p>
+            <p class="text-M">{{ bracket.competitors[0].Participant.gender}}</p>
+            <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
+          </div>
+          <div>
+            <!-- Muestra el componente correspondiente según la cantidad de competidores -->
+            <ng-container *ngIf="bracket.competitors.length === 2">
+              <app-two-participants-bracket [bracket]="bracket"></app-two-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 3">
+              <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 4">
+              <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 8">
+              <app-eight-participants-bracket [bracket]="bracket"></app-eight-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 5">
+              <app-five-participants-bracket [bracket]="bracket"></app-five-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 6">
+              <app-six-participants-bracket [bracket]="bracket"></app-six-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 7">
+              <app-seven-participants-bracket [bracket]="bracket"></app-seven-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 16">
+              <app-sixteen-participants-bracket [bracket]="bracket"></app-sixteen-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 15">
+              <app-fifteen-participants-bracket [bracket]="bracket"></app-fifteen-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 14">
+              <app-fourteen-participants-bracket [bracket]="bracket"></app-fourteen-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 13">
+              <app-thirteen-participants-bracket [bracket]="bracket"></app-thirteen-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 12">
+              <app-twelve-participants-bracket [bracket]="bracket"></app-twelve-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 9">
+              <app-nine-participants-bracket [bracket]="bracket"></app-nine-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 11">
+              <app-eleven-participants-bracket [bracket]="bracket"></app-eleven-participants-bracket>
+            </ng-container>
+            <ng-container *ngIf="bracket.competitors.length === 10">
+              <app-ten-participants-bracket [bracket]="bracket"></app-ten-participants-bracket>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
