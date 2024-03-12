@@ -39,15 +39,14 @@ export class EightParticipantsBracketComponent implements OnInit {
   final$: Observable<matchWithCompetitorsI> =
     new Observable<matchWithCompetitorsI>();
 
-  loading: boolean = false;
-
+  winner$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
   selecedMatch!: matchModalI;
-
   modalRef?: NgbModalRef;
+  showModal: boolean = false;
   ngOnInit(): void {
     this.getMatches();
   }
-  showModal: boolean = false;
   constructor(private api: ApiService) {}
 
   getMatches() {
@@ -55,7 +54,6 @@ export class EightParticipantsBracketComponent implements OnInit {
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
-        console.log(this.matchesWithCompetitors);
         for (const match of this.matchesWithCompetitors) {
           if (match.redCompetitorId === null) {
             match.redCompetitor = emptyParticipant;
@@ -91,30 +89,7 @@ export class EightParticipantsBracketComponent implements OnInit {
     this.semiFinal1$ = this.getMatchObservable('semifinal1');
     this.semiFinal2$ = this.getMatchObservable('semifinal2');
     this.final$ = this.getMatchObservable('final');
-
-    this.semiFinal1$.subscribe({
-      next: (value) => {
-        console.log('Valor emitido por semiFinal1$: ', value);
-      },
-      error: (error) => {
-        console.error('Error en semiFinal1$: ', error);
-      },
-      complete: () => {
-        console.log('semiFinal1$ completado');
-      },
-    });
-
-    this.semiFinal2$.subscribe({
-      next: (value) => {
-        console.log('Valor emitido por semiFinal2$: ', value);
-      },
-      error: (error) => {
-        console.error('Error en semiFinal2$: ', error);
-      },
-      complete: () => {
-        console.log('semiFinal2$ completado');
-      },
-    });
+    this.winner$ = this.getMatchObservable('winner');
   }
 
   private getMatchObservable(round: string): Observable<matchWithCompetitorsI> {
@@ -128,7 +103,6 @@ export class EightParticipantsBracketComponent implements OnInit {
   onModalClose($event: boolean) {
     this.showModal = false;
     if ($event) {
-      console.log('CERRE MODAL');
       this.getMatches();
     }
   }
@@ -152,6 +126,13 @@ export class EightParticipantsBracketComponent implements OnInit {
     if (match.redRounds != 0 || match.blueRounds != 0) {
       return false;
     }
+    if (match.redCompetitorId === null || match.blueCompetitorId === null) {
+      return false;
+    }
+    return true;
+  }
+
+  showScore(match: matchWithCompetitorsI) {
     if (match.redCompetitorId === null || match.blueCompetitorId === null) {
       return false;
     }
