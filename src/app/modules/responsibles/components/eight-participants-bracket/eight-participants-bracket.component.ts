@@ -13,6 +13,7 @@ import {
 import { joinNames } from '../../utils/joinCompetitorNames.utils';
 import { shuffleArray } from '../../utils/shuffleParticipants.utils';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-eight-participants-bracket',
   templateUrl: './eight-participants-bracket.component.html',
@@ -22,14 +23,21 @@ export class EightParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
-  quarters1: matchWithCompetitorsI = emptyMatch;
-  quarters2: matchWithCompetitorsI = emptyMatch;
-  quarters3: matchWithCompetitorsI = emptyMatch;
-  quarters4: matchWithCompetitorsI = emptyMatch;
+  quarters1$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  quarters2$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  quarters3$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  quarters4$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
 
-  semiFinal1: matchWithCompetitorsI = emptyMatch;
-  semiFinal2: matchWithCompetitorsI = emptyMatch;
-  final: matchWithCompetitorsI = emptyMatch;
+  semiFinal1$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  semiFinal2$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  final$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
 
   loading: boolean = false;
 
@@ -47,6 +55,7 @@ export class EightParticipantsBracketComponent implements OnInit {
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
+        console.log(this.matchesWithCompetitors);
         for (const match of this.matchesWithCompetitors) {
           if (match.redCompetitorId === null) {
             match.redCompetitor = emptyParticipant;
@@ -70,33 +79,56 @@ export class EightParticipantsBracketComponent implements OnInit {
           }
         }
 
-        this.quarters1 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters1'
-        )!;
-        this.quarters2 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters2'
-        )!;
-        this.quarters3 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters3'
-        )!;
-        this.quarters4 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters4'
-        )!;
-        this.semiFinal1 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'semifinal1'
-        )!;
-        this.semiFinal2 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'semifinal2'
-        )!;
-        this.final = this.matchesWithCompetitors.find(
-          (match) => match.round === 'final'
-        )!;
+        this.filterCompetitors();
       });
+  }
+
+  filterCompetitors() {
+    this.quarters1$ = this.getMatchObservable('quarters1');
+    this.quarters2$ = this.getMatchObservable('quarters2');
+    this.quarters3$ = this.getMatchObservable('quarters3');
+    this.quarters4$ = this.getMatchObservable('quarters4');
+    this.semiFinal1$ = this.getMatchObservable('semifinal1');
+    this.semiFinal2$ = this.getMatchObservable('semifinal2');
+    this.final$ = this.getMatchObservable('final');
+
+    this.semiFinal1$.subscribe({
+      next: (value) => {
+        console.log('Valor emitido por semiFinal1$: ', value);
+      },
+      error: (error) => {
+        console.error('Error en semiFinal1$: ', error);
+      },
+      complete: () => {
+        console.log('semiFinal1$ completado');
+      },
+    });
+
+    this.semiFinal2$.subscribe({
+      next: (value) => {
+        console.log('Valor emitido por semiFinal2$: ', value);
+      },
+      error: (error) => {
+        console.error('Error en semiFinal2$: ', error);
+      },
+      complete: () => {
+        console.log('semiFinal2$ completado');
+      },
+    });
+  }
+
+  private getMatchObservable(round: string): Observable<matchWithCompetitorsI> {
+    return new Observable<matchWithCompetitorsI>((observer) => {
+      const match = this.matchesWithCompetitors.find((m) => m.round === round);
+      observer.next(match ? match : emptyMatch);
+      observer.complete();
+    });
   }
 
   onModalClose($event: boolean) {
     this.showModal = false;
     if ($event) {
+      console.log('CERRE MODAL');
       this.getMatches();
     }
   }
@@ -120,7 +152,7 @@ export class EightParticipantsBracketComponent implements OnInit {
     if (match.redRounds != 0 || match.blueRounds != 0) {
       return false;
     }
-    if (match.redCompetitorId == null && match.blueCompetitorId == null) {
+    if (match.redCompetitorId === null || match.blueCompetitorId === null) {
       return false;
     }
     return true;

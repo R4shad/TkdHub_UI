@@ -101,6 +101,13 @@ export class FourParticipantsBracketComponent implements OnInit {
 
       this.postMatch(semiFinal2Match);
       this.postMatch(final);
+      const winner: matchToCreateI = {
+        bracketId: this.bracket.bracketId,
+        blueCompetitorId: null,
+        redCompetitorId: null,
+        round: 'winner',
+      };
+      this.postMatch(winner);
     }
 
     this.postMatch(semiFinal1Match);

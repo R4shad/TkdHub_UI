@@ -137,6 +137,13 @@ export class SixParticipantsBracketComponent implements OnInit {
       round: 'final',
     };
     this.postMatch(final);
+    const winner: matchToCreateI = {
+      bracketId: this.bracket.bracketId,
+      blueCompetitorId: null,
+      redCompetitorId: null,
+      round: 'winner',
+    };
+    this.postMatch(winner);
   }
 
   postMatch(match: matchToCreateI | matchEmptyToCreateI) {

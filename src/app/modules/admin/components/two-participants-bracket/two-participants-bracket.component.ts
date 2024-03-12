@@ -66,6 +66,18 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .subscribe((response: responseMatchI) => {
         this.getMatches();
       });
+
+    const winner: matchToCreateI = {
+      bracketId: this.bracket.bracketId,
+      blueCompetitorId: null,
+      redCompetitorId: null,
+      round: 'winner',
+    };
+    this.api
+      .postMatch(winner, this.bracket.championshipId)
+      .subscribe((response: responseMatchI) => {
+        this.getMatches();
+      });
   }
 
   editCompetitor(competitorId: string) {

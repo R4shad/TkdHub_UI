@@ -51,14 +51,17 @@ export class DefineWinnerModalComponent implements OnInit {
   confirmWinner() {
     if (this.isSelected !== null) {
       this.updateMatchWinner(this.getMatchWinner());
-      this.closeModal.emit(true);
-      console.log('CONFIRMED');
-      this.advanceWinner();
+
+      setTimeout(this.timer.bind(this), 1000); //
     }
     const modelDiv = document.getElementById('myModal');
     if (modelDiv != null) {
       modelDiv.style.display = 'none';
     }
+  }
+
+  timer() {
+    this.closeModal.emit(true);
   }
 
   advanceWinner() {
@@ -263,7 +266,11 @@ export class DefineWinnerModalComponent implements OnInit {
   updateMatchWinner(matchWinner: matchWinnerI) {
     this.api
       .editMatch(this.match.matchId, matchWinner)
-      .subscribe((response: responseMatchI) => {});
+      .subscribe((response: responseMatchI) => {
+        if (response.status === 200) {
+          this.advanceWinner();
+        }
+      });
   }
 
   changeColor(index: number) {
