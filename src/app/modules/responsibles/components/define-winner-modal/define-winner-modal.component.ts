@@ -62,9 +62,182 @@ export class DefineWinnerModalComponent implements OnInit {
   }
 
   advanceWinner() {
-    console.log(this.match.round);
+    //Eights
+    //Top
+    if (this.match.round == 'eights1') {
+      this.getAdvanceMatchId('quarters1').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            blueCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'eights2') {
+      this.getAdvanceMatchId('quarters1').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            redCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'eights3') {
+      this.getAdvanceMatchId('quarters2').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            blueCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'eights4') {
+      this.getAdvanceMatchId('quarters2').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            redCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    //Botoom
+    if (this.match.round == 'eights5') {
+      this.getAdvanceMatchId('quarters3').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            blueCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'eights6') {
+      this.getAdvanceMatchId('quarters3').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            redCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'eights5') {
+      this.getAdvanceMatchId('quarters4').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            blueCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'eights5') {
+      this.getAdvanceMatchId('quarters4').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            redCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    //Quarters
     if (this.match.round == 'quarters1') {
       this.getAdvanceMatchId('semifinal1').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            blueCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'quarters2') {
+      this.getAdvanceMatchId('semifinal1').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            redCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'quarters3') {
+      this.getAdvanceMatchId('semifinal2').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            blueCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'quarters4') {
+      this.getAdvanceMatchId('semifinal2').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            redCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    //Semifinals
+    if (this.match.round == 'semifinal1') {
+      this.getAdvanceMatchId('final').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            blueCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    if (this.match.round == 'semifinal2') {
+      this.getAdvanceMatchId('final').subscribe({
+        next: (matchToAdvanceId) => {
+          this.updateMatchAdvanceWinner(matchToAdvanceId, {
+            redCompetitorId: this.winnerCompetitorId,
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching matchToAdvanceId:', error);
+        },
+      });
+    }
+    //Final
+    if (this.match.round == 'final') {
+      this.getAdvanceMatchId('winner').subscribe({
         next: (matchToAdvanceId) => {
           this.updateMatchAdvanceWinner(matchToAdvanceId, {
             blueCompetitorId: this.winnerCompetitorId,

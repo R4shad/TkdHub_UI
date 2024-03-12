@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { bracketWithCompetitorsI } from 'src/app/shared/models/bracket';
 import {
   emptyMatch,
+  emptyParticipant,
   matchEmptyToCreateI,
   matchModalI,
   matchToCreateI,
@@ -39,24 +40,28 @@ export class EightParticipantsBracketComponent implements OnInit {
     this.getMatches();
   }
   showModal: boolean = false;
-  constructor(private api: ApiService, private modalService: NgbModal) {}
+  constructor(private api: ApiService) {}
 
   getMatches() {
-    console.log(this.bracket.categoryId);
-    console.log(this.bracket.bracketId);
     this.api
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
         for (const match of this.matchesWithCompetitors) {
-          if (match.redCompetitorId != null) {
+          if (match.redCompetitorId === null) {
+            match.redCompetitor = emptyParticipant;
+            match.redCompetitor.competitorId = '';
+          } else {
             const redFullName = joinNames(
               match.redCompetitor.Participant.firstNames,
               match.redCompetitor.Participant.lastNames
             );
             match.redCompetitor.Participant.fullName = redFullName;
           }
-          if (match.blueCompetitorId != null) {
+          if (match.blueCompetitorId === null) {
+            match.blueCompetitor = emptyParticipant;
+            match.blueCompetitor.competitorId = '';
+          } else {
             const blueFullName = joinNames(
               match.blueCompetitor.Participant.firstNames,
               match.blueCompetitor.Participant.lastNames
@@ -80,14 +85,12 @@ export class EightParticipantsBracketComponent implements OnInit {
         this.semiFinal1 = this.matchesWithCompetitors.find(
           (match) => match.round === 'semifinal1'
         )!;
-        if (
-          this.bracket.competitors.length === 6 ||
-          this.bracket.competitors.length === 7
-        ) {
-          this.semiFinal2 = this.matchesWithCompetitors.find(
-            (match) => match.round === 'semifinal2'
-          )!;
-        }
+        this.semiFinal2 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'semifinal2'
+        )!;
+        this.final = this.matchesWithCompetitors.find(
+          (match) => match.round === 'final'
+        )!;
       });
   }
 
@@ -113,8 +116,11 @@ export class EightParticipantsBracketComponent implements OnInit {
     this.showModal = true;
   }
 
-  matchHasWinner(match: matchWithCompetitorsI) {
+  matchToDefine(match: matchWithCompetitorsI) {
     if (match.redRounds != 0 || match.blueRounds != 0) {
+      return false;
+    }
+    if (match.redCompetitorId == null && match.blueCompetitorId == null) {
       return false;
     }
     return true;

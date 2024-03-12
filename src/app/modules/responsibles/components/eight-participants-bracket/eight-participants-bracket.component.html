@@ -14,7 +14,7 @@
                 <span class="name">{{ quarters1.blueCompetitor.Participant.fullName }}</span>
                 <span class="score">{{quarters1.blueRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchHasWinner(quarters1)" (click)="openModal(quarters1)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters1)" (click)="openModal(quarters1)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
@@ -23,7 +23,7 @@
                 <span class="name">{{ quarters1.redCompetitor.Participant.fullName }}</span>
                 <span class="score">{{quarters1.redRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchHasWinner(quarters1)" (click)="openModal(quarters1)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters1)" (click)="openModal(quarters1)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
@@ -50,7 +50,7 @@
                 <span class="name">{{ quarters2.blueCompetitor.Participant.fullName }}</span>
                 <span class="score">{{quarters2.blueRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchHasWinner(quarters2)" (click)="openModal(quarters2)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters2)" (click)="openModal(quarters2)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
@@ -60,7 +60,7 @@
                 <span class="score">{{quarters2.redRounds}}</span>
                 <div class="icons">
 
-                  <i *ngIf="matchHasWinner(quarters2)" (click)="openModal(quarters2)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters2)" (click)="openModal(quarters2)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
 
                 </div>
@@ -89,7 +89,7 @@
                 <span class="name">{{ quarters3.blueCompetitor.Participant.fullName }}</span>
                 <span class="score">{{quarters3.blueRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchHasWinner(quarters3)" (click)="openModal(quarters3)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters3)" (click)="openModal(quarters3)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
@@ -98,7 +98,7 @@
                 <span class="name">{{ quarters3.redCompetitor.Participant.fullName }}</span>
                 <span class="score">{{quarters3.redRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchHasWinner(quarters3)" (click)="openModal(quarters3)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters3)" (click)="openModal(quarters3)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
@@ -125,7 +125,7 @@
                 <span class="name">{{ quarters4.blueCompetitor.Participant.fullName }}</span>
                 <span class="score">{{quarters4.blueRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchHasWinner(quarters4)" (click)="openModal(quarters4)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters4)" (click)="openModal(quarters4)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
@@ -134,7 +134,7 @@
                 <span class="name">{{ quarters4.redCompetitor.Participant.fullName }}</span>
                 <span class="score">{{quarters4.redRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchHasWinner(quarters4)" (click)="openModal(quarters4)" class="fa fa-plus px-2"
+                  <i *ngIf="matchToDefine(quarters4)" (click)="openModal(quarters4)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
@@ -158,7 +158,7 @@
               <span class="name">{{ semiFinal1.blueCompetitor.Participant.fullName }}</span>
               <span class="score">{{semiFinal1.blueRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchHasWinner(semiFinal1)" (click)="openModal(semiFinal1)" class="fa fa-plus px-2"
+                <i *ngIf="matchToDefine(semiFinal1)" (click)="openModal(semiFinal1)" class="fa fa-plus px-2"
                   aria-hidden="true"></i>
               </div>
             </div>
@@ -167,7 +167,7 @@
               <span class="name">{{ semiFinal1.redCompetitor.Participant.fullName }}</span>
               <span class="score">{{semiFinal1.redRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchHasWinner(semiFinal1)" (click)="openModal(semiFinal1)" class="fa fa-plus px-2"
+                <i *ngIf="matchToDefine(semiFinal1)" (click)="openModal(semiFinal1)" class="fa fa-plus px-2"
                   aria-hidden="true"></i>
               </div>
             </div>
@@ -187,7 +187,7 @@
               <span class="name">{{ semiFinal2.blueCompetitor.Participant.fullName }}</span>
               <span class="score">{{semiFinal2.blueRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchHasWinner(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
+                <i *ngIf="matchToDefine(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
                   aria-hidden="true"></i>
               </div>
             </div>
@@ -196,7 +196,7 @@
               <span class="name">{{ semiFinal2.redCompetitor.Participant.fullName }}</span>
               <span class="score">{{semiFinal2.redRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchHasWinner(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
+                <i *ngIf="matchToDefine(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
                   aria-hidden="true"></i>
               </div>
             </div>
@@ -219,7 +219,7 @@
               <span class="name">{{ final.blueCompetitor.Participant.fullName }}</span>
               <span class="score">{{final.blueRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchHasWinner(final)" (click)="openModal(final)" class="fa fa-plus px-2"
+                <i *ngIf="matchToDefine(final)" (click)="openModal(final)" class="fa fa-plus px-2"
                   aria-hidden="true"></i>
               </div>
             </div>
@@ -228,7 +228,7 @@
               <span class="name">{{ final.redCompetitor.Participant.fullName }}</span>
               <span class="score">{{final.redRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchHasWinner(final)" (click)="openModal(final)" class="fa fa-plus px-2"
+                <i *ngIf="matchToDefine(final)" (click)="openModal(final)" class="fa fa-plus px-2"
                   aria-hidden="true"></i>
               </div>
             </div>
@@ -245,9 +245,8 @@
       <div class="column four">
         <div class="match">
           <div class="competitor winner">
-            <span class="clubCode"></span>
-            <span class="name"></span>
-            <span class="score"></span>
+            <span class="clubCode">{{final.blueCompetitor.Participant.clubCode}}</span>
+            <span class="name">{{final.blueCompetitor.Participant.fullName}}</span>
           </div>
           <div class="match-lines alt">
             <div class="line horizontal"></div>

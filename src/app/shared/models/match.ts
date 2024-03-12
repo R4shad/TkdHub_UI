@@ -126,3 +126,13 @@ export const emptyMatch: matchWithCompetitorsI = {
     },
   },
 };
+
+export const emptyParticipant = {
+  competitorId: '',
+  Participant: {
+    lastNames: '',
+    firstNames: '',
+    clubCode: '',
+    fullName: '',
+  },
+};
