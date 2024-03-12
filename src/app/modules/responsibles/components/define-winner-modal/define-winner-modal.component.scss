@@ -1,0 +1,50 @@
+.modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.col {
+  flex: 1;
+  text-align: center;
+}
+
+.rectangle {
+  font-size: 20px;
+  cursor: pointer;
+  border: 1px solid black;
+
+  &:hover {
+    border-width: 2px; /* Aumentamos el grosor del borde al pasar el ratón por encima */
+  }
+
+  &.active {
+    border-width: 2px; /* Aumentamos el grosor del borde cuando está activo */
+
+    .blue {
+      background: rgba(0, 119, 204, 1);
+    }
+    .red {
+      background: rgba(255, 68, 68, 1);
+    }
+  }
+}
+
+.blue,
+.red {
+  background: rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.blue {
+  background: rgba(0, 119, 204, 0.6);
+}
+
+.red {
+  background: rgba(255, 68, 68, 0.6);
+}

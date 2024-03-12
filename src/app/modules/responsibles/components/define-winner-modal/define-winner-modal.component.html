@@ -1,0 +1,50 @@
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Selecciona el resultado del combate</h4>
+        <button type="button" class="btn-close" (click)="closeModel()" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <span class="text-center mb-2">{{match.blueCompetitor.Participant.fullName}}</span>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="rectangle" [ngClass]="{'active': isSelected === 0}" (click)="changeColor(0)">
+              <div class="blue">0</div>
+              <div class="red">2</div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="rectangle" [ngClass]="{'active': isSelected === 1}" (click)="changeColor(1)">
+              <div class="blue">1</div>
+              <div class="red">2</div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="rectangle" [ngClass]="{'active': isSelected === 2}" (click)="changeColor(2)">
+              <div class="blue">2</div>
+              <div class="red">1</div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="rectangle" [ngClass]="{'active': isSelected === 3}" (click)="changeColor(3)">
+              <div class="blue">2</div>
+              <div class="red">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="text-center mt-2">{{match.redCompetitor.Participant.fullName}}</span>
+        </div>
+      </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

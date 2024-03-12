@@ -10,7 +10,7 @@ import {
 } from 'src/app/shared/models/match';
 import { joinNames } from '../../utils/joinCompetitorNames.utils';
 import { shuffleArray } from '../../utils/shuffleParticipants.utils';
-
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-eight-participants-bracket',
   templateUrl: './eight-participants-bracket.component.html',
@@ -30,14 +30,17 @@ export class EightParticipantsBracketComponent implements OnInit {
   final: matchWithCompetitorsI = emptyMatch;
 
   editingBracket: string = '';
-  selectedCompetitorId: string | null = null;
 
   loading: boolean = false;
+
+  selecedMatch: matchWithCompetitorsI = emptyMatch;
+
+  modalRef?: NgbModalRef;
   ngOnInit(): void {
     this.getMatches();
   }
-
-  constructor(private api: ApiService) {}
+  showModal: boolean = false;
+  constructor(private api: ApiService, private modalService: NgbModal) {}
 
   getMatches() {
     this.api
@@ -89,192 +92,13 @@ export class EightParticipantsBracketComponent implements OnInit {
       });
   }
 
-  createMatches() {
-    const bracketSort1 = shuffleArray(this.bracket.competitors);
-    const bracketSort2 = shuffleArray(bracketSort1);
-    const bracketSort3 = shuffleArray(bracketSort2);
-
-    const eights1: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[0].competitorId,
-      redCompetitorId: bracketSort3[1].competitorId,
-      round: 'eights1',
-    };
-    this.postMatch(eights1);
-    if (bracketSort3.length === 8) {
-      const eights2: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[2].competitorId,
-        redCompetitorId: bracketSort3[3].competitorId,
-        round: 'eights2',
-      };
-      this.postMatch(eights2);
-      const eights3: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[4].competitorId,
-        redCompetitorId: bracketSort3[5].competitorId,
-        round: 'eights3',
-      };
-      this.postMatch(eights3);
-      const eights4: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[6].competitorId,
-        redCompetitorId: bracketSort3[7].competitorId,
-        round: 'eights4',
-      };
-      this.postMatch(eights4);
-
-      const semifinal1: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: null,
-        redCompetitorId: null,
-        round: 'semifinal1',
-      };
-      this.postMatch(semifinal1);
-      const semifinal2: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: null,
-        redCompetitorId: null,
-        round: 'semifinal2',
-      };
-      this.postMatch(semifinal2);
-    }
-    const final: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: null,
-      round: 'final',
-    };
-    this.postMatch(final);
+  onModalClose($event: any) {
+    this.showModal = false;
+    console.log(this.showModal);
   }
 
-  postMatch(match: matchToCreateI | matchEmptyToCreateI) {
-    this.api
-      .postMatch(match, this.bracket.championshipId)
-      .subscribe((response: responseMatchI) => {
-        this.getMatches();
-      });
-  }
-
-  confirmEdit(match1Id: number, competitor1Id: string, competitor2Id: string) {
-    const match2 = this.matchesWithCompetitors.find(
-      (match) =>
-        match.blueCompetitorId === competitor2Id ||
-        match.redCompetitorId === competitor2Id
-    );
-    const match2Id = match2?.matchId;
-
-    if (match2Id !== undefined) {
-      if (match1Id === match2Id) {
-        //Cambios en el mismo match
-        const currentMatch = this.matchesWithCompetitors.find(
-          (match) => match.matchId === match1Id
-        );
-        if (competitor1Id === currentMatch?.blueCompetitorId) {
-          const editedMatch = {
-            blueCompetitorId: competitor2Id,
-            redCompetitorId: competitor1Id,
-          };
-          this.editMatch(match1Id, editedMatch);
-        } else {
-          const editedMatch = {
-            blueCompetitorId: competitor1Id,
-            redCompetitorId: competitor2Id,
-          };
-          this.editMatch(match1Id, editedMatch);
-        }
-      } else {
-        this.defineMatch1(match1Id, competitor1Id, competitor2Id);
-        this.defineMatch2(competitor1Id, match2Id, competitor2Id);
-      }
-    }
-  }
-
-  defineMatch1(match1Id: number, competitor1Id: string, competitor2Id: string) {
-    const currentMatch1 = this.matchesWithCompetitors.find(
-      (match) => match.matchId === match1Id
-    );
-    if (currentMatch1?.blueCompetitorId === currentMatch1?.redCompetitorId) {
-      const editedMatch1 = {
-        blueCompetitorId: competitor2Id,
-        redCompetitorId: competitor2Id,
-      };
-      this.editMatch(match1Id, editedMatch1);
-      this.editAdvance(competitor2Id);
-    }
-
-    if (competitor1Id === currentMatch1?.blueCompetitorId) {
-      const editedMatch1 = {
-        blueCompetitorId: competitor2Id,
-        redCompetitorId: currentMatch1.redCompetitorId,
-      };
-      this.editMatch(match1Id, editedMatch1);
-    } else {
-      const editedMatch1 = {
-        blueCompetitorId: currentMatch1?.blueCompetitorId,
-        redCompetitorId: competitor2Id,
-      };
-      this.editMatch(match1Id, editedMatch1);
-    }
-  }
-
-  defineMatch2(competitor1Id: string, match2Id: number, competitor2Id: string) {
-    const currentMatch2 = this.matchesWithCompetitors.find(
-      (match) => match.matchId === match2Id
-    );
-    if (currentMatch2?.blueCompetitorId === currentMatch2?.redCompetitorId) {
-      const editedMatch2 = {
-        blueCompetitorId: competitor1Id,
-        redCompetitorId: competitor1Id,
-      };
-      this.editMatch(match2Id, editedMatch2);
-      this.editAdvance(competitor1Id);
-    }
-
-    if (competitor2Id === currentMatch2?.blueCompetitorId) {
-      const editedMatch2 = {
-        blueCompetitorId: competitor1Id,
-        redCompetitorId: currentMatch2.redCompetitorId,
-      };
-      this.editMatch(match2Id, editedMatch2);
-    } else {
-      const editedMatch2 = {
-        blueCompetitorId: currentMatch2?.blueCompetitorId,
-        redCompetitorId: competitor1Id,
-      };
-      this.editMatch(match2Id, editedMatch2);
-    }
-  }
-
-  editMatch(matchId: number, editMatch: any) {
-    this.api
-      .editMatch(matchId, editMatch)
-      .subscribe((response: responseMatchI) => {
-        this.getMatches();
-        this.editingBracket = '';
-        this.selectedCompetitorId = null;
-      });
-  }
-
-  editAdvance(competitorId: string) {
-    const editedMatch = {
-      redCompetitorId: competitorId,
-    };
-    this.editMatch(this.final.matchId, editedMatch);
-  }
-
-  editCompetitor(competitorId: string) {
-    this.editingBracket = competitorId;
-  }
-
-  cancelEdit() {
-    this.editingBracket = '';
-  }
-
-  onSelectCompetitor(event: any) {
-    const competitorId = event.target?.value;
-    if (competitorId !== undefined) {
-      this.selectedCompetitorId = competitorId;
-    }
+  openModal(match: matchWithCompetitorsI) {
+    this.selecedMatch = match;
+    this.showModal = true;
   }
 }

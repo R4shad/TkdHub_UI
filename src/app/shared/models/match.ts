@@ -19,6 +19,12 @@ export interface matchToEditI {
   championshipId: number;
 }
 
+export interface matchModalI {
+  matchId: string;
+  blueCompetitorName: string;
+  redCompetitorName: string;
+}
+
 export interface matchWithCompetitorsI {
   matchId: number;
   bracketId: number;
