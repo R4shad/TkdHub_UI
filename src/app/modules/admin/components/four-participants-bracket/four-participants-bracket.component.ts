@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { bracketWithCompetitorsI } from 'src/app/shared/models/bracket';
 import {
   emptyMatch,
+  emptyParticipant,
   matchEmptyToCreateI,
   matchToCreateI,
   matchWithCompetitorsI,
@@ -38,12 +39,20 @@ export class FourParticipantsBracketComponent implements OnInit {
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
         for (const match of this.matchesWithCompetitors) {
-          const redFullName = joinNames(
-            match.redCompetitor.Participant.firstNames,
-            match.redCompetitor.Participant.lastNames
-          );
-          match.redCompetitor.Participant.fullName = redFullName;
-          if (match.blueCompetitorId != null) {
+          if (match.redCompetitorId === null) {
+            match.redCompetitor = emptyParticipant;
+            match.redCompetitor.competitorId = '';
+          } else {
+            const redFullName = joinNames(
+              match.redCompetitor.Participant.firstNames,
+              match.redCompetitor.Participant.lastNames
+            );
+            match.redCompetitor.Participant.fullName = redFullName;
+          }
+          if (match.blueCompetitorId === null) {
+            match.blueCompetitor = emptyParticipant;
+            match.blueCompetitor.competitorId = '';
+          } else {
             const blueFullName = joinNames(
               match.blueCompetitor.Participant.firstNames,
               match.blueCompetitor.Participant.lastNames
@@ -52,10 +61,10 @@ export class FourParticipantsBracketComponent implements OnInit {
           }
         }
         this.semiFinal1 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'semiFinal1'
+          (match) => match.round === 'semifinal1'
         )!;
         this.semiFinal2 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'semiFinal2'
+          (match) => match.round === 'semifinal2'
         )!;
         if (this.bracket.competitors.length === 3)
           this.final = this.matchesWithCompetitors.find(
@@ -73,44 +82,33 @@ export class FourParticipantsBracketComponent implements OnInit {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: bracketSort3[0].competitorId,
       redCompetitorId: bracketSort3[1].competitorId,
-      round: 'semiFinal1',
+      round: 'semifinal1',
     };
-
-    if (bracketSort3.length === 4) {
-      const semiFinal2Match: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[2].competitorId,
-        redCompetitorId: bracketSort3[3].competitorId,
-        round: 'semiFinal2',
-      };
-      this.postMatch(semiFinal2Match);
-    } else {
-      const semiFinal2Match: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[2].competitorId,
-        redCompetitorId: bracketSort3[2].competitorId,
-        round: 'semiFinal2',
-      };
-
-      const final: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: null,
-        redCompetitorId: bracketSort3[2].competitorId,
-        round: 'final',
-      };
-
-      this.postMatch(semiFinal2Match);
-      this.postMatch(final);
-      const winner: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: null,
-        redCompetitorId: null,
-        round: 'winner',
-      };
-      this.postMatch(winner);
-    }
-
     this.postMatch(semiFinal1Match);
+
+    const semiFinal2Match: matchToCreateI = {
+      bracketId: this.bracket.bracketId,
+      blueCompetitorId: bracketSort3[2].competitorId,
+      redCompetitorId: bracketSort3[3].competitorId,
+      round: 'semifinal2',
+    };
+    this.postMatch(semiFinal2Match);
+
+    const final: matchToCreateI = {
+      bracketId: this.bracket.bracketId,
+      blueCompetitorId: null,
+      redCompetitorId: null,
+      round: 'final',
+    };
+    this.postMatch(final);
+
+    const winner: matchToCreateI = {
+      bracketId: this.bracket.bracketId,
+      blueCompetitorId: null,
+      redCompetitorId: null,
+      round: 'winner',
+    };
+    this.postMatch(winner);
   }
 
   postMatch(match: matchToCreateI | matchEmptyToCreateI) {

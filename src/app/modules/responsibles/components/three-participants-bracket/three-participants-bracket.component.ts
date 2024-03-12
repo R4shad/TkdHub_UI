@@ -14,13 +14,12 @@ import { shuffleArray } from '../../utils/shuffleParticipants.utils';
 import { joinNames } from '../../utils/joinCompetitorNames.utils';
 import { Observable } from 'rxjs';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
 @Component({
-  selector: 'app-four-participants-bracket',
-  templateUrl: './four-participants-bracket.component.html',
-  styleUrls: ['./four-participants-bracket.component.scss'],
+  selector: 'app-three-participants-bracket',
+  templateUrl: './three-participants-bracket.component.html',
+  styleUrls: ['./three-participants-bracket.component.scss'],
 })
-export class FourParticipantsBracketComponent implements OnInit {
+export class ThreeParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 

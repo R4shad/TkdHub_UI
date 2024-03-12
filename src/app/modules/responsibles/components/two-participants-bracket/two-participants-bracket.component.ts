@@ -6,12 +6,16 @@ import {
 } from 'src/app/shared/models/bracket';
 import {
   emptyMatch,
+  emptyParticipant,
   matchI,
+  matchModalI,
   matchToCreateI,
   matchWithCompetitorsI,
   responseMatchI,
 } from 'src/app/shared/models/match';
 import { ApiService } from '../../../../core/services/api.service';
+import { Observable } from 'rxjs';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-two-participants-bracket',
   templateUrl: './two-participants-bracket.component.html',
@@ -20,13 +24,18 @@ import { ApiService } from '../../../../core/services/api.service';
 export class TwoParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
-  finalMatch: matchWithCompetitorsI = emptyMatch;
-  editingBracket: string = '';
-  selectedCompetitorId: string | null = null;
+
+  final$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+
+  winner$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  selecedMatch!: matchModalI;
+  modalRef?: NgbModalRef;
+  showModal: boolean = false;
   ngOnInit(): void {
     this.getMatches();
   }
-
   constructor(private api: ApiService) {}
 
   getMatches() {
@@ -35,67 +44,81 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
         for (const match of this.matchesWithCompetitors) {
-          const blueFullName = joinNames(
-            match.blueCompetitor.Participant.firstNames,
-            match.blueCompetitor.Participant.lastNames
-          );
-          const redFullName = joinNames(
-            match.redCompetitor.Participant.firstNames,
-            match.redCompetitor.Participant.lastNames
-          );
-
-          match.blueCompetitor.Participant.fullName = blueFullName;
-          match.redCompetitor.Participant.fullName = redFullName;
+          if (match.redCompetitorId === null) {
+            match.redCompetitor = emptyParticipant;
+            match.redCompetitor.competitorId = '';
+          } else {
+            const redFullName = joinNames(
+              match.redCompetitor.Participant.firstNames,
+              match.redCompetitor.Participant.lastNames
+            );
+            match.redCompetitor.Participant.fullName = redFullName;
+          }
+          if (match.blueCompetitorId === null) {
+            match.blueCompetitor = emptyParticipant;
+            match.blueCompetitor.competitorId = '';
+          } else {
+            const blueFullName = joinNames(
+              match.blueCompetitor.Participant.firstNames,
+              match.blueCompetitor.Participant.lastNames
+            );
+            match.blueCompetitor.Participant.fullName = blueFullName;
+          }
         }
 
-        this.finalMatch = this.matchesWithCompetitors.find(
-          (match) => match.round === 'final'
-        )!;
+        this.filterCompetitors();
       });
   }
 
-  createMatches() {
-    const newMatch: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: this.bracket.competitors[0].competitorId,
-      redCompetitorId: this.bracket.competitors[1].competitorId,
-      round: 'final',
-    };
-    this.api
-      .postMatch(newMatch, this.bracket.championshipId)
-      .subscribe((response: responseMatchI) => {
-        this.getMatches();
-      });
+  filterCompetitors() {
+    this.final$ = this.getMatchObservable('final');
+    this.winner$ = this.getMatchObservable('winner');
   }
 
-  editCompetitor(competitorId: string) {
-    this.editingBracket = competitorId;
+  private getMatchObservable(round: string): Observable<matchWithCompetitorsI> {
+    return new Observable<matchWithCompetitorsI>((observer) => {
+      const match = this.matchesWithCompetitors.find((m) => m.round === round);
+      observer.next(match ? match : emptyMatch);
+      observer.complete();
+    });
   }
 
-  cancelEdit() {
-    this.editingBracket = '';
-  }
-  onSelectCompetitor(event: any) {
-    const competitorId = event.target?.value;
-    if (competitorId !== undefined) {
-      this.selectedCompetitorId = competitorId;
+  onModalClose($event: boolean) {
+    this.showModal = false;
+    if ($event) {
+      this.getMatches();
     }
   }
 
-  confirmEdit(
-    matchId: number,
-    blueCompetitorId: string,
-    redCompetitorId: string
-  ) {
-    const editedMatch = {
-      blueCompetitorId: redCompetitorId,
-      redCompetitorId: blueCompetitorId,
+  openModal(match: matchWithCompetitorsI) {
+    this.selecedMatch = {
+      matchId: match.matchId,
+      bracketId: match.bracketId,
+      blueCompetitorName: match.blueCompetitor.Participant.fullName,
+      redCompetitorName: match.redCompetitor.Participant.fullName,
+
+      blueCompetitorId: match.blueCompetitor.competitorId,
+      redCompetitorId: match.redCompetitor.competitorId,
+
+      round: match.round,
     };
-    this.api
-      .editMatch(matchId, editedMatch)
-      .subscribe((response: responseMatchI) => {
-        this.getMatches();
-        this.editingBracket = '';
-      });
+    this.showModal = true;
+  }
+
+  matchToDefine(match: matchWithCompetitorsI) {
+    if (match.redRounds != 0 || match.blueRounds != 0) {
+      return false;
+    }
+    if (match.redCompetitorId === null || match.blueCompetitorId === null) {
+      return false;
+    }
+    return true;
+  }
+
+  showScore(match: matchWithCompetitorsI) {
+    if (match.redCompetitorId === null || match.blueCompetitorId === null) {
+      return false;
+    }
+    return true;
   }
 }

@@ -6,6 +6,7 @@ import {
 } from 'src/app/shared/models/bracket';
 import {
   emptyMatch,
+  emptyParticipant,
   matchI,
   matchToCreateI,
   matchWithCompetitorsI,
@@ -35,17 +36,26 @@ export class TwoParticipantsBracketComponent implements OnInit {
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
         for (const match of this.matchesWithCompetitors) {
-          const blueFullName = joinNames(
-            match.blueCompetitor.Participant.firstNames,
-            match.blueCompetitor.Participant.lastNames
-          );
-          const redFullName = joinNames(
-            match.redCompetitor.Participant.firstNames,
-            match.redCompetitor.Participant.lastNames
-          );
-
-          match.blueCompetitor.Participant.fullName = blueFullName;
-          match.redCompetitor.Participant.fullName = redFullName;
+          if (match.redCompetitorId === null) {
+            match.redCompetitor = emptyParticipant;
+            match.redCompetitor.competitorId = '';
+          } else {
+            const redFullName = joinNames(
+              match.redCompetitor.Participant.firstNames,
+              match.redCompetitor.Participant.lastNames
+            );
+            match.redCompetitor.Participant.fullName = redFullName;
+          }
+          if (match.blueCompetitorId === null) {
+            match.blueCompetitor = emptyParticipant;
+            match.blueCompetitor.competitorId = '';
+          } else {
+            const blueFullName = joinNames(
+              match.blueCompetitor.Participant.firstNames,
+              match.blueCompetitor.Participant.lastNames
+            );
+            match.blueCompetitor.Participant.fullName = blueFullName;
+          }
         }
 
         this.finalMatch = this.matchesWithCompetitors.find(

@@ -9,27 +9,23 @@ import {
   matchWithCompetitorsI,
   responseMatchI,
 } from 'src/app/shared/models/match';
-import { joinNames } from '../../utils/joinCompetitorNames.utils';
 import { shuffleArray } from '../../utils/shuffleParticipants.utils';
-
+import { joinNames } from '../../utils/joinCompetitorNames.utils';
 @Component({
-  selector: 'app-eight-participants-bracket',
-  templateUrl: './eight-participants-bracket.component.html',
-  styleUrls: ['./eight-participants-bracket.component.scss'],
+  selector: 'app-three-participants-bracket',
+  templateUrl: './three-participants-bracket.component.html',
+  styleUrls: ['./three-participants-bracket.component.scss'],
 })
-export class EightParticipantsBracketComponent implements OnInit {
+export class ThreeParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
-  quarters1: matchWithCompetitorsI = emptyMatch;
-  quarters2: matchWithCompetitorsI = emptyMatch;
-  quarters3: matchWithCompetitorsI = emptyMatch;
-  quarters4: matchWithCompetitorsI = emptyMatch;
+  semiFinal1: matchWithCompetitorsI = emptyMatch;
+  semiFinal2: matchWithCompetitorsI = emptyMatch;
+  final: matchWithCompetitorsI = emptyMatch;
 
   editingBracket: string = '';
   selectedCompetitorId: string | null = null;
-  loading: boolean = false;
-
   ngOnInit(): void {
     this.getMatches();
   }
@@ -63,19 +59,16 @@ export class EightParticipantsBracketComponent implements OnInit {
             match.blueCompetitor.Participant.fullName = blueFullName;
           }
         }
-
-        this.quarters1 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters1'
+        this.semiFinal1 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'semifinal1'
         )!;
-        this.quarters2 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters2'
+        this.semiFinal2 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'semifinal2'
         )!;
-        this.quarters3 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters3'
-        )!;
-        this.quarters4 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters4'
-        )!;
+        if (this.bracket.competitors.length === 3)
+          this.final = this.matchesWithCompetitors.find(
+            (match) => match.round === 'final'
+          )!;
       });
   }
 
@@ -84,58 +77,29 @@ export class EightParticipantsBracketComponent implements OnInit {
     const bracketSort2 = shuffleArray(bracketSort1);
     const bracketSort3 = shuffleArray(bracketSort2);
 
-    const quarters1: matchToCreateI = {
+    const semiFinal1Match: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: bracketSort3[0].competitorId,
       redCompetitorId: bracketSort3[1].competitorId,
-      round: 'quarters1',
+      round: 'semifinal1',
     };
-    this.postMatch(quarters1);
-    if (bracketSort3.length === 8) {
-      const quarters2: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[2].competitorId,
-        redCompetitorId: bracketSort3[3].competitorId,
-        round: 'quarters2',
-      };
-      this.postMatch(quarters2);
-      const quarters3: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[4].competitorId,
-        redCompetitorId: bracketSort3[5].competitorId,
-        round: 'quarters3',
-      };
-      this.postMatch(quarters3);
-      const quarters4: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: bracketSort3[6].competitorId,
-        redCompetitorId: bracketSort3[7].competitorId,
-        round: 'quarters4',
-      };
-      this.postMatch(quarters4);
+    this.postMatch(semiFinal1Match);
+    const semiFinal2Match: matchToCreateI = {
+      bracketId: this.bracket.bracketId,
+      blueCompetitorId: bracketSort3[2].competitorId,
+      redCompetitorId: bracketSort3[2].competitorId,
+      round: 'semifinal2',
+    };
+    this.postMatch(semiFinal2Match);
 
-      const semifinal1: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: null,
-        redCompetitorId: null,
-        round: 'semifinal1',
-      };
-      this.postMatch(semifinal1);
-      const semifinal2: matchToCreateI = {
-        bracketId: this.bracket.bracketId,
-        blueCompetitorId: null,
-        redCompetitorId: null,
-        round: 'semifinal2',
-      };
-      this.postMatch(semifinal2);
-    }
     const final: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: null,
-      redCompetitorId: null,
+      redCompetitorId: bracketSort3[2].competitorId,
       round: 'final',
     };
     this.postMatch(final);
+
     const winner: matchToCreateI = {
       bracketId: this.bracket.bracketId,
       blueCompetitorId: null,
@@ -160,7 +124,6 @@ export class EightParticipantsBracketComponent implements OnInit {
         match.redCompetitorId === competitor2Id
     );
     const match2Id = match2?.matchId;
-
     if (match2Id !== undefined) {
       if (match1Id === match2Id) {
         //Cambios en el mismo match
@@ -191,12 +154,15 @@ export class EightParticipantsBracketComponent implements OnInit {
     const currentMatch1 = this.matchesWithCompetitors.find(
       (match) => match.matchId === match1Id
     );
+    console.log(currentMatch1);
     if (currentMatch1?.blueCompetitorId === currentMatch1?.redCompetitorId) {
+      console.log('ENTRE BIEN MATCH1');
       const editedMatch1 = {
         blueCompetitorId: competitor2Id,
         redCompetitorId: competitor2Id,
       };
       this.editMatch(match1Id, editedMatch1);
+      this.editFinal(competitor2Id);
     }
 
     if (competitor1Id === currentMatch1?.blueCompetitorId) {
@@ -219,25 +185,13 @@ export class EightParticipantsBracketComponent implements OnInit {
       (match) => match.matchId === match2Id
     );
     if (currentMatch2?.blueCompetitorId === currentMatch2?.redCompetitorId) {
+      console.log('ENTRE BIEN MATCH2');
       const editedMatch2 = {
         blueCompetitorId: competitor1Id,
         redCompetitorId: competitor1Id,
       };
       this.editMatch(match2Id, editedMatch2);
-    }
-
-    if (competitor2Id === currentMatch2?.blueCompetitorId) {
-      const editedMatch2 = {
-        blueCompetitorId: competitor1Id,
-        redCompetitorId: currentMatch2.redCompetitorId,
-      };
-      this.editMatch(match2Id, editedMatch2);
-    } else {
-      const editedMatch2 = {
-        blueCompetitorId: currentMatch2?.blueCompetitorId,
-        redCompetitorId: competitor1Id,
-      };
-      this.editMatch(match2Id, editedMatch2);
+      this.editFinal(competitor1Id);
     }
   }
 
@@ -251,6 +205,13 @@ export class EightParticipantsBracketComponent implements OnInit {
       });
   }
 
+  editFinal(competitorId: string) {
+    const editedMatch = {
+      redCompetitorId: competitorId,
+    };
+    this.editMatch(this.final.matchId, editedMatch);
+  }
+
   editCompetitor(competitorId: string) {
     this.editingBracket = competitorId;
   }
@@ -258,7 +219,6 @@ export class EightParticipantsBracketComponent implements OnInit {
   cancelEdit() {
     this.editingBracket = '';
   }
-
   onSelectCompetitor(event: any) {
     const competitorId = event.target?.value;
     if (competitorId !== undefined) {

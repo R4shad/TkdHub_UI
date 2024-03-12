@@ -51,8 +51,6 @@
               <span class="name">{{ (semiFinal2$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
               <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.blueRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchToDefine(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
               </div>
             </div>
             <div class="competitor red">
@@ -60,8 +58,6 @@
               <span class="name">{{ (semiFinal2$ | async)?.redCompetitor?.Participant?.fullName }}</span>
               <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.redRounds}}</span>
               <div class="icons">
-                <i *ngIf="matchToDefine(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
               </div>
             </div>
           </div>

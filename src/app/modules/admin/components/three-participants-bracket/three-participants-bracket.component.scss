@@ -1,0 +1,5 @@
+@import "./../../pages/bracket-draw/bracket-draw.component.scss";
+
+.column:nth-child(2) .line.vertical {
+  display: none;
+}
