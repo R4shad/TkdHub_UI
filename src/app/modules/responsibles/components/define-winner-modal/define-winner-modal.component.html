@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <span class="text-center mb-2">{{match.blueCompetitor.Participant.fullName}}</span>
+          <span class="text-center mb-2">{{match.blueCompetitorName}}</span>
         </div>
         <div class="row">
           <div class="col">
@@ -36,14 +36,24 @@
           </div>
         </div>
         <div class="row">
-          <span class="text-center mt-2">{{match.redCompetitor.Participant.fullName}}</span>
+          <span class="text-center mt-2">{{match.redCompetitorName}}</span>
         </div>
       </div>
 
 
-
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <div *ngIf="isSelected===0 || isSelected===1">
+          <span>El competidor Rojo gano el combate.</span>
+        </div>
+        <div *ngIf="isSelected===2 || isSelected===3">
+          <span>El competidor Azul gano el combate.</span>
+        </div>
+        <div class="buttons">
+          <button type="button" class="btn btn-primary px-2" data-bs-dismiss="modal"
+            (click)="confirmWinner()">Confirmar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeModel()">Close</button>
+        </div>
+
       </div>
     </div>
   </div>

@@ -72,6 +72,7 @@ import {
 import {
   matchEmptyToCreateI,
   matchI,
+  matchIdResponseI,
   matchToCreateI,
   matchToEditI,
   matchWithCompetitorsI,
@@ -586,6 +587,13 @@ export class ApiService {
     const direccion = `${this.APIurl}match/${championshipId}/${bracketId}`;
     return this.http
       .get<responseMatchesWithCompetitorsI>(direccion)
+      .pipe(map((response) => response.data));
+  }
+
+  getMatchId(bracketId: number, round: string): Observable<number> {
+    const direccion = `${this.APIurl}match/getId/${bracketId}/${round}`;
+    return this.http
+      .get<matchIdResponseI>(direccion)
       .pipe(map((response) => response.data));
   }
 

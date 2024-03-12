@@ -20,9 +20,21 @@ export interface matchToEditI {
 }
 
 export interface matchModalI {
-  matchId: string;
+  bracketId: number;
+  matchId: number;
+
   blueCompetitorName: string;
   redCompetitorName: string;
+
+  blueCompetitorId: string;
+  redCompetitorId: string;
+
+  round: string;
+}
+
+export interface matchWinnerI {
+  blueRounds: number;
+  redRounds: number;
 }
 
 export interface matchWithCompetitorsI {
@@ -64,6 +76,11 @@ export interface matchToCreateI {
 export interface matchEmptyToCreateI {
   bracketId: number;
   round: string;
+}
+
+export interface matchIdResponseI {
+  status: number;
+  data: number;
 }
 
 export interface responseMatchI {

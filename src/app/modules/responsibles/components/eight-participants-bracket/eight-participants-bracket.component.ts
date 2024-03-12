@@ -4,6 +4,7 @@ import { bracketWithCompetitorsI } from 'src/app/shared/models/bracket';
 import {
   emptyMatch,
   matchEmptyToCreateI,
+  matchModalI,
   matchToCreateI,
   matchWithCompetitorsI,
   responseMatchI,
@@ -20,20 +21,18 @@ export class EightParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
-  eights1: matchWithCompetitorsI = emptyMatch;
-  eights2: matchWithCompetitorsI = emptyMatch;
-  eights3: matchWithCompetitorsI = emptyMatch;
-  eights4: matchWithCompetitorsI = emptyMatch;
+  quarters1: matchWithCompetitorsI = emptyMatch;
+  quarters2: matchWithCompetitorsI = emptyMatch;
+  quarters3: matchWithCompetitorsI = emptyMatch;
+  quarters4: matchWithCompetitorsI = emptyMatch;
 
   semiFinal1: matchWithCompetitorsI = emptyMatch;
   semiFinal2: matchWithCompetitorsI = emptyMatch;
   final: matchWithCompetitorsI = emptyMatch;
 
-  editingBracket: string = '';
-
   loading: boolean = false;
 
-  selecedMatch: matchWithCompetitorsI = emptyMatch;
+  selecedMatch!: matchModalI;
 
   modalRef?: NgbModalRef;
   ngOnInit(): void {
@@ -43,12 +42,14 @@ export class EightParticipantsBracketComponent implements OnInit {
   constructor(private api: ApiService, private modalService: NgbModal) {}
 
   getMatches() {
+    console.log(this.bracket.categoryId);
+    console.log(this.bracket.bracketId);
     this.api
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
         for (const match of this.matchesWithCompetitors) {
-          if (match.blueCompetitorId != null) {
+          if (match.redCompetitorId != null) {
             const redFullName = joinNames(
               match.redCompetitor.Participant.firstNames,
               match.redCompetitor.Participant.lastNames
@@ -64,23 +65,21 @@ export class EightParticipantsBracketComponent implements OnInit {
           }
         }
 
-        this.eights1 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights1'
+        this.quarters1 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'quarters1'
         )!;
-        this.eights2 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights2'
+        this.quarters2 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'quarters2'
         )!;
-        this.eights3 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights3'
+        this.quarters3 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'quarters3'
         )!;
-        this.eights4 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights4'
+        this.quarters4 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'quarters4'
         )!;
-        if (this.bracket.competitors.length === 5) {
-          this.semiFinal1 = this.matchesWithCompetitors.find(
-            (match) => match.round === 'semifinal1'
-          )!;
-        }
+        this.semiFinal1 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'semifinal1'
+        )!;
         if (
           this.bracket.competitors.length === 6 ||
           this.bracket.competitors.length === 7
@@ -92,13 +91,32 @@ export class EightParticipantsBracketComponent implements OnInit {
       });
   }
 
-  onModalClose($event: any) {
+  onModalClose($event: boolean) {
     this.showModal = false;
-    console.log(this.showModal);
+    if ($event) {
+      this.getMatches();
+    }
   }
 
   openModal(match: matchWithCompetitorsI) {
-    this.selecedMatch = match;
+    this.selecedMatch = {
+      matchId: match.matchId,
+      bracketId: match.bracketId,
+      blueCompetitorName: match.blueCompetitor.Participant.fullName,
+      redCompetitorName: match.redCompetitor.Participant.fullName,
+
+      blueCompetitorId: match.blueCompetitor.competitorId,
+      redCompetitorId: match.redCompetitor.competitorId,
+
+      round: match.round,
+    };
     this.showModal = true;
+  }
+
+  matchHasWinner(match: matchWithCompetitorsI) {
+    if (match.redRounds != 0 || match.blueRounds != 0) {
+      return false;
+    }
+    return true;
   }
 }
