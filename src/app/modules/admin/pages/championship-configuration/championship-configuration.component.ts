@@ -33,15 +33,6 @@ export class ChampionshipConfigurationComponent implements OnInit {
         console.log(this.championship);
       });
   }
-
-  nextStep() {
-    this.currentStep++;
-  }
-
-  previousStep() {
-    this.currentStep--;
-  }
-
   returnToSummary() {
     const championshipId = this.championship.championshipId;
     this.router.navigate(['/championship', championshipId, 'Organizer']);

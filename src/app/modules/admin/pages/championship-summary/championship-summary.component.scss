@@ -1,3 +1,122 @@
 .text-L {
   font-size: 24px;
 }
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.progress-container::before {
+  content: "";
+  background: #e0e0e0;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  z-index: -1;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  width: 80%;
+}
+
+.progress {
+  background: #3498db;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 0%;
+  z-index: -1;
+  transition: 0.4s ease;
+}
+
+.circle {
+  background: #fff;
+  color: #999;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #e0e0e0;
+  transition: 0.4s ease;
+}
+
+.circle.active {
+  border-color: #3498db;
+}
+
+.btn {
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 30px;
+  margin: 5px;
+  font-size: 14px;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.btn:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+.table {
+  td,
+  th {
+    background-color: transparent; // Establece el fondo de las celdas como transparente
+  }
+}
+.bg {
+  background-color: #6d88a1;
+}
+i {
+  color: #8fadcc;
+  font-size: 24px;
+}
+.container-fluid {
+  padding: 0;
+}
+.text-L {
+  font-size: 24px;
+}
+.form-control,
+.form-select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #494248;
+}
+.text-S {
+  font-size: 16px;
+  padding-left: 4px;
+}
+.participants {
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cant {
+  margin-bottom: 0px;
+}

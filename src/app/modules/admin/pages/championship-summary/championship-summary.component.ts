@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 import { participantI } from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
 import { clubI } from 'src/app/shared/models/Club';
+import { ChampionshipStage } from 'src/app/shared/models/enums';
 
 @Component({
   selector: 'app-championship-summary',
@@ -11,13 +12,8 @@ import { clubI } from 'src/app/shared/models/Club';
   styleUrls: ['./championship-summary.component.scss'],
 })
 export class ChampionshipSummaryComponent implements OnInit {
-  participants: participantI[] = [];
-  clubs: clubI[] = [];
-  participantsFilter: participantI[] = [];
-  genterFilter = new FormControl('');
-  clubFilter = new FormControl('');
   championshipId: number = 0;
-  clubCode: string = '';
+  stage: number = 0;
   constructor(
     private api: ApiService,
     private router: Router,
@@ -28,8 +24,59 @@ export class ChampionshipSummaryComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
     });
-    this.getClubs();
-    this.displayParticipants();
+
+    this.api.getChampionshipStage(this.championshipId).subscribe((data) => {
+      this.stage = this.obtainNumericStage(data);
+      this.update(this.stage);
+    });
+  }
+
+  obtainNumericStage(stage: string): number {
+    switch (stage) {
+      case ChampionshipStage.Etapa1:
+        return 1;
+      case ChampionshipStage.Etapa2:
+        return 2;
+      case ChampionshipStage.Etapa3:
+        return 3;
+      case ChampionshipStage.Etapa4:
+        return 4;
+      case ChampionshipStage.Etapa5:
+        return 5;
+      case ChampionshipStage.Etapa6:
+        return 6;
+      case ChampionshipStage.Etapa7:
+        return 7;
+      case ChampionshipStage.Etapa8:
+        return 8;
+      case ChampionshipStage.Etapa9:
+        return 9;
+      default:
+        return 0;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['currentStep']) {
+      this.update(changes['currentStep'].currentValue);
+    }
+  }
+
+  private update(currentActive: number): void {
+    const progress: any = document.getElementById('progress');
+    const stepCircles = document.querySelectorAll('.circle');
+
+    stepCircles.forEach((circle, i) => {
+      if (i < currentActive) {
+        circle.classList.add('active');
+      } else {
+        circle.classList.remove('active');
+      }
+    });
+
+    const activeCircles = document.querySelectorAll('.active');
+    progress.style.width =
+      ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + '%';
   }
 
   getCurrentRoute(): string {
@@ -38,70 +85,21 @@ export class ChampionshipSummaryComponent implements OnInit {
 
   goToTraineeRegistration() {
     const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
     this.router.navigate([currentRoute, 'TraineeRegistration']);
   }
 
   goToChampionshipConfiguration() {
     const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
     this.router.navigate([currentRoute, 'ChampionshipConfiguration']);
   }
 
   goToParticipantValidation() {
     const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
     this.router.navigate([currentRoute, 'ParticipantValidation']);
   }
 
   goToCompetitorsGrouping() {
     const currentRoute = this.getCurrentRoute();
-
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
     this.router.navigate([currentRoute, 'Grouping']);
-  }
-
-  displayParticipants() {
-    this.api.getParticipants(this.championshipId).subscribe((data) => {
-      //console.log(data);
-      this.participants = data;
-      this.participantsFilter = data;
-    });
-  }
-
-  getClubs() {
-    //console.log(this.championshipId);
-    this.api.getClubs(this.championshipId).subscribe((data) => {
-      this.clubs = data;
-    });
-  }
-
-  filterGender() {
-    const genderFilter = this.genterFilter.value;
-    //console.log(genderFilter);
-    if (genderFilter === 'todos') {
-      this.participantsFilter = this.participants;
-    } else {
-      // Filtrar inscritos por sexo
-      this.participantsFilter = this.participants.filter(
-        (participant) => participant.gender === genderFilter
-      );
-    }
-  }
-
-  filterClub() {
-    const clubFilter = this.clubFilter.value;
-    //console.log(clubFilter);
-    if (clubFilter === 'todos') {
-      this.participantsFilter = this.participants;
-    } else {
-      // Filtrar inscritos por sexo
-      this.participantsFilter = this.participants.filter(
-        (participant) => participant.clubCode === clubFilter
-      );
-    }
   }
 }

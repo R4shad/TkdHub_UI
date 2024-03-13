@@ -1,8 +1,13 @@
 <div class="container">
+  <div class="buttonsS mt-2">
+    <button class="btn btn-primary" (click)="returnToSummary()">Volver</button>
+    <button class="btn btn-primary" (click)="resetInitialData()">Reiniciar Configuraciones</button>
+  </div>
+
   <h2 class="title">Espacio para Configurar las Categorias y Divisiones</h2>
   <div>
     <app-age-selector></app-age-selector>
   </div>
 
-  <button class="btn btn-primary" (click)="resetInitialData()">Reiniciar Configuraciones</button>
+
 </div>

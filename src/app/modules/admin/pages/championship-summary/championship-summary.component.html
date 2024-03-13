@@ -1,12 +1,112 @@
 <div>
-  <div class="mt-4">
-    <button type="button" class="mx-1 btn btn-outline-primary  btn-block mb-3 text-L"
-      (click)="goToChampionshipConfiguration()">Configuracion de
-      Campeonato</button>
-    <button (click)="goToTraineeRegistration()" class="mx-1 btn btn-outline-primary  btn-block mb-3 text-L"
-      type="button">Registrar Entrenadores</button>
-    <button (click)="goToParticipantValidation()" class="mx-1 btn btn-outline-primary  btn-block mb-3 text-L"
-      type="button">Validacion del pesaje</button>
-    <button (click)="goToCompetitorsGrouping()" class="btn mx-1 btn-outline-primary  btn-block mb-3 text-L"
-      type="button">Agrupaciones</button>
+  <h1>Estapas del Campeonato</h1>
+</div>
+<div class='progress-bar-container'>
+  <div class="container">
+    <div class="progress-container">
+      <div class="progress" id="progress"> </div>
+      <div class="circle active">1</div>
+      <div class="circle">2</div>
+      <div class="circle">3</div>
+      <div class="circle">4</div>
+      <div class="circle">5</div>
+      <div class="circle">6</div>
+      <div class="circle">7</div>
+      <div class="circle">8</div>
+      <div class="circle">9</div>
+    </div>
   </div>
+</div>
+
+<div class="container-fluid d-flex justify-content-center mt-4">
+  <div class="row col-10">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr class="bg text-white">
+            <th>Número de etapa</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-S">
+            <td>1</td>
+            <td>Configura las Divisiones y Categorias.</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-cog" aria-hidden="true" *ngIf="stage === 1" (click)="goToChampionshipConfiguration()"></i>
+              Configurar
+            </td>
+          </tr>
+          <tr class="text-S">
+            <td>2</td>
+            <td>Registra a los Clubes y Entrenadores</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-user-plus" aria-hidden="true" *ngIf="stage === 2" (click)="goToTraineeRegistration()"></i>
+            </td>
+          </tr>
+          <tr class="text-S">
+            <td>3</td>
+            <td>Los entrenadores de cada club estan Inscribiendo a sus Competidores.</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-eye" aria-hidden="true" *ngIf="stage === 3"></i>
+            </td>
+          </tr>
+          <tr class="text-S">
+            <td>4</td>
+            <td>Pesaje: Valida los datos de cada uno de los Competidores.</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-check-square-o" aria-hidden="true" *ngIf="stage === 4"
+                (click)="goToParticipantValidation()"></i>
+            </td>
+          </tr>
+          <tr class="text-S">
+            <td>5</td>
+            <td>Creacion y edicion de las Agrupaciones.</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-pencil" aria-hidden="true" *ngIf="stage === 5" (click)="goToCompetitorsGrouping()"></i>
+            </td>
+          </tr>
+          <tr class="text-S">
+            <td>6</td>
+            <td>Creacion y edicion de las Llaves</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-pencil" aria-hidden="true" *ngIf="stage === 6"></i>
+            </td>
+          </tr>
+          <tr class="text-S">
+            <td>7</td>
+            <td>Registro de los Responsables, ellos son encargados de registrar a los ganadores de cada combate.</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-user-plus" *ngIf="stage === 7"></i>
+            </td>
+          </tr>
+          <tr class=" text-S">
+            <td>8</td>
+            <td>Registrando de los ganadores de cada combate.</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-eye" aria-hidden="true" *ngIf="stage === 8"></i>
+            </td>
+          </tr>
+          <tr class="text-S">
+            <td>9</td>
+            <td>Fin del campeonato.</td>
+            <td>Pendiente</td>
+            <td>
+              <i class="fa fa-file-text-o" aria-hidden="true" *ngIf="stage === 9"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

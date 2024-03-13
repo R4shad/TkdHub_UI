@@ -80,6 +80,7 @@ import {
   responseMatchesI,
   responseMatchesWithCompetitorsI,
 } from 'src/app/shared/models/match';
+import { ChampionshipStage } from 'src/app/shared/models/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -220,6 +221,15 @@ export class ApiService {
     return this.http.get<responseCategoryI>(direccion).pipe(
       map((response: responseCategoryI) => {
         return response.data;
+      })
+    );
+  }
+
+  getChampionshipStage(championshipId: number): Observable<ChampionshipStage> {
+    let direccion = this.APIurl + 'championship/stage/' + championshipId;
+    return this.http.get<ChampionshipStage>(direccion).pipe(
+      map((response: any) => {
+        return response.data.stage;
       })
     );
   }
