@@ -1,0 +1,43 @@
+<div class="bracket-container" *ngIf="matchesWithCompetitors.length>0">
+  <div class="bracket">
+    <div class="column final">
+      <div class="match ">
+        <div class="match-container">
+          <div class="match-number">
+            <span class="number">12</span>
+          </div>
+          <div class="match-competitors" *ngIf="(final$ | async) as quarters1">
+            <div class="competitor blue">
+              <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
+              <span class="name">{{ (final$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+              <span class="score" *ngIf="showScore(quarters1)">{{(final$ | async)?.blueRounds}}</span>
+            </div>
+            <div class="competitor red">
+              <span class="clubCode">{{ (final$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
+              <span class="name">{{ (final$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+              <span class="score" *ngIf="showScore(quarters1)">{{(final$ | async)?.redRounds}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="match-lines">
+          <div class="line horizontal"></div>
+          <div class="line vertical"></div>
+        </div>
+        <div class="match-lines alt">
+          <div class="line horizontal"></div>
+        </div>
+      </div>
+    </div>
+    <div class="column four">
+      <div class="match">
+        <div class="competitor winner">
+          <span class="clubCode">{{(winner$ | async)?.blueCompetitor?.Participant?.clubCode}}</span>
+          <span class="name">{{(winner$ | async)?.blueCompetitor?.Participant?.fullName}}</span>
+        </div>
+        <div class="match-lines alt">
+          <div class="line horizontal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

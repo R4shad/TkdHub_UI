@@ -13,19 +13,13 @@
                 <span class="clubCode">{{ (quarters1$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
                 <span class="name">{{ (quarters1$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters1)">{{(quarters1$ | async)?.blueRounds}}</span>
-                <div class="icons">
-                  <i *ngIf="matchToDefine(quarters1)" (click)="openModal(quarters1)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
-                </div>
+
               </div>
               <div class="competitor red">
                 <span class="clubCode">{{ (quarters1$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
                 <span class="name">{{ (quarters1$ | async)?.redCompetitor?.Participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters1)">{{(quarters1$ | async)?.redRounds}}</span>
-                <div class="icons">
-                  <i *ngIf="matchToDefine(quarters1)" (click)="openModal(quarters1)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
-                </div>
+
               </div>
             </div>
           </div>
@@ -37,6 +31,7 @@
             <div class="line horizontal"></div>
           </div>
         </div>
+
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
@@ -49,18 +44,11 @@
                 <span class="name">{{ (quarters2$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters2)">{{(quarters2$ | async)?.blueRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchToDefine(quarters2)" (click)="openModal(quarters2)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (quarters2$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters2$ | async)?.redCompetitor?.Participant?.fullName }}</span>
-                <span class="score" *ngIf="showScore(quarters2)">{{(quarters2$ | async)?.redRounds}}</span>
-                <div class="icons">
-                  <i *ngIf="matchToDefine(quarters2)" (click)="openModal(quarters2)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
-                </div>
+                <span class="clubCode"></span>
+                <span class="name">Bye</span>
               </div>
             </div>
           </div>
@@ -72,6 +60,8 @@
             <div class="line horizontal"></div>
           </div>
         </div>
+
+
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
@@ -83,19 +73,13 @@
                 <span class="clubCode">{{ (quarters3$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
                 <span class="name">{{ (quarters3$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters3)">{{(quarters3$ | async)?.blueRounds}}</span>
-                <div class="icons">
-                  <i *ngIf="matchToDefine(quarters3)" (click)="openModal(quarters3)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
-                </div>
+
               </div>
               <div class="competitor red">
                 <span class="clubCode">{{ (quarters3$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
                 <span class="name">{{ (quarters3$ | async)?.redCompetitor?.Participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters3)">{{(quarters3$ | async)?.redRounds}}</span>
-                <div class="icons">
-                  <i *ngIf="matchToDefine(quarters3)" (click)="openModal(quarters3)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
-                </div>
+
               </div>
             </div>
           </div>
@@ -107,6 +91,7 @@
             <div class="line horizontal"></div>
           </div>
         </div>
+
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
@@ -119,18 +104,12 @@
                 <span class="name">{{ (quarters4$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters4)">{{(quarters4$ | async)?.blueRounds}}</span>
                 <div class="icons">
-                  <i *ngIf="matchToDefine(quarters4)" (click)="openModal(quarters4)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (quarters4$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters4$ | async)?.redCompetitor?.Participant?.fullName }}</span>
-                <span class="score" *ngIf="showScore(quarters4)">{{(quarters4$ | async)?.redRounds}}</span>
-                <div class="icons">
-                  <i *ngIf="matchToDefine(quarters4)" (click)="openModal(quarters4)" class="fa fa-plus px-2"
-                    aria-hidden="true"></i>
-                </div>
+                <span class="clubCode"></span>
+                <span class="name">Bye</span>
+
               </div>
             </div>
           </div>
@@ -146,25 +125,25 @@
 
       <div class="column semis">
         <div class="match ">
-          <div class="match-competitors" *ngIf="(semiFinal1$ | async) as semiFinal1">
-            <div class="competitor blue">
-              <span class="clubCode">{{ (semiFinal1$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (semiFinal1$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
-              <span *ngIf="showScore(semiFinal1)" class="score">{{(semiFinal1$ |
-                async)?.blueRounds}}</span>
-              <div class="icons">
-                <i *ngIf="matchToDefine(semiFinal1)" (click)="openModal(semiFinal1)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
-              </div>
+          <div class="match-container">
+            <div class="match-number">
+              <span class="number">12
+              </span>
             </div>
-            <div class="competitor red">
-              <span class="clubCode">{{ (semiFinal1$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (semiFinal1$ | async)?.redCompetitor?.Participant?.fullName }}</span>
-              <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ |
-                async)?.redRounds}}</span>
-              <div class="icons">
-                <i *ngIf="matchToDefine(semiFinal1)" (click)="openModal(semiFinal1)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
+            <div class="match-competitors" *ngIf="(semiFinal1$ | async) as semiFinal1">
+              <div class="competitor blue">
+                <span class="clubCode">{{ (semiFinal1$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal1$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span *ngIf="showScore(semiFinal1)" class="score">{{(semiFinal1$ |
+                  async)?.blueRounds}}</span>
+
+              </div>
+              <div class="competitor red">
+                <span class="clubCode">{{ (semiFinal1$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal1$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ |
+                  async)?.redRounds}}</span>
+
               </div>
             </div>
           </div>
@@ -177,23 +156,24 @@
           </div>
         </div>
         <div class="match ">
-          <div class="match-competitors" *ngIf="(semiFinal2$ | async) as semiFinal2">
-            <div class="competitor blue">
-              <span class="clubCode">{{ (semiFinal2$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (semiFinal2$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
-              <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.blueRounds}}</span>
-              <div class="icons">
-                <i *ngIf="matchToDefine(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
-              </div>
+          <div class="match-container">
+            <div class="match-number">
+              <span class="number">12
+              </span>
             </div>
-            <div class="competitor red">
-              <span class="clubCode">{{ (semiFinal2$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (semiFinal2$ | async)?.redCompetitor?.Participant?.fullName }}</span>
-              <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.redRounds}}</span>
-              <div class="icons">
-                <i *ngIf="matchToDefine(semiFinal2)" (click)="openModal(semiFinal2)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
+            <div class="match-competitors" *ngIf="(semiFinal2$ | async) as semiFinal2">
+              <div class="competitor blue">
+                <span class="clubCode">{{ (semiFinal2$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal2$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.blueRounds}}</span>
+
+
+              </div>
+              <div class="competitor red">
+                <span class="clubCode">{{ (semiFinal2$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal2$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.redRounds}}</span>
+
               </div>
             </div>
           </div>
@@ -209,23 +189,23 @@
 
       <div class="column final">
         <div class="match ">
-          <div class="match-competitors" *ngIf="(final$ | async) as final">
-            <div class="competitor blue">
-              <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (final$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
-              <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.blueRounds}}</span>
-              <div class="icons">
-                <i *ngIf="matchToDefine(final)" (click)="openModal(final)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
-              </div>
+          <div class="match-container">
+            <div class="match-number">
+              <span class="number">12
+              </span>
             </div>
-            <div class="competitor red">
-              <span class="clubCode">{{ (final$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (final$ | async)?.redCompetitor?.Participant?.fullName }}</span>
-              <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.redRounds}}</span>
-              <div class="icons">
-                <i *ngIf="matchToDefine(final)" (click)="openModal(final)" class="fa fa-plus px-2"
-                  aria-hidden="true"></i>
+            <div class="match-competitors" *ngIf="(final$ | async) as final">
+              <div class="competitor blue">
+                <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
+                <span class="name">{{ (final$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.blueRounds}}</span>
+
+              </div>
+              <div class="competitor red">
+                <span class="clubCode">{{ (final$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
+                <span class="name">{{ (final$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.redRounds}}</span>
+
               </div>
             </div>
           </div>
@@ -252,5 +232,3 @@
     </div>
   </div>
 </div>
-<app-define-winner-modal *ngIf="(showModal)" [match]="selecedMatch"
-  (closeModal)="onModalClose($event)"></app-define-winner-modal>
