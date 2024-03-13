@@ -140,6 +140,10 @@
                 <span class="clubCode">{{ (eights5$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
                 <span class="name">{{ (eights5$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(eights5)">{{(eights5$ | async)?.blueRounds}}</span>
+                <div class="icons">
+                  <i *ngIf="matchToDefine(eights5)" (click)="openModal(eights5)" class="fa fa-plus px-2"
+                    aria-hidden="true"></i>
+                </div>
               </div>
               <div class="competitor red">
                 <span class="clubCode">{{ (eights5$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
