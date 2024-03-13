@@ -140,7 +140,7 @@ export class DefineWinnerModalComponent implements OnInit {
         },
       });
     }
-    if (this.match.round == 'eights5') {
+    if (this.match.round == 'eights7') {
       this.getAdvanceMatchId('quarters4').subscribe({
         next: (matchToAdvanceId) => {
           this.updateMatchAdvanceWinner(matchToAdvanceId, {
@@ -152,7 +152,7 @@ export class DefineWinnerModalComponent implements OnInit {
         },
       });
     }
-    if (this.match.round == 'eights5') {
+    if (this.match.round == 'eights8') {
       this.getAdvanceMatchId('quarters4').subscribe({
         next: (matchToAdvanceId) => {
           this.updateMatchAdvanceWinner(matchToAdvanceId, {

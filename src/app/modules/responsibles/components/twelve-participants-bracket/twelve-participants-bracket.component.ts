@@ -3,13 +3,17 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { bracketWithCompetitorsI } from 'src/app/shared/models/bracket';
 import {
   emptyMatch,
+  emptyParticipant,
   matchEmptyToCreateI,
+  matchModalI,
   matchToCreateI,
   matchWithCompetitorsI,
   responseMatchI,
 } from 'src/app/shared/models/match';
 import { joinNames } from '../../utils/joinCompetitorNames.utils';
 import { shuffleArray } from '../../utils/shuffleParticipants.utils';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-twelve-participants-bracket',
@@ -20,32 +24,47 @@ export class TwelveParticipantsBracketComponent implements OnInit {
   @Input() bracket!: bracketWithCompetitorsI;
   matchesWithCompetitors: matchWithCompetitorsI[] = [];
 
-  eights1: matchWithCompetitorsI = emptyMatch;
-  eights2: matchWithCompetitorsI = emptyMatch;
-  eights3: matchWithCompetitorsI = emptyMatch;
-  eights4: matchWithCompetitorsI = emptyMatch;
-  eights5: matchWithCompetitorsI = emptyMatch;
-  eights6: matchWithCompetitorsI = emptyMatch;
-  eights7: matchWithCompetitorsI = emptyMatch;
-  eights8: matchWithCompetitorsI = emptyMatch;
+  eights1$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  eights2$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  eights3$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  eights4$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  eights5$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  eights6$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  eights7$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  eights8$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
 
-  quarters1: matchWithCompetitorsI = emptyMatch;
-  quarters2: matchWithCompetitorsI = emptyMatch;
-  quarters3: matchWithCompetitorsI = emptyMatch;
-  quarters4: matchWithCompetitorsI = emptyMatch;
+  quarters1$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  quarters2$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  quarters3$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  quarters4$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
 
-  //semiFinal1: matchWithCompetitorsI = emptyMatch;
-  //semiFinal2: matchWithCompetitorsI = emptyMatch;
-  //final: matchWithCompetitorsI = emptyMatch;
+  semiFinal1$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  semiFinal2$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  final$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
 
-  editingBracket: string = '';
-  selectedCompetitorId: string | null = null;
-
-  loading: boolean = false;
+  winner$: Observable<matchWithCompetitorsI> =
+    new Observable<matchWithCompetitorsI>();
+  selecedMatch!: matchModalI;
+  modalRef?: NgbModalRef;
+  showModal: boolean = false;
   ngOnInit(): void {
     this.getMatches();
   }
-
   constructor(private api: ApiService) {}
 
   getMatches() {
@@ -54,14 +73,20 @@ export class TwelveParticipantsBracketComponent implements OnInit {
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
         for (const match of this.matchesWithCompetitors) {
-          if (match.redCompetitor != null) {
+          if (match.redCompetitorId === null) {
+            match.redCompetitor = emptyParticipant;
+            match.redCompetitor.competitorId = '';
+          } else {
             const redFullName = joinNames(
               match.redCompetitor.Participant.firstNames,
               match.redCompetitor.Participant.lastNames
             );
             match.redCompetitor.Participant.fullName = redFullName;
           }
-          if (match.blueCompetitorId != null) {
+          if (match.blueCompetitorId === null) {
+            match.blueCompetitor = emptyParticipant;
+            match.blueCompetitor.competitorId = '';
+          } else {
             const blueFullName = joinNames(
               match.blueCompetitor.Participant.firstNames,
               match.blueCompetitor.Participant.lastNames
@@ -69,326 +94,74 @@ export class TwelveParticipantsBracketComponent implements OnInit {
             match.blueCompetitor.Participant.fullName = blueFullName;
           }
         }
-        this.eights1 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights1'
-        )!;
-        this.eights2 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights2'
-        )!;
-        this.eights3 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights3'
-        )!;
-        this.eights4 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights4'
-        )!;
-        this.eights5 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights5'
-        )!;
-        this.eights6 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights6'
-        )!;
-        this.eights7 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights7'
-        )!;
-        this.eights8 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'eights8'
-        )!;
 
-        this.quarters1 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters1'
-        )!;
-        this.quarters2 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters2'
-        )!;
-        this.quarters3 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters3'
-        )!;
-        this.quarters4 = this.matchesWithCompetitors.find(
-          (match) => match.round === 'quarters4'
-        )!;
-        console.log(this.quarters4);
+        this.filterCompetitors();
       });
   }
 
-  createMatches() {
-    const bracketSort1 = shuffleArray(this.bracket.competitors);
-    const bracketSort2 = shuffleArray(bracketSort1);
-    const bracketSort3 = shuffleArray(bracketSort2);
-
-    const eights1: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[0].competitorId,
-      redCompetitorId: bracketSort3[1].competitorId,
-      round: 'eights1',
-    };
-    this.postMatch(eights1);
-    const eights2: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[2].competitorId,
-      redCompetitorId: bracketSort3[2].competitorId,
-      round: 'eights2',
-    };
-    this.postMatch(eights2);
-    const eights3: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[3].competitorId,
-      redCompetitorId: bracketSort3[4].competitorId,
-      round: 'eights3',
-    };
-    this.postMatch(eights3);
-    const eights4: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[5].competitorId,
-      redCompetitorId: bracketSort3[5].competitorId,
-      round: 'eights4',
-    };
-    this.postMatch(eights4);
-    const eights5: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[6].competitorId,
-      redCompetitorId: bracketSort3[7].competitorId,
-      round: 'eights5',
-    };
-    this.postMatch(eights5);
-    const eights6: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[8].competitorId,
-      redCompetitorId: bracketSort3[8].competitorId,
-      round: 'eights6',
-    };
-    this.postMatch(eights6);
-    const eights7: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[9].competitorId,
-      redCompetitorId: bracketSort3[10].competitorId,
-      round: 'eights7',
-    };
-    this.postMatch(eights7);
-    const eights8: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: bracketSort3[11].competitorId,
-      redCompetitorId: bracketSort3[11].competitorId,
-      round: 'eights8',
-    };
-    this.postMatch(eights8);
-
-    const quarters1: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: bracketSort3[2].competitorId,
-      round: 'quarters1',
-    };
-    this.postMatch(quarters1);
-    const quarters2: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: bracketSort3[5].competitorId,
-      round: 'quarters2',
-    };
-    this.postMatch(quarters2);
-    const quarters3: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: bracketSort3[8].competitorId,
-      round: 'quarters3',
-    };
-    this.postMatch(quarters3);
-    const quarters4: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: bracketSort3[11].competitorId,
-      round: 'quarters4',
-    };
-    this.postMatch(quarters4);
-
-    const semifinal1: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: null,
-      round: 'semifinal1',
-    };
-    this.postMatch(semifinal1);
-    const semifinal2: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: null,
-      round: 'semifinal2',
-    };
-    this.postMatch(semifinal2);
-    const final: matchToCreateI = {
-      bracketId: this.bracket.bracketId,
-      blueCompetitorId: null,
-      redCompetitorId: null,
-      round: 'final',
-    };
-    this.postMatch(final);
+  filterCompetitors() {
+    this.eights1$ = this.getMatchObservable('eights1');
+    this.eights2$ = this.getMatchObservable('eights2');
+    this.eights3$ = this.getMatchObservable('eights3');
+    this.eights4$ = this.getMatchObservable('eights4');
+    this.eights5$ = this.getMatchObservable('eights5');
+    this.eights6$ = this.getMatchObservable('eights6');
+    this.eights7$ = this.getMatchObservable('eights7');
+    this.eights8$ = this.getMatchObservable('eights8');
+    this.quarters1$ = this.getMatchObservable('quarters1');
+    this.quarters2$ = this.getMatchObservable('quarters2');
+    this.quarters3$ = this.getMatchObservable('quarters3');
+    this.quarters4$ = this.getMatchObservable('quarters4');
+    this.semiFinal1$ = this.getMatchObservable('semifinal1');
+    this.semiFinal2$ = this.getMatchObservable('semifinal2');
+    this.final$ = this.getMatchObservable('final');
+    this.winner$ = this.getMatchObservable('winner');
   }
 
-  postMatch(match: matchToCreateI | matchEmptyToCreateI) {
-    this.api
-      .postMatch(match, this.bracket.championshipId)
-      .subscribe((response: responseMatchI) => {
-        this.getMatches();
-      });
+  private getMatchObservable(round: string): Observable<matchWithCompetitorsI> {
+    return new Observable<matchWithCompetitorsI>((observer) => {
+      const match = this.matchesWithCompetitors.find((m) => m.round === round);
+      observer.next(match ? match : emptyMatch);
+      observer.complete();
+    });
   }
 
-  confirmEdit(match1Id: number, competitor1Id: string, competitor2Id: string) {
-    const match2 = this.matchesWithCompetitors.find(
-      (match) =>
-        match.blueCompetitorId === competitor2Id ||
-        match.redCompetitorId === competitor2Id
-    );
-    const match2Id = match2?.matchId;
-    if (match2Id !== undefined) {
-      if (match1Id === match2Id) {
-        //Cambios en el mismo match
-        const currentMatch = this.matchesWithCompetitors.find(
-          (match) => match.matchId === match1Id
-        );
-        if (competitor1Id === currentMatch?.blueCompetitorId) {
-          const editedMatch = {
-            blueCompetitorId: competitor2Id,
-            redCompetitorId: competitor1Id,
-          };
-          this.editMatch(match1Id, editedMatch);
-        } else {
-          const editedMatch = {
-            blueCompetitorId: competitor1Id,
-            redCompetitorId: competitor2Id,
-          };
-          this.editMatch(match1Id, editedMatch);
-        }
-      } else {
-        this.defineMatch1(match1Id, competitor1Id, competitor2Id);
-        this.defineMatch2(competitor1Id, match2Id, competitor2Id);
-      }
+  onModalClose($event: boolean) {
+    this.showModal = false;
+    if ($event) {
+      this.getMatches();
     }
   }
 
-  defineMatch1(match1Id: number, competitor1Id: string, competitor2Id: string) {
-    const currentMatch1 = this.matchesWithCompetitors.find(
-      (match) => match.matchId === match1Id
-    );
-    console.log(currentMatch1);
-    if (currentMatch1?.blueCompetitorId === currentMatch1?.redCompetitorId) {
-      console.log('ENTRE BIEN MATCH1');
-      const editedMatch1 = {
-        blueCompetitorId: competitor2Id,
-        redCompetitorId: competitor2Id,
-      };
-      this.editMatch(match1Id, editedMatch1);
-      if (currentMatch1?.matchId === this.eights2.matchId) {
-        this.editAdvance(competitor2Id, this.quarters1.matchId, 'red');
-      }
-      if (currentMatch1?.matchId === this.eights4.matchId) {
-        this.editAdvance(competitor2Id, this.quarters2.matchId, 'red');
-      }
-      if (currentMatch1?.matchId === this.eights6.matchId) {
-        this.editAdvance(competitor2Id, this.quarters3.matchId, 'red');
-      }
-      if (currentMatch1?.matchId === this.eights8.matchId) {
-        this.editAdvance(competitor2Id, this.quarters4.matchId, 'red');
-      }
-    }
+  openModal(match: matchWithCompetitorsI) {
+    this.selecedMatch = {
+      matchId: match.matchId,
+      bracketId: match.bracketId,
+      blueCompetitorName: match.blueCompetitor.Participant.fullName,
+      redCompetitorName: match.redCompetitor.Participant.fullName,
 
-    if (competitor1Id === currentMatch1?.blueCompetitorId) {
-      const editedMatch1 = {
-        blueCompetitorId: competitor2Id,
-        redCompetitorId: currentMatch1.redCompetitorId,
-      };
-      this.editMatch(match1Id, editedMatch1);
-    } else {
-      const editedMatch1 = {
-        blueCompetitorId: currentMatch1?.blueCompetitorId,
-        redCompetitorId: competitor2Id,
-      };
-      this.editMatch(match1Id, editedMatch1);
-    }
+      blueCompetitorId: match.blueCompetitor.competitorId,
+      redCompetitorId: match.redCompetitor.competitorId,
+
+      round: match.round,
+    };
+    this.showModal = true;
   }
 
-  defineMatch2(competitor1Id: string, match2Id: number, competitor2Id: string) {
-    const currentMatch2 = this.matchesWithCompetitors.find(
-      (match) => match.matchId === match2Id
-    );
-    if (currentMatch2?.blueCompetitorId === currentMatch2?.redCompetitorId) {
-      console.log('ENTRE BIEN MATCH2');
-      const editedMatch2 = {
-        blueCompetitorId: competitor1Id,
-        redCompetitorId: competitor1Id,
-      };
-      this.editMatch(match2Id, editedMatch2);
-
-      if (currentMatch2?.matchId === this.eights2.matchId) {
-        this.editAdvance(competitor1Id, this.quarters1.matchId, 'red');
-      }
-      if (currentMatch2?.matchId === this.eights4.matchId) {
-        this.editAdvance(competitor1Id, this.quarters2.matchId, 'red');
-      }
-      if (currentMatch2?.matchId === this.eights6.matchId) {
-        this.editAdvance(competitor1Id, this.quarters3.matchId, 'red');
-      }
-      if (currentMatch2?.matchId === this.eights8.matchId) {
-        this.editAdvance(competitor1Id, this.quarters4.matchId, 'red');
-      }
+  matchToDefine(match: matchWithCompetitorsI) {
+    if (match.redRounds != 0 || match.blueRounds != 0) {
+      return false;
     }
-
-    if (competitor2Id === currentMatch2?.blueCompetitorId) {
-      const editedMatch2 = {
-        blueCompetitorId: competitor1Id,
-        redCompetitorId: currentMatch2.redCompetitorId,
-      };
-      this.editMatch(match2Id, editedMatch2);
-    } else {
-      const editedMatch2 = {
-        blueCompetitorId: currentMatch2?.blueCompetitorId,
-        redCompetitorId: competitor1Id,
-      };
-      this.editMatch(match2Id, editedMatch2);
+    if (match.redCompetitorId === null || match.blueCompetitorId === null) {
+      return false;
     }
+    return true;
   }
 
-  editMatch(matchId: number, editMatch: any) {
-    this.api
-      .editMatch(matchId, editMatch)
-      .subscribe((response: responseMatchI) => {
-        this.getMatches();
-        this.editingBracket = '';
-        this.selectedCompetitorId = null;
-      });
-  }
-
-  editAdvance(
-    competitorId: string,
-    matchToAdvanceId: number,
-    colorToEdit: string
-  ) {
-    if (colorToEdit === 'red') {
-      console.log('entre edit advance red: ');
-      const editedMatch = {
-        redCompetitorId: competitorId,
-      };
-      this.editMatch(matchToAdvanceId, editedMatch);
-    } else {
-      console.log('entre edit advance blue: ');
-      const editedMatch = {
-        blueCompetitorId: competitorId,
-      };
-      this.editMatch(matchToAdvanceId, editedMatch);
+  showScore(match: matchWithCompetitorsI) {
+    if (match.redCompetitorId === null || match.blueCompetitorId === null) {
+      return false;
     }
-  }
-
-  editCompetitor(competitorId: string) {
-    this.editingBracket = competitorId;
-  }
-
-  cancelEdit() {
-    this.editingBracket = '';
-  }
-
-  onSelectCompetitor(event: any) {
-    const competitorId = event.target?.value;
-    if (competitorId !== undefined) {
-      this.selectedCompetitorId = competitorId;
-    }
+    return true;
   }
 }
