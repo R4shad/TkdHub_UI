@@ -17,7 +17,10 @@ export class ChampionshipCreatorComponent implements OnInit {
 
       this.api.createChampionship(formData).subscribe({
         next: (response) => {
-          alert('Creado correctamente');
+          if (response.status === 201) {
+            alert('Creado correctamente');
+            this.insertInitialData(response.data.championshipId);
+          }
         },
         error: (error) => {
           console.error('Error al crear:', error);
@@ -26,5 +29,13 @@ export class ChampionshipCreatorComponent implements OnInit {
     } else {
       console.log('Formulario no válido');
     }
+  }
+  insertInitialData(championshipId: number) {
+    this.api.postChampionshipDivision(championshipId).subscribe((data) => {
+      console.log(data);
+    });
+    this.api.postChampionshipCategory(championshipId).subscribe((data) => {
+      console.log(data);
+    });
   }
 }
