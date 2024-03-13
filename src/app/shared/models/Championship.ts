@@ -1,8 +1,9 @@
+import { ChampionshipStage } from './enums';
+
 export interface ChampionshipI {
   championshipId: number;
   championshipName: string;
-  organizer: string;
-  active: boolean;
+  stage: ChampionshipStage;
   championshipDate: string;
 }
 

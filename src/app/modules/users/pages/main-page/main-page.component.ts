@@ -21,7 +21,6 @@ export class MainPageComponent implements OnInit {
   showAllChampionships() {
     this.api.getAllChampionships().subscribe((data) => {
       this.championships = data;
-      console.log(this.championships);
     });
   }
 

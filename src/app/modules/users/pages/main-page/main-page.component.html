@@ -5,8 +5,16 @@
     (click)="navigateToChampionship(championship.championshipId)">
     <div class="informacion">
       <p class="titulo">{{championship.championshipName}}</p>
-      <p class="descripcion">Organizador: {{championship.organizer}}</p>
-      <p class="descripcion">Fecha del Campeonato: {{championship.championshipDate | date:'dd/MM/yyyy'}}</p>
+      <p class="descripcion">Fecha: {{championship.championshipDate | date:'dd/MM/yyyy'}}</p>
+
+      <div [ngSwitch]="championship.stage">
+        <p class="descripcion" *ngSwitchCase="'InitialConfiguration'">Etapa Inicial</p>
+        <p class="descripcion" *ngSwitchCase="'Registrations'">Etapa de registro de Competidores</p>
+        <p class="descripcion" *ngSwitchCase="'Weigh-in'">Etapa de pesaje</p>
+        <p class="descripcion" *ngSwitchCase="'BracketDraw'">Etapa de creacion de llaves</p>
+        <p class="descripcion" *ngSwitchCase="'CombatRecord'">Etapa de combates</p>
+        <p class="descripcion" *ngSwitchCase="'End'">Finalizado</p>
+      </div>
     </div>
   </div>
 </div>
