@@ -1,5 +1,5 @@
 <div>
-  <h1>Estapas del Campeonato</h1>
+  <h1>Etapas del Campeonato</h1>
 </div>
 <div class='progress-bar-container'>
   <div class="container">
@@ -41,7 +41,7 @@
                 Configurar
               </div>
               <div *ngIf="stage!=1">
-                <i class="fa fa-eye" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
+                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
                 Ver
               </div>
             </td>
@@ -51,7 +51,15 @@
             <td>Registra a los Clubes y Entrenadores</td>
             <td>Pendiente</td>
             <td>
-              <i class="fa fa-user-plus" aria-hidden="true" *ngIf="stage === 2" (click)="goToTraineeRegistration()"></i>
+              <div *ngIf="stage===2">
+                <i class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToTraineeRegistration()"></i>
+                Configurar
+              </div>
+              <div *ngIf="stage!=2">
+                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
+                Ver
+              </div>
+
             </td>
           </tr>
           <tr class="text-S">
@@ -60,6 +68,7 @@
             <td>Pendiente</td>
             <td>
               <i class="fa fa-eye" aria-hidden="true" *ngIf="stage === 3"></i>
+              Ver
             </td>
           </tr>
           <tr class="text-S">

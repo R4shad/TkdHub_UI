@@ -1,72 +1,160 @@
-<div class="col-12">
-  <div class="participants mt-4 mb-2">
-    <p class="cant">Cantidad de Clubes: {{clubs.length}}</p>
-    <div>
-      <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="returnToSummary()">Volver</button>
-      <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="addClub()">Agregar
-        Club</button>
+<div *ngIf="championship">
+  <div *ngIf="championship.stage==='ClubRegistration'">
+    <div class="col-12">
+      <div class="participants mt-4 mb-2">
+        <p class="cant">Cantidad de Clubes: {{ clubs.length }}</p>
+        <div>
+          <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="returnToSummary()">Volver</button>
+          <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="addClub()">Agregar Club</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-12">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr class="bg text-white">
+              <th>Codigo de Club</th>
+              <th>Nombre del club</th>
+              <th>Nombre del coach</th>
+              <th>Email del coach</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let club of clubs" class="text-S">
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.clubCode">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.clubCode }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.name">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.name }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.coachName">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.coachName }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.email">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.email }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div *ngIf="!club.isEdit">
+                  <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(club)"></i>
+                  <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(club)"></i>
+                </div>
+                <div *ngIf="club.isEdit">
+                  <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(club)"></i>
+                  <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(club)"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="championship.stage!='ClubRegistration'">
+    <div class="col-12">
+      <div class="participants mt-4 mb-2">
+        <p class="cant">Cantidad de Clubes: {{ clubs.length }}</p>
+        <div>
+          <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="returnToSummary()">Volver</button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-12">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr class="bg text-white">
+              <th>Codigo de Club</th>
+              <th>Nombre del club</th>
+              <th>Nombre del coach</th>
+              <th>Email del coach</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let club of clubs" class="text-S">
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.clubCode">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.clubCode }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.name">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.name }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.coachName">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.coachName }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="club.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="club.email">
+                </div>
+                <div *ngIf="!club.isEdit">
+                  {{ club.email }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="row col-12 ">
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered">
-      <thead>
-        <tr class="bg text-white">
-          <th>Codigo de Club</th>
-          <th>Nombre del club</th>
-          <th>Coach Ci</th>
-          <th>Nombre del coach</th>
-          <th>Accion</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let club of clubs" class="text-S">
-          <td>
-            <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.clubCode">
-            </div>
-            <div *ngIf="!club.isEdit">
-              {{ club.clubCode }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.name">
-            </div>
-            <div *ngIf="!club.isEdit">
-              {{ club.name }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.coachCi">
-            </div>
-            <div *ngIf="!club.isEdit">
-              {{ club.coachCi }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="club.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="club.coachName">
-            </div>
-            <div *ngIf="!club.isEdit">
-              {{ club.coachName }}
-            </div>
-          </td>
-          <td class="text-center">
-            <div *ngIf="!club.isEdit">
-              <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(club)"></i>
-              <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(club)"></i>
-            </div>
-            <div *ngIf="club.isEdit">
-              <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(club)"></i>
-              <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(club)"></i>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+<ng-template #modalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">ALERTA</h4>
   </div>
-</div>
+  <div class="modal-body">
+    <div class='form-input-container'>
+      <div class='description'>
+        <label>Verifique que los datos esten correctos.</label>
+        <label>No se podra modificar una vez que se confirme.</label>
+      </div>
+      <div class="botones">
+        <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
+        <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

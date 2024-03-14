@@ -1,13 +1,13 @@
 export interface clubI {
   name: string;
   clubCode: string;
-  coachCi: number;
+  email: string;
   coachName: string;
 }
 export interface clubPI {
   name: string;
   clubCode: string;
-  coachCi: number;
+  email: string;
   coachName: string;
   password: string;
 }

@@ -8,6 +8,8 @@ import {
   responseClubI,
   responseClubsI,
 } from 'src/app/shared/models/Club';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ChampionshipI } from 'src/app/shared/models/Championship';
 
 interface clubEI extends clubI {
   isEdit: boolean;
@@ -20,16 +22,22 @@ interface clubEI extends clubI {
 })
 export class TrainerRegistrationComponent implements OnInit {
   clubs: clubEI[] = [];
+  championship!: ChampionshipI;
   championshipId: number = 0;
   correntClubCode: string = '';
+  modalRef?: NgbModalRef | undefined;
   constructor(
     private api: ApiService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
+    });
+    this.api.getChampionshipInfo(this.championshipId).subscribe((data) => {
+      this.championship = data;
     });
     this.displayClubs();
   }
@@ -61,7 +69,7 @@ export class TrainerRegistrationComponent implements OnInit {
     const newClub: clubI = {
       clubCode: 'NEW',
       name: '',
-      coachCi: 0,
+      email: '',
       coachName: '',
     };
     const exists = this.clubs.some((club) => club.clubCode === 'NEW');
@@ -74,7 +82,7 @@ export class TrainerRegistrationComponent implements OnInit {
             const newClubEditable: clubEI = {
               clubCode: newClub.clubCode,
               name: newClub.name,
-              coachCi: newClub.coachCi,
+              email: newClub.email,
               coachName: newClub.coachName,
               isEdit: true,
             };
@@ -93,7 +101,7 @@ export class TrainerRegistrationComponent implements OnInit {
     const newClub: clubI = {
       name: club.name,
       clubCode: club.clubCode.toUpperCase(),
-      coachCi: club.coachCi,
+      email: club.email,
       coachName: club.coachName,
     };
     console.log(this.correntClubCode);
@@ -126,5 +134,31 @@ export class TrainerRegistrationComponent implements OnInit {
 
   returnToSummary() {
     this.router.navigate(['/championship', this.championshipId, 'Organizer']);
+  }
+
+  confirm() {
+    if (this.modalRef) {
+      // Verifica si modalRef está definido
+      this.api
+        .updateChampionshipStage(this.championshipId)
+        .subscribe((data) => {
+          if (data === 200) {
+            if (this.modalRef != undefined) {
+              this.modalRef.close(); // Cierra modalRef solo si está definido
+            }
+            this.router.navigate([
+              '/championship',
+              this.championshipId,
+              'Organizer',
+            ]);
+          }
+        });
+    } else {
+      console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
+    }
+  }
+
+  openModal(content: any) {
+    this.modalRef = this.modalService.open(content);
   }
 }
