@@ -9,7 +9,6 @@ import { ChampionshipI } from 'src/app/shared/models/Championship';
   styleUrls: ['./championship-configuration.component.scss'],
 })
 export class ChampionshipConfigurationComponent implements OnInit {
-  currentStep: number = 1;
   championship!: ChampionshipI;
   constructor(
     private api: ApiService,
@@ -21,10 +20,7 @@ export class ChampionshipConfigurationComponent implements OnInit {
     this.route.paramMap
       .pipe(
         switchMap((params) => {
-          // Obtén el championshipId del parámetro de la ruta
           const championshipId: number = Number(params.get('championshipId'));
-
-          // Utiliza championshipId para hacer la solicitud al servicio
           return this.api.getChampionshipInfo(championshipId);
         })
       )

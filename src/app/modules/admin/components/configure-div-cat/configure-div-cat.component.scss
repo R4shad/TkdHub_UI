@@ -1,0 +1,14 @@
+@import "./../../pages/championship-configuration/championship-configuration.component.scss";
+.weights {
+  display: flex;
+}
+.botones {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+.modal-header {
+  justify-content: center;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}

@@ -234,6 +234,15 @@ export class ApiService {
     );
   }
 
+  updateChampionshipStage(championshipId: number): Observable<number> {
+    let direccion = this.APIurl + 'championship/updateStage/' + championshipId;
+    return this.http.put<responseI>(direccion, {}).pipe(
+      map((response: any) => {
+        return response.status;
+      })
+    );
+  }
+
   getChampionshipCategory(championshipId: number): Observable<categoryI[]> {
     let direccion = this.APIurl + 'category/' + championshipId;
     return this.http.get<responseCategoryI>(direccion).pipe(

@@ -36,8 +36,14 @@
             <td>Configura las Divisiones y Categorias.</td>
             <td>Pendiente</td>
             <td>
-              <i class="fa fa-cog" aria-hidden="true" *ngIf="stage === 1" (click)="goToChampionshipConfiguration()"></i>
-              Configurar
+              <div *ngIf="stage===1">
+                <i class="fa fa-cog" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
+                Configurar
+              </div>
+              <div *ngIf="stage!=1">
+                <i class="fa fa-eye" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
+                Ver
+              </div>
             </td>
           </tr>
           <tr class="text-S">
