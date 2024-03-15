@@ -9,10 +9,27 @@ import {
 } from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
 import { ApiService } from '../../../../core/services/api.service';
+import {
+  categoryI,
+  categoryWithNumericValueI,
+} from 'src/app/shared/models/category';
+import {
+  obtenerValorNumerico,
+  obtenerColor,
+  getCompetitoryCategoryId,
+  getCompetitoryCategoryName,
+  getCompetitorAgeIntervalId,
+  getCompetitorDivisionId,
+} from 'src/app/modules/admin/utils/participantValidation.utils';
+import { agesI } from 'src/app/shared/models/ages';
+import { divisionI } from 'src/app/shared/models/division';
 
 interface ParticipantEI extends participantI {
   isEdit: boolean;
+  division: string | null; // Propiedad para almacenar el resultado de getCompetitorDivision()
+  category: string | null;
 }
+
 @Component({
   selector: 'app-competitor-view',
   templateUrl: './competitor-view.component.html',
@@ -24,6 +41,14 @@ export class CompetitorViewComponent implements OnInit {
   filtroSexo = new FormControl('');
   championshipId: number = 0;
   clubCode: string = '';
+
+  categories: categoryI[] = [];
+  categoriesWithNumericValue: categoryWithNumericValueI[] = [];
+
+  ageIntervals: agesI[] = [];
+  divisions: divisionI[] = [];
+
+  validGrades: string[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -31,6 +56,10 @@ export class CompetitorViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData() {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
     });
@@ -38,16 +67,22 @@ export class CompetitorViewComponent implements OnInit {
       this.clubCode = params.get('clubCode')!;
     });
 
-    this.displayParticipants();
-  }
-  goToParticipantRegistration() {
-    const currentRoute = this.route.snapshot.url
-      .map((segment) => segment.path)
-      .join('/');
-    // Navega a la ruta actual con '/TraineeRegistration' agregado
-    this.router.navigate([currentRoute, 'ParticipantRegistration']);
-  }
-  displayParticipants() {
+    this.api
+      .getChampionshipCategories(this.championshipId)
+      .subscribe((data) => {
+        this.categories = data;
+        this.validGrades = this.getValidGrades();
+
+        for (const category of data) {
+          this.categoriesWithNumericValue.push({
+            categoryId: category.categoryId,
+            categoryName: category.categoryName,
+            gradeMin: obtenerValorNumerico(category.gradeMin),
+            gradeMax: obtenerValorNumerico(category.gradeMax),
+          });
+        }
+      });
+
     this.api
       .getParticipantsClub(this.championshipId, this.clubCode)
       .subscribe((data: participantI[]) => {
@@ -55,17 +90,61 @@ export class CompetitorViewComponent implements OnInit {
         const participantsWithEditFlag = data.map((participant) => ({
           ...participant,
           isEdit: false,
+          division: null,
+          category: null,
         }));
         this.participants = participantsWithEditFlag;
         this.participantsFilter = participantsWithEditFlag;
+        for (const participant of this.participantsFilter) {
+          this.getCompetitorDivision(participant);
+          this.getCategory(participant);
+        }
+      });
+
+    this.api
+      .getChampionshipAgeInterval(this.championshipId)
+      .subscribe((data) => {
+        this.ageIntervals = data;
       });
   }
+
+  getValidGrades(): string[] {
+    const coloresValidos: string[] = [];
+
+    const categoriasOrdenadas = this.categories.sort(
+      (a, b) =>
+        obtenerValorNumerico(a.gradeMin) - obtenerValorNumerico(b.gradeMin)
+    );
+
+    for (const categoria of categoriasOrdenadas) {
+      const valorMin = obtenerValorNumerico(categoria.gradeMin);
+      const valorMax = obtenerValorNumerico(categoria.gradeMax);
+
+      for (let i = valorMin; i <= valorMax; i++) {
+        // Llama a obtenerColor con el valor numérico actual de la iteración
+        const color = obtenerColor(i);
+
+        if (color) {
+          coloresValidos.push(color);
+        }
+      }
+    }
+    return coloresValidos;
+  }
+
+  goToParticipantRegistration() {
+    const currentRoute = this.route.snapshot.url
+      .map((segment) => segment.path)
+      .join('/');
+    // Navega a la ruta actual con '/TraineeRegistration' agregado
+    this.router.navigate([currentRoute, 'ParticipantRegistration']);
+  }
+
   filter() {
     const genderFilter = this.filtroSexo.value;
     if (genderFilter === 'todos') {
       this.participantsFilter = this.participants;
     } else {
-      // Filtrar inscritos por sexo
       this.participantsFilter = this.participants.filter(
         (participant) => participant.gender === genderFilter
       );
@@ -108,6 +187,8 @@ export class CompetitorViewComponent implements OnInit {
             grade: newParticipant.grade,
             gender: newParticipant.gender,
             isEdit: true,
+            division: null,
+            category: null,
           };
 
           this.participants.unshift(newParticipantEditable);
@@ -117,7 +198,6 @@ export class CompetitorViewComponent implements OnInit {
   }
 
   confirmEdit(participant: ParticipantEI) {
-    console.log(participant);
     const newParticipant: participantToEditI = {
       lastNames: participant.lastNames,
       firstNames: participant.firstNames,
@@ -126,14 +206,15 @@ export class CompetitorViewComponent implements OnInit {
       grade: participant.grade,
       gender: participant.gender,
     };
-    console.log(newParticipant);
     this.api
       .editParticipant(this.championshipId, participant.id, newParticipant)
       .subscribe((response: responseParticipantToEditI) => {
-        console.log(response.data);
         if (response.status == 200) {
           alert('Editado correctamente');
           participant.isEdit = false;
+
+          this.getCompetitorDivision(participant);
+          this.getCategory(participant);
         }
       });
   }
@@ -157,5 +238,45 @@ export class CompetitorViewComponent implements OnInit {
           }
         });
     }
+  }
+
+  getCompetitorDivision(participant: ParticipantEI): void {
+    if (participant.division !== null) {
+      return;
+    }
+    this.api
+      .getAgeIntervalByAge(this.championshipId, participant.age)
+      .subscribe((data1) => {
+        if (data1) {
+          // Verifica si hay datos en data1
+          const ageId = data1.ageIntervalId; // Accede a la propiedad ageIntervalId
+          // Realiza la llamada API para obtener la división dentro de esta suscripción
+          this.api
+            .getDivisionByData(
+              this.championshipId,
+              participant.gender,
+              ageId,
+              participant.weight
+            )
+            .subscribe((data) => {
+              // Almacena el resultado en la propiedad division
+              participant.division =
+                '[' + data.minWeight + ' - ' + data.maxWeight + ']';
+            });
+        }
+      });
+  }
+
+  getCategory(participant: ParticipantEI) {
+    if (participant.category !== null) {
+      return;
+    }
+
+    const gradoParticipante = obtenerValorNumerico(participant.grade);
+    const categoryName: string = getCompetitoryCategoryName(
+      this.categoriesWithNumericValue,
+      gradoParticipante
+    );
+    participant.category = categoryName;
   }
 }

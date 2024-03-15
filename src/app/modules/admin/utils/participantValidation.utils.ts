@@ -29,6 +29,33 @@ export function obtenerValorNumerico(grado: string): number {
   }
 }
 
+export function obtenerColor(valor: number): string {
+  switch (valor) {
+    case 1:
+      return 'franja amarillo';
+    case 2:
+      return 'amarillo';
+    case 3:
+      return 'franja verde';
+    case 4:
+      return 'verde';
+    case 5:
+      return 'franja azul';
+    case 6:
+      return 'azul';
+    case 7:
+      return 'franja rojo';
+    case 8:
+      return 'rojo';
+    case 9:
+      return 'franja negro';
+    case 10:
+      return 'negro';
+    default:
+      return '';
+  }
+}
+
 export function getCompetitoryCategoryId(
   championshipCategories: categoryWithNumericValueI[],
   gradoParticipante: number
@@ -42,6 +69,21 @@ export function getCompetitoryCategoryId(
     }
   }
   return 0;
+}
+
+export function getCompetitoryCategoryName(
+  championshipCategories: categoryWithNumericValueI[],
+  gradoParticipante: number
+): string {
+  for (const categoria of championshipCategories) {
+    if (
+      gradoParticipante >= categoria.gradeMin &&
+      gradoParticipante <= categoria.gradeMax
+    ) {
+      return categoria.categoryName;
+    }
+  }
+  return '';
 }
 
 export function getCompetitorAgeIntervalId(

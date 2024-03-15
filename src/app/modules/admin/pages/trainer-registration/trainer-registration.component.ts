@@ -143,14 +143,20 @@ export class TrainerRegistrationComponent implements OnInit {
         .updateChampionshipStage(this.championshipId)
         .subscribe((data) => {
           if (data === 200) {
-            if (this.modalRef != undefined) {
-              this.modalRef.close(); // Cierra modalRef solo si está definido
-            }
-            this.router.navigate([
-              '/championship',
-              this.championshipId,
-              'Organizer',
-            ]);
+            this.api
+              .updateChampionshipStage(this.championshipId)
+              .subscribe((data) => {
+                if (data === 200) {
+                  if (this.modalRef != undefined) {
+                    this.modalRef.close();
+                  }
+                  this.router.navigate([
+                    '/championship',
+                    this.championshipId,
+                    'Organizer',
+                  ]);
+                }
+              });
           }
         });
     } else {

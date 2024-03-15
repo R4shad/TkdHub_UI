@@ -355,7 +355,6 @@ export class ApiService {
     competitor: competitorI,
     championshipId: number
   ): Observable<responseCompetitorI> {
-    console.log(competitor);
     let direccion = this.APIurl + 'competitor/' + championshipId;
     return this.http.post<responseCompetitorI>(direccion, competitor);
   }
@@ -450,6 +449,38 @@ export class ApiService {
     let direccion = this.APIurl + 'category/' + championshipId;
     return this.http.get<responseCategoryI>(direccion).pipe(
       map((response: responseCategoryI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getAgeIntervalByAge(championshipId: number, age: number): Observable<agesI> {
+    let direccion = this.APIurl + 'ageInterval/' + championshipId + '/' + age;
+    return this.http.get<responseAgeI>(direccion).pipe(
+      map((response: responseAgeI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getDivisionByData(
+    championshipId: number,
+    gender: string,
+    ageId: number,
+    weight: number
+  ): Observable<divisionI> {
+    let direccion =
+      this.APIurl +
+      'division/weight/' +
+      championshipId +
+      '/' +
+      gender +
+      '/' +
+      ageId +
+      '/' +
+      weight;
+    return this.http.get<responseDivisionI>(direccion).pipe(
+      map((response: responseDivisionI) => {
         return response.data;
       })
     );

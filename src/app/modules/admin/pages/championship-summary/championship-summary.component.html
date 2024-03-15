@@ -67,8 +67,10 @@
             <td>Los entrenadores de cada club estan Inscribiendo a sus Competidores.</td>
             <td>Pendiente</td>
             <td>
-              <i class="fa fa-eye" aria-hidden="true" *ngIf="stage === 3"></i>
-              Ver
+              <div *ngIf="stage >= 3 ">
+                <i class="fa fa-eye px-2" aria-hidden="true"></i>
+                Ver
+              </div>
             </td>
           </tr>
           <tr class="text-S">
@@ -76,8 +78,9 @@
             <td>Pesaje: Valida los datos de cada uno de los Competidores.</td>
             <td>Pendiente</td>
             <td>
-              <i class="fa fa-check-square-o" aria-hidden="true" *ngIf="stage === 4"
+              <i class="fa fa-check-square-o px-2" aria-hidden="true" *ngIf="stage === 4"
                 (click)="goToParticipantValidation()"></i>
+              Validar
             </td>
           </tr>
           <tr class="text-S">

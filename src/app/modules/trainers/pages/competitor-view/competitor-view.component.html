@@ -15,98 +15,97 @@
     </div>
   </div>
 </div>
-
-<div class="row col-12 ">
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered">
-      <thead>
-        <tr class="bg text-white">
-          <th>Apellidos</th>
-          <th>Nombres</th>
-          <th>Edad</th>
-          <th>Peso</th>
-          <th>Grado</th>
-          <th>Sexo</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let participant of participantsFilter" class="text-S">
-          <td>
-            <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="participant.lastNames">
-            </div>
-            <div *ngIf="!participant.isEdit">
-              {{ participant.lastNames }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="participant.firstNames">
-            </div>
-            <div *ngIf="!participant.isEdit">
-              {{ participant.firstNames }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="participant.age">
-            </div>
-            <div *ngIf="!participant.isEdit">
-              {{ participant.age }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="participant.isEdit">
-              <input class="form-control text-S" type="text" [(ngModel)]="participant.weight">
-            </div>
-            <div *ngIf="!participant.isEdit">
-              {{ participant.weight }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="participant.isEdit">
-              <select class="form-select text-S" [(ngModel)]="participant.grade">
-                <option [value]="'Franja Amarillo'">Franja Amarillo</option>
-                <option [value]="'Amarillo'">Amarillo</option>
-                <option [value]="'Franja Verde'">Franja Verde</option>
-                <option [value]="'Verde'">Verde</option>
-                <option [value]="'Franja Azul'">Franja Azul</option>
-                <option [value]="'Azul'">Azul</option>
-                <option [value]="'Franja Rojo'">Franja Rojo</option>
-                <option [value]="'Rojo'">Rojo</option>
-                <option [value]="'Franja Negro'">Franja Negro</option>
-                <option [value]="'Negro'">Negro</option>
-              </select>
-            </div>
-            <div *ngIf="!participant.isEdit">
-              {{ participant.grade }}
-            </div>
-          </td>
-
-          <td>
-            <div *ngIf="participant.isEdit">
-              <select class="form-select text-S" [(ngModel)]="participant.gender">
-                <option [value]="'Masculino'">Masculino</option>
-                <option [value]="'Femenino'">Femenino</option>
-              </select>
-            </div>
-            <div *ngIf="!participant.isEdit">
-              {{ participant.gender }}
-            </div>
-          </td>
-          <td class="text-center">
-            <div *ngIf="!participant.isEdit">
-              <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
-              <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(participant)"></i>
-            </div>
-            <div *ngIf="participant.isEdit">
-              <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
-              <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div class="container-fluid d-flex justify-content-center mt-4" *ngIf="participantsFilter">
+  <div class="row col-10 ">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr class="bg text-white">
+            <th>Apellidos</th>
+            <th>Nombres</th>
+            <th>Edad</th>
+            <th>Peso</th>
+            <th>Grado</th>
+            <th>Sexo</th>
+            <th>División</th>
+            <th>Categoría</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let participant of participantsFilter" class="text-S">
+            <td>
+              <div *ngIf="participant.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="participant.lastNames">
+              </div>
+              <div *ngIf="!participant.isEdit">
+                {{ participant.lastNames }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="participant.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="participant.firstNames">
+              </div>
+              <div *ngIf="!participant.isEdit">
+                {{ participant.firstNames }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="participant.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="participant.age">
+              </div>
+              <div *ngIf="!participant.isEdit">
+                {{ participant.age }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="participant.isEdit">
+                <input class="form-control text-S" type="text" [(ngModel)]="participant.weight">
+              </div>
+              <div *ngIf="!participant.isEdit">
+                {{ participant.weight }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="participant.isEdit">
+                <select class="form-select text-S" [(ngModel)]="participant.grade">
+                  <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+                </select>
+              </div>
+              <div *ngIf="!participant.isEdit">
+                {{ participant.grade }}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="participant.isEdit">
+                <select class="form-select text-S" [(ngModel)]="participant.gender">
+                  <option [value]="'Masculino'">Masculino</option>
+                  <option [value]="'Femenino'">Femenino</option>
+                </select>
+              </div>
+              <div *ngIf="!participant.isEdit">
+                {{ participant.gender }}
+              </div>
+            </td>
+            <td>
+              {{ participant.division }}
+            </td>
+            <td>
+              {{ participant.category }}
+            </td>
+            <td class="text-center">
+              <div *ngIf="!participant.isEdit">
+                <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
+                <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(participant)"></i>
+              </div>
+              <div *ngIf="participant.isEdit">
+                <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
