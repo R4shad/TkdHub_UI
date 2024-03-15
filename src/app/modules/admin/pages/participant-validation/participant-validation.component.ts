@@ -14,17 +14,13 @@ import {
 } from 'src/app/shared/models/competitor';
 import { responseI } from 'src/app/shared/models/response';
 import { clubI } from 'src/app/shared/models/Club';
-import { FormControl } from '@angular/forms';
 import {
   obtenerValorNumerico,
   getCompetitoryCategoryId,
   getCompetitorAgeIntervalId,
   getCompetitorDivisionId,
 } from './../../utils/participantValidation.utils';
-import {
-  isParticipantWithinWeightRange,
-  isDivisionWithinAgeInterval,
-} from '../../utils/validation.utils';
+import { isDivisionWithinAgeInterval } from '../../utils/validation.utils';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -45,23 +41,103 @@ export class ParticipantValidationComponent implements OnInit {
   ageIntervals: agesI[] = [];
   clubs: clubI[] = [];
 
-  orderBy: string = ''; // Columna por la que se ordenará
-  orderDirection: 'asc' | 'desc' | 'normal' = 'normal'; // Dirección del orden, con opción 'normal'
-
+  orderBy: string = '';
+  orderDirection: 'asc' | 'desc' | 'normal' = 'normal';
   textoFiltro: string = '';
   showVerified: boolean | null = null;
+
   constructor(
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData() {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
     });
-    this.displayParticipants();
+    this.api.getParticipantsToVerify(this.championshipId).subscribe((data) => {
+      this.participants = data;
+      this.participantsFilter = data;
+    });
+
+    this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
+      this.divisions = data;
+      this.divisionsFilter = data;
+    });
+    this.api
+      .getChampionshipAgeInterval(this.championshipId)
+      .subscribe((data) => {
+        this.ageIntervals = data;
+      });
+    this.api.getClubs(this.championshipId).subscribe((data) => {
+      this.clubs = data;
+    });
+    this.api
+      .getChampionshipCategories(this.championshipId)
+      .subscribe((data) => {
+        this.categories = data;
+        for (const category of data) {
+          this.categoriesWithNumericValue.push({
+            categoryId: category.categoryId,
+            categoryName: category.categoryName,
+            gradeMin: obtenerValorNumerico(category.gradeMin),
+            gradeMax: obtenerValorNumerico(category.gradeMax),
+          });
+        }
+      });
   }
 
+  verificateParticipant(participant: participantToValidateI) {
+    console.log(participant);
+    this.api
+      .verifyParticipant(this.championshipId, participant.id)
+      .subscribe((data) => {
+        const gradoParticipante = obtenerValorNumerico(participant.grade);
+        const competitorCategoryId: number = getCompetitoryCategoryId(
+          this.categoriesWithNumericValue,
+          gradoParticipante
+        );
+        const ageIntervalId: number = getCompetitorAgeIntervalId(
+          this.ageIntervals,
+          participant.age
+        );
+        const competitorDivisionId: number = getCompetitorDivisionId(
+          this.divisions,
+          ageIntervalId,
+          participant.weight,
+          participant.gender
+        );
+        let newCompetitor: competitorI = {
+          participantId: participant.id,
+          championshipId: this.championshipId,
+          divisionId: competitorDivisionId,
+          categoryId: competitorCategoryId,
+        };
+        console.log(newCompetitor);
+        this.api
+          .postCompetitor(newCompetitor, this.championshipId)
+          .subscribe((response: responseCompetitorI) => {
+            if (response.status == 201) {
+              participant.verified = true;
+              this.api.incrementCategoryAndDivision(
+                this.championshipId,
+                competitorDivisionId,
+                competitorCategoryId
+              );
+            }
+          });
+      });
+  }
+
+  verificateAll() {
+    this.participants.forEach((participant) => {
+      this.verificateParticipant(participant);
+    });
+  }
   aplicarFiltroTexto() {
     // Filtrar los participantes basados en el texto ingresado
     this.participantsFilter = this.participants.filter((participant) => {
@@ -109,100 +185,7 @@ export class ParticipantValidationComponent implements OnInit {
       this.filter();
     }
   }
-
-  displayParticipants() {
-    this.api.getParticipantsToVerify(this.championshipId).subscribe((data) => {
-      this.participants = data;
-      this.participantsFilter = data;
-    });
-    this.getData();
-  }
-
-  getData() {
-    this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
-      this.divisions = data;
-      this.divisionsFilter = data;
-    });
-    this.api
-      .getChampionshipAgeInterval(this.championshipId)
-      .subscribe((data) => {
-        this.ageIntervals = data;
-      });
-    this.api.getClubs(this.championshipId).subscribe((data) => {
-      this.clubs = data;
-    });
-    this.api
-      .getChampionshipCategories(this.championshipId)
-      .subscribe((data) => {
-        this.categories = data;
-        for (const category of data) {
-          this.categoriesWithNumericValue.push({
-            categoryId: category.categoryId,
-            categoryName: category.categoryName,
-            gradeMin: obtenerValorNumerico(category.gradeMin),
-            gradeMax: obtenerValorNumerico(category.gradeMax),
-          });
-        }
-      });
-  }
-
-  verificateParticipant(participant: participantToValidateI) {
-    console.log(participant);
-    this.api
-      .verifyParticipant(this.championshipId, participant.id)
-      .subscribe((data) => {
-        const gradoParticipante = obtenerValorNumerico(participant.grade);
-
-        const competitorCategoryId: number = getCompetitoryCategoryId(
-          this.categoriesWithNumericValue,
-          gradoParticipante
-        );
-        const ageIntervalId: number = getCompetitorAgeIntervalId(
-          this.ageIntervals,
-          participant.age
-        );
-        const competitorDivisionId: number = getCompetitorDivisionId(
-          this.divisions,
-          ageIntervalId,
-          participant.weight,
-          participant.gender
-        );
-        let newCompetitor: competitorI = {
-          participantId: participant.id,
-          championshipId: this.championshipId,
-          divisionId: competitorDivisionId,
-          categoryId: competitorCategoryId,
-        };
-        console.log(newCompetitor);
-        this.api
-          .postCompetitor(newCompetitor, this.championshipId)
-          .subscribe((response: responseCompetitorI) => {
-            if (response.status == 201) {
-              //alert('Verificado Correctamente');
-              participant.verified = true;
-
-              this.api
-                .incrementCategoryAndDivision(
-                  this.championshipId,
-                  competitorDivisionId,
-                  competitorCategoryId
-                )
-                .subscribe((response: responseI[]) => {});
-            }
-          });
-      });
-  }
-
-  verificateAll() {
-    this.participants.forEach((participant) => {
-      this.verificateParticipant(participant);
-    });
-  }
-
   filter() {
-    // Resto del código de filtrado...
-
-    // Filtrar por estado de verificación
     if (this.showVerified !== null) {
       this.participantsFilter = this.participants.filter((participant) => {
         return participant.verified === this.showVerified;

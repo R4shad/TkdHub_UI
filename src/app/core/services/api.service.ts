@@ -359,6 +359,31 @@ export class ApiService {
     return this.http.post<responseCompetitorI>(direccion, competitor);
   }
 
+  postCompetitorAndIncrementCategoryAndDivision(
+    competitor: competitorI,
+    championshipId: number
+  ): Observable<number> {
+    return new Observable<number>((observer) => {
+      this.postCompetitor(competitor, championshipId).subscribe(
+        (response: responseCompetitorI) => {
+          if (response.status === 201) {
+            this.incrementCategoryAndDivision(
+              championshipId,
+              competitor.divisionId,
+              competitor.categoryId
+            ).subscribe(() => {
+              observer.next(201);
+              observer.complete();
+            });
+          } else {
+            observer.next(404);
+            observer.complete();
+          }
+        }
+      );
+    });
+  }
+
   incrementCategoryAndDivision(
     championshipId: number,
     divisionId: number,
