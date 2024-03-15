@@ -119,15 +119,12 @@ export class ParticipantValidationComponent implements OnInit {
         };
         console.log(newCompetitor);
         this.api
-          .postCompetitor(newCompetitor, this.championshipId)
-          .subscribe((response: responseCompetitorI) => {
-            if (response.status == 201) {
-              participant.verified = true;
-              this.api.incrementCategoryAndDivision(
-                this.championshipId,
-                competitorDivisionId,
-                competitorCategoryId
-              );
+          .postCompetitorAndIncrementCategoryAndDivision(
+            newCompetitor,
+            this.championshipId
+          )
+          .subscribe((response: number) => {
+            if (response == 201) {
             }
           });
       });
@@ -138,50 +135,41 @@ export class ParticipantValidationComponent implements OnInit {
       this.verificateParticipant(participant);
     });
   }
+
   aplicarFiltroTexto() {
-    // Filtrar los participantes basados en el texto ingresado
     this.participantsFilter = this.participants.filter((participant) => {
-      // Filtrar por nombres y apellidos
       const nombres = participant.firstNames.toLowerCase();
       const apellidos = participant.lastNames.toLowerCase();
       const texto = this.textoFiltro.toLowerCase();
       return nombres.includes(texto) || apellidos.includes(texto);
     });
-
-    // Aplicar el filtro de ordenamiento después de filtrar por texto
     this.filter();
   }
 
   toggleOrder(column: string) {
     if (column === 'verified') {
-      // Cambiar el orden solo si la columna es 'verified'
       if (this.orderBy === column) {
-        // Si se hace clic en la misma columna, cambiar la dirección del orden
         if (this.orderDirection === 'normal') {
-          this.orderDirection = 'desc'; // Cambia a descendente si estaba en normal
+          this.orderDirection = 'desc';
         } else if (this.orderDirection === 'desc') {
-          this.orderDirection = 'asc'; // Cambia a ascendente si estaba en descendente
+          this.orderDirection = 'asc';
         } else {
-          this.orderDirection = 'normal'; // Cambia a normal si estaba en ascendente
+          this.orderDirection = 'normal';
         }
       } else {
-        // Si se hace clic en una nueva columna, establecerla como columna de orden y dirección ascendente
         this.orderBy = column;
         this.orderDirection = 'desc';
       }
-      // Aplicar el filtro con el nuevo orden
       this.filter();
     } else {
-      // Para otras columnas, usar el comportamiento existente
-      this.orderBy = column; // Establecer la columna de orden
+      this.orderBy = column;
       if (this.orderDirection === 'normal') {
-        this.orderDirection = 'asc'; // Cambiar a ascendente si estaba en normal
+        this.orderDirection = 'asc';
       } else if (this.orderDirection === 'asc') {
-        this.orderDirection = 'desc'; // Cambiar a descendente si estaba en ascendente
+        this.orderDirection = 'desc';
       } else {
-        this.orderDirection = 'normal'; // Cambiar a normal si estaba en descendente
+        this.orderDirection = 'normal';
       }
-      // Aplicar el filtro con el nuevo orden
       this.filter();
     }
   }
@@ -191,11 +179,8 @@ export class ParticipantValidationComponent implements OnInit {
         return participant.verified === this.showVerified;
       });
     }
-
-    // Resto del código de ordenamiento...
     if (this.orderBy) {
       this.participantsFilter.sort((a, b) => {
-        // Utilizamos type assertion para informar a TypeScript sobre el tipo de las propiedades
         let valueA: string | number | boolean =
           a[this.orderBy as keyof participantToValidateI];
         let valueB: string | number | boolean =
@@ -206,12 +191,10 @@ export class ParticipantValidationComponent implements OnInit {
         }
 
         if (typeof valueA === 'string' && typeof valueB === 'string') {
-          // Si los valores son cadenas, ordenar alfabéticamente
           return this.orderDirection === 'asc'
             ? valueA.localeCompare(valueB)
             : valueB.localeCompare(valueA);
         } else {
-          // De lo contrario, ordenar numéricamente
           return this.orderDirection === 'asc'
             ? Number(valueA) - Number(valueB)
             : Number(valueB) - Number(valueA);
