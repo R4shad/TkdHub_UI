@@ -45,10 +45,11 @@ export class ParticipantValidationComponent implements OnInit {
   ageIntervals: agesI[] = [];
   clubs: clubI[] = [];
 
-  filtroClub = new FormControl('Todos');
-  filtroSexo = new FormControl('Todos');
-  filtroPeso = new FormControl('Todos');
-  filtroEdad = new FormControl('Todos');
+  orderBy: string = ''; // Columna por la que se ordenará
+  orderDirection: 'asc' | 'desc' | 'normal' = 'normal'; // Dirección del orden, con opción 'normal'
+
+  textoFiltro: string = '';
+  showVerified: boolean | null = null;
   constructor(
     private api: ApiService,
     private router: Router,
@@ -59,6 +60,54 @@ export class ParticipantValidationComponent implements OnInit {
       this.championshipId = Number(params.get('championshipId'));
     });
     this.displayParticipants();
+  }
+
+  aplicarFiltroTexto() {
+    // Filtrar los participantes basados en el texto ingresado
+    this.participantsFilter = this.participants.filter((participant) => {
+      // Filtrar por nombres y apellidos
+      const nombres = participant.firstNames.toLowerCase();
+      const apellidos = participant.lastNames.toLowerCase();
+      const texto = this.textoFiltro.toLowerCase();
+      return nombres.includes(texto) || apellidos.includes(texto);
+    });
+
+    // Aplicar el filtro de ordenamiento después de filtrar por texto
+    this.filter();
+  }
+
+  toggleOrder(column: string) {
+    if (column === 'verified') {
+      // Cambiar el orden solo si la columna es 'verified'
+      if (this.orderBy === column) {
+        // Si se hace clic en la misma columna, cambiar la dirección del orden
+        if (this.orderDirection === 'normal') {
+          this.orderDirection = 'desc'; // Cambia a descendente si estaba en normal
+        } else if (this.orderDirection === 'desc') {
+          this.orderDirection = 'asc'; // Cambia a ascendente si estaba en descendente
+        } else {
+          this.orderDirection = 'normal'; // Cambia a normal si estaba en ascendente
+        }
+      } else {
+        // Si se hace clic en una nueva columna, establecerla como columna de orden y dirección ascendente
+        this.orderBy = column;
+        this.orderDirection = 'desc';
+      }
+      // Aplicar el filtro con el nuevo orden
+      this.filter();
+    } else {
+      // Para otras columnas, usar el comportamiento existente
+      this.orderBy = column; // Establecer la columna de orden
+      if (this.orderDirection === 'normal') {
+        this.orderDirection = 'asc'; // Cambiar a ascendente si estaba en normal
+      } else if (this.orderDirection === 'asc') {
+        this.orderDirection = 'desc'; // Cambiar a descendente si estaba en ascendente
+      } else {
+        this.orderDirection = 'normal'; // Cambiar a normal si estaba en descendente
+      }
+      // Aplicar el filtro con el nuevo orden
+      this.filter();
+    }
   }
 
   displayParticipants() {
@@ -98,6 +147,7 @@ export class ParticipantValidationComponent implements OnInit {
   }
 
   verificateParticipant(participant: participantToValidateI) {
+    console.log(participant);
     this.api
       .verifyParticipant(this.championshipId, participant.id)
       .subscribe((data) => {
@@ -123,6 +173,7 @@ export class ParticipantValidationComponent implements OnInit {
           divisionId: competitorDivisionId,
           categoryId: competitorCategoryId,
         };
+        console.log(newCompetitor);
         this.api
           .postCompetitor(newCompetitor, this.championshipId)
           .subscribe((response: responseCompetitorI) => {
@@ -149,47 +200,39 @@ export class ParticipantValidationComponent implements OnInit {
   }
 
   filter() {
-    const genderFilter = this.filtroSexo.value;
-    const clubFilter = this.filtroClub.value;
-    const ageFilter = this.filtroEdad.value;
-    const weightFilter = this.filtroPeso.value;
+    // Resto del código de filtrado...
 
-    const ageFilterNumber = parseInt(ageFilter, 10);
-    const intervalEncontrado = this.ageIntervals.find(
-      (interval) => interval.ageIntervalId === ageFilterNumber
-    );
-    if (
-      genderFilter === 'Todos' &&
-      clubFilter === 'Todos' &&
-      ageFilter === 'Todos' &&
-      weightFilter === 'Todos'
-    ) {
-      this.participantsFilter = this.participants;
-    } else {
+    // Filtrar por estado de verificación
+    if (this.showVerified !== null) {
       this.participantsFilter = this.participants.filter((participant) => {
-        let passesGenderFilter =
-          genderFilter === 'Todos' || participant.gender === genderFilter;
-        let passesClubFilter =
-          clubFilter === 'Todos' || participant.clubCode === clubFilter;
-        let passesAgeFilter =
-          ageFilter === 'Todos' ||
-          (participant.age >= intervalEncontrado!.minAge &&
-            participant.age <= intervalEncontrado!.maxAge);
-        let passesWeightFilter =
-          weightFilter === 'Todos' ||
-          isParticipantWithinWeightRange(participant, weightFilter);
-
-        return (
-          passesGenderFilter &&
-          passesClubFilter &&
-          passesAgeFilter &&
-          passesWeightFilter
-        );
+        return participant.verified === this.showVerified;
       });
+    }
 
-      // Filtrar las divisiones basadas en el ageIntervalId seleccionado
-      this.divisionsFilter = this.divisions.filter((division) => {
-        return division.ageIntervalId === intervalEncontrado!.ageIntervalId;
+    // Resto del código de ordenamiento...
+    if (this.orderBy) {
+      this.participantsFilter.sort((a, b) => {
+        // Utilizamos type assertion para informar a TypeScript sobre el tipo de las propiedades
+        let valueA: string | number | boolean =
+          a[this.orderBy as keyof participantToValidateI];
+        let valueB: string | number | boolean =
+          b[this.orderBy as keyof participantToValidateI];
+
+        if (!(this.orderBy in a) || !(this.orderBy in b)) {
+          return 0;
+        }
+
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          // Si los valores son cadenas, ordenar alfabéticamente
+          return this.orderDirection === 'asc'
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        } else {
+          // De lo contrario, ordenar numéricamente
+          return this.orderDirection === 'asc'
+            ? Number(valueA) - Number(valueB)
+            : Number(valueB) - Number(valueA);
+        }
       });
     }
   }

@@ -26,13 +26,10 @@ i {
 }
 .text-S {
   font-size: 16px;
-  padding-left: 4px;
 }
 .participants {
-  padding-left: 12px;
-  padding-right: 12px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .cant {
@@ -42,6 +39,12 @@ i {
   color: #8fadcc;
   font-size: 24px;
 }
-.buttons {
-  //display: flex;
+.button {
+  font-size: 16px;
+}
+.form-control {
+  padding: 0;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
