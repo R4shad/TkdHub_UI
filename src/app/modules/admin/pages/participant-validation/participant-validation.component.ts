@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
-import { participantToValidateI } from 'src/app/shared/models/participant';
+import {
+  participantToEditI,
+  participantToValidateI,
+  responseParticipantToEditI,
+} from 'src/app/shared/models/participant';
 import {
   categoryI,
   categoryWithNumericValueI,
@@ -19,18 +23,29 @@ import {
   getCompetitoryCategoryId,
   getCompetitorAgeIntervalId,
   getCompetitorDivisionId,
+  obtenerColor,
 } from './../../utils/participantValidation.utils';
 import { isDivisionWithinAgeInterval } from '../../utils/validation.utils';
+
+interface participantToValidateEI extends participantToValidateI {
+  isEdit: boolean;
+  //division: string | null; // Propiedad para almacenar el resultado de getCompetitorDivision()
+  //category: string | null;
+}
+
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
   styleUrls: ['./participant-validation.component.scss'],
 })
 export class ParticipantValidationComponent implements OnInit {
+  isEdit: boolean = false; // Indica si el participante está en modo de edición
+  isVerified: boolean = false; // Indica si el participante está verificado
+
   championshipId: number = 0;
 
-  participants: participantToValidateI[] = [];
-  participantsFilter: participantToValidateI[] = [];
+  participants: participantToValidateEI[] = [];
+  participantsFilter: participantToValidateEI[] = [];
 
   categories: categoryI[] = [];
   categoriesWithNumericValue: categoryWithNumericValueI[] = [];
@@ -45,7 +60,7 @@ export class ParticipantValidationComponent implements OnInit {
   orderDirection: 'asc' | 'desc' | 'normal' = 'normal';
   textoFiltro: string = '';
   showVerified: boolean | null = null;
-
+  validGrades: string[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -60,8 +75,14 @@ export class ParticipantValidationComponent implements OnInit {
       this.championshipId = Number(params.get('championshipId'));
     });
     this.api.getParticipantsToVerify(this.championshipId).subscribe((data) => {
-      this.participants = data;
-      this.participantsFilter = data;
+      const participantsWithEditFlag = data.map((participant) => ({
+        ...participant,
+        isEdit: false,
+      }));
+
+      this.participants = participantsWithEditFlag;
+      this.participantsFilter = participantsWithEditFlag;
+      console.log(this.participantsFilter);
     });
 
     this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
@@ -80,6 +101,7 @@ export class ParticipantValidationComponent implements OnInit {
       .getChampionshipCategories(this.championshipId)
       .subscribe((data) => {
         this.categories = data;
+        this.validGrades = this.getValidGrades();
         for (const category of data) {
           this.categoriesWithNumericValue.push({
             categoryId: category.categoryId,
@@ -91,7 +113,7 @@ export class ParticipantValidationComponent implements OnInit {
       });
   }
 
-  verificateParticipant(participant: participantToValidateI) {
+  verificateParticipant(participant: participantToValidateEI) {
     console.log(participant);
     this.api
       .verifyParticipant(this.championshipId, participant.id)
@@ -125,6 +147,7 @@ export class ParticipantValidationComponent implements OnInit {
           )
           .subscribe((response: number) => {
             if (response == 201) {
+              participant.verified = true;
             }
           });
       });
@@ -178,13 +201,32 @@ export class ParticipantValidationComponent implements OnInit {
       this.participantsFilter = this.participants.filter((participant) => {
         return participant.verified === this.showVerified;
       });
+
+      // Aplicar filtro de texto
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => {
+          const nombres = participant.firstNames.toLowerCase();
+          const apellidos = participant.lastNames.toLowerCase();
+          const texto = this.textoFiltro.toLowerCase();
+          return nombres.includes(texto) || apellidos.includes(texto);
+        }
+      );
+    } else {
+      // Si no hay filtro por verificación, aplicar solo filtro de texto
+      this.participantsFilter = this.participants.filter((participant) => {
+        const nombres = participant.firstNames.toLowerCase();
+        const apellidos = participant.lastNames.toLowerCase();
+        const texto = this.textoFiltro.toLowerCase();
+        return nombres.includes(texto) || apellidos.includes(texto);
+      });
     }
+
     if (this.orderBy) {
       this.participantsFilter.sort((a, b) => {
         let valueA: string | number | boolean =
-          a[this.orderBy as keyof participantToValidateI];
+          a[this.orderBy as keyof participantToValidateEI];
         let valueB: string | number | boolean =
-          b[this.orderBy as keyof participantToValidateI];
+          b[this.orderBy as keyof participantToValidateEI];
 
         if (!(this.orderBy in a) || !(this.orderBy in b)) {
           return 0;
@@ -213,5 +255,61 @@ export class ParticipantValidationComponent implements OnInit {
     ageFilter: string
   ): boolean {
     return isDivisionWithinAgeInterval(division, ageIntervalValue, ageFilter);
+  }
+
+  onEdit(participant: participantToValidateEI) {
+    if (!participant.isEdit) {
+      participant.isEdit = true;
+    }
+  }
+
+  confirmEdit(participant: participantToValidateEI) {
+    const newParticipant: participantToEditI = {
+      lastNames: participant.lastNames,
+      firstNames: participant.firstNames,
+      age: participant.age,
+      weight: participant.weight,
+      grade: participant.grade,
+      gender: participant.gender,
+    };
+    this.api
+      .editParticipant(this.championshipId, participant.id, newParticipant)
+      .subscribe((response: responseParticipantToEditI) => {
+        if (response.status == 200) {
+          alert('Editado correctamente');
+          participant.isEdit = false;
+
+          //this.getCompetitorDivision(participant);
+          //this.getCategory(participant);
+        }
+      });
+  }
+
+  cancelEdit(participant: participantToValidateEI) {
+    participant.isEdit = false;
+  }
+
+  getValidGrades(): string[] {
+    const coloresValidos: string[] = [];
+
+    const categoriasOrdenadas = this.categories.sort(
+      (a, b) =>
+        obtenerValorNumerico(a.gradeMin) - obtenerValorNumerico(b.gradeMin)
+    );
+
+    for (const categoria of categoriasOrdenadas) {
+      const valorMin = obtenerValorNumerico(categoria.gradeMin);
+      const valorMax = obtenerValorNumerico(categoria.gradeMax);
+
+      for (let i = valorMin; i <= valorMax; i++) {
+        // Llama a obtenerColor con el valor numérico actual de la iteración
+        const color = obtenerColor(i);
+
+        if (color) {
+          coloresValidos.push(color);
+        }
+      }
+    }
+    return coloresValidos;
   }
 }

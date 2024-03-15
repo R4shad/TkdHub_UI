@@ -1,8 +1,8 @@
 <div class="col-12">
   <div class="participants mt-4 mb-2">
     <div class="mb-3">
-      <input type="text" class="form-control" id="filtroTexto" [(ngModel)]="textoFiltro" (input)="aplicarFiltroTexto()"
-        placeholder="Ingrese texto de filtro">
+      <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
+        (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
     </div>
     <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
     <button class="mx-1 btn btn-outline-primary  btn-block text-S" (click)="verificateAll()">Confirmar
@@ -61,25 +61,78 @@
       <tbody>
         <tr *ngFor="let participant of participantsFilter">
           <td>{{ participant.clubCode }}</td>
-          <td>{{ participant.lastNames }}</td>
-          <td>{{ participant.firstNames }}</td>
-          <td>{{ participant.age }}</td>
-          <td>{{ participant.weight }}</td>
-          <td>{{ participant.grade }}</td>
-          <td>{{ participant.gender }}</td>
+          <td>
+            <div *ngIf="participant.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.lastNames">
+            </div>
+            <div *ngIf="!participant.isEdit">
+              {{ participant.lastNames }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="participant.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.firstNames">
+            </div>
+            <div *ngIf="!participant.isEdit">
+              {{ participant.firstNames }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="participant.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.age">
+            </div>
+            <div *ngIf="!participant.isEdit">
+              {{ participant.age }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="participant.isEdit">
+              <input class="form-control text-S" type="text" [(ngModel)]="participant.weight">
+            </div>
+            <div *ngIf="!participant.isEdit">
+              {{ participant.weight }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="participant.isEdit">
+              <select class="form-select text-S" [(ngModel)]="participant.grade">
+                <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+              </select>
+            </div>
+            <div *ngIf="!participant.isEdit">
+              {{ participant.grade }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="participant.isEdit">
+              <select class="form-select text-S" [(ngModel)]="participant.gender">
+                <option [value]="'Masculino'">Masculino</option>
+                <option [value]="'Femenino'">Femenino</option>
+              </select>
+            </div>
+            <div *ngIf="!participant.isEdit">
+              {{ participant.gender }}
+            </div>
+          </td>
           <td class="buttons">
-            <div>
-              <div>
+            <div *ngIf="!participant.verified">
+              <div *ngIf="!participant.isEdit">
+                <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
+                <i class="fa fa-check-circle" (click)="verificateParticipant(participant)"></i>
               </div>
-              <div>
-                <span *ngIf="participant.verified">Verificado</span>
-                <i class="fa fa-check-circle" aria-hidden="true" *ngIf="!participant.verified"
-                  (click)="verificateParticipant(participant)"></i>
+              <div *ngIf="participant.isEdit">
+                <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
               </div>
+            </div>
+            <div *ngIf="participant.verified">
+              Verificado
             </div>
           </td>
         </tr>
       </tbody>
+
+
     </table>
     <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
   </div>
