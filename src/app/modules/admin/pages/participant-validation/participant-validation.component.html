@@ -32,7 +32,7 @@
         <ng-container *ngFor="let division of divisionsFilter">
           <!-- Filtrar las divisiones basadas en el intervalo de edad seleccionado -->
           <option [ngValue]="{ min: division.minWeight, max: division.maxWeight }"
-            *ngIf="isDivisionWithinAgeInterval(division, filtroEdad.value)">
+            *ngIf="isDivisionWithinAgeIntervalC(division, filtroEdad.value, this.filtroEdad.value)">
             {{ division.divisionName }} ({{ division.minWeight }} - {{ division.maxWeight }} kg)
           </option>
         </ng-container>

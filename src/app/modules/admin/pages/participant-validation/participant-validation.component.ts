@@ -21,6 +21,10 @@ import {
   getCompetitorAgeIntervalId,
   getCompetitorDivisionId,
 } from './../../utils/participantValidation.utils';
+import {
+  isParticipantWithinWeightRange,
+  isDivisionWithinAgeInterval,
+} from '../../utils/validation.utils';
 @Component({
   selector: 'app-participant-validation',
   templateUrl: './participant-validation.component.html',
@@ -173,7 +177,7 @@ export class ParticipantValidationComponent implements OnInit {
             participant.age <= intervalEncontrado!.maxAge);
         let passesWeightFilter =
           weightFilter === 'Todos' ||
-          this.isParticipantWithinWeightRange(participant, weightFilter);
+          isParticipantWithinWeightRange(participant, weightFilter);
 
         return (
           passesGenderFilter &&
@@ -190,29 +194,15 @@ export class ParticipantValidationComponent implements OnInit {
     }
   }
 
-  isParticipantWithinWeightRange(
-    participant: participantToValidateI,
-    weightRange: any
-  ): boolean {
-    const minWeight = weightRange.min;
-    const maxWeight = weightRange.max;
-    return participant.weight >= minWeight && participant.weight <= maxWeight;
-  }
-
-  isDivisionWithinAgeInterval(
-    division: divisionI,
-    ageIntervalValue: string
-  ): boolean {
-    if (ageIntervalValue === 'Todos') {
-      return true;
-    } else {
-      const ageFilter = this.filtroEdad.value;
-      const ageFilterNumber = parseInt(ageFilter, 10);
-      return division.ageIntervalId === ageFilterNumber;
-    }
-  }
-
   returnToSummary() {
     this.router.navigate(['/championship', this.championshipId, 'Organizer']);
+  }
+
+  isDivisionWithinAgeIntervalC(
+    division: divisionI,
+    ageIntervalValue: string,
+    ageFilter: string
+  ): boolean {
+    return isDivisionWithinAgeInterval(division, ageIntervalValue, ageFilter);
   }
 }
