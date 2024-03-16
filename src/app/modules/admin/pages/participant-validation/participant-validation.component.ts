@@ -26,6 +26,8 @@ import {
   obtenerColor,
 } from './../../utils/participantValidation.utils';
 import { isDivisionWithinAgeInterval } from '../../utils/validation.utils';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ChampionshipI } from 'src/app/shared/models/Championship';
 
 interface participantToValidateEI extends participantToValidateI {
   isEdit: boolean;
@@ -41,8 +43,9 @@ interface participantToValidateEI extends participantToValidateI {
 export class ParticipantValidationComponent implements OnInit {
   isEdit: boolean = false; // Indica si el participante está en modo de edición
   isVerified: boolean = false; // Indica si el participante está verificado
-
+  modalRef?: NgbModalRef | undefined;
   championshipId: number = 0;
+  championship!: ChampionshipI;
 
   participants: participantToValidateEI[] = [];
   participantsFilter: participantToValidateEI[] = [];
@@ -64,15 +67,23 @@ export class ParticipantValidationComponent implements OnInit {
   constructor(
     private api: ApiService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {}
   ngOnInit(): void {
     this.getData();
   }
 
+  openModal(content: any) {
+    this.modalRef = this.modalService.open(content);
+  }
+
   getData() {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
+      this.api.getChampionshipInfo(this.championshipId).subscribe((data) => {
+        this.championship = data;
+      });
     });
     this.api.getParticipantsToVerify(this.championshipId).subscribe((data) => {
       const participantsWithEditFlag = data.map((participant) => ({
@@ -311,5 +322,27 @@ export class ParticipantValidationComponent implements OnInit {
       }
     }
     return coloresValidos;
+  }
+
+  confirm() {
+    if (this.modalRef) {
+      // Verifica si modalRef está definido
+      this.api
+        .updateChampionshipStage(this.championshipId)
+        .subscribe((data) => {
+          if (data === 200) {
+            if (this.modalRef != undefined) {
+              this.modalRef.close(); // Cierra modalRef solo si está definido
+            }
+            this.router.navigate([
+              '/championship',
+              this.championshipId,
+              'Organizer',
+            ]);
+          }
+        });
+    } else {
+      console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
+    }
   }
 }
