@@ -64,6 +64,10 @@ export class ParticipantValidationComponent implements OnInit {
   textoFiltro: string = '';
   showVerified: boolean | null = null;
   validGrades: string[] = [];
+
+  selectedGender: string = 'Ambos';
+  selectedCategory: string = 'Todos';
+  selectedAgeInterval: string = 'Todos';
   constructor(
     private api: ApiService,
     private router: Router,
@@ -72,6 +76,61 @@ export class ParticipantValidationComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getData();
+  }
+
+  filterGender(selected: string) {
+    this.selectedGender = selected;
+    this.applyFilters();
+  }
+
+  filterCategory(categoryName: string) {
+    this.selectedCategory = categoryName;
+    this.applyFilters();
+  }
+
+  filterAgeInterval(interval: string) {
+    this.selectedAgeInterval = interval;
+    if (interval === '') {
+      this.participantsFilter = this.participants;
+      return;
+    }
+    console.log(this.selectedAgeInterval);
+    const [minAge, maxAge] = interval.split('-');
+    this.participantsFilter = this.participants.filter((participant) => {
+      const age = participant.age;
+      return age >= Number(minAge) && age <= Number(maxAge);
+    });
+  }
+
+  applyFilters(minAge?: number, maxAge?: number) {
+    this.participantsFilter = this.participants;
+
+    // Aplicar filtro de género
+    if (this.selectedGender !== 'Ambos') {
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => participant.gender === this.selectedGender
+      );
+    }
+
+    // Aplicar filtro de categoría
+    if (this.selectedCategory !== 'Todos') {
+      const category: categoryI | undefined = this.categories.find(
+        (category) => category.categoryName === this.selectedCategory
+      );
+      if (category) {
+        const validGrades = this.getValidGradesForCategory(category);
+        this.participantsFilter = this.participantsFilter.filter(
+          (participant) => validGrades.includes(participant.grade)
+        );
+      }
+    }
+
+    // Aplicar filtro de intervalo de edades si se proporcionan minAge y maxAge
+    if (minAge !== undefined && maxAge !== undefined) {
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => participant.age >= minAge && participant.age <= maxAge
+      );
+    }
   }
 
   openModal(content: any) {
@@ -99,11 +158,13 @@ export class ParticipantValidationComponent implements OnInit {
     this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
       this.divisions = data;
       this.divisionsFilter = data;
+      console.log(this.divisionsFilter);
     });
     this.api
       .getChampionshipAgeInterval(this.championshipId)
       .subscribe((data) => {
         this.ageIntervals = data;
+        this.ageIntervals.sort((a, b) => a.minAge - b.minAge);
       });
     this.api.getClubs(this.championshipId).subscribe((data) => {
       this.clubs = data;
@@ -322,6 +383,22 @@ export class ParticipantValidationComponent implements OnInit {
       }
     }
     return coloresValidos;
+  }
+
+  getValidGradesForCategory(category: categoryI): string[] {
+    const validGrades: string[] = [];
+
+    const valorMin = obtenerValorNumerico(category.gradeMin);
+    const valorMax = obtenerValorNumerico(category.gradeMax);
+
+    for (let i = valorMin; i <= valorMax; i++) {
+      const color = obtenerColor(i);
+      if (color) {
+        validGrades.push(color);
+      }
+    }
+
+    return validGrades;
   }
 
   confirm() {

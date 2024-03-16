@@ -88,3 +88,27 @@ i {
 .cant {
   margin-bottom: 0px;
 }
+////////////////////////////
+.filtros {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #00f; /* Cambiar al color deseado */
+  color: #fff; /* Cambiar al color deseado */
+}

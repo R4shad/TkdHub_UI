@@ -1,241 +1,280 @@
-<div *ngIf="championship.stage==='Weigh-in'">
-  <div class="col-12">
-    <div class="participants mt-4 mb-2">
-      <div class="mb-3">
-        <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
-          (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
+<div *ngIf="championship">
+  <div *ngIf="championship.stage==='Weigh-in'">
+    <div class="col-12">
+      <div class="participants mt-4 mb-2">
+        <div class="mb-3">
+          <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
+            (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
+        </div>
+        <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
+        <button class="mx-1 btn btn-outline-primary  btn-block text-S" (click)="verificateAll()">Confirmar
+          Todos</button>
       </div>
-      <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
-      <button class="mx-1 btn btn-outline-primary  btn-block text-S" (click)="verificateAll()">Confirmar
-        Todos</button>
+      <div class="filtros">
+        <p class="cant">Filtros:</p>
+        <!-- Botones para filtrar por género -->
+        <div class="button-container">
+          <button class="button" [class.selected]="selectedGender === 'Ambos'"
+            (click)="filterGender('Ambos')">Ambos</button>
+          <button class="button" [class.selected]="selectedGender === 'Femenino'"
+            (click)="filterGender('Femenino')">Femenino</button>
+          <button class="button" [class.selected]="selectedGender === 'Masculino'"
+            (click)="filterGender('Masculino')">Masculino</button>
+        </div>
+        <!-- Botones para filtrar por categoría -->
+        <div class="button-container">
+          <button class="button" [class.selected]="selectedCategory === 'Todos'"
+            (click)="filterCategory('Todos')">Todos</button>
+          <button *ngFor="let category of categories" class="button"
+            [class.selected]="selectedCategory === category.categoryName"
+            (click)="filterCategory(category.categoryName)">{{ category.categoryName }}</button>
+        </div>
+        <!-- Botones para filtrar por intervalo de edades -->
+        <div class="button-container">
+          <button class="button" [class.selected]="!selectedAgeInterval" (click)="filterAgeInterval('')">Todos</button>
+          <button *ngFor="let ageInterval of ageIntervals" class="button"
+            [class.selected]="selectedAgeInterval === (ageInterval.minAge + '-' + ageInterval.maxAge)"
+            (click)="filterAgeInterval(ageInterval.minAge + '-' + ageInterval.maxAge)">
+            {{ ageInterval.minAge }}{{ ageInterval.maxAge === 100 ? '+' : ' - ' + ageInterval.maxAge }}
+          </button>
+
+
+
+        </div>
+
+
+
+      </div>
     </div>
-  </div>
-  <div class="row col-12">
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr class="bg text-white">
-            <th (click)="toggleOrder('clubCode')">Club
-              <span *ngIf="orderBy === 'clubCode' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'clubCode' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('lastNames')">Apellidos
-              <span *ngIf="orderBy === 'lastNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'lastNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal' ">⇅</span>
-            </th>
-            <th (click)="toggleOrder('firstNames')">Nombres
-              <span *ngIf="orderBy === 'firstNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'firstNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('age')">Edad
-              <span *ngIf="orderBy === 'age' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'age' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('weight')">Peso
-              <span *ngIf="orderBy === 'weight' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'weight' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('grade')">Grado
-              <span *ngIf="orderBy === 'grade' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'grade' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('gender')">Sexo
-              <span *ngIf="orderBy === 'gender' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'gender' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderBy !== 'gender' && orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('verified')">Acciones
-              <span *ngIf="orderBy === 'verified' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'verified' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
+    <div class="row col-12">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr class="bg text-white">
+              <th (click)="toggleOrder('clubCode')">Club
+                <span *ngIf="orderBy === 'clubCode' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'clubCode' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('lastNames')">Apellidos
+                <span *ngIf="orderBy === 'lastNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'lastNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal' ">⇅</span>
+              </th>
+              <th (click)="toggleOrder('firstNames')">Nombres
+                <span *ngIf="orderBy === 'firstNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'firstNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('age')">Edad
+                <span *ngIf="orderBy === 'age' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'age' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('weight')">Peso
+                <span *ngIf="orderBy === 'weight' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'weight' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('grade')">Grado
+                <span *ngIf="orderBy === 'grade' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'grade' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('gender')">Sexo
+                <span *ngIf="orderBy === 'gender' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'gender' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderBy !== 'gender' && orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('verified')">Acciones
+                <span *ngIf="orderBy === 'verified' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'verified' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
 
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let participant of participantsFilter">
-            <td>{{ participant.clubCode }}</td>
-            <td>
-              <div *ngIf="participant.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="participant.lastNames">
-              </div>
-              <div *ngIf="!participant.isEdit">
-                {{ participant.lastNames }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="participant.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="participant.firstNames">
-              </div>
-              <div *ngIf="!participant.isEdit">
-                {{ participant.firstNames }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="participant.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="participant.age">
-              </div>
-              <div *ngIf="!participant.isEdit">
-                {{ participant.age }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="participant.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="participant.weight">
-              </div>
-              <div *ngIf="!participant.isEdit">
-                {{ participant.weight }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="participant.isEdit">
-                <select class="form-select text-S" [(ngModel)]="participant.grade">
-                  <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
-                </select>
-              </div>
-              <div *ngIf="!participant.isEdit">
-                {{ participant.grade }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="participant.isEdit">
-                <select class="form-select text-S" [(ngModel)]="participant.gender">
-                  <option [value]="'Masculino'">Masculino</option>
-                  <option [value]="'Femenino'">Femenino</option>
-                </select>
-              </div>
-              <div *ngIf="!participant.isEdit">
-                {{ participant.gender }}
-              </div>
-            </td>
-            <td class="buttons">
-              <div *ngIf="!participant.verified">
-                <div *ngIf="!participant.isEdit">
-                  <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
-                  <i class="fa fa-check-circle" (click)="verificateParticipant(participant)"></i>
-                </div>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let participant of participantsFilter">
+              <td>{{ participant.clubCode }}</td>
+              <td>
                 <div *ngIf="participant.isEdit">
-                  <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
-                  <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
+                  <input class="form-control text-S" type="text" [(ngModel)]="participant.lastNames">
                 </div>
-              </div>
-              <div *ngIf="participant.verified">
-                Verificado
-              </div>
-            </td>
-          </tr>
-        </tbody>
+                <div *ngIf="!participant.isEdit">
+                  {{ participant.lastNames }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="participant.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="participant.firstNames">
+                </div>
+                <div *ngIf="!participant.isEdit">
+                  {{ participant.firstNames }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="participant.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="participant.age">
+                </div>
+                <div *ngIf="!participant.isEdit">
+                  {{ participant.age }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="participant.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="participant.weight">
+                </div>
+                <div *ngIf="!participant.isEdit">
+                  {{ participant.weight }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="participant.isEdit">
+                  <select class="form-select text-S" [(ngModel)]="participant.grade">
+                    <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+                  </select>
+                </div>
+                <div *ngIf="!participant.isEdit">
+                  {{ participant.grade }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="participant.isEdit">
+                  <select class="form-select text-S" [(ngModel)]="participant.gender">
+                    <option [value]="'Masculino'">Masculino</option>
+                    <option [value]="'Femenino'">Femenino</option>
+                  </select>
+                </div>
+                <div *ngIf="!participant.isEdit">
+                  {{ participant.gender }}
+                </div>
+              </td>
+              <td class="buttons">
+                <div *ngIf="!participant.verified">
+                  <div *ngIf="!participant.isEdit">
+                    <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
+                    <i class="fa fa-check-circle" (click)="verificateParticipant(participant)"></i>
+                  </div>
+                  <div *ngIf="participant.isEdit">
+                    <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
+                    <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
+                  </div>
+                </div>
+                <div *ngIf="participant.verified">
+                  Verificado
+                </div>
+              </td>
+            </tr>
+          </tbody>
 
 
-      </table>
-      <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
-      <button class="btn btn-primary" (click)="openModal(modalContent)">Finalizar Pesaje</button>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="championship.stage!='Weigh-in'">
-  <div class="col-12">
-    <div class="participants mt-4 mb-2">
-      <div class="mb-3">
-        <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
-          (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
+        </table>
+        <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
+        <button class="btn btn-primary" (click)="openModal(modalContent)">Finalizar Pesaje</button>
       </div>
-      <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
     </div>
   </div>
-  <div class="row col-12">
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr class="bg text-white">
-            <th (click)="toggleOrder('clubCode')">Club
-              <span *ngIf="orderBy === 'clubCode' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'clubCode' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('lastNames')">Apellidos
-              <span *ngIf="orderBy === 'lastNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'lastNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal' ">⇅</span>
-            </th>
-            <th (click)="toggleOrder('firstNames')">Nombres
-              <span *ngIf="orderBy === 'firstNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'firstNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('age')">Edad
-              <span *ngIf="orderBy === 'age' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'age' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('weight')">Peso
-              <span *ngIf="orderBy === 'weight' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'weight' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('grade')">Grado
-              <span *ngIf="orderBy === 'grade' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'grade' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('gender')">Sexo
-              <span *ngIf="orderBy === 'gender' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'gender' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderBy !== 'gender' && orderDirection === 'normal'">⇅</span>
-            </th>
-            <th (click)="toggleOrder('verified')">Acciones
-              <span *ngIf="orderBy === 'verified' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-              <span *ngIf="orderBy === 'verified' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-              <span *ngIf="orderDirection === 'normal'">⇅</span>
-            </th>
+
+  <div *ngIf="championship.stage!='Weigh-in'">
+    <div class="col-12">
+      <div class="participants mt-4 mb-2">
+        <div class="mb-3">
+          <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
+            (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
+        </div>
+        <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
+      </div>
+    </div>
+    <div>
+    </div>
+    <div class="row col-12">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr class="bg text-white">
+              <th (click)="toggleOrder('clubCode')">Club
+                <span *ngIf="orderBy === 'clubCode' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'clubCode' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('lastNames')">Apellidos
+                <span *ngIf="orderBy === 'lastNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'lastNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal' ">⇅</span>
+              </th>
+              <th (click)="toggleOrder('firstNames')">Nombres
+                <span *ngIf="orderBy === 'firstNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'firstNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('age')">Edad
+                <span *ngIf="orderBy === 'age' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'age' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('weight')">Peso
+                <span *ngIf="orderBy === 'weight' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'weight' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('grade')">Grado
+                <span *ngIf="orderBy === 'grade' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'grade' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('gender')">Sexo
+                <span *ngIf="orderBy === 'gender' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'gender' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderBy !== 'gender' && orderDirection === 'normal'">⇅</span>
+              </th>
+              <th (click)="toggleOrder('verified')">Acciones
+                <span *ngIf="orderBy === 'verified' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
+                <span *ngIf="orderBy === 'verified' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
+                <span *ngIf="orderDirection === 'normal'">⇅</span>
+              </th>
 
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let participant of participantsFilter">
-            <td>{{ participant.clubCode }}</td>
-            <td>
-              {{ participant.lastNames }}
-            </td>
-            <td>
-              {{ participant.firstNames }}
-            </td>
-            <td>
-              {{ participant.age }}
-            </td>
-            <td>
-              {{ participant.weight }}
-            </td>
-            <td>
-              {{ participant.grade }}
-            </td>
-            <td>
-              {{ participant.gender }}
-            </td>
-            <td class="buttons">
-              <div *ngIf="!participant.verified">
-                No Verificado
-              </div>
-              <div *ngIf="participant.verified">
-                Verificado
-              </div>
-            </td>
-          </tr>
-        </tbody>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let participant of participantsFilter">
+              <td>{{ participant.clubCode }}</td>
+              <td>
+                {{ participant.lastNames }}
+              </td>
+              <td>
+                {{ participant.firstNames }}
+              </td>
+              <td>
+                {{ participant.age }}
+              </td>
+              <td>
+                {{ participant.weight }}
+              </td>
+              <td>
+                {{ participant.grade }}
+              </td>
+              <td>
+                {{ participant.gender }}
+              </td>
+              <td class="buttons">
+                <div *ngIf="!participant.verified">
+                  No Verificado
+                </div>
+                <div *ngIf="participant.verified">
+                  Verificado
+                </div>
+              </td>
+            </tr>
+          </tbody>
 
 
-      </table>
-      <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
+        </table>
+        <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
 
+      </div>
     </div>
   </div>
 </div>
