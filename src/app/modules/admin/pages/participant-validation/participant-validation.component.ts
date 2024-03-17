@@ -69,7 +69,7 @@ export class ParticipantValidationComponent implements OnInit {
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
   selectedDivision: string = 'Todos';
-
+  verifiedStatus: string = 'Todos';
   constructor(
     private api: ApiService,
     private router: Router,
@@ -83,8 +83,12 @@ export class ParticipantValidationComponent implements OnInit {
   filterGender(selected: string) {
     this.selectedGender = selected;
     this.applyFilters();
-    //filtar divisiones
     this.applyDivisionFilter();
+  }
+
+  filterVerified(status: string) {
+    this.verifiedStatus = status;
+    this.applyFilters();
   }
 
   filterCategory(categoryName: string) {
@@ -132,11 +136,20 @@ export class ParticipantValidationComponent implements OnInit {
   }
 
   applyFilters() {
-    console.log(this.selectedGender);
-    console.log(this.selectedCategory);
-    console.log(this.selectedAgeInterval);
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     this.participantsFilter = this.participants;
+    // Aplicar filtro de verificado
+    if (this.verifiedStatus === 'Verificado') {
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => participant.verified
+      );
+    } else {
+      if (this.verifiedStatus === 'Sin Verificar') {
+        this.participantsFilter = this.participantsFilter.filter(
+          (participant) => !participant.verified
+        );
+      }
+    }
+
     // Aplicar filtro de género
     if (this.selectedGender !== 'Ambos') {
       this.participantsFilter = this.participantsFilter.filter(
