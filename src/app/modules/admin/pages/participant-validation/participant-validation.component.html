@@ -11,9 +11,9 @@
           Todos</button>
       </div>
       <div class="filtros">
-        <p class="cant">Filtros:</p>
+        <p class="cant">Generos:</p>
         <!-- Botones para filtrar por género -->
-        <div class="button-container">
+        <div class="button-container mb-1">
           <button class="button" [class.selected]="selectedGender === 'Ambos'"
             (click)="filterGender('Ambos')">Ambos</button>
           <button class="button" [class.selected]="selectedGender === 'Femenino'"
@@ -22,7 +22,8 @@
             (click)="filterGender('Masculino')">Masculino</button>
         </div>
         <!-- Botones para filtrar por categoría -->
-        <div class="button-container">
+        <p class="cant">Categorias:</p>
+        <div class="button-container mb-1">
           <button class="button" [class.selected]="selectedCategory === 'Todos'"
             (click)="filterCategory('Todos')">Todos</button>
           <button *ngFor="let category of categories" class="button"
@@ -30,20 +31,28 @@
             (click)="filterCategory(category.categoryName)">{{ category.categoryName }}</button>
         </div>
         <!-- Botones para filtrar por intervalo de edades -->
-        <div class="button-container">
-          <button class="button" [class.selected]="!selectedAgeInterval" (click)="filterAgeInterval('')">Todos</button>
+        <p class="cant">Edades:</p>
+        <div class="button-container mb-1">
+          <button class="button" [class.selected]="selectedAgeInterval === 'Todos'"
+            (click)="filterAgeInterval('Todos')">Todos</button>
           <button *ngFor="let ageInterval of ageIntervals" class="button"
             [class.selected]="selectedAgeInterval === (ageInterval.minAge + '-' + ageInterval.maxAge)"
             (click)="filterAgeInterval(ageInterval.minAge + '-' + ageInterval.maxAge)">
             {{ ageInterval.minAge }}{{ ageInterval.maxAge === 100 ? '+' : ' - ' + ageInterval.maxAge }}
           </button>
-
-
-
         </div>
-
-
-
+        <!-- Botones para filtrar por divisiones -->
+        <p class="cant" *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos'">Divisiones:</p>
+        <div class="button-container mb-1"
+          *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length">
+          <button class="button text-sss" [class.selected]="selectedDivision === 'Todos'"
+            (click)="filterDivision('Todos')">Todos</button>
+          <button *ngFor="let division of divisionsFilter" class="button"
+            [class.selected]="selectedAgeInterval === (division.minWeight + '-' + division.maxWeight)"
+            (click)="filterDivision(division.minWeight + '-' + division.maxWeight)">
+            {{ division.minWeight }}{{ division.maxWeight === 100 ? '+' : ' - ' + division.maxWeight }}
+          </button>
+        </div>
       </div>
     </div>
     <div class="row col-12">

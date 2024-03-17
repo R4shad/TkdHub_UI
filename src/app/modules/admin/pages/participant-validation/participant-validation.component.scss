@@ -97,7 +97,7 @@ i {
 .button-container {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 90%;
 }
 
 .button {
@@ -106,9 +106,14 @@ i {
   border: none;
   background-color: #ddd;
   cursor: pointer;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  width: 0;
 }
 
 .selected {
-  background-color: #00f; /* Cambiar al color deseado */
-  color: #fff; /* Cambiar al color deseado */
+  background-color: #6d88a1; /* Cambiar al color deseado */
+}
+.text-sss {
+  font-size: 12px;
 }

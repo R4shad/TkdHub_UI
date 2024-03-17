@@ -68,6 +68,8 @@ export class ParticipantValidationComponent implements OnInit {
   selectedGender: string = 'Ambos';
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
+  selectedDivision: string = 'Todos';
+
   constructor(
     private api: ApiService,
     private router: Router,
@@ -81,6 +83,8 @@ export class ParticipantValidationComponent implements OnInit {
   filterGender(selected: string) {
     this.selectedGender = selected;
     this.applyFilters();
+    //filtar divisiones
+    this.applyDivisionFilter();
   }
 
   filterCategory(categoryName: string) {
@@ -90,21 +94,49 @@ export class ParticipantValidationComponent implements OnInit {
 
   filterAgeInterval(interval: string) {
     this.selectedAgeInterval = interval;
-    if (interval === '') {
+    this.applyFilters();
+    this.applyDivisionFilter();
+  }
+
+  filterDivision(divisionWeight: string) {
+    this.selectedDivision = divisionWeight;
+    if (divisionWeight === 'Todos') {
       this.participantsFilter = this.participants;
       return;
     }
-    console.log(this.selectedAgeInterval);
-    const [minAge, maxAge] = interval.split('-');
+
+    const [minWeight, maxWeight] = divisionWeight.split('-');
     this.participantsFilter = this.participants.filter((participant) => {
-      const age = participant.age;
-      return age >= Number(minAge) && age <= Number(maxAge);
+      const weight = participant.weight;
+      return weight >= Number(minWeight) && weight <= Number(maxWeight);
     });
   }
 
-  applyFilters(minAge?: number, maxAge?: number) {
-    this.participantsFilter = this.participants;
+  applyDivisionFilter() {
+    if (this.selectedGender != 'Ambos') {
+      this.divisionsFilter = this.divisions.filter((division) => {
+        const gender = this.selectedGender;
+        return gender === division.gender;
+      });
+    }
+    if (this.selectedAgeInterval != 'Todos') {
+      const ageIntervalSelected = this.ageIntervals.filter((age) => {
+        const [minAge, maxAge] = this.selectedAgeInterval.split('-');
+        return age.minAge === Number(minAge) && age.maxAge === Number(maxAge);
+      });
+      this.divisionsFilter = this.divisionsFilter.filter((division) => {
+        const ageIntervalId = division.ageIntervalId;
+        return ageIntervalId === ageIntervalSelected[0].ageIntervalId;
+      });
+    }
+  }
 
+  applyFilters() {
+    console.log(this.selectedGender);
+    console.log(this.selectedCategory);
+    console.log(this.selectedAgeInterval);
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    this.participantsFilter = this.participants;
     // Aplicar filtro de género
     if (this.selectedGender !== 'Ambos') {
       this.participantsFilter = this.participantsFilter.filter(
@@ -126,10 +158,17 @@ export class ParticipantValidationComponent implements OnInit {
     }
 
     // Aplicar filtro de intervalo de edades si se proporcionan minAge y maxAge
-    if (minAge !== undefined && maxAge !== undefined) {
+    if (this.selectedAgeInterval !== 'Todos') {
+      const [minAge, maxAge] = this.selectedAgeInterval.split('-');
+      console.log(minAge);
+      console.log(maxAge);
       this.participantsFilter = this.participantsFilter.filter(
-        (participant) => participant.age >= minAge && participant.age <= maxAge
+        (participant) => {
+          const age = participant.age;
+          return age >= Number(minAge) && age <= Number(maxAge);
+        }
       );
+      console.log(this.participantsFilter);
     }
   }
 
@@ -158,7 +197,6 @@ export class ParticipantValidationComponent implements OnInit {
     this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
       this.divisions = data;
       this.divisionsFilter = data;
-      console.log(this.divisionsFilter);
     });
     this.api
       .getChampionshipAgeInterval(this.championshipId)
@@ -270,9 +308,11 @@ export class ParticipantValidationComponent implements OnInit {
   }
   filter() {
     if (this.showVerified !== null) {
-      this.participantsFilter = this.participants.filter((participant) => {
-        return participant.verified === this.showVerified;
-      });
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => {
+          return participant.verified === this.showVerified;
+        }
+      );
 
       // Aplicar filtro de texto
       this.participantsFilter = this.participantsFilter.filter(
@@ -285,12 +325,14 @@ export class ParticipantValidationComponent implements OnInit {
       );
     } else {
       // Si no hay filtro por verificación, aplicar solo filtro de texto
-      this.participantsFilter = this.participants.filter((participant) => {
-        const nombres = participant.firstNames.toLowerCase();
-        const apellidos = participant.lastNames.toLowerCase();
-        const texto = this.textoFiltro.toLowerCase();
-        return nombres.includes(texto) || apellidos.includes(texto);
-      });
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => {
+          const nombres = participant.firstNames.toLowerCase();
+          const apellidos = participant.lastNames.toLowerCase();
+          const texto = this.textoFiltro.toLowerCase();
+          return nombres.includes(texto) || apellidos.includes(texto);
+        }
+      );
     }
 
     if (this.orderBy) {
