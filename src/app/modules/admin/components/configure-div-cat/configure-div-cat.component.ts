@@ -66,6 +66,7 @@ export class ConfigureDivCatComponent implements OnInit {
   openModal(content: any) {
     this.modalRef = this.modalService.open(content);
   }
+
   deleteAge(ageRemoved: agesEI) {
     this.api
       .deleteAgeInterval(ageRemoved.ageIntervalId)

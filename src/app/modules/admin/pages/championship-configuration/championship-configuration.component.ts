@@ -26,7 +26,6 @@ export class ChampionshipConfigurationComponent implements OnInit {
       )
       .subscribe((data) => {
         this.championship = data;
-        console.log(this.championship);
       });
   }
   returnToSummary() {

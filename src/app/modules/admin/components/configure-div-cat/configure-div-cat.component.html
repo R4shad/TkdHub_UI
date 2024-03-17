@@ -1,226 +1,228 @@
-<div *ngIf="championship.stage==='InitialConfiguration'">
-  <div *ngIf="displayWeights">
-    <div class="col-12">
-      <h4 class="title">Define las edades e intervalos de peso</h4>
-    </div>
-    <div class="row col-12 ">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr class="bg text-white">
-              <th class="text-center">Edad</th>
-              <th class="text-center">Minima Edad</th>
-              <th class="text-center">Maxima Edad</th>
-              <th class="text-center">Pesos</th>
-              <th class="text-center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let age of ages" class="text-S">
-              <td>
-                <div *ngIf="age.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="age.ageIntervalName">
-                </div>
-                <div *ngIf="!age.isEdit">
-                  {{ age.ageIntervalName }}
-                </div>
-              </td>
-              <td>
-                <div *ngIf="age.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="age.minAge">
-                </div>
-                <div *ngIf="!age.isEdit">
-                  {{ age.minAge }}
-                </div>
-              </td>
-              <td>
-                <div *ngIf="age.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="age.maxAge">
-                </div>
-                <div *ngIf="!age.isEdit">
-                  {{ age.maxAge }}
-                </div>
-              </td>
-              <td class="weights">
-                <i class="fa fa-table px-2" aria-hidden="true" (click)="seeWeights(age)"></i>
-                <div> Ver Pesos </div>
-              </td>
-              <td class="text-center">
-                <div *ngIf="!age.isEdit">
-                  <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEditAge(age)"></i>
-                  <i class="fa fa-trash" aria-hidden="true" (click)="deleteAge(age)"></i>
-                </div>
-                <div *ngIf="age.isEdit">
-                  <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEditAge(age)"></i>
-                  <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEditAge(age)"></i>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+<div *ngIf="championship">
+  <div *ngIf="championship.stage==='InitialConfiguration'">
+    <div *ngIf="displayWeights">
+      <div class="col-12">
+        <h4 class="title">Define las edades e intervalos de peso</h4>
       </div>
-    </div>
-    <div>
-      <div>
-        <div class="col-12">
-          <h4 class="title">Define las Categorias</h4>
+      <div class="row col-12 ">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr class="bg text-white">
+                <th class="text-center">Edad</th>
+                <th class="text-center">Minima Edad</th>
+                <th class="text-center">Maxima Edad</th>
+                <th class="text-center">Pesos</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let age of ages" class="text-S">
+                <td>
+                  <div *ngIf="age.isEdit">
+                    <input class="form-control text-S" type="text" [(ngModel)]="age.ageIntervalName">
+                  </div>
+                  <div *ngIf="!age.isEdit">
+                    {{ age.ageIntervalName }}
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="age.isEdit">
+                    <input class="form-control text-S" type="text" [(ngModel)]="age.minAge">
+                  </div>
+                  <div *ngIf="!age.isEdit">
+                    {{ age.minAge }}
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="age.isEdit">
+                    <input class="form-control text-S" type="text" [(ngModel)]="age.maxAge">
+                  </div>
+                  <div *ngIf="!age.isEdit">
+                    {{ age.maxAge }}
+                  </div>
+                </td>
+                <td class="weights">
+                  <i class="fa fa-table px-2" aria-hidden="true" (click)="seeWeights(age)"></i>
+                  <div> Ver Pesos </div>
+                </td>
+                <td class="text-center">
+                  <div *ngIf="!age.isEdit">
+                    <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEditAge(age)"></i>
+                    <i class="fa fa-trash" aria-hidden="true" (click)="deleteAge(age)"></i>
+                  </div>
+                  <div *ngIf="age.isEdit">
+                    <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEditAge(age)"></i>
+                    <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEditAge(age)"></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="row col-12 ">
-          <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-              <thead>
-                <tr class="bg text-white">
-                  <th>Nombre</th>
-                  <th>Grado Mínimo</th>
-                  <th>Grado Máximo</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let category of categories" class="text-S">
-                  <td>
-                    <div *ngIf="category.isEdit">
-                      <input class="form-control text-S" type="text" [(ngModel)]="category.categoryName">
-                    </div>
-                    <div *ngIf="!category.isEdit">
-                      {{ category.categoryName }}
-                    </div>
-                  </td>
-                  <td>
-                    <div *ngIf="category.isEdit">
-                      <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMin">
-                    </div>
-                    <div *ngIf="!category.isEdit">
-                      {{ category.gradeMin }}
-                    </div>
-                  </td>
-                  <td>
-                    <div *ngIf="category.isEdit">
-                      <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMax">
-                    </div>
-                    <div *ngIf="!category.isEdit">
-                      {{ category.gradeMax }}
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <div *ngIf="!category.isEdit">
-                      <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEditCategory(category)"></i>
-                      <i class="fa fa-trash" aria-hidden="true" (click)="deleteCategory(category)"></i>
-                    </div>
-                    <div *ngIf="category.isEdit">
-                      <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEditCategory(category)"></i>
-                      <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEditCategory(category)"></i>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+      </div>
+      <div>
+        <div>
+          <div class="col-12">
+            <h4 class="title">Define las Categorias</h4>
+          </div>
+          <div class="row col-12 ">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr class="bg text-white">
+                    <th>Nombre</th>
+                    <th>Grado Mínimo</th>
+                    <th>Grado Máximo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let category of categories" class="text-S">
+                    <td>
+                      <div *ngIf="category.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="category.categoryName">
+                      </div>
+                      <div *ngIf="!category.isEdit">
+                        {{ category.categoryName }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="category.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMin">
+                      </div>
+                      <div *ngIf="!category.isEdit">
+                        {{ category.gradeMin }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="category.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMax">
+                      </div>
+                      <div *ngIf="!category.isEdit">
+                        {{ category.gradeMax }}
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <div *ngIf="!category.isEdit">
+                        <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEditCategory(category)"></i>
+                        <i class="fa fa-trash" aria-hidden="true" (click)="deleteCategory(category)"></i>
+                      </div>
+                      <div *ngIf="category.isEdit">
+                        <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEditCategory(category)"></i>
+                        <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEditCategory(category)"></i>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="text-center">
-      <button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>
-    </div>
-
-  </div>
-</div>
-
-<div *ngIf="championship.stage!='InitialConfiguration'">
-  <div *ngIf="displayWeights">
-    <div class="col-12">
-      <h4 class="title">Edades e intervalos de peso</h4>
-    </div>
-    <div class="row col-12 ">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr class="bg text-white">
-              <th class="text-center">Edad</th>
-              <th class="text-center">Minima Edad</th>
-              <th class="text-center">Maxima Edad</th>
-              <th class="text-center">Pesos</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let age of ages" class="text-S">
-              <td>
-                <div *ngIf="age.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="age.ageIntervalName">
-                </div>
-                <div *ngIf="!age.isEdit">
-                  {{ age.ageIntervalName }}
-                </div>
-              </td>
-              <td>
-                <div *ngIf="age.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="age.minAge">
-                </div>
-                <div *ngIf="!age.isEdit">
-                  {{ age.minAge }}
-                </div>
-              </td>
-              <td>
-                <div *ngIf="age.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="age.maxAge">
-                </div>
-                <div *ngIf="!age.isEdit">
-                  {{ age.maxAge }}
-                </div>
-              </td>
-              <td class="weights">
-                <i class="fa fa-table px-2" aria-hidden="true" (click)="seeWeights(age)"></i>
-                <div> Ver Pesos </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="text-center">
+        <button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>
       </div>
+
     </div>
-    <div>
-      <div>
-        <div class="col-12">
-          <h4 class="title">Categorias</h4>
+  </div>
+
+  <div *ngIf="championship.stage!='InitialConfiguration'">
+    <div *ngIf="displayWeights">
+      <div class="col-12">
+        <h4 class="title">Edades e intervalos de peso</h4>
+      </div>
+      <div class="row col-12 ">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr class="bg text-white">
+                <th class="text-center">Edad</th>
+                <th class="text-center">Minima Edad</th>
+                <th class="text-center">Maxima Edad</th>
+                <th class="text-center">Pesos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let age of ages" class="text-S">
+                <td>
+                  <div *ngIf="age.isEdit">
+                    <input class="form-control text-S" type="text" [(ngModel)]="age.ageIntervalName">
+                  </div>
+                  <div *ngIf="!age.isEdit">
+                    {{ age.ageIntervalName }}
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="age.isEdit">
+                    <input class="form-control text-S" type="text" [(ngModel)]="age.minAge">
+                  </div>
+                  <div *ngIf="!age.isEdit">
+                    {{ age.minAge }}
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="age.isEdit">
+                    <input class="form-control text-S" type="text" [(ngModel)]="age.maxAge">
+                  </div>
+                  <div *ngIf="!age.isEdit">
+                    {{ age.maxAge }}
+                  </div>
+                </td>
+                <td class="weights">
+                  <i class="fa fa-table px-2" aria-hidden="true" (click)="seeWeights(age)"></i>
+                  <div> Ver Pesos </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="row col-12 ">
-          <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-              <thead>
-                <tr class="bg text-white">
-                  <th>Nombre</th>
-                  <th>Grado Mínimo</th>
-                  <th>Grado Máximo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let category of categories" class="text-S">
-                  <td>
-                    <div *ngIf="category.isEdit">
-                      <input class="form-control text-S" type="text" [(ngModel)]="category.categoryName">
-                    </div>
-                    <div *ngIf="!category.isEdit">
-                      {{ category.categoryName }}
-                    </div>
-                  </td>
-                  <td>
-                    <div *ngIf="category.isEdit">
-                      <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMin">
-                    </div>
-                    <div *ngIf="!category.isEdit">
-                      {{ category.gradeMin }}
-                    </div>
-                  </td>
-                  <td>
-                    <div *ngIf="category.isEdit">
-                      <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMax">
-                    </div>
-                    <div *ngIf="!category.isEdit">
-                      {{ category.gradeMax }}
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+      </div>
+      <div>
+        <div>
+          <div class="col-12">
+            <h4 class="title">Categorias</h4>
+          </div>
+          <div class="row col-12 ">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr class="bg text-white">
+                    <th>Nombre</th>
+                    <th>Grado Mínimo</th>
+                    <th>Grado Máximo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let category of categories" class="text-S">
+                    <td>
+                      <div *ngIf="category.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="category.categoryName">
+                      </div>
+                      <div *ngIf="!category.isEdit">
+                        {{ category.categoryName }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="category.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMin">
+                      </div>
+                      <div *ngIf="!category.isEdit">
+                        {{ category.gradeMin }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="category.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMax">
+                      </div>
+                      <div *ngIf="!category.isEdit">
+                        {{ category.gradeMax }}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

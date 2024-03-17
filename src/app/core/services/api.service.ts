@@ -269,6 +269,14 @@ export class ApiService {
     return this.http.delete<responseParticipantI>(direccion);
   }
 
+  deleteMayorWeight(
+    championshipId: number,
+    grouping: string
+  ): Observable<responseI> {
+    let direccion = this.APIurl + 'division/' + championshipId + '/' + grouping;
+    return this.http.delete<responseI>(direccion);
+  }
+
   deleteClub(
     championshipId: number,
     clubCode: string

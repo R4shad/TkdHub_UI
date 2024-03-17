@@ -1,1 +1,48 @@
 @import "./../../pages/championship-configuration/championship-configuration.component.scss";
+
+.define-container {
+  display: flex;
+  justify-content: center;
+}
+.define {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+
+  border-radius: 20px;
+  align-items: center;
+}
+.selected {
+  border: 2px solid blue; /* Por ejemplo, un borde azul */
+}
+
+.btn {
+  margin-bottom: 10px;
+}
+.image-container {
+  display: flex;
+  flex-direction: column;
+}
+.image-container img {
+  margin-bottom: 10px;
+  width: 500px; // Ajusta el ancho de las imágenes según tu diseño
+  height: auto; // Permite que la altura se ajuste automáticamente manteniendo la proporción
+  cursor: pointer; // Cambia el cursor al pasar sobre las imágenes para indicar que son clicables
+  transition: border 0.3s ease; // Transición suave para el cambio de borde
+}
+
+.image-container img.selected {
+  border: 10px solid rgba(0, 119, 204, 0.4); // Borde azul para la imagen seleccionada
+}
+.modal-dialog {
+  width: 80%; /* Ajusta el ancho del contenido del modal al 100% */
+  max-width: none; /* Quita el límite máximo de ancho */
+}
+
+.modal-lg {
+  max-width: 80%; // Define el ancho máximo del modal
+}
+.modal-content {
+  width: 80%; /* Ajusta el ancho del contenido del modal al 80% del tamaño del modal */
+  max-width: none; /* Quita el límite máximo de ancho */
+}

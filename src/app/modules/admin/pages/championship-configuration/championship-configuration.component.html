@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="championship">
   <div class="buttonsS mt-2">
     <button class="btn btn-primary" (click)="returnToSummary()">Volver</button>
     <div *ngIf="championship.stage==='InitialConfiguration'">
@@ -10,7 +10,7 @@
     <div *ngIf="championship.stage==='InitialConfiguration'">
       <h2 class="title">Espacio para Configurar las Categorias y Divisiones</h2>
     </div>
-    <div>
+    <div *ngIf="championship.stage!='InitialConfiguration'">
       <h2 class="title">Categorias y Divisiones Definidas</h2>
     </div>
   </div>

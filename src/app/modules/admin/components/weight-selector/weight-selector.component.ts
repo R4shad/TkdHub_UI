@@ -26,6 +26,8 @@ export class WeightSelectorComponent implements OnInit {
   divisionsM: divisionEI[] = [];
   dataLoaded: boolean = false;
   modalRef?: NgbModalRef;
+  isDefined: boolean = false;
+  selectedImage: number = 0;
   constructor(
     private api: ApiService,
     private modalService: NgbModal,
@@ -34,7 +36,69 @@ export class WeightSelectorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.ageInterval.minAge);
+    if (this.ageInterval.minAge < 18) {
+      this.isDefined = true;
+    } else {
+    }
     this.getData();
+    console.log(this.isDefined);
+  }
+  selectImage(imageNumber: number) {
+    this.selectedImage = imageNumber;
+  }
+
+  confirm() {
+    console.log(this.selectedImage);
+    //pesos Mundiales
+    if (this.selectedImage === 1) {
+      this.api
+        .deleteMayorWeight(this.ageInterval.championshipId, 'Mayores Olimpicos')
+        .subscribe((data) => {
+          if (data.status === 200) {
+            if (this.modalRef != undefined) {
+              this.modalRef.close();
+              this.router.navigate([
+                '/championship',
+                this.ageInterval.championshipId,
+                'Organizer',
+              ]);
+            }
+          }
+        });
+    } else {
+      if (this.selectedImage === 2) {
+        //pesos olimpicos
+        this.api
+          .deleteMayorWeight(
+            this.ageInterval.championshipId,
+            'Mayores Mundiales'
+          )
+          .subscribe((data) => {
+            if (data.status === 200) {
+              if (this.modalRef != undefined) {
+                this.modalRef.close();
+                this.router.navigate([
+                  '/championship',
+                  this.ageInterval.championshipId,
+                  'Organizer',
+                ]);
+              }
+            }
+          });
+      } else {
+        //No selecciono nada
+      }
+    }
+  }
+
+  verifyWeightDefined() {
+    const uniqueGroupings = new Set<string>();
+    this.divisions.forEach((division) => {
+      uniqueGroupings.add(division.grouping);
+    });
+    console.log('TAMANIO', uniqueGroupings.size);
+    return uniqueGroupings.size === 1;
   }
 
   getData() {
@@ -46,14 +110,17 @@ export class WeightSelectorComponent implements OnInit {
           ...division,
           isEdit: false,
         }));
+
         this.divisionsM = this.divisions.filter(
           (division) => division.gender === 'Masculino'
         );
         this.divisionsF = this.divisions.filter(
           (division) => division.gender === 'Femenino'
         );
-        console.log(this.divisions);
-        console.log(this.divisionsM);
+
+        if (this.verifyWeightDefined()) {
+          this.isDefined = true;
+        }
       });
   }
 
