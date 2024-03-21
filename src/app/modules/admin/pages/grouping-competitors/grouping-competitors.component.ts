@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
-import { participantI } from 'src/app/shared/models/participant';
+import {
+  participantI,
+  participantToEditI,
+  responseParticipantToEditI,
+} from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
 import { clubI } from 'src/app/shared/models/Club';
 import {
   competitorI,
   completeCompetitorI,
+  participantCompetitorToEditI,
 } from 'src/app/shared/models/competitor';
 import {
   categoryI,
@@ -18,12 +23,17 @@ import {
 } from 'src/app/shared/models/division';
 import {
   bracketI,
-  bracketWithCompetitorsI,
+  bracketWithCompetitorsEI,
   bracketWithCompetitorsToPostI,
   responseBracketI,
   responseBracketWithCompetitorI,
+  responseBracketWithCompetitorToEditI,
   responseBracketsI,
 } from 'src/app/shared/models/bracket';
+import {
+  obtenerColor,
+  obtenerValorNumerico,
+} from '../../utils/participantValidation.utils';
 
 @Component({
   selector: 'app-grouping-competitors',
@@ -33,11 +43,11 @@ import {
 export class GroupingCompetitorsComponent implements OnInit {
   championshipId: number = 0;
   competitors: completeCompetitorI[] = [];
-
+  validGrades: string[] = [];
   categories: categoryI[] = [];
   divisions: divisionI[] = [];
 
-  brackets: bracketWithCompetitorsI[] = [];
+  brackets: bracketWithCompetitorsEI[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -60,15 +70,23 @@ export class GroupingCompetitorsComponent implements OnInit {
       });
 
     this.api
-      .getBracketsWithCompetitors(this.championshipId)
+      .getBracketsWithCompetitorsToEdit(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
-      });
+        //ordena el lastName de competidores
+        this.brackets.forEach((bracket) => {
+          if (bracket.competitors && bracket.competitors.length > 0) {
+            bracket.competitors.sort(this.compareParticipants);
+          }
+        });
 
+        console.log(this.brackets);
+      });
     this.api
       .getCategoriesWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.categories = data;
+        this.validGrades = this.getValidGrades();
       });
 
     this.api
@@ -85,6 +103,15 @@ export class GroupingCompetitorsComponent implements OnInit {
           });
         }
       });
+  }
+
+  compareParticipants(a: any, b: any) {
+    const lastNameA = a.participant.lastNames.toLowerCase();
+    const lastNameB = b.participant.lastNames.toLowerCase();
+
+    if (lastNameA < lastNameB) return -1;
+    if (lastNameA > lastNameB) return 1;
+    return 0;
   }
 
   createGroupings() {
@@ -106,8 +133,20 @@ export class GroupingCompetitorsComponent implements OnInit {
 
           this.api
             .postBracket(bracket)
-            .subscribe((response: responseBracketWithCompetitorI) => {
-              this.brackets.push(response.data);
+            .subscribe((response: responseBracketWithCompetitorToEditI) => {
+              if (response.data) {
+                const bracketWithEdit: bracketWithCompetitorsEI = {
+                  ...response.data,
+                  competitors: response.data.competitors.map((competitor) => ({
+                    ...competitor,
+                    participant: {
+                      ...competitor.participant,
+                      isEdit: false,
+                    },
+                  })),
+                };
+                this.brackets.push(bracketWithEdit);
+              }
             });
         }
       }
@@ -123,6 +162,17 @@ export class GroupingCompetitorsComponent implements OnInit {
     }
     return null;
   }
+
+  getBracketCategoryName(bracket: bracketI) {
+    const matchingCategory = this.categories.find(
+      (cat) => cat.categoryId === bracket.categoryId
+    );
+    if (matchingCategory) {
+      return matchingCategory.categoryName;
+    }
+    return null;
+  }
+
   getBracketMinWeightInterval(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
       (div) => div.divisionId === bracket.divisionId
@@ -145,12 +195,65 @@ export class GroupingCompetitorsComponent implements OnInit {
   returnToSummary() {
     this.router.navigate(['/championship', this.championshipId, 'Organizer']);
   }
-  goToBracketDraw() {
-    this.router.navigate([
-      '/championship',
-      this.championshipId,
-      'Organizer',
-      'BracketDraw',
-    ]);
+
+  onEdit(participant: participantCompetitorToEditI) {
+    if (!participant.isEdit) {
+      participant.isEdit = true;
+    }
+  }
+
+  confirmEdit(participant: participantCompetitorToEditI) {
+    const newParticipant: participantToEditI = {
+      lastNames: participant.lastNames,
+      firstNames: participant.firstNames,
+      age: participant.age,
+      weight: participant.weight,
+      grade: participant.grade,
+      gender: participant.gender,
+    };
+    //Actualizar los datos del participante.
+    //Actualizar la division del competidor.
+    //Actualizar el conteo de la vieja y nueva division.
+    //Actualizar la categoria del competidor.
+    //Actualizar el conteo de la nueva y vieja division.
+    this.api
+      .editParticipant(this.championshipId, participant.id, newParticipant)
+      .subscribe((response: responseParticipantToEditI) => {
+        if (response.status == 200) {
+          alert('Editado correctamente');
+          participant.isEdit = false;
+
+          //this.getCompetitorDivision(participant);
+          //this.getCategory(participant);
+        }
+      });
+  }
+
+  cancelEdit(participant: participantCompetitorToEditI) {
+    participant.isEdit = false;
+  }
+
+  getValidGrades(): string[] {
+    const coloresValidos: string[] = [];
+
+    const categoriasOrdenadas = this.categories.sort(
+      (a, b) =>
+        obtenerValorNumerico(a.gradeMin) - obtenerValorNumerico(b.gradeMin)
+    );
+
+    for (const categoria of categoriasOrdenadas) {
+      const valorMin = obtenerValorNumerico(categoria.gradeMin);
+      const valorMax = obtenerValorNumerico(categoria.gradeMax);
+
+      for (let i = valorMin; i <= valorMax; i++) {
+        // Llama a obtenerColor con el valor numérico actual de la iteración
+        const color = obtenerColor(i);
+
+        if (color) {
+          coloresValidos.push(color);
+        }
+      }
+    }
+    return coloresValidos;
   }
 }

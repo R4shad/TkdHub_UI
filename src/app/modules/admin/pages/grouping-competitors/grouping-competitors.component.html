@@ -3,7 +3,7 @@
     <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
     <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="createGroupings()">Crear
       Agrupaciones</button>
-    <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="goToBracketDraw()">Sortear Llaves</button>
+
   </div>
   <div *ngIf="brackets.length>0">
     <div>
@@ -12,17 +12,25 @@
       </h1>
       <div *ngFor="let bracket of brackets">
         <div class="bracket-description mt-5">
+          <p class="text-M">{{ getBracketCategoryName(bracket) }}</p>
           <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
           <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
-            (- {{getBracketMaxWeightInterval(bracket)}} Kg)
+            - {{getBracketMaxWeightInterval(bracket)}} Kg
           </p>
           <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)!=0">
-            ({{getBracketMinWeightInterval(bracket)}} -
-            {{getBracketMaxWeightInterval(bracket)}} Kg)
+            {{getBracketMinWeightInterval(bracket)}} -
+            {{getBracketMaxWeightInterval(bracket)}} Kg
           </p>
           <p class="text-M">{{ bracket.categoryName}}</p>
-          <p class="text-M">{{ bracket.competitors[0].Participant.gender}}</p>
-          <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
+          <div>
+            <div *ngIf="bracket.competitors[0].participant.gender==='Masculino'">
+              <p class="text-M">M</p>
+            </div>
+            <div *ngIf="bracket.competitors[0].participant.gender==='Femenino'">
+              <p class="text-M">F</p>
+            </div>
+          </div>
+          <p class="text-M">Cantidad: {{bracket.competitors.length}}</p>
         </div>
         <div>
           <div class="row col-12">
@@ -37,17 +45,58 @@
                     <th>Peso</th>
                     <th>Grado</th>
                     <th>Sexo</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let competitor of bracket.competitors">
-                    <td>{{ competitor.Participant.lastNames }}</td>
-                    <td>{{ competitor.Participant.firstNames }}</td>
-                    <td>{{ competitor.Participant.clubCode }}</td>
-                    <td>{{ competitor.Participant.age }}</td>
-                    <td>{{ competitor.Participant.weight }}</td>
-                    <td>{{ competitor.Participant.grade }}</td>
-                    <td>{{ competitor.Participant.gender }}</td>
+                    <td>
+                      {{ competitor.participant.lastNames }}
+                    </td>
+                    <td>
+                      {{ competitor.participant.firstNames }}
+                    </td>
+                    <td>
+                      {{ competitor.participant.clubCode }}
+                    </td>
+                    <td>
+                      <div *ngIf="competitor.participant.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="competitor.participant.age">
+                      </div>
+                      <div *ngIf="!competitor.participant.isEdit">
+                        {{ competitor.participant.age }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="competitor.participant.isEdit">
+                        <input class="form-control text-S" type="text" [(ngModel)]="competitor.participant.weight">
+                      </div>
+                      <div *ngIf="!competitor.participant.isEdit">
+                        {{ competitor.participant.weight }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="competitor.participant.isEdit">
+                        <select class="form-select text-S" [(ngModel)]="competitor.participant.grade">
+                          <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="!competitor.participant.isEdit">
+                        {{ competitor.participant.grade }}
+                      </div>
+                    </td>
+                    <td>{{ competitor.participant.gender }}</td>
+                    <td class="buttons">
+                      <div *ngIf="!competitor.participant.isEdit">
+                        <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(competitor.participant)"></i>
+                      </div>
+                      <div *ngIf="competitor.participant.isEdit">
+                        <i class="fa fa-floppy-o px-2" aria-hidden="true"
+                          (click)="confirmEdit(competitor.participant)"></i>
+                        <i class="fa fa-times-circle" aria-hidden="true"
+                          (click)="cancelEdit(competitor.participant)"></i>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -62,3 +111,4 @@
         </h1>
       </div>
     </div>
+  </div>

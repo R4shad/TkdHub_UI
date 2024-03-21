@@ -60,20 +60,20 @@ export class EightParticipantsBracketComponent implements OnInit {
             match.redCompetitor.competitorId = '';
           } else {
             const redFullName = joinNames(
-              match.redCompetitor.Participant.firstNames,
-              match.redCompetitor.Participant.lastNames
+              match.redCompetitor.participant.firstNames,
+              match.redCompetitor.participant.lastNames
             );
-            match.redCompetitor.Participant.fullName = redFullName;
+            match.redCompetitor.participant.fullName = redFullName;
           }
           if (match.blueCompetitorId === null) {
             match.blueCompetitor = emptyParticipant;
             match.blueCompetitor.competitorId = '';
           } else {
             const blueFullName = joinNames(
-              match.blueCompetitor.Participant.firstNames,
-              match.blueCompetitor.Participant.lastNames
+              match.blueCompetitor.participant.firstNames,
+              match.blueCompetitor.participant.lastNames
             );
-            match.blueCompetitor.Participant.fullName = blueFullName;
+            match.blueCompetitor.participant.fullName = blueFullName;
           }
         }
 
@@ -111,8 +111,8 @@ export class EightParticipantsBracketComponent implements OnInit {
     this.selecedMatch = {
       matchId: match.matchId,
       bracketId: match.bracketId,
-      blueCompetitorName: match.blueCompetitor.Participant.fullName,
-      redCompetitorName: match.redCompetitor.Participant.fullName,
+      blueCompetitorName: match.blueCompetitor.participant.fullName,
+      redCompetitorName: match.redCompetitor.participant.fullName,
 
       blueCompetitorId: match.blueCompetitor.competitorId,
       redCompetitorId: match.redCompetitor.competitorId,

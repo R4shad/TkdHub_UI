@@ -48,7 +48,7 @@ export interface matchWithCompetitorsI {
   championshipId: number;
   redCompetitor: {
     competitorId: string;
-    Participant: {
+    participant: {
       lastNames: string;
       firstNames: string;
       clubCode: string;
@@ -57,7 +57,7 @@ export interface matchWithCompetitorsI {
   };
   blueCompetitor: {
     competitorId: string;
-    Participant: {
+    participant: {
       lastNames: string;
       firstNames: string;
       clubCode: string;
@@ -109,7 +109,7 @@ export const emptyMatch: matchWithCompetitorsI = {
   championshipId: 0,
   redCompetitor: {
     competitorId: '',
-    Participant: {
+    participant: {
       lastNames: '',
       firstNames: '',
       clubCode: '',
@@ -118,7 +118,7 @@ export const emptyMatch: matchWithCompetitorsI = {
   },
   blueCompetitor: {
     competitorId: '',
-    Participant: {
+    participant: {
       lastNames: '',
       firstNames: '',
       clubCode: '',
@@ -129,7 +129,7 @@ export const emptyMatch: matchWithCompetitorsI = {
 
 export const emptyParticipant = {
   competitorId: '',
-  Participant: {
+  participant: {
     lastNames: '',
     firstNames: '',
     clubCode: '',

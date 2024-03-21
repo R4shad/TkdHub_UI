@@ -61,11 +61,14 @@ import {
 import { responseI } from 'src/app/shared/models/response';
 import {
   bracketI,
+  bracketWithCompetitorsEI,
   bracketWithCompetitorsI,
   bracketWithMatchesI,
   responseBracketI,
   responseBracketWithCompetitorI,
+  responseBracketWithCompetitorToEditI,
   responseBracketWithCompetitorsI,
+  responseBracketWithCompetitorsToEditI,
   responseBracketWithMatchesI,
   responseBracketsI,
 } from 'src/app/shared/models/bracket';
@@ -577,15 +580,31 @@ export class ApiService {
     );
   }
 
-  postBracket(bracket: bracketI): Observable<responseBracketWithCompetitorI> {
+  postBracket(
+    bracket: bracketI
+  ): Observable<responseBracketWithCompetitorToEditI> {
     let direccion = this.APIurl + 'bracket/';
-    return this.http.post<responseBracketWithCompetitorI>(direccion, bracket);
+    return this.http.post<responseBracketWithCompetitorToEditI>(
+      direccion,
+      bracket
+    );
   }
 
   getBrackets(championshipId: number): Observable<bracketI[]> {
     let direccion = this.APIurl + 'bracket/' + championshipId;
     return this.http.get<responseBracketsI>(direccion).pipe(
       map((response: responseBracketsI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getBracketsWithCompetitorsToEdit(
+    championshipId: number
+  ): Observable<bracketWithCompetitorsEI[]> {
+    let direccion = this.APIurl + 'bracket/withCompetitors/' + championshipId;
+    return this.http.get<responseBracketWithCompetitorsToEditI>(direccion).pipe(
+      map((response: responseBracketWithCompetitorsToEditI) => {
         return response.data;
       })
     );

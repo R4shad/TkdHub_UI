@@ -1,4 +1,4 @@
-import { completeCompetitorI } from './competitor';
+import { completeCompetitorI, completeCompetitorToEditI } from './competitor';
 import { matchI } from './match';
 
 export interface bracketI {
@@ -25,6 +25,16 @@ export interface bracketWithCompetitorsI {
   categoryName: string;
   championshipId: number;
   competitors: completeCompetitorI[];
+}
+
+export interface bracketWithCompetitorsEI {
+  bracketId: number;
+  divisionId: number;
+  categoryId: number;
+  divisionName: string;
+  categoryName: string;
+  championshipId: number;
+  competitors: completeCompetitorToEditI[];
 }
 
 export interface bracketWithCompetitorsToPostI {
@@ -54,4 +64,14 @@ export interface responseBracketWithCompetitorsI {
 export interface responseBracketWithCompetitorI {
   status: number;
   data: bracketWithCompetitorsI;
+}
+
+export interface responseBracketWithCompetitorsToEditI {
+  status: number;
+  data: bracketWithCompetitorsEI[];
+}
+
+export interface responseBracketWithCompetitorToEditI {
+  status: number;
+  data: bracketWithCompetitorsEI;
 }

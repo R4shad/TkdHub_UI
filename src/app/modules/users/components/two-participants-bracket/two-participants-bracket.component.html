@@ -8,13 +8,13 @@
           </div>
           <div class="match-competitors" *ngIf="(final$ | async) as quarters1">
             <div class="competitor blue">
-              <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (final$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+              <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+              <span class="name">{{ (final$ | async)?.blueCompetitor?.participant?.fullName }}</span>
               <span class="score" *ngIf="showScore(quarters1)">{{(final$ | async)?.blueRounds}}</span>
             </div>
             <div class="competitor red">
-              <span class="clubCode">{{ (final$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-              <span class="name">{{ (final$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+              <span class="clubCode">{{ (final$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+              <span class="name">{{ (final$ | async)?.redCompetitor?.participant?.fullName }}</span>
               <span class="score" *ngIf="showScore(quarters1)">{{(final$ | async)?.redRounds}}</span>
             </div>
           </div>
@@ -31,8 +31,8 @@
     <div class="column four">
       <div class="match">
         <div class="competitor winner">
-          <span class="clubCode">{{(winner$ | async)?.blueCompetitor?.Participant?.clubCode}}</span>
-          <span class="name">{{(winner$ | async)?.blueCompetitor?.Participant?.fullName}}</span>
+          <span class="clubCode">{{(winner$ | async)?.blueCompetitor?.participant?.clubCode}}</span>
+          <span class="name">{{(winner$ | async)?.blueCompetitor?.participant?.fullName}}</span>
         </div>
         <div class="match-lines alt">
           <div class="line horizontal"></div>

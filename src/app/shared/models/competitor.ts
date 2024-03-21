@@ -10,15 +10,38 @@ export interface completeCompetitorI {
   competitorId: string;
   divisionId: number;
   categoryId: number;
-  Participant: {
-    clubCode: string;
-    firstNames: string;
-    lastNames: string;
-    age: number;
-    weight: number;
-    grade: string;
-    gender: string;
-  };
+  participant: participantCompetitorI;
+}
+
+export interface participantCompetitorI {
+  id: number;
+  clubCode: string;
+  firstNames: string;
+  lastNames: string;
+  age: number;
+  weight: number;
+  grade: string;
+  gender: string;
+}
+
+export interface completeCompetitorToEditI {
+  participantId: string;
+  competitorId: string;
+  divisionId: number;
+  categoryId: number;
+  participant: participantCompetitorToEditI;
+}
+
+export interface participantCompetitorToEditI {
+  id: number;
+  isEdit: boolean;
+  clubCode: string;
+  firstNames: string;
+  lastNames: string;
+  age: number;
+  weight: number;
+  grade: string;
+  gender: string;
 }
 
 export interface responseCompetitorI {

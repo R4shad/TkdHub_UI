@@ -47,17 +47,17 @@ export class SixParticipantsBracketComponent implements OnInit {
         for (const match of this.matchesWithCompetitors) {
           if (match.redCompetitorId != null) {
             const redFullName = joinNames(
-              match.redCompetitor.Participant.firstNames,
-              match.redCompetitor.Participant.lastNames
+              match.redCompetitor.participant.firstNames,
+              match.redCompetitor.participant.lastNames
             );
-            match.redCompetitor.Participant.fullName = redFullName;
+            match.redCompetitor.participant.fullName = redFullName;
           }
           if (match.blueCompetitorId != null) {
             const blueFullName = joinNames(
-              match.blueCompetitor.Participant.firstNames,
-              match.blueCompetitor.Participant.lastNames
+              match.blueCompetitor.participant.firstNames,
+              match.blueCompetitor.participant.lastNames
             );
-            match.blueCompetitor.Participant.fullName = blueFullName;
+            match.blueCompetitor.participant.fullName = blueFullName;
           }
         }
 

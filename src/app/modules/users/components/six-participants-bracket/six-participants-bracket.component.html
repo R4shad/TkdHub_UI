@@ -10,14 +10,14 @@
             </div>
             <div class="match-competitors" *ngIf="(quarters1$ | async) as quarters1">
               <div class="competitor blue">
-                <span class="clubCode">{{ (quarters1$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters1$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (quarters1$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (quarters1$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters1)">{{(quarters1$ | async)?.blueRounds}}</span>
 
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (quarters1$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters1$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (quarters1$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (quarters1$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters1)">{{(quarters1$ | async)?.redRounds}}</span>
 
               </div>
@@ -40,8 +40,8 @@
             </div>
             <div class="match-competitors" *ngIf="(quarters2$ | async) as quarters2">
               <div class="competitor blue">
-                <span class="clubCode">{{ (quarters2$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters2$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (quarters2$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (quarters2$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters2)">{{(quarters2$ | async)?.blueRounds}}</span>
                 <div class="icons">
                 </div>
@@ -70,14 +70,14 @@
             </div>
             <div class="match-competitors" *ngIf="(quarters3$ | async) as quarters3">
               <div class="competitor blue">
-                <span class="clubCode">{{ (quarters3$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters3$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (quarters3$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (quarters3$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters3)">{{(quarters3$ | async)?.blueRounds}}</span>
 
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (quarters3$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters3$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (quarters3$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (quarters3$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters3)">{{(quarters3$ | async)?.redRounds}}</span>
 
               </div>
@@ -100,8 +100,8 @@
             </div>
             <div class="match-competitors" *ngIf="(quarters4$ | async) as quarters4">
               <div class="competitor blue">
-                <span class="clubCode">{{ (quarters4$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (quarters4$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (quarters4$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (quarters4$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters4)">{{(quarters4$ | async)?.blueRounds}}</span>
                 <div class="icons">
                 </div>
@@ -132,15 +132,15 @@
             </div>
             <div class="match-competitors" *ngIf="(semiFinal1$ | async) as semiFinal1">
               <div class="competitor blue">
-                <span class="clubCode">{{ (semiFinal1$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (semiFinal1$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (semiFinal1$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal1$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span *ngIf="showScore(semiFinal1)" class="score">{{(semiFinal1$ |
                   async)?.blueRounds}}</span>
 
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (semiFinal1$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (semiFinal1$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ |
                   async)?.redRounds}}</span>
 
@@ -163,15 +163,15 @@
             </div>
             <div class="match-competitors" *ngIf="(semiFinal2$ | async) as semiFinal2">
               <div class="competitor blue">
-                <span class="clubCode">{{ (semiFinal2$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (semiFinal2$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (semiFinal2$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal2$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.blueRounds}}</span>
 
 
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (semiFinal2$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (semiFinal2$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (semiFinal2$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal2$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.redRounds}}</span>
 
               </div>
@@ -196,14 +196,14 @@
             </div>
             <div class="match-competitors" *ngIf="(final$ | async) as final">
               <div class="competitor blue">
-                <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (final$ | async)?.blueCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (final$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.blueRounds}}</span>
 
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (final$ | async)?.redCompetitor?.Participant?.clubCode }}</span>
-                <span class="name">{{ (final$ | async)?.redCompetitor?.Participant?.fullName }}</span>
+                <span class="clubCode">{{ (final$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (final$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.redRounds}}</span>
 
               </div>
@@ -221,8 +221,8 @@
       <div class="column four">
         <div class="match">
           <div class="competitor winner">
-            <span class="clubCode">{{(winner$ | async)?.blueCompetitor?.Participant?.clubCode}}</span>
-            <span class="name">{{(winner$ | async)?.blueCompetitor?.Participant?.fullName}}</span>
+            <span class="clubCode">{{(winner$ | async)?.blueCompetitor?.participant?.clubCode}}</span>
+            <span class="name">{{(winner$ | async)?.blueCompetitor?.participant?.fullName}}</span>
           </div>
           <div class="match-lines alt">
             <div class="line horizontal"></div>

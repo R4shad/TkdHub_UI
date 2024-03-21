@@ -13,8 +13,8 @@
             </div>
             <div class="match-competitors">
               <div class="competitor blue">
-                <span class="clubCode">{{ quarters1.blueCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ quarters1.blueCompetitor.Participant.fullName }}</span>
+                <span class="clubCode">{{ quarters1.blueCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ quarters1.blueCompetitor.participant.fullName }}</span>
                 <span class="score"></span>
                 <div class="select-wrapper" *ngIf="editingBracket===quarters1.blueCompetitor.competitorId">
                   <select class="form-select text-S" (change)="onSelectCompetitor($event)">
@@ -22,8 +22,8 @@
                     <ng-container *ngFor="let competitor of bracket.competitors">
                       <ng-container *ngIf="competitor.competitorId !== quarters1.blueCompetitor.competitorId">
                         <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
+                          {{ competitor.participant.clubCode }} - {{ competitor.participant.firstNames }} {{
+                          competitor.participant.lastNames }}
                         </option>
                       </ng-container>
                     </ng-container>
@@ -41,8 +41,8 @@
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ quarters1.redCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ quarters1.redCompetitor.Participant.fullName }}</span>
+                <span class="clubCode">{{ quarters1.redCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ quarters1.redCompetitor.participant.fullName }}</span>
                 <span class="score"></span>
                 <div class="select-wrapper" *ngIf="editingBracket===quarters1.redCompetitor.competitorId">
                   <select class="form-select text-S" (change)="onSelectCompetitor($event)">
@@ -50,8 +50,8 @@
                     <ng-container *ngFor="let competitor of bracket.competitors">
                       <ng-container *ngIf="competitor.competitorId !== quarters1.redCompetitor.competitorId">
                         <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
+                          {{ competitor.participant.clubCode }} - {{ competitor.participant.firstNames }} {{
+                          competitor.participant.lastNames }}
                         </option>
                       </ng-container>
                     </ng-container>
@@ -86,8 +86,8 @@
             </div>
             <div class="match-competitors">
               <div class="competitor blue">
-                <span class="clubCode">{{ quarters2.blueCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ quarters2.blueCompetitor.Participant.fullName }}</span>
+                <span class="clubCode">{{ quarters2.blueCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ quarters2.blueCompetitor.participant.fullName }}</span>
                 <span class="score"></span>
                 <div class="select-wrapper" *ngIf="editingBracket===quarters2.blueCompetitor.competitorId">
                   <select class="form-select text-S" (change)="onSelectCompetitor($event)">
@@ -95,8 +95,8 @@
                     <ng-container *ngFor="let competitor of bracket.competitors">
                       <ng-container *ngIf="competitor.competitorId !== quarters2.blueCompetitor.competitorId">
                         <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
+                          {{ competitor.participant.clubCode }} - {{ competitor.participant.firstNames }} {{
+                          competitor.participant.lastNames }}
                         </option>
                       </ng-container>
                     </ng-container>
@@ -138,8 +138,8 @@
             </div>
             <div class="match-competitors">
               <div class="competitor blue">
-                <span class="clubCode">{{ quarters3.blueCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ quarters3.blueCompetitor.Participant.fullName }}</span>
+                <span class="clubCode">{{ quarters3.blueCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ quarters3.blueCompetitor.participant.fullName }}</span>
                 <span class="score"></span>
                 <div class="select-wrapper" *ngIf="editingBracket===quarters3.blueCompetitor.competitorId">
                   <select class="form-select text-S" (change)="onSelectCompetitor($event)">
@@ -147,8 +147,8 @@
                     <ng-container *ngFor="let competitor of bracket.competitors">
                       <ng-container *ngIf="competitor.competitorId !== quarters3.blueCompetitor.competitorId">
                         <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
+                          {{ competitor.participant.clubCode }} - {{ competitor.participant.firstNames }} {{
+                          competitor.participant.lastNames }}
                         </option>
                       </ng-container>
                     </ng-container>
@@ -166,8 +166,8 @@
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ quarters3.redCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ quarters3.redCompetitor.Participant.fullName }}</span>
+                <span class="clubCode">{{ quarters3.redCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ quarters3.redCompetitor.participant.fullName }}</span>
                 <span class="score"></span>
                 <div class="select-wrapper" *ngIf="editingBracket===quarters3.redCompetitor.competitorId">
                   <select class="form-select text-S" (change)="onSelectCompetitor($event)">
@@ -175,8 +175,8 @@
                     <ng-container *ngFor="let competitor of bracket.competitors">
                       <ng-container *ngIf="competitor.competitorId !== quarters3.redCompetitor.competitorId">
                         <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
+                          {{ competitor.participant.clubCode }} - {{ competitor.participant.firstNames }} {{
+                          competitor.participant.lastNames }}
                         </option>
                       </ng-container>
                     </ng-container>
@@ -212,8 +212,8 @@
             </div>
             <div class="match-competitors">
               <div class="competitor blue">
-                <span class="clubCode">{{ quarters4.blueCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ quarters4.blueCompetitor.Participant.fullName }}</span>
+                <span class="clubCode">{{ quarters4.blueCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ quarters4.blueCompetitor.participant.fullName }}</span>
                 <span class="score"></span>
                 <div class="select-wrapper" *ngIf="editingBracket===quarters4.blueCompetitor.competitorId">
                   <select class="form-select text-S" (change)="onSelectCompetitor($event)">
@@ -221,8 +221,8 @@
                     <ng-container *ngFor="let competitor of bracket.competitors">
                       <ng-container *ngIf="competitor.competitorId !== quarters4.blueCompetitor.competitorId">
                         <option [value]="competitor.competitorId">
-                          {{ competitor.Participant.clubCode }} - {{ competitor.Participant.firstNames }} {{
-                          competitor.Participant.lastNames }}
+                          {{ competitor.participant.clubCode }} - {{ competitor.participant.firstNames }} {{
+                          competitor.participant.lastNames }}
                         </option>
                       </ng-container>
                     </ng-container>
@@ -270,8 +270,8 @@
                 <span class="score"></span>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{semiFinal1.redCompetitor.Participant.clubCode}}</span>
-                <span class="name">{{semiFinal1.redCompetitor.Participant.fullName}}</span>
+                <span class="clubCode">{{semiFinal1.redCompetitor.participant.clubCode}}</span>
+                <span class="name">{{semiFinal1.redCompetitor.participant.fullName}}</span>
                 <span class="score"></span>
               </div>
             </div>
@@ -297,8 +297,8 @@
                 <span class="score"></span>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ semiFinal2.redCompetitor.Participant.clubCode }}</span>
-                <span class="name">{{ semiFinal2.redCompetitor.Participant.fullName }}</span>
+                <span class="clubCode">{{ semiFinal2.redCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ semiFinal2.redCompetitor.participant.fullName }}</span>
                 <span class="score"></span>
               </div>
             </div>

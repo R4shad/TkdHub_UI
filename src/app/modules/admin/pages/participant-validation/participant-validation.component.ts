@@ -31,8 +31,6 @@ import { ChampionshipI } from 'src/app/shared/models/Championship';
 
 interface participantToValidateEI extends participantToValidateI {
   isEdit: boolean;
-  //division: string | null; // Propiedad para almacenar el resultado de getCompetitorDivision()
-  //category: string | null;
 }
 
 @Component({
