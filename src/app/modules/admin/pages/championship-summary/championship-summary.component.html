@@ -96,7 +96,15 @@
             <td>Creacion y edicion de las Agrupaciones.</td>
             <td>Pendiente</td>
             <td>
-              <i class="fa fa-pencil" aria-hidden="true" *ngIf="stage === 5" (click)="goToCompetitorsGrouping()"></i>
+              <div *ngIf="stage === 5 ">
+                <i class="fa fa-pencil px-2" aria-hidden="true" *ngIf="stage === 5"
+                  (click)="goToCompetitorsGrouping()"></i>
+                Definir
+              </div>
+              <div *ngIf="stage >5 ">
+                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
+                Ver
+              </div>
             </td>
           </tr>
           <tr class="text-S">

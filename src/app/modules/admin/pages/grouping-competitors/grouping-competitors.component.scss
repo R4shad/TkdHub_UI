@@ -7,11 +7,10 @@
 }
 .buttons {
   display: flex;
-  justify-content: space-around;
 }
 .bracket-description {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 .table {
   td,
@@ -50,10 +49,7 @@ i {
 .cant {
   margin-bottom: 0px;
 }
-i {
-  color: #8fadcc;
-  font-size: 24px;
-}
+
 .table {
   td,
   th {
@@ -64,10 +60,7 @@ i {
 .bg {
   background-color: #6d88a1;
 }
-i {
-  color: #8fadcc;
-  font-size: 24px;
-}
+
 .container-fluid {
   padding: 0;
 }
@@ -91,10 +84,6 @@ i {
 .cant {
   margin-bottom: 0px;
 }
-i {
-  color: #8fadcc;
-  font-size: 24px;
-}
 .button {
   font-size: 16px;
 }
@@ -113,10 +102,6 @@ i {
 }
 .bg {
   background-color: #6d88a1;
-}
-i {
-  color: #8fadcc;
-  font-size: 24px;
 }
 .container-fluid {
   padding: 0;
@@ -172,4 +157,23 @@ i {
 }
 .text-sss {
   font-size: 12px;
+}
+.table {
+  width: 85%;
+}
+.table-responsive {
+  display: flex;
+  justify-content: center;
+}
+.form-select {
+  max-width: 200px;
+}
+.col-width {
+  width: 290px;
+}
+.actions-td {
+  max-width: 200px;
+}
+.filter {
+  display: flex;
 }

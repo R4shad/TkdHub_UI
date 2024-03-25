@@ -31,10 +31,19 @@ export interface bracketWithCompetitorsEI {
   bracketId: number;
   divisionId: number;
   categoryId: number;
-  divisionName: string;
-  categoryName: string;
   championshipId: number;
   competitors: completeCompetitorToEditI[];
+}
+
+export interface bracketInfoI {
+  bracketId: number;
+  divisionId: number;
+  categoryId: number;
+  minWeight: number;
+  maxWeight: number;
+  categoryName: string;
+  championshipId: number;
+  infoToShow: string;
 }
 
 export interface bracketWithCompetitorsToPostI {

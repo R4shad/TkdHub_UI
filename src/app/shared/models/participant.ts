@@ -1,5 +1,5 @@
 export interface participantI {
-  id: number;
+  id: string;
   clubCode: string;
   firstNames: string;
   lastNames: string;
@@ -29,7 +29,7 @@ export interface participantToEditI {
 }
 
 export interface participantToValidateI {
-  id: number;
+  id: string;
   clubCode: string;
   firstNames: string;
   lastNames: string;

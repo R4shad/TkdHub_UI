@@ -265,7 +265,7 @@ export class ApiService {
 
   deleteParticipant(
     championshipId: number,
-    participantId: number
+    participantId: string
   ): Observable<responseParticipantI> {
     let direccion =
       this.APIurl + 'participant/' + championshipId + '/' + participantId;
@@ -315,7 +315,7 @@ export class ApiService {
 
   editParticipant(
     championshipId: number,
-    participantId: number,
+    participantId: string,
     participant: participantToEditI
   ): Observable<responseParticipantToEditI> {
     let direccion =
@@ -341,6 +341,14 @@ export class ApiService {
     let direccion =
       this.APIurl + 'division/' + championshipId + '/' + divisionId;
     return this.http.patch<responseDivisionI>(direccion, division);
+  }
+
+  editCompetitor(
+    competitorId: string,
+    competitor: competitorI
+  ): Observable<responseCompetitorI> {
+    let direccion = this.APIurl + 'competitor/' + competitorId;
+    return this.http.patch<responseCompetitorI>(direccion, competitor);
   }
 
   editCategory(
@@ -399,16 +407,47 @@ export class ApiService {
     championshipId: number,
     divisionId: number,
     categoryId: number
-  ): Observable<responseI[]> {
-    let direccionDivision =
-      this.APIurl + 'division/increment/' + championshipId + '/' + divisionId;
+  ): Observable<any> {
+    var requestDivision;
+    var requestCategory;
+    if (divisionId != -1) {
+      let direccionDivision =
+        this.APIurl + 'division/increment/' + championshipId + '/' + divisionId;
+      requestDivision = this.http.put<responseI>(direccionDivision, {});
+    } else {
+      requestDivision = '';
+    }
+    if (categoryId != -1) {
+      let direccionCategory =
+        this.APIurl + 'category/increment/' + championshipId + '/' + categoryId;
+      requestCategory = this.http.put<responseI>(direccionCategory, {});
+    } else {
+      requestCategory = '';
+    }
+
+    return forkJoin([requestDivision, requestCategory]);
+  }
+
+  decrementCategory(
+    championshipId: number,
+    categoryId: number
+  ): Observable<responseI> {
     let direccionCategory =
       this.APIurl + 'category/increment/' + championshipId + '/' + categoryId;
-    let responses: responseI[] = [];
+
+    const requestCategory = this.http.put<responseI>(direccionCategory, {});
+    return requestCategory;
+  }
+
+  decrementDivision(
+    championshipId: number,
+    divisionId: number
+  ): Observable<responseI> {
+    let direccionDivision =
+      this.APIurl + 'division/increment/' + championshipId + '/' + divisionId;
 
     const requestDivision = this.http.put<responseI>(direccionDivision, {});
-    const requestCategory = this.http.put<responseI>(direccionCategory, {});
-    return forkJoin([requestDivision, requestCategory]);
+    return requestDivision;
   }
 
   getChampionshipCompetitors(
@@ -466,7 +505,7 @@ export class ApiService {
 
   verifyParticipant(
     ChampionshipId: number,
-    participantId: number
+    participantId: string
   ): Observable<responseI> {
     let direccion =
       this.APIurl +

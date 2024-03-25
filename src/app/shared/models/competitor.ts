@@ -1,5 +1,5 @@
 export interface competitorI {
-  participantId: number;
+  participantId: string;
   championshipId: number;
   divisionId: number;
   categoryId: number;
@@ -28,12 +28,13 @@ export interface completeCompetitorToEditI {
   participantId: string;
   competitorId: string;
   divisionId: number;
+  championshipId: number;
   categoryId: number;
   participant: participantCompetitorToEditI;
 }
 
 export interface participantCompetitorToEditI {
-  id: number;
+  id: string;
   isEdit: boolean;
   clubCode: string;
   firstNames: string;
