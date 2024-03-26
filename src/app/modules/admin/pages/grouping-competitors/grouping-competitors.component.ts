@@ -13,6 +13,7 @@ import {
   completeCompetitorI,
   completeCompetitorToEditI,
   participantCompetitorToEditI,
+  responseCompetitorI,
 } from 'src/app/shared/models/competitor';
 import {
   categoryI,
@@ -37,6 +38,8 @@ import {
   obtenerValorNumerico,
 } from '../../utils/participantValidation.utils';
 import { agesI } from 'src/app/shared/models/ages';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ChampionshipI } from 'src/app/shared/models/Championship';
 
 @Component({
   selector: 'app-grouping-competitors',
@@ -63,13 +66,15 @@ export class GroupingCompetitorsComponent implements OnInit {
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
   selectedDivision: string = 'Todos';
-
+  modalRef?: NgbModalRef | undefined;
   divisionsFilter: divisionI[] = [];
   ageIntervals: agesI[] = [];
+  championship!: ChampionshipI;
   constructor(
     private api: ApiService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +85,17 @@ export class GroupingCompetitorsComponent implements OnInit {
     this.getData();
   }
 
+  openModal(content: any) {
+    this.modalRef = this.modalService.open(content);
+  }
+
   getData() {
+    this.route.paramMap.subscribe((params) => {
+      this.championshipId = Number(params.get('championshipId'));
+      this.api.getChampionshipInfo(this.championshipId).subscribe((data) => {
+        this.championship = data;
+      });
+    });
     this.api
       .getChampionshipCompetitors(this.championshipId)
       .subscribe((data) => {
@@ -144,30 +159,21 @@ export class GroupingCompetitorsComponent implements OnInit {
             competitor.categoryId === category.categoryId
         );
 
-        if (competitorsInDivision.length >= 2) {
+        if (competitorsInDivision.length >= 1) {
           const bracket: bracketWithCompetitorsToPostI = {
             categoryId: category.categoryId,
             divisionId: division.divisionId,
             championshipId: this.championshipId,
             competitors: competitorsInDivision,
           };
-
+          console.log(competitorsInDivision);
+          console.log(bracket);
           this.api
             .postBracket(bracket)
             .subscribe((response: responseBracketWithCompetitorToEditI) => {
-              if (response.data) {
-                const bracketWithEdit: bracketWithCompetitorsEI = {
-                  ...response.data,
-                  competitors: response.data.competitors.map((competitor) => ({
-                    ...competitor,
-                    participant: {
-                      ...competitor.participant,
-                      isEdit: false,
-                    },
-                  })),
-                };
-                this.brackets.push(bracketWithEdit);
-                this.bracketsFiltered.push(bracketWithEdit);
+              console.log('RESPONSE:', response);
+              if (response.status === 201) {
+                this.getData();
               }
             });
         }
@@ -589,5 +595,80 @@ export class GroupingCompetitorsComponent implements OnInit {
     }
 
     return validGrades;
+  }
+
+  onDelete(
+    competitor: completeCompetitorToEditI,
+    bracket: bracketWithCompetitorsEI
+  ) {
+    const confirmation = window.confirm(
+      '¿Estás seguro que quieres eliminar este Competidor?'
+    );
+    const cId = competitor.categoryId;
+    const dId = competitor.divisionId;
+    console.log('ASDASDASDASDASDASDASDASDASDASD');
+    console.log(confirmation);
+    if (confirmation) {
+      console.log('ID:', competitor.competitorId);
+      this.api
+        .deleteCompetitor(competitor.competitorId)
+        .subscribe((response: responseCompetitorI) => {
+          console.log('RESPONSE 01:', response);
+          if (response.status == 200) {
+            //Hay   que eliminar el bracket, el competidor, y reducir el numero en categoria y division.
+            alert('Competidor Eliminado correctamente');
+          }
+        });
+      bracket.competitors = bracket.competitors.filter(
+        (c) => c.competitorId != competitor.competitorId
+      );
+      console.log('COMPETITORS: ', bracket.competitors);
+      if (bracket.competitors.length === 0) {
+        this.api
+          .deleteBracket(bracket.bracketId)
+          .subscribe((response: responseBracketI) => {
+            if (response.status == 200) {
+              alert('Eliminado correctamente');
+            }
+          });
+      } else {
+        this.api
+          .decrementCategory(bracket.championshipId, cId)
+          .subscribe((data) => {
+            if (data.status === 200) {
+              alert('Categoria Decrementada');
+            }
+          });
+        this.api
+          .decrementDivision(bracket.championshipId, dId)
+          .subscribe((data) => {
+            if (data.status === 200) {
+              alert('Division Decrementada');
+            }
+          });
+      }
+    }
+  }
+
+  confirm() {
+    if (this.modalRef) {
+      // Verifica si modalRef está definido
+      this.api
+        .updateChampionshipStage(this.championshipId)
+        .subscribe((data) => {
+          if (data === 200) {
+            if (this.modalRef != undefined) {
+              this.modalRef.close(); // Cierra modalRef solo si está definido
+            }
+            this.router.navigate([
+              '/championship',
+              this.championshipId,
+              'Organizer',
+            ]);
+          }
+        });
+    } else {
+      console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
+    }
   }
 }

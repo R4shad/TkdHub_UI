@@ -56,7 +56,7 @@
                 Configurar
               </div>
               <div *ngIf="stage>2">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
+                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToTraineeRegistration()"></i>
                 Ver
               </div>
 
@@ -78,7 +78,6 @@
             <td>Pesaje: Valida los datos de cada uno de los Competidores.</td>
             <td>Pendiente</td>
             <td>
-
               <div *ngIf="stage === 4 ">
                 <i class="fa fa-check-square-o px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
                 Validar
@@ -113,6 +112,7 @@
             <td>Pendiente</td>
             <td>
               <i class="fa fa-pencil" aria-hidden="true" *ngIf="stage === 6"></i>
+              Definir
             </td>
           </tr>
           <tr class="text-S">

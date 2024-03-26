@@ -272,6 +272,16 @@ export class ApiService {
     return this.http.delete<responseParticipantI>(direccion);
   }
 
+  deleteCompetitor(competitorId: string): Observable<responseCompetitorI> {
+    let direccion = this.APIurl + 'competitor/' + competitorId;
+    return this.http.delete<responseCompetitorI>(direccion);
+  }
+
+  deleteBracket(bracket: number): Observable<responseBracketI> {
+    let direccion = this.APIurl + 'bracket/' + bracket;
+    return this.http.delete<responseBracketI>(direccion);
+  }
+
   deleteMayorWeight(
     championshipId: number,
     grouping: string
