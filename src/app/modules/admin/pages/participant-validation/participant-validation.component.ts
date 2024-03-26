@@ -68,6 +68,7 @@ export class ParticipantValidationComponent implements OnInit {
   selectedAgeInterval: string = 'Todos';
   selectedDivision: string = 'Todos';
   verifiedStatus: string = 'Todos';
+
   constructor(
     private api: ApiService,
     private router: Router,

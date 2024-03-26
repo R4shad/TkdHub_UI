@@ -36,6 +36,7 @@ import {
   obtenerColor,
   obtenerValorNumerico,
 } from '../../utils/participantValidation.utils';
+import { agesI } from 'src/app/shared/models/ages';
 
 @Component({
   selector: 'app-grouping-competitors',
@@ -50,12 +51,21 @@ export class GroupingCompetitorsComponent implements OnInit {
   divisions: divisionI[] = [];
 
   brackets: bracketWithCompetitorsEI[] = [];
+  bracketsFiltered: bracketWithCompetitorsEI[] = [];
 
   bracketInfo: bracketInfoI[] = [];
 
   bracketEditing!: bracketInfoI;
 
   currentBracket: string = '';
+
+  selectedGender: string = 'Ambos';
+  selectedCategory: string = 'Todos';
+  selectedAgeInterval: string = 'Todos';
+  selectedDivision: string = 'Todos';
+
+  divisionsFilter: divisionI[] = [];
+  ageIntervals: agesI[] = [];
   constructor(
     private api: ApiService,
     private router: Router,
@@ -81,13 +91,14 @@ export class GroupingCompetitorsComponent implements OnInit {
       .getBracketsWithCompetitorsToEdit(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
+
         //ordena el lastName de competidores
         this.brackets.forEach((bracket) => {
           if (bracket.competitors && bracket.competitors.length > 0) {
             bracket.competitors.sort(this.compareParticipants);
           }
         });
-        console.log(this.brackets);
+        this.bracketsFiltered = this.brackets;
       });
     this.api
       .getCategoriesWithCompetitors(this.championshipId)
@@ -109,6 +120,18 @@ export class GroupingCompetitorsComponent implements OnInit {
             division.maxWeight = data.maxWeight;
           });
         }
+        this.api
+          .getChampionshipAgeInterval(this.championshipId)
+          .subscribe((data) => {
+            this.ageIntervals = data;
+            this.ageIntervals.sort((a, b) => a.minAge - b.minAge);
+
+            this.ageIntervals = this.ageIntervals.filter((interval) =>
+              this.divisions.some(
+                (division) => division.ageIntervalId === interval.ageIntervalId
+              )
+            );
+          });
       });
   }
 
@@ -144,6 +167,7 @@ export class GroupingCompetitorsComponent implements OnInit {
                   })),
                 };
                 this.brackets.push(bracketWithEdit);
+                this.bracketsFiltered.push(bracketWithEdit);
               }
             });
         }
@@ -159,7 +183,7 @@ export class GroupingCompetitorsComponent implements OnInit {
     participant: participantCompetitorToEditI,
     bracket: bracketWithCompetitorsEI
   ) {
-    this.brackets.forEach((bracket) => {
+    this.bracketsFiltered.forEach((bracket) => {
       bracket.competitors.forEach((competitor) => {
         competitor.participant.isEdit = false;
       });
@@ -194,9 +218,6 @@ export class GroupingCompetitorsComponent implements OnInit {
   }
 
   confirmEdit(competitor: completeCompetitorToEditI) {
-    console.log(this.currentBracket);
-    console.log('EN CONFIRM');
-    console.log(this.bracketInfo);
     const bracketToChange = this.bracketInfo.find(
       (b) => b.infoToShow === this.currentBracket
     );
@@ -205,16 +226,10 @@ export class GroupingCompetitorsComponent implements OnInit {
     if (this.currentBracket === this.bracketEditing.infoToShow) {
     } else {
       //Si cambio la categoria
-      console.log('CAMBIOS CATEGORIA');
-      console.log('CURRENT BRACKET:', this.bracketEditing);
-      console.log('CURRENT COMPETITOR:', competitor);
-      console.log('BRACKET TO CHANGE:', bracketToChange);
       if (competitor.categoryId != bracketToChange?.categoryId) {
-        console.log('CAMBIANDO CATEGORIA');
         this.api
           .decrementCategory(competitor.championshipId, competitor.categoryId)
           .subscribe((data) => {
-            console.log('DATA DECREMENT C1:', data);
             if (data.status === 200) {
               this.api
                 .incrementCategoryAndDivision(
@@ -223,7 +238,6 @@ export class GroupingCompetitorsComponent implements OnInit {
                   competitor.categoryId
                 )
                 .subscribe((data) => {
-                  console.log('DATA DECREMENT C2:', data);
                   if (data) {
                   }
                 });
@@ -231,13 +245,10 @@ export class GroupingCompetitorsComponent implements OnInit {
           });
       }
       //Cambios en la division
-      console.log('CAMBIOS Division');
       if (competitor.divisionId != bracketToChange?.divisionId) {
-        console.log('CAMBIANDO DIVISION');
         this.api
           .decrementDivision(competitor.championshipId, competitor.divisionId)
           .subscribe((data) => {
-            console.log('DATA DECREMENT D1:', data);
             if (data.status === 200) {
               this.api
                 .incrementCategoryAndDivision(
@@ -246,19 +257,13 @@ export class GroupingCompetitorsComponent implements OnInit {
                   -1
                 )
                 .subscribe((data) => {
-                  console.log('DATA DECREMENT D2:', data);
                   if (data) {
-                    console.log('LLEGUE FINAL');
                   }
                 });
             }
           });
       }
-      //Actualizar datos del competidor
-      console.log('CAMBIOS COMPETIDOR');
       if (bracketToChange) {
-        console.log('ENTRE BRACKETOCHANGE');
-        console.log(competitor);
         const infoToEdit: competitorI = {
           participantId: competitor.competitorId,
           championshipId: competitor.championshipId,
@@ -269,10 +274,9 @@ export class GroupingCompetitorsComponent implements OnInit {
         this.api
           .editCompetitor(competitor.competitorId, infoToEdit)
           .subscribe((data) => {
-            console.log(data);
             if (data.status === 200) {
               console.log('TODO BIEN');
-              console.log(competitor);
+              this.getData();
             }
           });
       }
@@ -284,7 +288,6 @@ export class GroupingCompetitorsComponent implements OnInit {
     //Actualizar el conteo de la nueva y vieja division.
   }
   cancelEdit(participant: participantCompetitorToEditI) {
-    console.log(this.currentBracket);
     participant.isEdit = false;
   }
 
@@ -292,9 +295,19 @@ export class GroupingCompetitorsComponent implements OnInit {
     const matchingDivision = this.divisions.find(
       (div) => div.divisionId === bracket.divisionId
     );
+
     if (matchingDivision) {
-      return matchingDivision.grouping;
+      const matchingAgeInterval = this.ageIntervals.find(
+        (age) => age.ageIntervalId === matchingDivision.ageIntervalId
+      );
+      if (matchingAgeInterval) {
+        if (matchingAgeInterval.maxAge === 100) {
+          return '+' + matchingAgeInterval.minAge;
+        }
+        return matchingAgeInterval.minAge + '-' + matchingAgeInterval.maxAge;
+      }
     }
+
     return null;
   }
 
@@ -422,7 +435,6 @@ export class GroupingCompetitorsComponent implements OnInit {
                 iterDivision.minWeight >= division.maxWeight ||
                 iterDivision.minWeight === division.minWeight
               ) {
-                console.log('BRACKETCITOOOOOOO:', iterBracket);
                 this.bracketInfo.push({
                   bracketId: iterBracket.bracketId,
                   divisionId: iterBracket.divisionId,
@@ -444,5 +456,138 @@ export class GroupingCompetitorsComponent implements OnInit {
       }
     }
     return this.bracketInfo;
+  }
+
+  filterGender(selected: string) {
+    this.selectedGender = selected;
+    this.applyFilters();
+    this.applyDivisionFilter();
+  }
+
+  filterCategory(categoryName: string) {
+    this.selectedCategory = categoryName;
+    this.applyFilters();
+  }
+
+  filterAgeInterval(interval: string) {
+    this.selectedAgeInterval = interval;
+    this.applyFilters();
+    this.applyDivisionFilter();
+  }
+
+  filterDivision(divisionWeight: string) {
+    this.selectedDivision = divisionWeight;
+    if (divisionWeight === 'Todos') {
+      this.bracketsFiltered = this.brackets;
+      return;
+    }
+
+    /*
+    const [minAge, maxAge] = this.selectedAgeInterval.split('-');
+    const ageInterval = this.ageIntervals.find(age=> age.minAge=== Number(minAge) && age.maxAge=== Number(maxAge))
+
+    const division= this.divisions.find(
+      (div) => div.ageIntervalId === ageInterval?.ageIntervalId
+    );
+
+    this.bracketsFiltered = this.bracketsFiltered.filter((bracket) => {
+      return bracket.divisionId===division;
+    });*/
+
+    const [minWeight, maxWeight] = divisionWeight.split('-');
+    this.bracketsFiltered = this.brackets.filter((bracket) => {
+      const division = this.divisions.find(
+        (div) => div.divisionId === bracket.divisionId
+      );
+      if (division) {
+        return (
+          division.minWeight === Number(minWeight) &&
+          division.maxWeight === Number(maxWeight)
+        );
+      } else return;
+    });
+  }
+
+  applyDivisionFilter() {
+    if (this.selectedGender != 'Ambos') {
+      this.divisionsFilter = this.divisions.filter((division) => {
+        const gender = this.selectedGender;
+        return gender === division.gender;
+      });
+      console.log(this.divisionsFilter);
+    }
+    if (this.selectedAgeInterval != 'Todos') {
+      const ageIntervalSelected = this.ageIntervals.find((age) => {
+        const [minAge, maxAge] = this.selectedAgeInterval.split('-');
+        return age.minAge === Number(minAge) && age.maxAge === Number(maxAge);
+      });
+      console.log(ageIntervalSelected);
+      console.log(this.divisionsFilter);
+      if (ageIntervalSelected) {
+        this.divisionsFilter = this.divisionsFilter.filter((division) => {
+          const ageIntervalId = division.ageIntervalId;
+          return ageIntervalId === ageIntervalSelected.ageIntervalId;
+        });
+      }
+      console.log(this.divisionsFilter);
+    }
+  }
+
+  applyFilters() {
+    this.bracketsFiltered = this.brackets;
+    // Aplicar filtro de género
+    if (this.selectedGender !== 'Ambos') {
+      this.bracketsFiltered = this.bracketsFiltered.filter(
+        (bracket) =>
+          bracket.competitors[0].participant.gender === this.selectedGender
+      );
+    }
+    // Aplicar filtro de categoría
+    if (this.selectedCategory !== 'Todos') {
+      const category: categoryI | undefined = this.categories.find(
+        (category) => category.categoryName === this.selectedCategory
+      );
+      if (category) {
+        this.bracketsFiltered = this.bracketsFiltered.filter(
+          (bracket) => bracket.categoryId === category.categoryId
+        );
+      }
+    }
+
+    // Aplicar filtro de intervalo de edades si se proporcionan minAge y maxAge
+    if (this.selectedAgeInterval !== 'Todos') {
+      const [minAge, maxAge] = this.selectedAgeInterval.split('-');
+      const ageInterval = this.ageIntervals.find(
+        (age) =>
+          age.minAge === parseInt(minAge) && age.maxAge === parseInt(maxAge)
+      );
+      const divisions = this.divisions.filter(
+        (div) => div.ageIntervalId === ageInterval?.ageIntervalId
+      );
+
+      if (divisions) {
+        this.bracketsFiltered = this.bracketsFiltered.filter((bracket) =>
+          divisions.some(
+            (division) => division.divisionId === bracket.divisionId
+          )
+        );
+      }
+    }
+  }
+
+  getValidGradesForCategory(category: categoryI): string[] {
+    const validGrades: string[] = [];
+
+    const valorMin = obtenerValorNumerico(category.gradeMin);
+    const valorMax = obtenerValorNumerico(category.gradeMax);
+
+    for (let i = valorMin; i <= valorMax; i++) {
+      const color = obtenerColor(i);
+      if (color) {
+        validGrades.push(color);
+      }
+    }
+
+    return validGrades;
   }
 }

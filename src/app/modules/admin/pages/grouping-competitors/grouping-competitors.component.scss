@@ -177,3 +177,33 @@ i {
 .filter {
   display: flex;
 }
+//FIltros
+
+.filtros {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  width: 0;
+}
+
+.selected {
+  background-color: #6d88a1; /* Cambiar al color deseado */
+}
+.text-sss {
+  font-size: 12px;
+}
