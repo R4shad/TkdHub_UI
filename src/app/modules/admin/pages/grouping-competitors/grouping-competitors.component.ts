@@ -70,6 +70,7 @@ export class GroupingCompetitorsComponent implements OnInit {
   divisionsFilter: divisionI[] = [];
   ageIntervals: agesI[] = [];
   championship!: ChampionshipI;
+
   constructor(
     private api: ApiService,
     private router: Router,
@@ -487,19 +488,6 @@ export class GroupingCompetitorsComponent implements OnInit {
       this.bracketsFiltered = this.brackets;
       return;
     }
-
-    /*
-    const [minAge, maxAge] = this.selectedAgeInterval.split('-');
-    const ageInterval = this.ageIntervals.find(age=> age.minAge=== Number(minAge) && age.maxAge=== Number(maxAge))
-
-    const division= this.divisions.find(
-      (div) => div.ageIntervalId === ageInterval?.ageIntervalId
-    );
-
-    this.bracketsFiltered = this.bracketsFiltered.filter((bracket) => {
-      return bracket.divisionId===division;
-    });*/
-
     const [minWeight, maxWeight] = divisionWeight.split('-');
     this.bracketsFiltered = this.brackets.filter((bracket) => {
       const division = this.divisions.find(
@@ -580,7 +568,7 @@ export class GroupingCompetitorsComponent implements OnInit {
       }
     }
   }
-
+  /*
   getValidGradesForCategory(category: categoryI): string[] {
     const validGrades: string[] = [];
 
@@ -596,7 +584,7 @@ export class GroupingCompetitorsComponent implements OnInit {
 
     return validGrades;
   }
-
+*/
   onDelete(
     competitor: completeCompetitorToEditI,
     bracket: bracketWithCompetitorsEI

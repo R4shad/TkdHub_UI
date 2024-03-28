@@ -1,77 +1,339 @@
-<div>
-  <div class="mt-4 mb-4">
-    <div class="buttons">
-      <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
-    </div>
-    <div *ngIf="brackets.length > 0">
-      <div>
-        <h1 class="text-center">
-          LLAVES
-        </h1>
-        <div *ngFor="let bracket of brackets">
-          <div class="bracket-description mt-5">
-            <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
-            <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
-              (- {{getBracketMaxWeightInterval(bracket)}} Kg)
-            </p>
-            <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket) != 0">
-              ({{getBracketMinWeightInterval(bracket)}} -
-              {{getBracketMaxWeightInterval(bracket)}} Kg)
-            </p>
-            <p class="text-M">{{ bracket.categoryName}}</p>
-            <p class="text-M">{{ bracket.competitors[0].participant.gender}}</p>
-            <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
-          </div>
+<div *ngIf="championship">
+  <div *ngIf="championship.stage==='BracketDraw'">
+    <div>
+      <div class="mt-4 mb-4">
+        <div class="buttons">
+          <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
+        </div>
+        <div *ngIf="brackets.length > 0">
           <div>
-            <!-- Muestra el componente correspondiente según la cantidad de competidores -->
-            <ng-container *ngIf="bracket.competitors.length === 2">
-              <app-two-participants-bracket [bracket]="bracket"></app-two-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 3">
-              <app-three-participants-bracket [bracket]="bracket"></app-three-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 4">
-              <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 8">
-              <app-eight-participants-bracket [bracket]="bracket"></app-eight-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 5">
-              <app-five-participants-bracket [bracket]="bracket"></app-five-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 6">
-              <app-six-participants-bracket [bracket]="bracket"></app-six-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 7">
-              <app-seven-participants-bracket [bracket]="bracket"></app-seven-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 16">
-              <app-sixteen-participants-bracket [bracket]="bracket"></app-sixteen-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 15">
-              <app-fifteen-participants-bracket [bracket]="bracket"></app-fifteen-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 14">
-              <app-fourteen-participants-bracket [bracket]="bracket"></app-fourteen-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 13">
-              <app-thirteen-participants-bracket [bracket]="bracket"></app-thirteen-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 12">
-              <app-twelve-participants-bracket [bracket]="bracket"></app-twelve-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 9">
-              <app-nine-participants-bracket [bracket]="bracket"></app-nine-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 11">
-              <app-eleven-participants-bracket [bracket]="bracket"></app-eleven-participants-bracket>
-            </ng-container>
-            <ng-container *ngIf="bracket.competitors.length === 10">
-              <app-ten-participants-bracket [bracket]="bracket"></app-ten-participants-bracket>
-            </ng-container>
+            <h1 class="text-center">
+              LLAVES
+            </h1>
+
+            <div class="filtros">
+              <p class="cant">Generos:</p>
+              <!-- Botones para filtrar por género -->
+              <div class="button-container mb-1">
+                <button class="button" [class.selected]="selectedGender === 'Ambos'"
+                  (click)="filterGender('Ambos')">Ambos</button>
+                <button class="button" [class.selected]="selectedGender === 'Femenino'"
+                  (click)="filterGender('Femenino')">Femenino</button>
+                <button class="button" [class.selected]="selectedGender === 'Masculino'"
+                  (click)="filterGender('Masculino')">Masculino</button>
+              </div>
+              <!-- Botones para filtrar por categoría -->
+              <p class="cant">Categorias:</p>
+              <div class="button-container mb-1">
+                <button class="button" [class.selected]="selectedCategory === 'Todos'"
+                  (click)="filterCategory('Todos')">Todos</button>
+                <button *ngFor="let category of categories" class="button"
+                  [class.selected]="selectedCategory === category.categoryName"
+                  (click)="filterCategory(category.categoryName)">{{ category.categoryName }}</button>
+              </div>
+              <!-- Botones para filtrar por intervalo de edades -->
+              <p class="cant">Edades:</p>
+              <div class="button-container mb-1">
+                <button class="button" [class.selected]="selectedAgeInterval === 'Todos'"
+                  (click)="filterAgeInterval('Todos')">Todos</button>
+                <button *ngFor="let ageInterval of ageIntervals" class="button"
+                  [class.selected]="selectedAgeInterval === (ageInterval.minAge + '-' + ageInterval.maxAge)"
+                  (click)="filterAgeInterval(ageInterval.minAge + '-' + ageInterval.maxAge)">
+                  {{ ageInterval.minAge }}{{ ageInterval.maxAge === 100 ? '+' : ' - ' + ageInterval.maxAge }}
+                </button>
+              </div>
+              <!-- Botones para filtrar por divisiones -->
+              <!-- <p class="cant" *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length>
+              1">Divisiones:</p>
+              <div class="button-container mb-1"
+                *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length>1">
+                <button class="button text-sss" [class.selected]="selectedDivision === 'Todos'"
+                  (click)="filterDivision('Todos')">Todos</button>
+                <button *ngFor="let division of divisionsFilter" class="button"
+                  [class.selected]="selectedAgeInterval === (division.minWeight + '-' + division.maxWeight)"
+                  (click)="filterDivision(division.minWeight + '-' + division.maxWeight)">
+                  {{ division.minWeight }}{{ division.maxWeight === 100 ? '+' : ' - ' + division.maxWeight }}
+                </button>
+              </div> -->
+            </div>
+
+            <div *ngFor="let bracket of bracketsFiltered">
+              <hr>
+              <div class="bracket-description">
+                <p class="text-M">{{ getBracketCategoryName(bracket)}}</p>
+                <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
+                <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
+                  (- {{getBracketMaxWeightInterval(bracket)}} Kg)
+                </p>
+                <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket) != 0">
+                  ({{getBracketMinWeightInterval(bracket)}} -
+                  {{getBracketMaxWeightInterval(bracket)}} Kg)
+                </p>
+
+                <p class="text-M">{{ bracket.competitors[0].participant.gender}}</p>
+                <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
+              </div>
+
+              <div>
+                <!-- Muestra el componente correspondiente según la cantidad de competidores -->
+                <ng-container *ngIf="bracket.competitors.length === 2">
+
+                  <app-two-participants-bracket [bracket]="bracket"></app-two-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 3">
+
+                  <app-three-participants-bracket [bracket]="bracket"></app-three-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 4">
+
+                  <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 5">
+
+                  <app-five-participants-bracket [bracket]="bracket"></app-five-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 6">
+
+                  <app-six-participants-bracket [bracket]="bracket"></app-six-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 7">
+
+                  <app-seven-participants-bracket [bracket]="bracket"></app-seven-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 8">
+
+                  <app-eight-participants-bracket [bracket]="bracket"></app-eight-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 9">
+
+                  <app-nine-participants-bracket [bracket]="bracket"></app-nine-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 10">
+
+                  <app-ten-participants-bracket [bracket]="bracket"></app-ten-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 11">
+
+                  <app-eleven-participants-bracket [bracket]="bracket"></app-eleven-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 12">
+
+                  <app-twelve-participants-bracket [bracket]="bracket"></app-twelve-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 13">
+
+                  <app-thirteen-participants-bracket [bracket]="bracket"></app-thirteen-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 14">
+
+                  <app-fourteen-participants-bracket [bracket]="bracket"></app-fourteen-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 15">
+
+                  <app-fifteen-participants-bracket [bracket]="bracket"></app-fifteen-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 16">
+
+                  <app-sixteen-participants-bracket [bracket]="bracket"></app-sixteen-participants-bracket>
+
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" (click)="openModal(modalContent)">Finalizar Edicion de Agrupaciones</button>
+    </div>
+  </div>
+  <div *ngIf="championship.stage!='BracketDraw'">
+    <div>
+      <div class="mt-4 mb-4">
+        <div class="buttons">
+          <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
+        </div>
+        <div *ngIf="brackets.length > 0">
+          <div>
+            <h1 class="text-center">
+              LLAVES
+            </h1>
+            <div class="filtros">
+              <p class="cant">Generos:</p>
+              <!-- Botones para filtrar por género -->
+              <div class="button-container mb-1">
+                <button class="button" [class.selected]="selectedGender === 'Ambos'"
+                  (click)="filterGender('Ambos')">Ambos</button>
+                <button class="button" [class.selected]="selectedGender === 'Femenino'"
+                  (click)="filterGender('Femenino')">Femenino</button>
+                <button class="button" [class.selected]="selectedGender === 'Masculino'"
+                  (click)="filterGender('Masculino')">Masculino</button>
+              </div>
+              <!-- Botones para filtrar por categoría -->
+              <p class="cant">Categorias:</p>
+              <div class="button-container mb-1">
+                <button class="button" [class.selected]="selectedCategory === 'Todos'"
+                  (click)="filterCategory('Todos')">Todos</button>
+                <button *ngFor="let category of categories" class="button"
+                  [class.selected]="selectedCategory === category.categoryName"
+                  (click)="filterCategory(category.categoryName)">{{ category.categoryName }}</button>
+              </div>
+              <!-- Botones para filtrar por intervalo de edades -->
+              <p class="cant">Edades:</p>
+              <div class="button-container mb-1">
+                <button class="button" [class.selected]="selectedAgeInterval === 'Todos'"
+                  (click)="filterAgeInterval('Todos')">Todos</button>
+                <button *ngFor="let ageInterval of ageIntervals" class="button"
+                  [class.selected]="selectedAgeInterval === (ageInterval.minAge + '-' + ageInterval.maxAge)"
+                  (click)="filterAgeInterval(ageInterval.minAge + '-' + ageInterval.maxAge)">
+                  {{ ageInterval.minAge }}{{ ageInterval.maxAge === 100 ? '+' : ' - ' + ageInterval.maxAge }}
+                </button>
+              </div>
+              <!-- Botones para filtrar por divisiones -->
+              <!-- <p class="cant" *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length>
+              1">Divisiones:</p>
+              <div class="button-container mb-1"
+                *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length>1">
+                <button class="button text-sss" [class.selected]="selectedDivision === 'Todos'"
+                  (click)="filterDivision('Todos')">Todos</button>
+                <button *ngFor="let division of divisionsFilter" class="button"
+                  [class.selected]="selectedAgeInterval === (division.minWeight + '-' + division.maxWeight)"
+                  (click)="filterDivision(division.minWeight + '-' + division.maxWeight)">
+                  {{ division.minWeight }}{{ division.maxWeight === 100 ? '+' : ' - ' + division.maxWeight }}
+                </button>
+              </div> -->
+            </div>
+
+            <div *ngFor="let bracket of bracketsFiltered">
+              <hr>
+              <div class="bracket-description">
+                <p class="text-M">{{ getBracketCategoryName(bracket)}}</p>
+                <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
+                <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
+                  (- {{getBracketMaxWeightInterval(bracket)}} Kg)
+                </p>
+                <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket) != 0">
+                  ({{getBracketMinWeightInterval(bracket)}} -
+                  {{getBracketMaxWeightInterval(bracket)}} Kg)
+                </p>
+
+                <p class="text-M">{{ bracket.competitors[0].participant.gender}}</p>
+                <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
+              </div>
+
+              <div>
+                <!-- Muestra el componente correspondiente según la cantidad de competidores -->
+                <ng-container *ngIf="bracket.competitors.length === 2">
+
+                  <app-two-participants-bracket [bracket]="bracket"></app-two-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 3">
+
+                  <app-three-participants-bracket [bracket]="bracket"></app-three-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 4">
+
+                  <app-four-participants-bracket [bracket]="bracket"></app-four-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 5">
+
+                  <app-five-participants-bracket [bracket]="bracket"></app-five-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 6">
+
+                  <app-six-participants-bracket [bracket]="bracket"></app-six-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 7">
+
+                  <app-seven-participants-bracket [bracket]="bracket"></app-seven-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 8">
+
+                  <app-eight-participants-bracket [bracket]="bracket"></app-eight-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 9">
+
+                  <app-nine-participants-bracket [bracket]="bracket"></app-nine-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 10">
+
+                  <app-ten-participants-bracket [bracket]="bracket"></app-ten-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 11">
+
+                  <app-eleven-participants-bracket [bracket]="bracket"></app-eleven-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 12">
+
+                  <app-twelve-participants-bracket [bracket]="bracket"></app-twelve-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 13">
+
+                  <app-thirteen-participants-bracket [bracket]="bracket"></app-thirteen-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 14">
+
+                  <app-fourteen-participants-bracket [bracket]="bracket"></app-fourteen-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 15">
+
+                  <app-fifteen-participants-bracket [bracket]="bracket"></app-fifteen-participants-bracket>
+
+                </ng-container>
+                <ng-container *ngIf="bracket.competitors.length === 16">
+
+                  <app-sixteen-participants-bracket [bracket]="bracket"></app-sixteen-participants-bracket>
+
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<ng-template #modalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">ALERTA</h4>
+  </div>
+  <div class="modal-body">
+    <div class='form-input-container'>
+      <div class='description'>
+        <label>Una vez finalizado la edicion de Llaves </label>
+        <label>no se podran realizar modificaciones.</label>
+      </div>
+      <div class="botones">
+        <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
+        <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -87,12 +87,6 @@ export class TenParticipantsBracketComponent implements OnInit {
         this.quarters4 = this.matchesWithCompetitors.find(
           (match) => match.round === 'quarters4'
         )!;
-        console.log(this.matchesWithCompetitors);
-        console.log('MATCHES');
-        console.log(this.eights5);
-        console.log(this.eights6);
-        console.log(this.quarters2);
-        console.log(this.quarters4);
       });
   }
 
@@ -235,9 +229,7 @@ export class TenParticipantsBracketComponent implements OnInit {
     const currentMatch1 = this.matchesWithCompetitors.find(
       (match) => match.matchId === match1Id
     );
-    console.log(currentMatch1);
     if (currentMatch1?.blueCompetitorId === currentMatch1?.redCompetitorId) {
-      console.log('ENTRE BIEN MATCH1');
       const editedMatch1 = {
         blueCompetitorId: competitor2Id,
         redCompetitorId: competitor2Id,
@@ -271,7 +263,6 @@ export class TenParticipantsBracketComponent implements OnInit {
       (match) => match.matchId === match2Id
     );
     if (currentMatch2?.blueCompetitorId === currentMatch2?.redCompetitorId) {
-      console.log('ENTRE BIEN MATCH2');
       const editedMatch2 = {
         blueCompetitorId: competitor1Id,
         redCompetitorId: competitor1Id,
@@ -317,13 +308,11 @@ export class TenParticipantsBracketComponent implements OnInit {
     colorToEdit: string
   ) {
     if (colorToEdit === 'red') {
-      console.log('entre edit advance red: ');
       const editedMatch = {
         redCompetitorId: competitorId,
       };
       this.editMatch(matchToAdvanceId, editedMatch);
     } else {
-      console.log('entre edit advance blue: ');
       const editedMatch = {
         blueCompetitorId: competitorId,
       };

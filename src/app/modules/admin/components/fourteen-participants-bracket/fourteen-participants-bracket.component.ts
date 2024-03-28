@@ -106,7 +106,6 @@ export class FourteenParticipantsBracketComponent implements OnInit {
         this.quarters4 = this.matchesWithCompetitors.find(
           (match) => match.round === 'quarters4'
         )!;
-        console.log(this.quarters4);
       });
   }
 

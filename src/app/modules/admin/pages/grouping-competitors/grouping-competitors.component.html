@@ -46,7 +46,7 @@
             </button>
           </div>
           <!-- Botones para filtrar por divisiones -->
-          <p class="cant" *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length>
+          <!-- <p class="cant" *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length>
           1">Divisiones:</p>
           <div class="button-container mb-1"
             *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length>1">
@@ -56,109 +56,110 @@
               [class.selected]="selectedAgeInterval === (division.minWeight + '-' + division.maxWeight)"
               (click)="filterDivision(division.minWeight + '-' + division.maxWeight)">
               {{ division.minWeight }}{{ division.maxWeight === 100 ? '+' : ' - ' + division.maxWeight }}
-            </button>
-          </div>
-        </div>
-        <p class="cant">Cantidad de Agrupaciones: {{bracketsFiltered.length}}</p>
-        <div *ngFor="let bracket of bracketsFiltered">
-          <div *ngIf="bracket.competitors.length>0">
-            <div class="bracket-description mt-3">
-              <p class="text-M">{{ getBracketCategoryName(bracket) }}</p>
-              <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
-              <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
-                - {{getBracketMaxWeightInterval(bracket)}} Kg
-              </p>
-              <div>
-                <p *ngIf="getBracketMaxWeightInterval(bracket)!=100 && getBracketMinWeightInterval(bracket)!= 0"
-                  class="text-M">
-                  {{getBracketMinWeightInterval(bracket)}} -
-                  {{getBracketMaxWeightInterval(bracket)}} Kg
-                </p>
-                <p *ngIf="getBracketMaxWeightInterval(bracket)===100 && getBracketMinWeightInterval(bracket)!= 0"
-                  class="text-M">
-                  +{{getBracketMinWeightInterval(bracket)}} Kg
-                </p>
-                <p *ngIf="getBracketMaxWeightInterval(bracket)!=100 && getBracketMinWeightInterval(bracket)=== 0"
-                  class="text-M">
-                  -{{getBracketMaxWeightInterval(bracket)}} Kg
-                </p>
-              </div>
-              <div *ngIf="bracket.competitors.length>0">
-                <div *ngIf="bracket.competitors[0].participant.gender==='Masculino'">
-                  <p class="text-M">M</p>
-                </div>
-                <div *ngIf="bracket.competitors[0].participant.gender==='Femenino'">
-                  <p class="text-M">F</p>
-                </div>
-              </div>
-              <p class="text-M">Cantidad: {{bracket.competitors.length}}</p>
-            </div>
-            <div>
-              <div class="row col-12 mt-2">
-                <div class="table-responsive">
-                  <table class="table table-striped table-bordered">
-                    <thead>
-                      <tr class="bg text-white">
-                        <th class="col-auto">Apellido y Nombre</th>
-                        <th class="col-auto">Club</th>
-                        <th class="col-auto">Edad</th>
-                        <th class="col-auto">Peso</th>
-                        <th class="col-auto">Grado</th>
-                        <th class="col-auto">Sexo</th>
-                        <th class="col-width">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let competitor of bracket.competitors">
-                        <td>
-                          {{ joinNames(competitor.participant.lastNames,competitor.participant.firstNames ) }}
-                        </td>
-                        <td>
-                          {{ competitor.participant.clubCode }}
-                        </td>
-                        <td>
-                          {{ competitor.participant.age }}
-                        </td>
-                        <td>
-                          {{ competitor.participant.weight }}
-                        </td>
-                        <td>
-                          {{ competitor.participant.grade }}
-                        </td>
-                        <td>{{ competitor.participant.gender }}</td>
-                        <td class="actions-td">
-                          <div class="buttons" *ngIf="!competitor.participant.isEdit">
-                            <i class="fa fa-pencil px-2" aria-hidden="true"
-                              (click)="onEdit(competitor.participant, bracket)"></i>
-                            <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(competitor, bracket)"></i>
-                          </div>
-                          <div class="filter" *ngIf="competitor.participant.isEdit">
-                            <select class="form-select text-S" [(ngModel)]="currentBracket">
-                              <ng-container *ngFor="let bracket of bracketInfo">
-                                <option [value]="bracket.bracketId" [value]="bracket.infoToShow">{{ bracket.infoToShow
-                                  }}
-                                </option>
-                              </ng-container>
-                            </select>
-                            <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(competitor)"
-                              *ngIf="bracketEditing.infoToShow!=currentBracket"></i>
-                            <i class="fa fa-times-circle" aria-hidden="true"
-                              (click)="cancelEdit(competitor.participant)"></i>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
+            </button> -->
         </div>
       </div>
+      <p class="cant">Cantidad de Agrupaciones: {{bracketsFiltered.length}}</p>
+      <div *ngFor="let bracket of bracketsFiltered">
+        <div *ngIf="bracket.competitors.length>0">
+          <div class="bracket-description mt-3">
+            <p class="text-M">{{ getBracketCategoryName(bracket) }}</p>
+            <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
+            <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
+              - {{getBracketMaxWeightInterval(bracket)}} Kg
+            </p>
+            <div>
+              <p *ngIf="getBracketMaxWeightInterval(bracket)!=100 && getBracketMinWeightInterval(bracket)!= 0"
+                class="text-M">
+                {{getBracketMinWeightInterval(bracket)}} -
+                {{getBracketMaxWeightInterval(bracket)}} Kg
+              </p>
+              <p *ngIf="getBracketMaxWeightInterval(bracket)===100 && getBracketMinWeightInterval(bracket)!= 0"
+                class="text-M">
+                +{{getBracketMinWeightInterval(bracket)}} Kg
+              </p>
+              <p *ngIf="getBracketMaxWeightInterval(bracket)!=100 && getBracketMinWeightInterval(bracket)=== 0"
+                class="text-M">
+                -{{getBracketMaxWeightInterval(bracket)}} Kg
+              </p>
+            </div>
+            <div *ngIf="bracket.competitors.length>0">
+              <div *ngIf="bracket.competitors[0].participant.gender==='Masculino'">
+                <p class="text-M">M</p>
+              </div>
+              <div *ngIf="bracket.competitors[0].participant.gender==='Femenino'">
+                <p class="text-M">F</p>
+              </div>
+            </div>
+            <p class="text-M">Cantidad: {{bracket.competitors.length}}</p>
+          </div>
+          <div>
+            <div class="row col-12 mt-2">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr class="bg text-white">
+                      <th class="col-auto">Apellido y Nombre</th>
+                      <th class="col-auto">Club</th>
+                      <th class="col-auto">Edad</th>
+                      <th class="col-auto">Peso</th>
+                      <th class="col-auto">Grado</th>
+                      <th class="col-auto">Sexo</th>
+                      <th class="col-width">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let competitor of bracket.competitors">
+                      <td>
+                        {{ joinNames(competitor.participant.lastNames,competitor.participant.firstNames ) }}
+                      </td>
+                      <td>
+                        {{ competitor.participant.clubCode }}
+                      </td>
+                      <td>
+                        {{ competitor.participant.age }}
+                      </td>
+                      <td>
+                        {{ competitor.participant.weight }}
+                      </td>
+                      <td>
+                        {{ competitor.participant.grade }}
+                      </td>
+                      <td>{{ competitor.participant.gender }}</td>
+                      <td class="actions-td">
+                        <div class="buttons" *ngIf="!competitor.participant.isEdit">
+                          <i class="fa fa-pencil px-2" aria-hidden="true"
+                            (click)="onEdit(competitor.participant, bracket)"></i>
+                          <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(competitor, bracket)"></i>
+                        </div>
+                        <div class="filter" *ngIf="competitor.participant.isEdit">
+                          <select class="form-select text-S" [(ngModel)]="currentBracket">
+                            <ng-container *ngFor="let bracket of bracketInfo">
+                              <option [value]="bracket.bracketId" [value]="bracket.infoToShow">{{ bracket.infoToShow
+                                }}
+                              </option>
+                            </ng-container>
+                          </select>
+                          <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(competitor)"
+                            *ngIf="bracketEditing.infoToShow!=currentBracket"></i>
+                          <i class="fa fa-times-circle" aria-hidden="true"
+                            (click)="cancelEdit(competitor.participant)"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <button class="btn btn-primary" (click)="openModal(modalContent)">Finalizar Pesaje</button>
+    <button class="btn btn-primary" (click)="openModal(modalContent)">Finalizar Edicion de Agrupaciones</button>
   </div>
+
+
 
   <div class="mt-4 mb-4" *ngIf="championship.stage!='Groupings'">
     <div class="buttons">
@@ -294,21 +295,21 @@
       </div>
     </div>
   </div>
-
-  <ng-template #modalContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title">ALERTA</h4>
-    </div>
-    <div class="modal-body">
-      <div class='form-input-container'>
-        <div class='description'>
-          <label>Una vez finalizado el pesaje </label>
-          <label>no se podran agregar mas competidores.</label>
-        </div>
-        <div class="botones">
-          <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
-          <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
-        </div>
+</div>
+<ng-template #modalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">ALERTA</h4>
+  </div>
+  <div class="modal-body">
+    <div class='form-input-container'>
+      <div class='description'>
+        <label>Una vez finalizado la edicion de Agrupaciones </label>
+        <label>no se podran realizar modificaciones.</label>
+      </div>
+      <div class="botones">
+        <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
+        <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
       </div>
     </div>
-  </ng-template>
+  </div>
+</ng-template>

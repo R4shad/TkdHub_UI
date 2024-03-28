@@ -1,5 +1,6 @@
 <div class="buttons">
-  <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="createMatches()">Crear Llave</button>
+  <button class="mx-1 btn btn-outline-primary btn-block text-L" *ngIf="matchesWithCompetitors.length"
+    (click)="createMatches()">Crear Llave</button>
 </div>
 <div class="bracket-container" *ngIf="matchesWithCompetitors.length>0">
   <div class="bracket">
