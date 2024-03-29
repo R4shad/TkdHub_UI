@@ -2,7 +2,7 @@
   <button class="mx-1 btn btn-outline-primary btn-block text-L" *ngIf="matchesWithCompetitors.length"
     (click)="createMatches()">Crear Llave</button>
 </div>
-<div class="bracket-container" *ngIf="matchesWithCompetitors.length>0">
+<div class="bracket-container">
   <div class="bracket">
     <div class="column semis">
       <div class="match">
@@ -15,7 +15,6 @@
             <div class="competitor blue">
               <span class="clubCode">{{ semiFinal1.blueCompetitor.participant.clubCode }}</span>
               <span class="name">{{ semiFinal1.blueCompetitor.participant.fullName }}</span>
-              <span class="score"></span>
               <div class="select-wrapper" *ngIf="editingBracket===semiFinal1.blueCompetitor.competitorId">
                 <select class="form-select text-S" (change)="onSelectCompetitor($event)">
                   <option value="">Intercambiar con:</option>
@@ -43,7 +42,7 @@
             <div class="competitor red">
               <span class="clubCode">{{ semiFinal1.redCompetitor.participant.clubCode }}</span>
               <span class="name">{{ semiFinal1.redCompetitor.participant.fullName }}</span>
-              <span class="score"></span>
+
               <div class="select-wrapper" *ngIf="editingBracket===semiFinal1.redCompetitor.competitorId">
                 <select class="form-select text-S" (change)="onSelectCompetitor($event)">
                   <option value="">Intercambiar con:</option>
@@ -89,7 +88,7 @@
             <div class="competitor blue">
               <span class="clubCode">{{ semiFinal2.blueCompetitor.participant.clubCode }}</span>
               <span class="name">{{ semiFinal2.blueCompetitor.participant.fullName }}</span>
-              <span class="score"></span>
+
               <div class="select-wrapper" *ngIf="editingBracket===semiFinal2.blueCompetitor.competitorId">
                 <select class="form-select text-S" (change)="onSelectCompetitor($event)">
                   <option value="">Intercambiar con:</option>
@@ -116,7 +115,7 @@
             <div class="competitor red">
               <span class="clubCode">{{ semiFinal2.redCompetitor.participant.clubCode }}</span>
               <span class="name">{{ semiFinal2.redCompetitor.participant.fullName }}</span>
-              <span class="score"></span>
+
               <div class="select-wrapper" *ngIf="editingBracket===semiFinal2.redCompetitor.competitorId">
                 <select class="form-select text-S" (change)="onSelectCompetitor($event)">
                   <option value="">Intercambiar con:</option>
@@ -146,7 +145,7 @@
             <div class="competitor blue">
               <span class="clubCode">{{ semiFinal2.redCompetitor.participant.clubCode }}</span>
               <span class="name">{{ semiFinal2.redCompetitor.participant.fullName }}</span>
-              <span class="score"></span>
+
               <div class="select-wrapper" *ngIf="editingBracket===semiFinal2.blueCompetitor.competitorId">
                 <select class="form-select text-S" (change)="onSelectCompetitor($event)">
                   <option value="">Intercambiar con:</option>
@@ -174,7 +173,7 @@
             <div class="competitor red">
               <span class="clubCode"></span>
               <span class="name">Bye</span>
-              <span class="score"></span>
+
             </div>
           </div>
         </div>
@@ -199,17 +198,17 @@
             <div class="competitor blue">
               <span class="clubCode"></span>
               <span class="name"></span>
-              <span class="score"></span>
+
             </div>
             <div class="competitor red" *ngIf="final.bracketId===0">
               <span class="clubCode"></span>
               <span class="name"></span>
-              <span class="score"></span>
+
             </div>
             <div class="competitor red" *ngIf="final.bracketId!=0">
               <span class="clubCode">{{ final.redCompetitor.participant.clubCode }}</span>
               <span class="name">{{ final.redCompetitor.participant.fullName }}</span>
-              <span class="score"></span>
+
             </div>
           </div>
         </div>
@@ -228,7 +227,7 @@
         <div class="competitor winner">
           <span class="clubCode"></span>
           <span class="name"></span>
-          <span class="score"></span>
+
         </div>
         <div class="match-lines alt">
           <div class="line horizontal"></div>

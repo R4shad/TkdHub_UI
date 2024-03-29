@@ -80,6 +80,11 @@ export class SevenParticipantsBracketComponent implements OnInit {
           (match) => match.round === 'semifinal2'
         )!;
       });
+    console.log(this.matchesWithCompetitors);
+    console.log('QUARTESR:', this.quarters1);
+    if (this.matchesWithCompetitors.length === 0) {
+      //this.createMatches();
+    }
   }
 
   createMatches() {

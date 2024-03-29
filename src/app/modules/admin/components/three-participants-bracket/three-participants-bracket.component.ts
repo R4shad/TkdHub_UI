@@ -70,6 +70,9 @@ export class ThreeParticipantsBracketComponent implements OnInit {
             (match) => match.round === 'final'
           )!;
       });
+    console.log('ASDASD');
+    console.log(this.semiFinal1);
+    console.log(this.semiFinal2);
   }
 
   createMatches() {

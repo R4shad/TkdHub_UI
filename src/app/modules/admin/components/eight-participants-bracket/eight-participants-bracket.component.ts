@@ -77,6 +77,7 @@ export class EightParticipantsBracketComponent implements OnInit {
           (match) => match.round === 'quarters4'
         )!;
       });
+    console.log('EIGHT', this.matchesWithCompetitors);
   }
 
   createMatches() {
