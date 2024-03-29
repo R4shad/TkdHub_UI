@@ -4,6 +4,8 @@
 .text-M {
   font-size: 20x;
   margin-bottom: 0px;
+  padding-right: 60px;
+  padding-left: 60px;
 }
 .buttons {
   display: flex;
@@ -11,7 +13,7 @@
 }
 .bracket-description {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .bloque {

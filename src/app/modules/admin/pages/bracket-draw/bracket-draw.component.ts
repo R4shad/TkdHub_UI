@@ -13,7 +13,7 @@ import { categoryI } from 'src/app/shared/models/category';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { agesI } from 'src/app/shared/models/ages';
 import { ChampionshipI } from 'src/app/shared/models/Championship';
-declare var html2canvas: any;
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-bracket-draw',
@@ -152,37 +152,6 @@ export class BracketDrawComponent implements OnInit {
 
   returnToSummary() {
     this.router.navigate(['/championship', this.championshipId, 'Organizer']);
-  }
-
-  generatePDF(): void {
-    // Espera a que html2canvas se cargue antes de llamar a su método
-    if (typeof html2canvas !== 'undefined') {
-      const bracketPages = document.querySelectorAll('.bracket');
-      const pdf = new jsPDF();
-      let currentY = 0;
-      bracketPages.forEach((page, index) => {
-        html2canvas(page).then((canvas: any) => {
-          // Convierte el canvas en una imagen base64
-          const imgData = canvas.toDataURL('image/png');
-
-          // Si no es la primera página, añade una nueva página al PDF
-          if (index > 0) {
-            pdf.addPage();
-          }
-
-          // Agrega la imagen al PDF
-          pdf.addImage(imgData, 'PNG', 0, currentY, 210, 297); // A4 size: 210x297 mm
-          currentY += canvas.height * (210 / canvas.width); // Incrementa la posición Y
-
-          // Si es la última página, guarda el PDF
-          if (index === bracketPages.length - 1) {
-            pdf.save('bracket.pdf');
-          }
-        });
-      });
-    } else {
-      console.error('html2canvas no está definido');
-    }
   }
 
   getBracketDivision(bracket: bracketI) {
@@ -329,5 +298,67 @@ export class BracketDrawComponent implements OnInit {
     } else {
       console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
     }
+  }
+  /*
+  generatePDF(): void {
+    const data: any = document.getElementById('bracket0');
+    const doc = new jsPDF('p', 'pt', 'a4');
+    //data.style.width = '50%';
+    const options = {
+      background: 'white',
+      scale: 5,
+    };
+
+    html2canvas(data, options)
+      .then((canvas) => {
+        const img = canvas.toDataURL('image/PNG');
+
+        const bufferX = -250;
+        const bufferY = 15;
+
+        //const bufferX = 15;
+        //const bufferY = 15;
+
+        const imgProps = (doc as any).getImageProperties(img);
+        const pdfWidth = doc.internal.pageSize.getHeight() - 2 * bufferX;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        doc.addImage(
+          img,
+          'PNG',
+          bufferX,
+          bufferY,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          'FAST'
+        );
+        return doc;
+      })
+      .then((docResults) => {
+        docResults.save(`${new Date().toISOString()}_tutorial.pdf`);
+      });
+  }*/
+
+  generatePDF(): void {
+    const data: any = document.getElementById('bracket7');
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 1,
+    };
+
+    html2canvas(data, options).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+
+      //const imgWidth = 300;
+      const imgWidth = 210; // Anchura de la página A4 en mm (aproximadamente 8.27 pulgadas)
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Proporcional al ancho, ajustado según el aspecto
+
+      const pdf = new jsPDF('p', 'mm', 'a4'); // Cambia a 'pt' si estás trabajando con puntos
+
+      pdf.addImage(imgData, 'PNG', -50, 15, imgWidth, imgHeight);
+      pdf.save(`${new Date().toISOString()}_tutorial.pdf`);
+    });
   }
 }

@@ -162,6 +162,7 @@
   <div *ngIf="championship.stage!='BracketDraw'">
     <div>
       <div class="mt-4 mb-4">
+        <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="generatePDF()">Descargar PDF</button>
         <div class="buttons">
           <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
         </div>
@@ -216,7 +217,7 @@
               </div> -->
             </div>
 
-            <div *ngFor="let bracket of bracketsFiltered">
+            <div [attr.id]="'bracket' + i" *ngFor="let bracket of bracketsFiltered ; let i = index">
               <hr>
               <div class="bracket-description">
                 <p class="text-M">{{ getBracketCategoryName(bracket)}}</p>
@@ -317,6 +318,7 @@
       </div>
     </div>
   </div>
+  <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="generatePDF()">Descargar PDF</button>
 </div>
 
 
