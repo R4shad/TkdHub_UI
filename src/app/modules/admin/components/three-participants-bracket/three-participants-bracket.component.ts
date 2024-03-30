@@ -28,6 +28,13 @@ export class ThreeParticipantsBracketComponent implements OnInit {
   selectedCompetitorId: string | null = null;
   ngOnInit(): void {
     this.getMatches();
+    this.api
+      .getMatches(this.bracket.championshipId, this.bracket.bracketId)
+      .subscribe((data) => {
+        if (data.length === 0) {
+          this.createMatches();
+        }
+      });
   }
 
   constructor(private api: ApiService) {}

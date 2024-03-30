@@ -25,13 +25,19 @@ export class EightParticipantsBracketComponent implements OnInit {
   quarters2: matchWithCompetitorsI = emptyMatch;
   quarters3: matchWithCompetitorsI = emptyMatch;
   quarters4: matchWithCompetitorsI = emptyMatch;
-
   editingBracket: string = '';
   selectedCompetitorId: string | null = null;
   loading: boolean = false;
 
   ngOnInit(): void {
     this.getMatches();
+    this.api
+      .getMatches(this.bracket.championshipId, this.bracket.bracketId)
+      .subscribe((data) => {
+        if (data.length === 0) {
+          this.createMatches();
+        }
+      });
   }
 
   constructor(private api: ApiService) {}
@@ -77,7 +83,6 @@ export class EightParticipantsBracketComponent implements OnInit {
           (match) => match.round === 'quarters4'
         )!;
       });
-    console.log('EIGHT', this.matchesWithCompetitors);
   }
 
   createMatches() {

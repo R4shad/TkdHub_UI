@@ -216,8 +216,7 @@
                 </button>
               </div> -->
             </div>
-
-            <div [attr.id]="'bracket' + i" *ngFor="let bracket of bracketsFiltered ; let i = index">
+            <div [attr.id]="'bracket' + i" *ngFor="let bracket of bracketsFiltered ; let i = index;">
               <hr>
               <div class="bracket-description">
                 <p class="text-M">{{ getBracketCategoryName(bracket)}}</p>
@@ -307,9 +306,7 @@
 
                 </ng-container>
                 <ng-container *ngIf="bracket.competitors.length === 16">
-
                   <app-sixteen-participants-bracket [bracket]="bracket"></app-sixteen-participants-bracket>
-
                 </ng-container>
               </div>
             </div>

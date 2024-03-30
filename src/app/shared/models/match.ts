@@ -46,6 +46,7 @@ export interface matchWithCompetitorsI {
   blueRounds: number;
   redRounds: number;
   championshipId: number;
+  matchNumber: number;
   redCompetitor: {
     competitorId: string;
     participant: {
@@ -107,6 +108,7 @@ export const emptyMatch: matchWithCompetitorsI = {
   blueRounds: 0,
   redRounds: 0,
   championshipId: 0,
+  matchNumber: 0,
   redCompetitor: {
     competitorId: '',
     participant: {

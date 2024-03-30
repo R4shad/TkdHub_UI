@@ -299,46 +299,6 @@ export class BracketDrawComponent implements OnInit {
       console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
     }
   }
-  /*
-  generatePDF(): void {
-    const data: any = document.getElementById('bracket0');
-    const doc = new jsPDF('p', 'pt', 'a4');
-    //data.style.width = '50%';
-    const options = {
-      background: 'white',
-      scale: 5,
-    };
-
-    html2canvas(data, options)
-      .then((canvas) => {
-        const img = canvas.toDataURL('image/PNG');
-
-        const bufferX = -250;
-        const bufferY = 15;
-
-        //const bufferX = 15;
-        //const bufferY = 15;
-
-        const imgProps = (doc as any).getImageProperties(img);
-        const pdfWidth = doc.internal.pageSize.getHeight() - 2 * bufferX;
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-        doc.addImage(
-          img,
-          'PNG',
-          bufferX,
-          bufferY,
-          pdfWidth,
-          pdfHeight,
-          undefined,
-          'FAST'
-        );
-        return doc;
-      })
-      .then((docResults) => {
-        docResults.save(`${new Date().toISOString()}_tutorial.pdf`);
-      });
-  }*/
 
   generatePDF(): void {
     const data: any = document.getElementById('bracket7');
@@ -361,4 +321,6 @@ export class BracketDrawComponent implements OnInit {
       pdf.save(`${new Date().toISOString()}_tutorial.pdf`);
     });
   }
+
+  numerateMatches() {}
 }

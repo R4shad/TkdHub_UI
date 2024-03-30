@@ -38,6 +38,13 @@ export class ElevenParticipantsBracketComponent implements OnInit {
   loading: boolean = false;
   ngOnInit(): void {
     this.getMatches();
+    this.api
+      .getMatches(this.bracket.championshipId, this.bracket.bracketId)
+      .subscribe((data) => {
+        if (data.length === 0) {
+          this.createMatches();
+        }
+      });
   }
 
   constructor(private api: ApiService) {}
