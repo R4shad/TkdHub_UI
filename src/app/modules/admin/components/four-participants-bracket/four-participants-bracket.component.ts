@@ -66,10 +66,9 @@ export class FourParticipantsBracketComponent implements OnInit {
         this.semiFinal2 = this.matchesWithCompetitors.find(
           (match) => match.round === 'semifinal2'
         )!;
-        if (this.bracket.competitors.length === 3)
-          this.final = this.matchesWithCompetitors.find(
-            (match) => match.round === 'final'
-          )!;
+        this.final = this.matchesWithCompetitors.find(
+          (match) => match.round === 'final'
+        )!;
       });
   }
 

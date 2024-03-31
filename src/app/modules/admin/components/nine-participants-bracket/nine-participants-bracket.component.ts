@@ -22,21 +22,15 @@ export class NineParticipantsBracketComponent implements OnInit {
 
   eights1: matchWithCompetitorsI = emptyMatch;
   eights2: matchWithCompetitorsI = emptyMatch;
-  //eights3: matchWithCompetitorsI = emptyMatch;
-  //eights4: matchWithCompetitorsI = emptyMatch;
-  //eights5: matchWithCompetitorsI = emptyMatch;
-  //eights6: matchWithCompetitorsI = emptyMatch;
-  //eights7: matchWithCompetitorsI = emptyMatch;
-  //eights8: matchWithCompetitorsI = emptyMatch;
 
   quarters1: matchWithCompetitorsI = emptyMatch;
   quarters2: matchWithCompetitorsI = emptyMatch;
   quarters3: matchWithCompetitorsI = emptyMatch;
   quarters4: matchWithCompetitorsI = emptyMatch;
 
-  //semiFinal1: matchWithCompetitorsI = emptyMatch;
-  //semiFinal2: matchWithCompetitorsI = emptyMatch;
-  //final: matchWithCompetitorsI = emptyMatch;
+  semiFinal1: matchWithCompetitorsI = emptyMatch;
+  semiFinal2: matchWithCompetitorsI = emptyMatch;
+  final: matchWithCompetitorsI = emptyMatch;
 
   editingBracket: string = '';
   selectedCompetitorId: string | null = null;
@@ -95,7 +89,17 @@ export class NineParticipantsBracketComponent implements OnInit {
         this.quarters4 = this.matchesWithCompetitors.find(
           (match) => match.round === 'quarters4'
         )!;
-        console.log(this.quarters4);
+
+        this.semiFinal1 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'semifinal1'
+        )!;
+        this.semiFinal2 = this.matchesWithCompetitors.find(
+          (match) => match.round === 'semifinal2'
+        )!;
+
+        this.final = this.matchesWithCompetitors.find(
+          (match) => match.round === 'final'
+        )!;
       });
   }
 

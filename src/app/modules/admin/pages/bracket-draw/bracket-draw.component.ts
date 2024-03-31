@@ -70,7 +70,7 @@ export class BracketDrawComponent implements OnInit {
       .subscribe((data) => {
         this.brackets = data;
         this.bracketsFiltered = this.brackets;
-        this.brackets.sort((a, b) => this.compararBrackets(a, b));
+        console.log(this.bracketsFiltered);
         console.log(this.brackets);
       });
 
@@ -105,11 +105,6 @@ export class BracketDrawComponent implements OnInit {
             );
           });
       });
-  }
-
-  compararBrackets(a: bracketI, b: bracketI) {
-    // Si divisionId es el mismo, compara por categoryId
-    return a.categoryId - b.categoryId;
   }
 
   getBracketGrouping(bracket: bracketI) {
