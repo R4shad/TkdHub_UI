@@ -4,7 +4,7 @@
       <div class="match">
         <div class="match-container">
           <div class="match-number">
-            <span class="number">12
+            <span class="number">s1
             </span>
           </div>
           <div class="match-competitors" *ngIf="(semiFinal1$ | async) as semiFinal1">
@@ -42,7 +42,7 @@
       <div class="match">
         <div class="match-container">
           <div class="match-number">
-            <span class="number">13
+            <span class="number">s2
             </span>
           </div>
           <div class="match-competitors" *ngIf="(semiFinal2$ | async) as semiFinal2">
@@ -76,7 +76,7 @@
       <div class="match">
         <div class="match-container">
           <div class="match-number">
-            <span class="number">12
+            <span class="number">{{(final$ | async)?.matchNumber}}
             </span>
           </div>
           <div class="match-competitors" *ngIf="(final$ | async) as final">

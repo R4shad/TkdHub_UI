@@ -5,7 +5,7 @@
         <div class="match">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(eights1$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights1$ | async) as eights1">
@@ -41,7 +41,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(eights2$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights2$ | async) as eights2">
@@ -68,7 +68,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">123
+              <span class="number">{{(eights3$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights3$ | async) as eights3">
@@ -104,7 +104,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(eights4$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights4$ | async) as eights4">
@@ -132,7 +132,7 @@
         <div class="match">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(eights5$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights5$ | async) as eights5">
@@ -168,7 +168,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(eights6$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights6$ | async) as eights6">
@@ -195,7 +195,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(eights7$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights7$ | async) as eights7">
@@ -231,7 +231,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(eights8$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights8$ | async) as eights8">
@@ -263,7 +263,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">12
+                <span class="number">{{(quarters1$ | async)?.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors" *ngIf="(quarters1$ | async) as quarters1">
@@ -299,7 +299,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">12
+                <span class="number">{{(quarters2$ | async)?.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors" *ngIf="(quarters2$ | async) as quarters2">
@@ -338,7 +338,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">12
+                <span class="number">{{(quarters3$ | async)?.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors" *ngIf="(quarters3$ | async) as quarters3">
@@ -374,7 +374,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">12
+                <span class="number">{{(quarters4$ | async)?.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors" *ngIf="(quarters4$ | async) as quarters4">
@@ -414,7 +414,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(semiFinal1$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(semiFinal1$ | async) as semiFinal1">
@@ -452,7 +452,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">12
+              <span class="number">{{(semiFinal2$ | async)?.matchNumber}}
               </span>
             </div>
             <div class="match-competitors" *ngIf="(semiFinal2$ | async) as semiFinal2">
@@ -491,7 +491,7 @@
       <div class="match ">
         <div class="match-container">
           <div class="match-number">
-            <span class="number">12
+            <span class="number">{{(final$ | async)?.matchNumber}}
             </span>
           </div>
           <div class="match-competitors" *ngIf="(final$ | async) as final">
