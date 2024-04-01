@@ -4,7 +4,8 @@
       <div class="match ">
         <div class="match-container">
           <div class="match-number">
-            <span class="number">12</span>
+            <span class="number">{{(final$ | async)?.matchNumber}}
+            </span>
           </div>
           <div class="match-competitors" *ngIf="(final$ | async) as quarters1">
             <div class="competitor blue">
