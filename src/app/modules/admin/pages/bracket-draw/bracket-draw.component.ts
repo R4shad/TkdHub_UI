@@ -294,10 +294,9 @@ export class BracketDrawComponent implements OnInit {
       console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
     }
   }
-
+  /*
   generatePDF(): void {
-    const data: any = document.getElementById('bracket7');
-    const doc = new jsPDF('p', 'pt', 'a4');
+    const data: any = document.getElementById('bracket1');
     const options = {
       background: 'white',
       scale: 1,
@@ -305,17 +304,80 @@ export class BracketDrawComponent implements OnInit {
 
     html2canvas(data, options).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-
+      //210
       //const imgWidth = 300;
-      const imgWidth = 210; // Anchura de la página A4 en mm (aproximadamente 8.27 pulgadas)
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Proporcional al ancho, ajustado según el aspecto
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      console.log(canvas.height);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      //-50,15
+      pdf.addImage(imgData, 'PNG', 0, 15, imgWidth, imgHeight);
+      pdf.save(`${this.championship.championshipName}.pdf`);
+    });
+  }*/
 
-      const pdf = new jsPDF('p', 'mm', 'a4'); // Cambia a 'pt' si estás trabajando con puntos
+  generatePDF(): void {
+    const pdf = new jsPDF('p', 'mm', 'a4');
 
-      pdf.addImage(imgData, 'PNG', -50, 15, imgWidth, imgHeight);
-      pdf.save(`${new Date().toISOString()}_tutorial.pdf`);
+    // Renderizar el contenido del div en un canvas separado
+    const descriptionData: any = document.getElementById('pdfDescription');
+    const descriptionCanvas = document.createElement('canvas');
+    const descriptionContext = descriptionCanvas.getContext('2d');
+    descriptionCanvas.width = descriptionData.offsetWidth;
+    descriptionCanvas.height = descriptionData.offsetHeight;
+    html2canvas(descriptionData).then((canvas) => {
+      descriptionContext?.drawImage(canvas, 0, 0);
+    });
+
+    const firstFiveBrackets = this.brackets.slice(0, 5);
+    const promises = firstFiveBrackets.map((bracket, index) => {
+      const data: any = document.getElementById(`bracket${index + 1}`);
+      const options = {
+        background: 'white',
+        scale: 1,
+      };
+
+      return html2canvas(data, options).then((canvas) => {
+        // Reducir la resolución de la imagen
+        const reducedCanvas = document.createElement('canvas');
+        const reducedContext = reducedCanvas.getContext('2d');
+        reducedCanvas.width = canvas.width * 0.75;
+        reducedCanvas.height = canvas.height * 0.75;
+        reducedContext?.drawImage(
+          canvas,
+          0,
+          0,
+          reducedCanvas.width,
+          reducedCanvas.height
+        );
+
+        const imgData = reducedCanvas.toDataURL('image/png');
+        const imgWidth = 210;
+        const imgHeight =
+          (reducedCanvas.height * imgWidth) / reducedCanvas.width;
+
+        // Agregar contenido del div al comienzo de cada página
+        if (index !== 0) {
+          pdf.addPage();
+        }
+        pdf.addImage(descriptionCanvas, 'PNG', 0, 0, 210, 15);
+
+        // Agregar la imagen del bracket a la página actual del PDF
+        if (index % 2 === 0) {
+          pdf.addImage(imgData, 'PNG', 0, 150, imgWidth, imgHeight);
+        } else {
+          pdf.addImage(imgData, 'PNG', 0, 15, imgWidth, imgHeight);
+        }
+
+        // Limpiar el canvas no utilizado
+        URL.revokeObjectURL(imgData);
+        canvas.remove();
+        reducedCanvas.remove();
+      });
+    });
+
+    Promise.all(promises).then(() => {
+      pdf.save('championship_brackets.pdf');
     });
   }
-
-  numerateMatches() {}
 }
