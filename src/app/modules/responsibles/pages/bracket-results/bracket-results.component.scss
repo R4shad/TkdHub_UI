@@ -81,6 +81,10 @@
 .competitor span:last-child {
   padding-right: 4px;
 }
+
+.competitor :last-child {
+  padding-right: 0;
+}
 .score {
   margin-left: auto;
 }
@@ -94,7 +98,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 16px;
-  max-width: 184px;
+  width: 184px;
 }
 
 .match-lines {
@@ -141,12 +145,16 @@
   background: rgba(255, 204, 0, 1);
 }
 .blue {
-  //background: #0077cc;
   background: rgba(0, 119, 204, 0.4);
+  &.won {
+    background: rgba(0, 119, 204, 0.8);
+  }
 }
 .red {
-  //background: #ff4444;
   background: rgba(255, 68, 68, 0.4);
+  &.won {
+    background: rgba(255, 68, 68, 0.8);
+  }
 }
 
 .line.vertical {
@@ -176,6 +184,7 @@
 i {
   font-size: 20px;
   top: 10px;
+  margin-right: auto;
 }
 .form-control,
 .form-select:focus {

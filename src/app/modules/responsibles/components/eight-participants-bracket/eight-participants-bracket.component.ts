@@ -136,6 +136,12 @@ export class EightParticipantsBracketComponent implements OnInit {
     if (match.redCompetitorId === null || match.blueCompetitorId === null) {
       return false;
     }
+    if (match.redCompetitorId === match.blueCompetitorId) {
+      return false;
+    }
+    if (match.redRounds === 0 && match.blueRounds === 0) {
+      return false;
+    }
     return true;
   }
 }

@@ -9,7 +9,7 @@
               </span>
             </div>
             <div class="match-competitors" *ngIf="(eights1$ | async) as eights1">
-              <div class="competitor blue">
+              <div class="competitor blue" [ngClass]="{'won': (eights1$ | async)?.blueRounds === 2}">
                 <span class="clubCode">{{ (eights1$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (eights1$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(eights1)">{{(eights1$ | async)?.blueRounds}}</span>
@@ -18,7 +18,7 @@
                     aria-hidden="true"></i>
                 </div>
               </div>
-              <div class="competitor red">
+              <div class="competitor red" [ngClass]="{'won': (eights1$ | async)?.redRounds === 2}">
                 <span class="clubCode">{{ (eights1$ | async)?.redCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (eights1$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(eights1)">{{(eights1$ | async)?.redRounds}}</span>
