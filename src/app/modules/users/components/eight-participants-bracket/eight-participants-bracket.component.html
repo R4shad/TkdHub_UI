@@ -131,22 +131,20 @@
                 <span class="clubCode">{{ (semiFinal1$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (semiFinal1$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ | async)?.blueRounds}}</span>
-                <div class="icons">
-                </div>
-                <div class="competitor red">
-                  <span class="clubCode">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.clubCode }}</span>
-                  <span class="name">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.fullName }}</span>
-                  <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ | async)?.redRounds}}</span>
-                </div>
+              </div>
+              <div class="competitor red">
+                <span class="clubCode">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ | async)?.redRounds}}</span>
               </div>
             </div>
-            <div class="match-lines">
-              <div class="line horizontal"></div>
-              <div class="line vertical"></div>
-            </div>
-            <div class="match-lines alt">
-              <div class="line horizontal"></div>
-            </div>
+          </div>
+          <div class="match-lines">
+            <div class="line horizontal"></div>
+            <div class="line vertical"></div>
+          </div>
+          <div class="match-lines alt">
+            <div class="line horizontal"></div>
           </div>
         </div>
         <div class="match ">
@@ -222,4 +220,3 @@
       </div>
     </div>
   </div>
-</div>

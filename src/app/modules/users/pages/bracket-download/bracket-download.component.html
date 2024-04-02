@@ -130,3 +130,11 @@
     </div>
   </div>
 </ng-template>
+
+<div *ngIf="downloading" class="overlay">
+  <div class="message">Descargando {{ progress }}/{{ total }}</div>
+</div>
+
+<div *ngIf="total===0" class="overlay">
+  <div class="message">Preparando Descarga</div>
+</div>

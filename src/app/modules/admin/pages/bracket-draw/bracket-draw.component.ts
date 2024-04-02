@@ -317,12 +317,7 @@ export class BracketDrawComponent implements OnInit {
   }*/
 
   generatePDF(): void {
-    this.router.navigate([
-      '/championship',
-      this.championshipId,
-      'Organizer',
-      'BracketDraw',
-      'DownloadBracket',
-    ]);
+    const url = `/championship/${this.championshipId}/Organizer/BracketDraw/DownloadBracket`;
+    window.open(url, '_blank');
   }
 }

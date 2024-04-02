@@ -41,6 +41,7 @@ hr {
   display: flex;
   margin: 10px;
   width: 100%;
+  height: 710px;
   justify-content: center;
 }
 
@@ -243,4 +244,19 @@ i {
 }
 .text-sss {
   font-size: 12px;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  color: white;
 }

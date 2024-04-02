@@ -14,6 +14,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { agesI } from 'src/app/shared/models/ages';
 import { ChampionshipI } from 'src/app/shared/models/Championship';
 import html2canvas from 'html2canvas';
+import { DownloadService } from '../../utils/download.service';
 
 @Component({
   selector: 'app-bracket-download',
@@ -31,16 +32,20 @@ export class BracketDownloadComponent implements OnInit {
   modalRef?: NgbModalRef | undefined;
   ageIntervals: agesI[] = [];
   championship!: ChampionshipI;
-
+  downloading = false;
+  progress = 0;
+  total = 0;
   constructor(
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private downloadService: DownloadService
   ) {}
 
   ngOnInit(): void {
+    this.downloadService.startDownload();
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
     });
@@ -66,7 +71,7 @@ export class BracketDownloadComponent implements OnInit {
 
         setTimeout(() => {
           this.generatePDF();
-        }, 1000);
+        }, 3000);
       });
 
     this.api
@@ -163,129 +168,18 @@ export class BracketDownloadComponent implements OnInit {
     }
     return null;
   }
-  /*generatePDF(): void {
-    console.log('ENTRE');
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgWidth = 210;
-    const imgHeight = 135; // Altura de la imagen del bracket
-    const topMargin = 10; // Margen superior
-
-    // Renderizar el contenido del div en un canvas
-    const descriptionData: any = document.getElementById('pdfDescription');
-    if (descriptionData) {
-      html2canvas(descriptionData).then((descriptionCanvas) => {
-        const descriptionImgData = descriptionCanvas.toDataURL('image/png');
-
-        let y = topMargin + 5; // Posición Y de la imagen del bracket inicial
-
-        const firstFourBrackets = this.brackets.slice(0, 4);
-
-        firstFourBrackets.forEach((bracket, index) => {
-
-
-
-          console.log(index);
-          if (index > 0 && index % 2 === 0) {
-            console.log(index);
-            // Si es el segundo bracket en la página, agregar una nueva página y restablecer la posición Y
-            pdf.addPage();
-            y = topMargin + 15;
-          }
-
-          if (index % 2 === 0) {
-            // Agregar descripción al inicio de la página
-            pdf.addImage(descriptionImgData, 'PNG', 0, 0, imgWidth, 15);
-          }
-
-          const bracketData: any = document.getElementById(
-            `bracket${index + 1}`
-          );
-          if (bracketData) {
-            html2canvas(bracketData).then((bracketCanvas) => {
-              const bracketImgData = bracketCanvas.toDataURL('image/png');
-              pdf.addImage(bracketImgData, 'PNG', 0, y, imgWidth, imgHeight);
-              y += imgHeight + 15; // Actualizar la posición Y para el próximo bracket
-              if (index === 3) {
-                // Si es el último bracket, guardar el PDF
-                pdf.save(`championship.pdf`);
-              }
-            });
-          }
-        });
-      });
-    } else {
-      console.error('Elemento pdfDescription no encontrado.');
-    }
-  }*/
-  /*
-  generatePDF(): void {
-    console.log('ENTRE');
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgWidth = 210;
-    const imgHeight = 135; // Altura de la imagen del bracket
-    const topMargin = 10; // Margen superior
-
-    // Renderizar el contenido del div en un canvas
-    const descriptionData: any = document.getElementById('pdfDescription');
-    if (descriptionData) {
-      html2canvas(descriptionData).then((descriptionCanvas) => {
-        const descriptionImgData = descriptionCanvas.toDataURL('image/png');
-
-        let y = topMargin + 5; // Posición Y de la imagen del bracket inicial
-
-        const firstFourBrackets = this.brackets.slice(0, 6);
-
-        firstFourBrackets.forEach((bracket, index) => {
-          console.log(index);
-          if (index === 0) {
-            pdf.addImage(descriptionImgData, 'PNG', 0, 0, imgWidth, 15);
-            const bracketData: any = document.getElementById(`bracket${index}`);
-            if (bracketData) {
-              console.log('AGREGANDO BRACKET0');
-              html2canvas(bracketData).then((bracketCanvas) => {
-                const bracketImgData = bracketCanvas.toDataURL('image/png');
-                pdf.addImage(bracketImgData, 'PNG', 0, y, imgWidth, imgHeight);
-                y += imgHeight + 10; // Actualizar la posición Y para el próximo bracket
-              });
-            }
-          } else {
-            if (index % 2 === 0 && index > 0) {
-              console.log('AGREGO PAGINA :', index);
-              pdf.addPage();
-              y = topMargin + 15;
-            }
-            if (index % 2 === 0) {
-              console.log('AGREGO DESCRIPCION: ', index);
-              pdf.addImage(descriptionImgData, 'PNG', 0, 0, imgWidth, 15);
-            }
-            const bracketData: any = document.getElementById(`bracket${index}`);
-            if (bracketData) {
-              console.log('AGREGANDO:', index);
-              html2canvas(bracketData).then((bracketCanvas) => {
-                const bracketImgData = bracketCanvas.toDataURL('image/png');
-                pdf.addImage(bracketImgData, 'PNG', 0, y, imgWidth, imgHeight);
-                y += imgHeight + 10; // Actualizar la posición Y para el próximo bracket
-                if (index === 5) {
-                  // Si es el último bracket, guardar el PDF
-                  pdf.save(`championship.pdf`);
-                }
-              });
-            }
-          }
-        });
-      });
-    } else {
-      console.error('Elemento pdfDescription no encontrado.');
-    }
-  }*/
 
   async generatePDF(): Promise<void> {
+    this.downloading = true;
     console.log('ENTRE');
     const pdf = new jsPDF('p', 'mm', 'a4');
     const imgWidth = 210;
     const imgHeight = 125; // Altura de la imagen del bracket
     const topMargin = 0; // Margen superior
 
+    // Conteo total de brackets a descargar
+    const totalBrackets = this.brackets.length;
+    this.total = totalBrackets;
     // Renderizar el contenido del div en un canvas
     const descriptionData: any = document.getElementById('pdfDescription');
     if (descriptionData) {
@@ -294,9 +188,10 @@ export class BracketDownloadComponent implements OnInit {
 
       let y = topMargin + 5; // Posición Y de la imagen del bracket inicial
 
-      const firstFourBrackets = this.brackets.slice(0, 6);
+      for (let index = 0; index < totalBrackets; index++) {
+        // Calcular el progreso actual
+        this.progress = index + 1;
 
-      for (let index = 0; index < firstFourBrackets.length; index++) {
         if (index === 0) {
           pdf.addImage(descriptionImgData, 'PNG', 0, 0, imgWidth, 15);
           y = topMargin + 15;
@@ -313,14 +208,17 @@ export class BracketDownloadComponent implements OnInit {
           const bracketImgData = bracketCanvas.toDataURL('image/png');
           pdf.addImage(bracketImgData, 'PNG', 0, y, imgWidth, imgHeight);
           y += imgHeight + 10; // Actualizar la posición Y para el próximo bracket
-          if (index === 5) {
-            // Si es el último bracket, guardar el PDF
+
+          // Si es el último bracket, guardar el PDF
+          if (index === totalBrackets - 1) {
             pdf.save(`championship.pdf`);
+            window.close();
           }
         }
       }
     } else {
       console.error('Elemento pdfDescription no encontrado.');
+      this.downloading = false;
     }
   }
 
