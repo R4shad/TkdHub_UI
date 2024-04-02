@@ -146,7 +146,6 @@
             <div class="line horizontal"></div>
           </div>
         </div>
-
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
@@ -173,7 +172,6 @@
             <div class="line horizontal"></div>
           </div>
         </div>
-
         <div class="match nonDisplay">
           <div class="match-container">
             <div class="match-number">
@@ -201,7 +199,6 @@
             <div class="line horizontal"></div>
           </div>
         </div>
-
         <div class="match nonDisplay">
           <div class="match-container">
             <div class="match-number">
@@ -263,7 +260,6 @@
               <div class="line horizontal"></div>
             </div>
           </div>
-
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
@@ -281,7 +277,6 @@
                   <span class="clubCode">{{ (quarters2$ | async)?.redCompetitor?.participant?.clubCode }}</span>
                   <span class="name">{{ (quarters2$ | async)?.redCompetitor?.participant?.fullName }}</span>
                   <span class="score" *ngIf="showScore(quarters2)">{{(quarters2$ | async)?.redRounds}}</span>
-
                 </div>
               </div>
             </div>
@@ -289,7 +284,9 @@
               <div class="line horizontal"></div>
               <div class="line vertical"></div>
             </div>
-
+            <div class="match-lines alt">
+              <div class="line horizontal"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -320,9 +317,10 @@
               <div class="line horizontal"></div>
               <div class="line vertical"></div>
             </div>
-
+            <div class="match-lines alt">
+              <div class="line horizontal"></div>
+            </div>
           </div>
-
           <div class="match ">
             <div class="match-container">
               <div class="match-number">

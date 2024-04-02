@@ -1,0 +1,246 @@
+.text-L {
+  font-size: 24px;
+  margin-bottom: 0;
+}
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.text-M {
+  font-size: 20x;
+  margin-bottom: 0px;
+  padding-right: 60px;
+  padding-left: 60px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+.bracket-description {
+  display: flex;
+  justify-content: center;
+}
+
+.brackets-description {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.bloque {
+  display: flex;
+  flex-direction: column;
+}
+.bloque > * {
+  margin-bottom: 300px; /* Puedes ajustar el valor del margen según sea necesario */
+}
+.bracket-container {
+  width: 100%;
+  display: flex;
+}
+.bracket {
+  display: flex;
+  margin: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+}
+.match {
+  position: relative;
+  display: flex;
+  min-width: 240px;
+  flex-direction: column;
+
+  margin: 12px 24px 12px 0;
+  justify-content: center;
+}
+
+.match-competitors {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 62px;
+  width: 100%;
+}
+
+.match-competitors > * {
+  white-space: nowrap;
+}
+.competitor {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid black;
+  position: relative;
+  min-height: 32px;
+}
+.competitor.blue {
+  border-radius: 0 8px 0 0;
+}
+.competitor.red {
+  border-radius: 0 0 8px 0;
+}
+
+.competitor span {
+  padding-left: 8px;
+}
+
+.competitor span:last-child {
+  padding-right: 4px;
+}
+.score {
+  margin-left: auto;
+}
+
+.clubCode {
+  font-size: 12px;
+}
+
+.name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  max-width: 184px;
+}
+
+.match-lines {
+  display: block;
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  margin-top: 0px;
+  right: -1px;
+}
+
+.line {
+  background: black;
+  position: absolute;
+  border-bottom: 4px solid black;
+}
+
+.line.horizontal {
+  height: 1px;
+  width: 13px;
+  left: -1px;
+}
+
+.match-lines.alt {
+  left: -12px;
+}
+.match-number {
+  display: flex;
+  align-items: center;
+  width: 24px;
+  border: 1px solid black;
+  font-size: 16px;
+  padding-left: 2px;
+  border-radius: 8px 0 0 8px;
+}
+
+.winner.competitor {
+  border-radius: 8px 8px 8px 8px;
+}
+
+.winner {
+  height: fit-content;
+  //background: #a1a16d;
+  background: rgba(255, 204, 0, 1);
+}
+.blue {
+  //background: #0077cc;
+  background: rgba(0, 119, 204, 0.4);
+}
+.red {
+  //background: #ff4444;
+  background: rgba(255, 68, 68, 0.4);
+}
+
+.line.vertical {
+  height: 44px;
+  width: 1px;
+  left: 11px;
+}
+.match:nth-child(even) .line.vertical {
+  transform: translate(0, -100%);
+}
+.column:first-child .match-lines.alt {
+  display: none;
+}
+
+.match-container {
+  display: flex;
+  flex-direction: row;
+  min-width: 270px;
+  max-width: 270px;
+}
+.number {
+  writing-mode: vertical-lr;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+i {
+  font-size: 20px;
+  top: 10px;
+}
+.form-control,
+.form-select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #494248;
+}
+.text-S {
+  font-size: 16px;
+  padding-left: 4px;
+}
+.form-select {
+  position: absolute;
+  z-index: 9999;
+  margin-right: 4px;
+  height: 32px;
+  width: 220px;
+  padding: 0;
+
+  left: 40px;
+  top: -16px;
+}
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+//FIltros
+
+.filtros {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  width: 0;
+}
+
+.selected {
+  background-color: #6d88a1; /* Cambiar al color deseado */
+}
+.text-sss {
+  font-size: 12px;
+}

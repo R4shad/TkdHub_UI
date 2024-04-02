@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { OrganizerLoginComponent } from './components/organizer-login/organizer-login.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ChampionshipViewComponent } from './pages/championship-view/championship-view.component';
@@ -25,6 +25,7 @@ import { TwelveParticipantsBracketComponent } from './components/twelve-particip
 import { ElevenParticipantsBracketComponent } from './components/eleven-participants-bracket/eleven-participants-bracket.component';
 import { TenParticipantsBracketComponent } from './components/ten-participants-bracket/ten-participants-bracket.component';
 import { ThreeParticipantsBracketComponent } from './components/three-participants-bracket/three-participants-bracket.component';
+import { BracketDownloadComponent } from './pages/bracket-download/bracket-download.component';
 @NgModule({
   declarations: [
     OrganizerLoginComponent,
@@ -51,8 +52,9 @@ import { ThreeParticipantsBracketComponent } from './components/three-participan
     TenParticipantsBracketComponent,
 
     ThreeParticipantsBracketComponent,
+    BracketDownloadComponent,
   ],
   imports: [CommonModule, FormsModule],
-  providers: [AuthService],
+  providers: [AuthService, DatePipe],
 })
 export class UsersModule {}
