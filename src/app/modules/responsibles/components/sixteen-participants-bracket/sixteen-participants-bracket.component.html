@@ -155,18 +155,18 @@
             </div>
             <div class="match-competitors" *ngIf="(eights5$ | async) as eights5">
               <div class="competitor blue">
-                <span class="clubCode">{{ (eights5$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
-                <span class="name">{{ (eights5$ | async)?.blueCompetitor?.participant?.fullName }}</span>
-                <span class="score" *ngIf="showScore(eights5)">{{(eights5$ | async)?.blueRounds}}</span>
+                <span class="clubCode">{{ eights5.blueCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ eights5.blueCompetitor.participant.fullName }}</span>
+                <span class="score" *ngIf="showScore(eights5)">{{eights5.blueRounds}}</span>
                 <div class="icons">
                   <i *ngIf="matchToDefine(eights5)" (click)="openModal(eights5)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>
                 </div>
               </div>
               <div class="competitor red">
-                <span class="clubCode">{{ (eights5$ | async)?.redCompetitor?.participant?.clubCode }}</span>
-                <span class="name">{{ (eights5$ | async)?.redCompetitor?.participant?.fullName }}</span>
-                <span class="score" *ngIf="showScore(eights5)">{{(eights5$ | async)?.redRounds}}</span>
+                <span class="clubCode">{{ eights5.redCompetitor.participant.clubCode }}</span>
+                <span class="name">{{ eights5.redCompetitor.participant.fullName }}</span>
+                <span class="score" *ngIf="showScore(eights5)">{{eights5.redRounds}}</span>
                 <div class="icons">
                   <i *ngIf="matchToDefine(eights5)" (click)="openModal(eights5)" class="fa fa-plus px-2"
                     aria-hidden="true"></i>

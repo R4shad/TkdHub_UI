@@ -127,12 +127,12 @@
               </span>
             </div>
             <div class="match-competitors" *ngIf="(semiFinal1$ | async) as semiFinal1">
-              <div class="competitor blue">
+              <div class="competitor blue" [ngClass]="{'won': semiFinal1.blueRounds === 2}">
                 <span class="clubCode">{{ (semiFinal1$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (semiFinal1$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ | async)?.blueRounds}}</span>
               </div>
-              <div class="competitor red">
+              <div class="competitor red" [ngClass]="{'won': semiFinal1.redRounds === 2}">
                 <span class="clubCode">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (semiFinal1$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal1)">{{(semiFinal1$ | async)?.redRounds}}</span>
@@ -154,14 +154,14 @@
               </span>
             </div>
             <div class="match-competitors" *ngIf="(semiFinal2$ | async) as semiFinal2">
-              <div class="competitor blue">
+              <div class="competitor blue" [ngClass]="{'won': semiFinal2.blueRounds === 2}">
                 <span class="clubCode">{{ (semiFinal2$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (semiFinal2$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.blueRounds}}</span>
                 <div class="icons">
                 </div>
               </div>
-              <div class="competitor red">
+              <div class="competitor red" [ngClass]="{'won': semiFinal2.redRounds === 2}">
                 <span class="clubCode">{{ (semiFinal2$ | async)?.redCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (semiFinal2$ | async)?.redCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(semiFinal2)">{{(semiFinal2$ | async)?.redRounds}}</span>

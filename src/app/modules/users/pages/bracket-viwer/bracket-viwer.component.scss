@@ -144,12 +144,16 @@
   background: rgba(255, 204, 0, 1);
 }
 .blue {
-  //background: #0077cc;
   background: rgba(0, 119, 204, 0.4);
+  &.won {
+    background: rgba(0, 119, 204, 0.8);
+  }
 }
 .red {
-  //background: #ff4444;
   background: rgba(255, 68, 68, 0.4);
+  &.won {
+    background: rgba(255, 68, 68, 0.8);
+  }
 }
 
 .line.vertical {

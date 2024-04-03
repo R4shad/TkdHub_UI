@@ -74,40 +74,40 @@
             </span>
           </div>
           <div class="match-competitors" *ngIf="(final$ | async) as final">
-            <div class="competitor blue">
-              <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
-              <span class="name">{{ (final$ | async)?.blueCompetitor?.participant?.fullName }}</span>
-              <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.blueRounds}}</span>
+            <div class="match-competitors" *ngIf="(final$ | async) as final">
+              <div class="competitor blue" [ngClass]="{'won': final.blueRounds === 2}">
+                <span class="name">{{ (final$ | async)?.blueCompetitor?.participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.blueRounds}}</span>
 
-            </div>
-            <div class="competitor red">
-              <span class="clubCode">{{ (final$ | async)?.redCompetitor?.participant?.clubCode }}</span>
-              <span class="name">{{ (final$ | async)?.redCompetitor?.participant?.fullName }}</span>
-              <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.redRounds}}</span>
+              </div>
+              <div class="competitor red">
+                <span class="clubCode">{{ (final$ | async)?.redCompetitor?.participant?.clubCode }}</span>
+                <span class="name">{{ (final$ | async)?.redCompetitor?.participant?.fullName }}</span>
+                <span class="score" *ngIf="showScore(final)">{{(final$ | async)?.redRounds}}</span>
 
+              </div>
             </div>
           </div>
-        </div>
-        <div class="match-lines">
-          <div class="line horizontal"></div>
-          <div class="line vertical"></div>
-        </div>
-        <div class="match-lines alt">
-          <div class="line horizontal"></div>
+          <div class="match-lines">
+            <div class="line horizontal"></div>
+            <div class="line vertical"></div>
+          </div>
+          <div class="match-lines alt">
+            <div class="line horizontal"></div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="column four">
-      <div class="match">
-        <div class="competitor winner">
-          <span class="clubCode">{{(winner$ | async)?.blueCompetitor?.participant?.clubCode}}</span>
-          <span class="name">{{(winner$ | async)?.blueCompetitor?.participant?.fullName}}</span>
-        </div>
-        <div class="match-lines alt">
-          <div class="line horizontal"></div>
+      <div class="column four">
+        <div class="match">
+          <div class="competitor winner">
+            <span class="clubCode">{{(winner$ | async)?.blueCompetitor?.participant?.clubCode}}</span>
+            <span class="name">{{(winner$ | async)?.blueCompetitor?.participant?.fullName}}</span>
+          </div>
+          <div class="match-lines alt">
+            <div class="line horizontal"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
