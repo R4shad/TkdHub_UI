@@ -1,0 +1,125 @@
+<div *ngIf="championship">
+  <div *ngIf="championship.stage==='ResponsiblesRegistration'">
+    <div class="col-12">
+      <div class="participants mt-4 mb-2">
+        <p class="cant">Cantidad de Responsables: {{ responsibles.length }}</p>
+        <div>
+          <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="returnToSummary()">Volver</button>
+          <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="addResponsible()">Agregar
+            Responsable</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-12">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr class="bg text-white">
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let responsible of responsibles" class="text-S">
+              <td>
+                <div *ngIf="responsible.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="responsible.name">
+                </div>
+                <div *ngIf="!responsible.isEdit">
+                  {{ responsible.name }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="responsible.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="responsible.email">
+                </div>
+                <div *ngIf="!responsible.isEdit">
+                  {{ responsible.email }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div *ngIf="!responsible.isEdit">
+                  <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(responsible)"></i>
+                  <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(responsible)"></i>
+                </div>
+                <div *ngIf="responsible.isEdit">
+                  <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(responsible)"></i>
+                  <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(responsible)"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary" (click)="openModal(modalContent)">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="championship.stage!='ResponsiblesRegistration'">
+    <div class="col-12">
+      <div class="participants mt-4 mb-2">
+        <p class="cant">Cantidad de Responsables: {{ responsibles.length }}</p>
+        <div>
+          <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="returnToSummary()">Volver</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-12">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr class="bg text-white">
+              <th>Nombre</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let responsible of responsibles" class="text-S">
+              <td>
+                <div *ngIf="responsible.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="responsible.name">
+                </div>
+                <div *ngIf="!responsible.isEdit">
+                  {{ responsible.name }}
+                </div>
+              </td>
+              <td>
+                <div *ngIf="responsible.isEdit">
+                  <input class="form-control text-S" type="text" [(ngModel)]="responsible.email">
+                </div>
+                <div *ngIf="!responsible.isEdit">
+                  {{ responsible.email }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-center">
+      </div>
+    </div>
+  </div>
+
+  <ng-template #modalContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">ALERTA</h4>
+    </div>
+    <div class="modal-body">
+      <div class='form-input-container'>
+        <div class='description'>
+          <label>Verifique que los datos esten correctos.</label>
+          <label>No se podra modificar una vez que se confirme.</label>
+        </div>
+        <div class="botones">
+          <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
+          <button class="btn btn-primary" (click)="confirm()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

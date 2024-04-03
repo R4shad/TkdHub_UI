@@ -131,7 +131,14 @@
             <td *ngIf="stage===7">Pendiente</td>
             <td *ngIf="stage>7">Realizado</td>
             <td>
-              <i class="fa fa-user-plus" *ngIf="stage === 7"></i>
+              <div *ngIf="stage === 7 ">
+                <i class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToResponsibleRegistration()"></i>
+                Definir
+              </div>
+              <div *ngIf="stage >7 ">
+                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToResponsibleRegistration()"></i>
+                Ver
+              </div>
             </td>
           </tr>
           <tr class=" text-S">

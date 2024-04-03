@@ -84,6 +84,13 @@ import {
   responseMatchesWithCompetitorsI,
 } from 'src/app/shared/models/match';
 import { ChampionshipStage } from 'src/app/shared/models/enums';
+import {
+  responseResponsibleI,
+  responseResponsiblesI,
+  responsibleEditI,
+  responsibleI,
+  responsiblePI,
+} from 'src/app/shared/models/responsible';
 
 @Injectable({
   providedIn: 'root',
@@ -176,6 +183,14 @@ export class ApiService {
   ): Observable<responseClubI> {
     let direccion = this.APIurl + 'club/' + championshipId;
     return this.http.post<responseClubI>(direccion, nuevoClub);
+  }
+
+  postResponsible(
+    championshipId: number,
+    newResponsible: responsiblePI
+  ): Observable<responseResponsibleI> {
+    let direccion = this.APIurl + 'responsible/' + championshipId;
+    return this.http.post<responseResponsibleI>(direccion, newResponsible);
   }
   /*
   getAges(): Observable<agesI[]> {
@@ -298,6 +313,14 @@ export class ApiService {
     return this.http.delete<responseClubI>(direccion);
   }
 
+  deleteResponsible(
+    championshipId: number,
+    id: string
+  ): Observable<responseResponsibleI> {
+    let direccion = this.APIurl + 'responsible/' + championshipId + '/' + id;
+    return this.http.delete<responseResponsibleI>(direccion);
+  }
+
   deleteAgeInterval(ageIntervalId: number): Observable<responseAgeI> {
     let direccion = this.APIurl + 'ageInterval/' + ageIntervalId;
     return this.http.delete<responseAgeI>(direccion);
@@ -378,6 +401,15 @@ export class ApiService {
   ): Observable<responseClubI> {
     let direccion = this.APIurl + 'club/' + championshipId + '/' + clubCode;
     return this.http.patch<responseClubI>(direccion, club);
+  }
+
+  editResponsible(
+    championshipId: number,
+    id: string,
+    responsible: responsibleEditI
+  ): Observable<responseResponsibleI> {
+    let direccion = this.APIurl + 'responsible/' + championshipId + '/' + id;
+    return this.http.patch<responseResponsibleI>(direccion, responsible);
   }
 
   postCompetitor(
@@ -508,6 +540,15 @@ export class ApiService {
     let direccion = this.APIurl + 'club/' + ChampionshipId;
     return this.http.get<responseClubsI>(direccion).pipe(
       map((response: responseClubsI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getResponsibles(ChampionshipId: number): Observable<responsibleI[]> {
+    let direccion = this.APIurl + 'responsible/' + ChampionshipId;
+    return this.http.get<responseResponsiblesI>(direccion).pipe(
+      map((response: responseResponsiblesI) => {
         return response.data;
       })
     );

@@ -28,6 +28,7 @@ import { TenParticipantsBracketComponent } from './components/ten-participants-b
 import { ChampionshipCreatorComponent } from './pages/championship-creator/championship-creator.component';
 import { ThreeParticipantsBracketComponent } from './components/three-participants-bracket/three-participants-bracket.component';
 import { ConfigureDivCatComponent } from './components/configure-div-cat/configure-div-cat.component';
+import { ResponsibleRegistrationComponent } from './pages/responsible-registration/responsible-registration.component';
 @NgModule({
   declarations: [
     TrainerRegistrationComponent,
@@ -56,6 +57,7 @@ import { ConfigureDivCatComponent } from './components/configure-div-cat/configu
     ChampionshipCreatorComponent,
     ThreeParticipantsBracketComponent,
     ConfigureDivCatComponent,
+    ResponsibleRegistrationComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })

@@ -107,4 +107,9 @@ export class ChampionshipSummaryComponent implements OnInit {
     const currentRoute = this.getCurrentRoute();
     this.router.navigate([currentRoute, 'BracketDraw']);
   }
+
+  goToResponsibleRegistration() {
+    const currentRoute = this.getCurrentRoute();
+    this.router.navigate([currentRoute, 'ResponsibleRegistration']);
+  }
 }
