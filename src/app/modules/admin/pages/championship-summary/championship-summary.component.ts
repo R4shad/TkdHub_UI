@@ -27,6 +27,7 @@ export class ChampionshipSummaryComponent implements OnInit {
 
     this.api.getChampionshipStage(this.championshipId).subscribe((data) => {
       this.stage = this.obtainNumericStage(data);
+      console.log(this.stage);
       this.update(this.stage);
     });
   }
@@ -111,5 +112,16 @@ export class ChampionshipSummaryComponent implements OnInit {
   goToResponsibleRegistration() {
     const currentRoute = this.getCurrentRoute();
     this.router.navigate([currentRoute, 'ResponsibleRegistration']);
+  }
+
+  goToBracketResults() {
+    const currentRoute = this.getCurrentRoute();
+    const parts = currentRoute.split('/');
+    parts[2] = 'Responsible';
+    parts[3] = 'BracketResults';
+
+    const newRoute = parts.join('/');
+
+    this.router.navigate([newRoute]);
   }
 }
