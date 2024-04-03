@@ -1,5 +1,14 @@
 <header class='header-container'>
-  <p class="text-logo">TkdHub</p>
-  <p class="nombre-campeonato">{{nombreCampeonato}}</p>
+  <div class="center">
+    <i class="fa fa-chevron-left" aria-hidden="true" (click)="goBack()"></i>
+  </div>
+  <div class="center logo">
+    <p class="text-logo">TkdHub</p>
+  </div>
+  <ng-container *ngIf="championship.championshipId!=0">
+    <div class="center ">
+      <p class="nombre-campeonato">{{championship.championshipName}}</p>
+    </div>
+  </ng-container>
   <button *ngIf="token" class="btn btn-outline-success" (click)="logOut()">Logout</button>
 </header>

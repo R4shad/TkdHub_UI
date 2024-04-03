@@ -28,10 +28,6 @@ export class ChampionshipConfigurationComponent implements OnInit {
         this.championship = data;
       });
   }
-  returnToSummary() {
-    const championshipId = this.championship.championshipId;
-    this.router.navigate(['/championship', championshipId, 'Organizer']);
-  }
 
   resetInitialData() {
     console.log('reiniciando');

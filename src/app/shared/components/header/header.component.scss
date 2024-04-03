@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
+  height: 50px;
 }
 .nombre-campeonato {
   color: white;
@@ -14,4 +15,21 @@ p {
 .text-logo {
   color: white;
   font-weight: bold;
+}
+
+.btn {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+i {
+  color: white;
+  padding-left: 8px;
+}
+.center {
+  display: flex;
+  align-items: center;
+  width: 300px;
+}
+.logo {
+  justify-content: center;
 }

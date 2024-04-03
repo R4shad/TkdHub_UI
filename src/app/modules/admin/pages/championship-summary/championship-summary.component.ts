@@ -5,6 +5,7 @@ import { participantI } from 'src/app/shared/models/participant';
 import { FormControl } from '@angular/forms';
 import { clubI } from 'src/app/shared/models/Club';
 import { ChampionshipStage } from 'src/app/shared/models/enums';
+import { ChampionshipI } from 'src/app/shared/models/Championship';
 
 @Component({
   selector: 'app-championship-summary',
@@ -13,6 +14,7 @@ import { ChampionshipStage } from 'src/app/shared/models/enums';
 })
 export class ChampionshipSummaryComponent implements OnInit {
   championshipId: number = 0;
+  championship!: ChampionshipI;
   stage: number = 0;
   constructor(
     private api: ApiService,
@@ -23,6 +25,9 @@ export class ChampionshipSummaryComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
+      this.api.getChampionshipInfo(this.championshipId).subscribe((data) => {
+        this.championship = data;
+      });
     });
 
     this.api.getChampionshipStage(this.championshipId).subscribe((data) => {
