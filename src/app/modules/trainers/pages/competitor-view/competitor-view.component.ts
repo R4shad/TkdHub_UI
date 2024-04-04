@@ -49,6 +49,9 @@ export class CompetitorViewComponent implements OnInit {
   divisions: divisionI[] = [];
 
   validGrades: string[] = [];
+
+  orderBy: string = '';
+  orderDirection: 'asc' | 'desc' | 'normal' = 'normal';
   constructor(
     private api: ApiService,
     private router: Router,
@@ -138,17 +141,6 @@ export class CompetitorViewComponent implements OnInit {
       .join('/');
     // Navega a la ruta actual con '/TraineeRegistration' agregado
     this.router.navigate([currentRoute, 'ParticipantRegistration']);
-  }
-
-  filter() {
-    const genderFilter = this.filtroSexo.value;
-    if (genderFilter === 'todos') {
-      this.participantsFilter = this.participants;
-    } else {
-      this.participantsFilter = this.participants.filter(
-        (participant) => participant.gender === genderFilter
-      );
-    }
   }
 
   onEdit(participant: ParticipantEI) {
@@ -278,5 +270,58 @@ export class CompetitorViewComponent implements OnInit {
       gradoParticipante
     );
     participant.category = categoryName;
+  }
+
+  toggleOrder(column: string) {
+    if (column === 'verified') {
+      if (this.orderBy === column) {
+        if (this.orderDirection === 'normal') {
+          this.orderDirection = 'desc';
+        } else if (this.orderDirection === 'desc') {
+          this.orderDirection = 'asc';
+        } else {
+          this.orderDirection = 'normal';
+        }
+      } else {
+        this.orderBy = column;
+        this.orderDirection = 'desc';
+      }
+      this.filter();
+    } else {
+      this.orderBy = column;
+      if (this.orderDirection === 'normal') {
+        this.orderDirection = 'asc';
+      } else if (this.orderDirection === 'asc') {
+        this.orderDirection = 'desc';
+      } else {
+        this.orderDirection = 'normal';
+      }
+      this.filter();
+    }
+  }
+
+  filter() {
+    if (this.orderBy) {
+      this.participantsFilter.sort((a, b) => {
+        let valueA: string | number | boolean | null =
+          a[this.orderBy as keyof ParticipantEI];
+        let valueB: string | number | boolean | null =
+          b[this.orderBy as keyof ParticipantEI];
+
+        if (!(this.orderBy in a) || !(this.orderBy in b)) {
+          return 0;
+        }
+
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          return this.orderDirection === 'asc'
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        } else {
+          return this.orderDirection === 'asc'
+            ? Number(valueA) - Number(valueB)
+            : Number(valueB) - Number(valueA);
+        }
+      });
+    }
   }
 }

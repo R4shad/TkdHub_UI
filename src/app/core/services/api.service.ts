@@ -292,6 +292,11 @@ export class ApiService {
     return this.http.delete<responseCompetitorI>(direccion);
   }
 
+  deleteCompetitorPid(participantId: string): Observable<responseCompetitorI> {
+    let direccion = this.APIurl + 'competitor/pId/' + participantId;
+    return this.http.delete<responseCompetitorI>(direccion);
+  }
+
   deleteBracket(bracket: number): Observable<responseBracketI> {
     let direccion = this.APIurl + 'bracket/' + bracket;
     return this.http.delete<responseBracketI>(direccion);
@@ -445,6 +450,28 @@ export class ApiService {
     });
   }
 
+  deleteCompetitorAndDecrementCategoryAndDivision(
+    participantId: string,
+    divisionId: number,
+    categoryId: number,
+    championshipId: number
+  ): Observable<number> {
+    return new Observable<number>((observer) => {
+      this.deleteCompetitorPid(participantId).subscribe(
+        (response: responseCompetitorI) => {
+          if (response.status === 201) {
+            this.decrementCategory(championshipId, categoryId);
+            this.decrementDivision(championshipId, divisionId);
+            observer.complete();
+          } else {
+            observer.next(404);
+            observer.complete();
+          }
+        }
+      );
+    });
+  }
+
   incrementCategoryAndDivision(
     championshipId: number,
     divisionId: number,
@@ -561,6 +588,23 @@ export class ApiService {
     let direccion =
       this.APIurl +
       'participant/validate/' +
+      ChampionshipId +
+      '/' +
+      participantId;
+    return this.http.patch<responseI>(direccion, {}).pipe(
+      map((response: responseI) => {
+        return response;
+      })
+    );
+  }
+
+  discardParticipantValidation(
+    ChampionshipId: number,
+    participantId: string
+  ): Observable<responseI> {
+    let direccion =
+      this.APIurl +
+      'participant/discard/' +
       ChampionshipId +
       '/' +
       participantId;

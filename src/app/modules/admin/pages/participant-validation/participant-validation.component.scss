@@ -11,6 +11,7 @@
 i {
   color: #8fadcc;
   font-size: 24px;
+  cursor: pointer;
 }
 .container-fluid {
   padding: 0;
@@ -116,4 +117,32 @@ i {
 }
 .text-sss {
   font-size: 12px;
+}
+.club {
+  width: 100px;
+}
+.age {
+  width: 100px;
+}
+.weight {
+  width: 100px;
+}
+.grade {
+  width: 150px;
+}
+.gender {
+  width: 150px;
+}
+.buttons {
+  width: 150px;
+}
+.names {
+  width: 250px;
+}
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+thead {
+  cursor: pointer;
 }

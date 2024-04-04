@@ -6,7 +6,6 @@ import { ChampionshipConfigurationComponent } from './modules/admin/pages/champi
 import { GroupingCompetitorsComponent } from './modules/admin/pages/grouping-competitors/grouping-competitors.component';
 import { BracketDrawComponent } from './modules/admin/pages/bracket-draw/bracket-draw.component';
 import { CompetitorViewComponent } from './modules/trainers/pages/competitor-view/competitor-view.component';
-import { CompetitorRegistrationComponent } from './modules/trainers/pages/competitor-registration/competitor-registration.component';
 
 import { MainPageComponent } from './modules/users/pages/main-page/main-page.component';
 import { ChampionshipViewComponent } from './modules/users/pages/championship-view/championship-view.component';
@@ -35,10 +34,6 @@ const routes: Routes = [
   {
     path: 'Vista-Competidores',
     component: CompetitorViewComponent,
-  },
-  {
-    path: 'Registro-Competidores',
-    component: CompetitorRegistrationComponent,
   },
   {
     path: '',
@@ -87,10 +82,6 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Coach/:clubCode',
     component: CompetitorViewComponent,
-  },
-  {
-    path: 'championship/:championshipId/Coach/:clubCode/ParticipantRegistration',
-    component: CompetitorRegistrationComponent,
   },
   {
     path: 'championship/:championshipId/Responsible/BracketResults',

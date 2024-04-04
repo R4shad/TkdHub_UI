@@ -32,9 +32,13 @@ i {
   padding-left: 12px;
   padding-right: 12px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 .cant {
   margin-bottom: 0px;
+}
+i {
+  color: black;
+  cursor: pointer;
 }

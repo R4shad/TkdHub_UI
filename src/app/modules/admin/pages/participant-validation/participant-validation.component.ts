@@ -275,6 +275,42 @@ export class ParticipantValidationComponent implements OnInit {
       });
   }
 
+  discardParticipant(participant: participantToValidateEI) {
+    const gradoParticipante = obtenerValorNumerico(participant.grade);
+    const competitorCategoryId: number = getCompetitoryCategoryId(
+      this.categoriesWithNumericValue,
+      gradoParticipante
+    );
+    const ageIntervalId: number = getCompetitorAgeIntervalId(
+      this.ageIntervals,
+      participant.age
+    );
+    const competitorDivisionId: number = getCompetitorDivisionId(
+      this.divisions,
+      ageIntervalId,
+      participant.weight,
+      participant.gender
+    );
+
+    this.api
+      .discardParticipantValidation(this.championshipId, participant.id)
+      .subscribe((data) => {
+        participant.verified = false;
+      });
+
+    this.api
+      .deleteCompetitorAndDecrementCategoryAndDivision(
+        participant.id,
+        competitorCategoryId,
+        competitorDivisionId,
+        this.championshipId
+      )
+      .subscribe((response: number) => {
+        if (response == 201) {
+        }
+      });
+  }
+
   verificateAll() {
     this.participants.forEach((participant) => {
       this.verificateParticipant(participant);
