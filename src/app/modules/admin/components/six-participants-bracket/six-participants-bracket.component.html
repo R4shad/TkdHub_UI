@@ -1,7 +1,3 @@
-<div class="buttons">
-  <button class="mx-1 btn btn-outline-primary btn-block text-L" *ngIf="matchesWithCompetitors.length===0"
-    (click)="createMatches()">Crear Llave</button>
-</div>
 <div>
   <div class="bracket-container">
     <div class="bracket">
@@ -380,8 +376,8 @@
       <div class="column final">
         <div class="match ">
           <div class="match-container">
-            <div class="match-number">{{final.matchNumber}}
-              <span class="number">
+            <div class="match-number">
+              <span class="number">{{final.matchNumber}}
               </span>
             </div>
             <div class="match-competitors">

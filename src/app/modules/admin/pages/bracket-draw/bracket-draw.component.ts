@@ -68,8 +68,7 @@ export class BracketDrawComponent implements OnInit {
       .getBracketsWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
-        console.log(this.brackets);
-        this.bracketsFiltered = this.brackets;
+
         this.api
           .getMatches(this.championshipId, this.brackets[0].bracketId)
           .subscribe((data) => {
@@ -79,6 +78,9 @@ export class BracketDrawComponent implements OnInit {
               });
             }
           });
+
+        console.log(this.brackets);
+        this.bracketsFiltered = this.brackets;
       });
 
     this.api

@@ -1,7 +1,3 @@
-<div class="buttons">
-  <button class="mx-1 btn btn-outline-primary btn-block text-L" *ngIf="matchesWithCompetitors.length===0"
-    (click)="createMatches()">Crear Llave</button>
-</div>
 <div class="bracket-container">
   <div class="bracket">
     <div class="column col-six eighths">
@@ -135,7 +131,6 @@
               <div class="competitor red">
                 <span class="clubCode"></span>
                 <span class="name">Bye</span>
-
               </div>
             </div>
           </div>
@@ -556,7 +551,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">{{semiFinal1.matchNumber}}
+                <span class="number">{{quarters1.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors">
@@ -586,7 +581,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">{{semiFinal2.matchNumber}}
+                <span class="number">{{quarters1.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors">
@@ -616,7 +611,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">{{final.matchNumber}}
+                <span class="number">{{quarters3.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors">
@@ -646,7 +641,7 @@
           <div class="match ">
             <div class="match-container">
               <div class="match-number">
-                <span class="number">12
+                <span class="number">{{quarters4.matchNumber}}
                 </span>
               </div>
               <div class="match-competitors">
@@ -680,7 +675,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">
+              <span class="number">{{semiFinal1.matchNumber}}
               </span>
             </div>
             <div class="match-competitors">
@@ -708,7 +703,7 @@
         <div class="match ">
           <div class="match-container">
             <div class="match-number">
-              <span class="number">
+              <span class="number">{{semiFinal2.matchNumber}}
               </span>
             </div>
             <div class="match-competitors">
@@ -739,7 +734,7 @@
       <div class="match ">
         <div class="match-container">
           <div class="match-number">
-            <span class="number">
+            <span class="number">{{final.matchNumber}}
             </span>
           </div>
           <div class="match-competitors">
