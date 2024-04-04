@@ -25,12 +25,13 @@ export class TwoParticipantsBracketComponent implements OnInit {
   editingBracket: string = '';
   selectedCompetitorId: string | null = null;
   ngOnInit(): void {
-    this.getMatches();
     this.api
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         if (data.length === 0) {
           this.createMatches();
+        } else {
+          this.getMatches();
         }
       });
   }

@@ -796,6 +796,11 @@ export class ApiService {
     return this.http.patch<responseMatchI>(direccion, matchEdited);
   }
 
+  enumerateMatch(championshipId: number): Observable<responseI> {
+    let direccion = this.APIurl + 'match/enumerateMatches/' + championshipId;
+    return this.http.patch<responseI>(direccion, {});
+  }
+
   createChampionship(
     newChampionship: ChampionshipToPostI
   ): Observable<responseChampionshipI> {

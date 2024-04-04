@@ -2,9 +2,7 @@
   <div *ngIf="championship.stage==='BracketDraw'">
     <div>
       <div class="mt-4 mb-4">
-        <div class="buttons">
-          <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
-        </div>
+
         <div *ngIf="brackets.length > 0">
           <div>
             <h1 class="text-center">
@@ -162,7 +160,6 @@
   <div *ngIf="championship.stage!='BracketDraw'">
     <div>
       <div class="mt-4 mb-4">
-        <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
         <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="generatePDF()">Descargar PDF</button>
         <hr>
         <div *ngIf="brackets.length > 0">
@@ -334,7 +331,3 @@
     </div>
   </div>
 </ng-template>
-
-<div id="pdfDescription" *ngIf="championship">
-  <h4>{{championship.championshipName}} {{championship.championshipDate}}</h4>
-</div>

@@ -61,7 +61,6 @@ export class BracketDrawComponent implements OnInit {
       this.championshipId = Number(params.get('championshipId'));
       this.api.getChampionshipInfo(this.championshipId).subscribe((data) => {
         this.championship = data;
-        console.log(this.championship);
       });
     });
 
@@ -69,9 +68,17 @@ export class BracketDrawComponent implements OnInit {
       .getBracketsWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
-        this.bracketsFiltered = this.brackets;
-        console.log(this.bracketsFiltered);
         console.log(this.brackets);
+        this.bracketsFiltered = this.brackets;
+        this.api
+          .getMatches(this.championshipId, this.brackets[0].bracketId)
+          .subscribe((data) => {
+            if (!data[0].matchNumber) {
+              this.api.enumerateMatch(this.championshipId).subscribe((data) => {
+                this.getData();
+              });
+            }
+          });
       });
 
     this.api
@@ -144,11 +151,6 @@ export class BracketDrawComponent implements OnInit {
     }
     return null;
   }
-
-  returnToSummary() {
-    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
-  }
-
   getBracketDivision(bracket: bracketI) {
     const matchingDivision = this.divisions.find(
       (div) => div.divisionId === bracket.divisionId
@@ -212,22 +214,18 @@ export class BracketDrawComponent implements OnInit {
         const gender = this.selectedGender;
         return gender === division.gender;
       });
-      console.log(this.divisionsFilter);
     }
     if (this.selectedAgeInterval != 'Todos') {
       const ageIntervalSelected = this.ageIntervals.find((age) => {
         const [minAge, maxAge] = this.selectedAgeInterval.split('-');
         return age.minAge === Number(minAge) && age.maxAge === Number(maxAge);
       });
-      console.log(ageIntervalSelected);
-      console.log(this.divisionsFilter);
       if (ageIntervalSelected) {
         this.divisionsFilter = this.divisionsFilter.filter((division) => {
           const ageIntervalId = division.ageIntervalId;
           return ageIntervalId === ageIntervalSelected.ageIntervalId;
         });
       }
-      console.log(this.divisionsFilter);
     }
   }
 
@@ -291,30 +289,8 @@ export class BracketDrawComponent implements OnInit {
           }
         });
     } else {
-      console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
     }
   }
-  /*
-  generatePDF(): void {
-    const data: any = document.getElementById('bracket1');
-    const options = {
-      background: 'white',
-      scale: 1,
-    };
-
-    html2canvas(data, options).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      //210
-      //const imgWidth = 300;
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      console.log(canvas.height);
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      //-50,15
-      pdf.addImage(imgData, 'PNG', 0, 15, imgWidth, imgHeight);
-      pdf.save(`${this.championship.championshipName}.pdf`);
-    });
-  }*/
 
   generatePDF(): void {
     const url = `/championship/${this.championshipId}/Organizer/BracketDraw/DownloadBracket`;

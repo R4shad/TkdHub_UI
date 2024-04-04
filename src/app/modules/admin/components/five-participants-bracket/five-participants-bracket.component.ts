@@ -34,12 +34,13 @@ export class FiveParticipantsBracketComponent implements OnInit {
 
   loading: boolean = false;
   ngOnInit(): void {
-    this.getMatches();
     this.api
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         if (data.length === 0) {
           this.createMatches();
+        } else {
+          this.getMatches();
         }
       });
   }
@@ -154,6 +155,7 @@ export class FiveParticipantsBracketComponent implements OnInit {
       round: 'winner',
     };
     this.postMatch(winner);
+    this.getMatches();
   }
 
   postMatch(match: matchToCreateI | matchEmptyToCreateI) {

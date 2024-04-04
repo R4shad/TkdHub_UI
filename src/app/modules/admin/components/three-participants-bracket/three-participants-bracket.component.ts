@@ -27,12 +27,13 @@ export class ThreeParticipantsBracketComponent implements OnInit {
   editingBracket: string = '';
   selectedCompetitorId: string | null = null;
   ngOnInit(): void {
-    this.getMatches();
     this.api
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         if (data.length === 0) {
           this.createMatches();
+        } else {
+          this.getMatches();
         }
       });
   }
@@ -77,9 +78,6 @@ export class ThreeParticipantsBracketComponent implements OnInit {
             (match) => match.round === 'final'
           )!;
       });
-    console.log('ASDASD');
-    console.log(this.semiFinal1);
-    console.log(this.semiFinal2);
   }
 
   createMatches() {
@@ -117,6 +115,7 @@ export class ThreeParticipantsBracketComponent implements OnInit {
       round: 'winner',
     };
     this.postMatch(winner);
+    this.getMatches();
   }
 
   postMatch(match: matchToCreateI | matchEmptyToCreateI) {
@@ -164,9 +163,7 @@ export class ThreeParticipantsBracketComponent implements OnInit {
     const currentMatch1 = this.matchesWithCompetitors.find(
       (match) => match.matchId === match1Id
     );
-    console.log(currentMatch1);
     if (currentMatch1?.blueCompetitorId === currentMatch1?.redCompetitorId) {
-      console.log('ENTRE BIEN MATCH1');
       const editedMatch1 = {
         blueCompetitorId: competitor2Id,
         redCompetitorId: competitor2Id,
@@ -195,7 +192,6 @@ export class ThreeParticipantsBracketComponent implements OnInit {
       (match) => match.matchId === match2Id
     );
     if (currentMatch2?.blueCompetitorId === currentMatch2?.redCompetitorId) {
-      console.log('ENTRE BIEN MATCH2');
       const editedMatch2 = {
         blueCompetitorId: competitor1Id,
         redCompetitorId: competitor1Id,

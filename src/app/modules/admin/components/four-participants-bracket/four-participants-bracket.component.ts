@@ -28,7 +28,15 @@ export class FourParticipantsBracketComponent implements OnInit {
   editingBracket: string = '';
   selectedCompetitorId: string | null = null;
   ngOnInit(): void {
-    this.getMatches();
+    this.api
+      .getMatches(this.bracket.championshipId, this.bracket.bracketId)
+      .subscribe((data) => {
+        if (data.length === 0) {
+          this.createMatches();
+        } else {
+          this.getMatches();
+        }
+      });
   }
 
   constructor(private api: ApiService) {}
@@ -38,6 +46,8 @@ export class FourParticipantsBracketComponent implements OnInit {
       .getMatches(this.bracket.championshipId, this.bracket.bracketId)
       .subscribe((data) => {
         this.matchesWithCompetitors = data;
+        console.log('MATCHES');
+        console.log(this.matchesWithCompetitors);
         for (const match of this.matchesWithCompetitors) {
           if (match.redCompetitorId === null) {
             match.redCompetitor = emptyParticipant;
@@ -69,6 +79,9 @@ export class FourParticipantsBracketComponent implements OnInit {
         this.final = this.matchesWithCompetitors.find(
           (match) => match.round === 'final'
         )!;
+        console.log('ASDASD');
+        console.log(this.semiFinal1);
+        console.log(this.semiFinal2);
       });
   }
 
@@ -108,6 +121,7 @@ export class FourParticipantsBracketComponent implements OnInit {
       round: 'winner',
     };
     this.postMatch(winner);
+    this.getMatches();
   }
 
   postMatch(match: matchToCreateI | matchEmptyToCreateI) {
