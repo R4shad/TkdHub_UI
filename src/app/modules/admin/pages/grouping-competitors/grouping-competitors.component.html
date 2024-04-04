@@ -1,7 +1,6 @@
 <div *ngIf="championship">
   <div class="mt-4 mb-4" *ngIf="championship.stage==='Groupings'">
     <div class="buttons">
-      <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
       <button *ngIf="brackets.length===0" class="mx-1 btn btn-outline-primary btn-block text-L"
         (click)="createGroupings()">Crear
         Agrupaciones</button>
@@ -59,7 +58,7 @@
             </button> -->
         </div>
       </div>
-      <p class="cant">Cantidad de Agrupaciones: {{bracketsFiltered.length}}</p>
+      <p class="cant mt-2">Cantidad de Agrupaciones: {{bracketsFiltered.length}}</p>
       <div *ngFor="let bracket of bracketsFiltered">
         <div *ngIf="bracket.competitors.length>0">
           <div class="bracket-description mt-3">
@@ -99,13 +98,13 @@
                 <table class="table table-striped table-bordered">
                   <thead>
                     <tr class="bg text-white">
-                      <th class="col-auto">Apellido y Nombre</th>
-                      <th class="col-auto">Club</th>
-                      <th class="col-auto">Edad</th>
-                      <th class="col-auto">Peso</th>
-                      <th class="col-auto">Grado</th>
-                      <th class="col-auto">Sexo</th>
-                      <th class="col-width">Acciones</th>
+                      <th class="thead">Apellido y Nombre</th>
+                      <th>Club</th>
+                      <th>Edad</th>
+                      <th>Peso</th>
+                      <th>Grado</th>
+                      <th>Sexo</th>
+                      <th class="actions">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -120,7 +119,7 @@
                         {{ competitor.participant.age }}
                       </td>
                       <td>
-                        {{ competitor.participant.weight }}
+                        {{ competitor.participant.weight }} Kg
                       </td>
                       <td>
                         {{ competitor.participant.grade }}
@@ -140,7 +139,7 @@
                               </option>
                             </ng-container>
                           </select>
-                          <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(competitor)"
+                          <i class="fa fa-floppy-o " aria-hidden="true" (click)="confirmEdit(competitor)"
                             *ngIf="bracketEditing.infoToShow!=currentBracket"></i>
                           <i class="fa fa-times-circle" aria-hidden="true"
                             (click)="cancelEdit(competitor.participant)"></i>
@@ -156,14 +155,17 @@
 
       </div>
     </div>
-    <button class="btn btn-primary" (click)="openModal(modalContent)">Finalizar Edicion de Agrupaciones</button>
+    <div class="buttonF">
+      <button class="btn btn-primary" *ngIf="brackets.length>0" (click)="openModal(modalContent)">Finalizar Edicion de
+        Agrupaciones</button>
+    </div>
+
   </div>
 
 
 
   <div class="mt-4 mb-4" *ngIf="championship.stage!='Groupings'">
     <div class="buttons">
-      <button class="mx-1 btn btn-outline-primary btn-block text-L" (click)="returnToSummary()">Volver</button>
 
     </div>
     <div *ngIf="brackets.length>0">
@@ -258,12 +260,12 @@
                   <table class="table table-striped table-bordered">
                     <thead>
                       <tr class="bg text-white">
-                        <th class="col-auto">Apellido y Nombre</th>
-                        <th class="col-auto">Club</th>
-                        <th class="col-auto">Edad</th>
-                        <th class="col-auto">Peso</th>
-                        <th class="col-auto">Grado</th>
-                        <th class="col-auto">Sexo</th>
+                        <th>Apellido y Nombre</th>
+                        <th>Club</th>
+                        <th>Edad</th>
+                        <th>Peso</th>
+                        <th>Grado</th>
+                        <th>Sexo</th>
                       </tr>
                     </thead>
                     <tbody>

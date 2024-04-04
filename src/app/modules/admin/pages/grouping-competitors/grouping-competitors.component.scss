@@ -7,6 +7,11 @@
 }
 .buttons {
   display: flex;
+  justify-content: flex-end;
+}
+.buttonF {
+  display: flex;
+  justify-content: center;
 }
 .bracket-description {
   display: flex;
@@ -172,7 +177,7 @@ i {
   width: 290px;
 }
 .actions-td {
-  max-width: 200px;
+  width: 220px;
 }
 .filter {
   display: flex;

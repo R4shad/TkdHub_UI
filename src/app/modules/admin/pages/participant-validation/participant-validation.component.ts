@@ -407,10 +407,6 @@ export class ParticipantValidationComponent implements OnInit {
     }
   }
 
-  returnToSummary() {
-    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
-  }
-
   isDivisionWithinAgeIntervalC(
     division: divisionI,
     ageIntervalValue: string,

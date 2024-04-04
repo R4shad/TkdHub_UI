@@ -167,8 +167,6 @@ export class GroupingCompetitorsComponent implements OnInit {
             championshipId: this.championshipId,
             competitors: competitorsInDivision,
           };
-          console.log(competitorsInDivision);
-          console.log(bracket);
           this.api
             .postBracket(bracket)
             .subscribe((response: responseBracketWithCompetitorToEditI) => {
@@ -180,10 +178,6 @@ export class GroupingCompetitorsComponent implements OnInit {
         }
       }
     }
-  }
-
-  returnToSummary() {
-    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
   }
 
   onEdit(
