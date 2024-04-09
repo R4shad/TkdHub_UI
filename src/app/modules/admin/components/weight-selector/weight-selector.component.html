@@ -121,13 +121,13 @@
   </div>
   <div *ngIf="!isDefined" class="define-container">
     <div class="define">
-      <p>Debes definir que divisiones de peso utilizaras:</p>
+      <span>Debes definir que divisiones de peso utilizaras:</span>
 
       <div class="image-container">
-        <p>Pesos Mundiales:</p>
+        <span>Pesos Mundiales:</span>
         <img src="./../../../../../assets/Mundiales.PNG" alt="Imagen 1" (click)="selectImage(1)"
           [ngClass]="{ 'selected': selectedImage === 1 }">
-        <p>Pesos Olimpicos:</p>
+        <span>Pesos Olimpicos:</span>
         <img src="./../../../../../assets/Olimpico.PNG" alt="Imagen 2" (click)="selectImage(2)"
           [ngClass]="{ 'selected': selectedImage === 2 }">
       </div>
