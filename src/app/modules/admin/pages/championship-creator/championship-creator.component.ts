@@ -20,6 +20,7 @@ export class ChampionshipCreatorComponent implements OnInit {
           if (response.status === 201) {
             alert('Creado correctamente');
             this.insertInitialData(response.data.championshipId);
+            championshipForm.reset();
           }
         },
         error: (error) => {

@@ -1,8 +1,21 @@
 .formC {
-  background: gray;
+  background: #f4f4f4;
   border-radius: 20px;
   padding-left: 40px;
   padding-right: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+.form-control:focus {
+  border-color: #5d0e41;
+  box-shadow: none;
+  background-color: #ff204e33;
+}
+.btn-primary {
+  width: 242px;
+  height: 39px;
+  background: #ff204e;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
 }
