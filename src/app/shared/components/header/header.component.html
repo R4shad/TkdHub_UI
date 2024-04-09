@@ -22,15 +22,14 @@
     </div>
     <div class="center">
       <ng-container *ngIf="!inLogin()">
-        <div *ngIf="token" class="login-container" (click)="logOut()">
-          <span class="roll"></span>
-          <span class="logOut"></span>
+        <div *ngIf="isOrganizer()" class="login-container" (click)="logOut()">
+          <span class="roll">Organizador</span>
+          <span class="logOut">Cerrar Sesión</span>
         </div>
-        <div *ngIf="!token" class="login-container" (click)="goToLogin()">
+        <div *ngIf="!isOrganizer()" class="login-container" (click)="goToLogin()">
           <span class="roll">INGRESAR</span>
         </div>
       </ng-container>
-
     </div>
   </header>
 </ng-container>

@@ -92,4 +92,17 @@ export class HeaderComponent implements OnInit {
     }
     return false;
   }
+
+  isOrganizer(): boolean {
+    const urlParts = window.location.href.split('/');
+    const championshipIdIndex = urlParts.indexOf('championship');
+    if (
+      championshipIdIndex !== -1 &&
+      urlParts.length > championshipIdIndex + 2 &&
+      urlParts[championshipIdIndex + 2] === 'Organizer'
+    ) {
+      return true;
+    }
+    return false;
+  }
 }

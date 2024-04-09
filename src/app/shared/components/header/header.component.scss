@@ -69,10 +69,20 @@ i {
   border-radius: 8px 8px 8px 8px;
   background-color: #ff8ba3;
   display: flex;
+
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .roll {
   color: white;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+}
+.logOut {
+  color: #e0e0e0;
+  font-weight: 400;
+  font-size: 10px;
   font-family: "Inter", sans-serif;
 }

@@ -1,5 +1,5 @@
 <div *ngIf="championship">
-  <h4 class="text-center pb-4 pt-2">Progreso del Campeonato</h4>
+  <h4 class="text-center pb-4 pt-2 mt-4">Progreso del Campeonato</h4>
 </div>
 <div class='progress-bar-container'>
   <div class="container">
@@ -21,9 +21,9 @@
 <div class="container-fluid d-flex justify-content-center mt-4">
   <div class="row col-10">
     <div class="table-responsive">
-      <table class="table table-striped table-bordered">
+      <table class="table">
         <thead>
-          <tr class="bg text-white">
+          <tr>
             <th>Etapa</th>
             <th>Descripción</th>
             <th>Estado</th>
@@ -37,13 +37,11 @@
             <td *ngIf="stage<=1">Pendiente</td>
             <td *ngIf="stage>1">Realizado</td>
             <td>
-              <div *ngIf="stage<=1">
-                <i class="fa fa-cog" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
-                Configurar
-              </div>
-              <div *ngIf="stage>1">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToChampionshipConfiguration()"></i>
-                Ver
+              <div class="action-button">
+                <i *ngIf="stage === 1" class="fa fa-cog px-2" aria-hidden="true"
+                  (click)="goToChampionshipConfiguration()"></i>
+                <i *ngIf="stage >1" class="fa fa-eye px-2" aria-hidden="true"
+                  (click)="goToChampionshipConfiguration()"></i>
               </div>
             </td>
           </tr>
@@ -53,13 +51,10 @@
             <td *ngIf="stage<=2">Pendiente</td>
             <td *ngIf="stage>2">Realizado</td>
             <td>
-              <div *ngIf="stage===2">
-                <i class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToTraineeRegistration()"></i>
-                Configurar
-              </div>
-              <div *ngIf="stage>2">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToTraineeRegistration()"></i>
-                Ver
+              <div *ngIf="stage >= 2" class="action-button">
+                <i *ngIf="stage === 2" class="fa fa-user-plus px-2" aria-hidden="true"
+                  (click)="goToTraineeRegistration()"></i>
+                <i *ngIf="stage >2" class="fa fa-eye px-2" aria-hidden="true" (click)="goToTraineeRegistration()"></i>
               </div>
             </td>
           </tr>
@@ -69,9 +64,9 @@
             <td *ngIf="stage<=3">Pendiente</td>
             <td *ngIf="stage>3">Realizado</td>
             <td>
-              <div *ngIf="stage >= 3 ">
-                <i class="fa fa-eye px-2" aria-hidden="true"></i>
-                Ver
+              <div *ngIf="stage >= 3" class="action-button">
+                <i *ngIf="stage === 3" class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+                <i *ngIf="stage >3" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
               </div>
             </td>
           </tr>
@@ -81,13 +76,10 @@
             <td *ngIf="stage<=4">Pendiente</td>
             <td *ngIf="stage>4">Realizado</td>
             <td>
-              <div *ngIf="stage === 4 ">
-                <i class="fa fa-check-square-o px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
-                Validar
-              </div>
-              <div *ngIf="stage >4 ">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
-                Ver
+              <div *ngIf="stage >= 4" class="action-button">
+                <i *ngIf="stage === 4" class="fa fa-check-square-o px-2" aria-hidden="true"
+                  (click)="goToParticipantValidation()"></i>
+                <i *ngIf="stage >4" class="fa fa-eye px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
               </div>
             </td>
           </tr>
@@ -97,14 +89,10 @@
             <td *ngIf="stage<=5">Pendiente</td>
             <td *ngIf="stage>5">Realizado</td>
             <td>
-              <div *ngIf="stage === 5 ">
-                <i class="fa fa-pencil px-2" aria-hidden="true" *ngIf="stage === 5"
+              <div *ngIf="stage >= 5" class="action-button">
+                <i *ngIf="stage === 5" class="fa fa-pencil  px-2" aria-hidden="true"
                   (click)="goToCompetitorsGrouping()"></i>
-                Definir
-              </div>
-              <div *ngIf="stage >5 ">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToCompetitorsGrouping()"></i>
-                Ver
+                <i *ngIf="stage >5" class="fa fa-eye px-2" aria-hidden="true" (click)="goToCompetitorsGrouping()"></i>
               </div>
             </td>
           </tr>
@@ -114,13 +102,9 @@
             <td *ngIf="stage<=6">Pendiente</td>
             <td *ngIf="stage>6">Realizado</td>
             <td>
-              <div *ngIf="stage === 6 ">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-                Definir
-              </div>
-              <div *ngIf="stage >6 ">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-                Ver
+              <div *ngIf="stage >= 6" class="action-button">
+                <i *ngIf="stage === 6" class="fa fa-pencil px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+                <i *ngIf="stage >6" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
               </div>
             </td>
           </tr>
@@ -130,13 +114,11 @@
             <td *ngIf="stage<=7">Pendiente</td>
             <td *ngIf="stage>7">Realizado</td>
             <td>
-              <div *ngIf="stage === 7 ">
-                <i class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToResponsibleRegistration()"></i>
-                Definir
-              </div>
-              <div *ngIf="stage >7 ">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToResponsibleRegistration()"></i>
-                Ver
+              <div *ngIf="stage >= 7" class="action-button">
+                <i *ngIf="stage === 7" class="fa fa-user-plus  px-2" aria-hidden="true"
+                  (click)="goToResponsibleRegistration()"></i>
+                <i *ngIf="stage >7" class="fa fa-eye px-2" aria-hidden="true"
+                  (click)="goToResponsibleRegistration()"></i>
               </div>
             </td>
           </tr>
@@ -146,9 +128,9 @@
             <td *ngIf="stage<=8">Pendiente</td>
             <td *ngIf="stage>8">Realizado</td>
             <td>
-              <div *ngIf="stage >8 ">
-                <i class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketResults()"></i>
-                Ver
+              <div *ngIf="stage >= 8" class="action-button">
+                <i *ngIf="stage === 8" class="fa fa-eye  px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+                <i *ngIf="stage >8" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
               </div>
             </td>
           </tr>
@@ -158,7 +140,11 @@
             <td *ngIf="stage<=9">Pendiente</td>
             <td *ngIf="stage>9">Realizado</td>
             <td>
-              <i class="fa fa-file-text-o" aria-hidden="true" *ngIf="stage === 9"></i>
+              <div *ngIf="stage >= 9" class="action-button">
+                <i *ngIf="stage === 9" class="fa fa-file-text-o  px-2" aria-hidden="true"
+                  (click)="goToBracketDraw()"></i>
+                <i *ngIf="stage >9" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+              </div>
             </td>
           </tr>
         </tbody>
