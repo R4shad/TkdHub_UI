@@ -1,22 +1,9 @@
 <div class="container" *ngIf="championship">
   <div class="buttonsS mt-2">
-    <div *ngIf="championship.stage==='InitialConfiguration'">
-      <button class="btn btn-primary" (click)="resetInitialData()">Reiniciar Configuraciones</button>
-    </div>
-
+    <button class="btn btn-primary" *ngIf="championship.stage==='InitialConfiguration'" (click)="resetInitialData()">
+      <i class="fa fa-undo" aria-hidden="true"></i>
+      <span>Reiniciar</span>
+    </button>
   </div>
-  <div>
-    <div *ngIf="championship.stage==='InitialConfiguration'">
-      <h2 class="title">Espacio para Configurar las Categorias y Divisiones</h2>
-    </div>
-    <div *ngIf="championship.stage!='InitialConfiguration'">
-      <h2 class="title">Categorias y Divisiones Definidas</h2>
-    </div>
-  </div>
-
-  <div>
-    <app-configure-div-cat></app-configure-div-cat>
-  </div>
-
-
+  <app-configure-div-cat></app-configure-div-cat>
 </div>

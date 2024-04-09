@@ -46,3 +46,70 @@
   width: 80%; /* Ajusta el ancho del contenido del modal al 80% del tamaño del modal */
   max-width: none; /* Quita el límite máximo de ancho */
 }
+.table {
+  border: 1px solid #b6b6b6;
+  border-collapse: separate;
+  border-radius: 8px 8px 0px 0px;
+  width: 840px;
+}
+
+th {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  background-color: #f9f9f9;
+}
+
+td {
+  font-weight: 300;
+  font-size: 16px;
+  color: #2f2f2f;
+}
+i {
+  color: #00224d;
+  font-size: 24px;
+}
+.action-button {
+  cursor: pointer;
+  width: 65px;
+  height: 30px;
+
+  border-radius: 4px 4px 4px 4px;
+  background-color: #f2f2f2;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid #b6b6b6;
+}
+.action-column {
+  display: flex;
+  justify-content: space-around;
+}
+.actions {
+  width: 160px;
+}
+.weights {
+  width: 100px;
+}
+.ages {
+  width: 160px;
+}
+.names {
+  width: 260px;
+}
+.table-responsive {
+  display: flex;
+  justify-content: center;
+}
+span {
+  font-weight: 600;
+  font-size: 24px;
+  font-family: "Inter", sans-serif;
+  padding-bottom: 10px;
+}
+.c {
+  display: flex;
+  justify-content: flex-start;
+}

@@ -1,18 +1,19 @@
 <div>
-  <div>
-    <button (click)="goToLogin()">Ir a Login</button>
-  </div>
-  <div class='championship-container' *ngIf="championship">
-    <h1>{{ championship.championshipName }}</h1>
-    <div [ngSwitch]="championship.stage">
-      <p class="descripcion" *ngSwitchCase="'InitialConfiguration'">Etapa Inicial</p>
-      <p class="descripcion" *ngSwitchCase="'Registrations'">Etapa de registro de Competidores</p>
-      <p class="descripcion" *ngSwitchCase="'Weigh-in'">Etapa de pesaje</p>
-      <p class="descripcion" *ngSwitchCase="'BracketDraw'">Etapa de creacion de llaves</p>
-      <p class="descripcion" *ngSwitchCase="'CombatRecord'">Etapa de combates</p>
-      <p class="descripcion" *ngSwitchCase="'End'">Finalizado</p>
-    </div>
-    <p class="descripcion">Fecha del Campeonato: {{ championship.championshipDate | date:'dd/MM/yyyy' }}</p>
+
+  <div class='championship-container mt-4' *ngIf="championship">
+
+    <ng-container [ngSwitch]="championship.stage">
+      <span class="status" *ngSwitchCase="'InitialConfiguration'">Etapa Inicial</span>
+      <span class="status" *ngSwitchCase="'ClubRegistration'">Etapa de registro de Clubes</span>
+      <span class="status" *ngSwitchCase="'Registrations'">Etapa de registro de Competidores</span>
+      <span class="status" *ngSwitchCase="'Weigh-in'">Etapa de pesaje</span>
+      <span class="status" *ngSwitchCase="'Groupings'">Etapa de agrupaciones</span>
+      <span class="status" *ngSwitchCase="'BracketDraw'">Etapa de creación de llaves</span>
+      <span class="status" *ngSwitchCase="'ResponsiblesRegistration'">Etapa de registro de responsables</span>
+      <span class="status" *ngSwitchCase="'CombatRecord'">Etapa de combates</span>
+      <span class="status" *ngSwitchCase="'End'">Finalizado</span>
+    </ng-container>
+    <span class="date">{{formatFecha(championship.championshipDate)}}</span>
 
   </div>
 </div>
