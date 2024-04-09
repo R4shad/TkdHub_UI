@@ -1,10 +1,14 @@
 @import "./../../pages/championship-configuration/championship-configuration.component.scss";
 
-.table {
+.table-container {
   border: 1px solid #b6b6b6;
-  border-collapse: separate;
   border-radius: 8px 8px 0px 0px;
-  width: 840px;
+  overflow: hidden; /* Para ocultar el borde de la tabla */
+}
+
+.table {
+  width: 100%;
+  margin: 0;
 }
 
 th {
@@ -26,7 +30,6 @@ i {
 .action-button {
   cursor: pointer;
   width: 65px;
-  height: 30px;
 
   border-radius: 4px 4px 4px 4px;
   background-color: #f2f2f2;
@@ -53,6 +56,9 @@ i {
 .names {
   width: 260px;
 }
+.grades {
+  width: 227px;
+}
 .table-responsive {
   display: flex;
   justify-content: center;
@@ -62,4 +68,19 @@ i {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+}
+tr {
+  height: 42.5px;
+}
+.form-control:focus {
+  border-color: #5d0e41;
+  box-shadow: none;
+  background-color: #ff204e33;
+}
+.form-control {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+input {
+  font-size: 16px;
 }

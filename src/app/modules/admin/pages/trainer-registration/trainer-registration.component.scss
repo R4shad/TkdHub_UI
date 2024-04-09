@@ -1,39 +1,119 @@
-.table {
-  td,
-  th {
-    background-color: transparent; // Establece el fondo de las celdas como transparente
-  }
+.table-container {
+  border: 1px solid #b6b6b6;
+  border-radius: 8px 8px 0px 0px;
+  overflow: hidden; /* Para ocultar el borde de la tabla */
 }
-.bg {
-  background-color: #6d88a1;
+
+.table {
+  width: 100%;
+  margin: 0;
+}
+
+th {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  background-color: #f9f9f9;
+}
+
+td {
+  font-weight: 300;
+  font-size: 16px;
+  color: #2f2f2f;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 i {
-  color: #8fadcc;
+  color: #00224d;
   font-size: 24px;
 }
-.container-fluid {
-  padding: 0;
-}
-.text-L {
-  font-size: 24px;
-}
-.form-control,
-.form-select:focus {
-  outline: none !important;
-  box-shadow: none !important;
-  border-color: #494248;
-}
-.text-S {
-  font-size: 16px;
-  padding-left: 4px;
-}
-.participants {
-  padding-left: 12px;
-  padding-right: 12px;
+.action-button {
+  cursor: pointer;
+  width: 65px;
+
+  border-radius: 4px 4px 4px 4px;
+  background-color: #f2f2f2;
   display: flex;
-  justify-content: space-between;
+
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid #b6b6b6;
+}
+.action-column {
+  display: flex;
+  justify-content: space-around;
+}
+.actions {
+  width: 140px;
+}
+.code {
+  width: 140px;
+}
+.names {
+  width: 260px;
+}
+.table-responsive {
+  display: flex;
+  justify-content: center;
+  width: 840px;
+}
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.btn-primary {
+  background: white;
+  color: #a0153e;
+  border: 1px solid #a0153e;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  width: 140px;
+
+  display: flex;
+  justify-content: space-around;
   align-items: center;
 }
+
+.btn-primary:hover {
+  background: #ff204e;
+  color: white;
+  border: 1px solid #ff204e;
+  i {
+    color: white;
+  }
+}
+.buttonsS {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  align-items: center;
+}
+.text-center {
+  display: flex;
+  justify-content: center;
+  height: 42.6px;
+}
 .cant {
-  margin-bottom: 0px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+.form-control:focus {
+  border-color: #5d0e41;
+  box-shadow: none;
+  background-color: #ff204e33;
+}
+.form-control {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+tr {
+  height: 42.5px;
+}
+
+input {
+  font-size: 16px;
 }
