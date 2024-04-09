@@ -12,7 +12,7 @@ import { ChampionshipStage } from '../../models/enums';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  token?: string | null;
+  token: string | null = null;
 
   constructor(
     private authService: AuthService,
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  championshipId!: number;
+  championshipId: number = 0;
   championship: ChampionshipI = {
     championshipId: 0,
     championshipName: '',
@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
           this.championship = data;
         });
       }
+      console.log(this.championshipId);
     });
 
     this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
@@ -45,6 +46,7 @@ export class HeaderComponent implements OnInit {
       } else {
         this.token = null;
       }
+      console.log(this.token);
     });
   }
 
@@ -71,5 +73,10 @@ export class HeaderComponent implements OnInit {
   goBack() {
     const championshipId = this.championship.championshipId;
     this.router.navigate(['/championship', championshipId, 'Organizer']);
+  }
+
+  goToLogin() {
+    const championshipId = this.championship.championshipId;
+    this.router.navigate(['/championship', championshipId, 'login']);
   }
 }

@@ -1,12 +1,25 @@
+.header-container-l {
+  background: #ff204e;
+  display: flex;
+  justify-content: left;
+  padding: 0 10px;
+  height: 90px;
+}
 .header-container {
-  background: black;
+  background: #ff204e;
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
-  height: 50px;
+  height: 90px;
 }
-.nombre-campeonato {
-  color: white;
+.championship-name {
+  background-color: white;
+  width: 288px;
+  height: 73px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px 16px 0px 0px;
 }
 p {
   margin-top: 5px;
@@ -14,7 +27,17 @@ p {
 }
 .text-logo {
   color: white;
-  font-weight: bold;
+  font-family: "Jomhuria", sans-serif;
+  font-weight: 400;
+  font-size: 80px;
+  height: 108px;
+}
+
+.cn {
+  font-family: "Inter", sans-serif;
+  font-size: 29px;
+  line-height: 35.1px;
+  font-weight: 700;
 }
 
 .btn {
@@ -30,6 +53,26 @@ i {
   align-items: center;
   width: 300px;
 }
+.bot {
+  display: flex;
+  align-items: flex-end;
+}
 .logo {
   justify-content: center;
+}
+.login-container {
+  cursor: pointer;
+  width: 182px;
+  height: 46px;
+  top: 22px;
+  left: 1238px;
+  border-radius: 8px 8px 8px 8px;
+  background-color: #ff8ba3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.roll {
+  color: white;
+  font-family: "Inter", sans-serif;
 }

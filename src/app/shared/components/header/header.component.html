@@ -1,14 +1,33 @@
-<header class='header-container'>
-  <div class="center">
-    <i class="fa fa-chevron-left" aria-hidden="true" (click)="goBack()"></i>
-  </div>
-  <div class="center logo">
-    <p class="text-logo">TkdHub</p>
-  </div>
-  <ng-container *ngIf="championship.championshipId!=0">
-    <div class="center ">
-      <p class="nombre-campeonato">{{championship.championshipName}}</p>
+<ng-container *ngIf="championship.championshipId===0">
+  <header class='header-container-l'>
+    <div class="center logo">
+      <span class="text-logo">TkdHub</span>
     </div>
-  </ng-container>
-  <button *ngIf="token" class="btn btn-outline-success" (click)="logOut()">Logout</button>
-</header>
+    <button *ngIf="token" class="btn btn-outline-success" (click)="logOut()">Logout</button>
+  </header>
+</ng-container>
+
+<ng-container *ngIf="championship.championshipId!=0">
+  <header class='header-container'>
+    <div class="center">
+      <!-- <i class="fa fa-chevron-left" aria-hidden="true" (click)="goBack()"></i> -->
+      <div class="center logo">
+        <p class="text-logo">TkdHub</p>
+      </div>
+    </div>
+    <div class="bot">
+      <div class="championship-name">
+        <span class="cn">{{championship.championshipName}}</span>
+      </div>
+    </div>
+    <div class="center">
+      <div *ngIf="token" class="login-container" (click)="logOut()">
+        <span class="roll"></span>
+        <span class="logOut"></span>
+      </div>
+      <div *ngIf="!token" class="login-container" (click)="goToLogin()">
+        <span class="roll">INGRESAR</span>
+      </div>
+    </div>
+  </header>
+</ng-container>
