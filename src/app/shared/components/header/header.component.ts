@@ -1,6 +1,5 @@
-// header.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { ApiService } from '../../../core/services/api.service';
 import { ChampionshipI } from '../../models/Championship';
@@ -30,6 +29,17 @@ export class HeaderComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.updateHeader();
+      }
+    });
+
+    // Llamada inicial para actualizar el encabezado
+    this.updateHeader();
+  }
+
+  updateHeader(): void {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = this.getChampionshipIdFromUrl();
       if (this.championshipId != 0) {
