@@ -21,13 +21,16 @@
       </div>
     </div>
     <div class="center">
-      <div *ngIf="token" class="login-container" (click)="logOut()">
-        <span class="roll"></span>
-        <span class="logOut"></span>
-      </div>
-      <div *ngIf="!token" class="login-container" (click)="goToLogin()">
-        <span class="roll">INGRESAR</span>
-      </div>
+      <ng-container *ngIf="!inLogin()">
+        <div *ngIf="token" class="login-container" (click)="logOut()">
+          <span class="roll"></span>
+          <span class="logOut"></span>
+        </div>
+        <div *ngIf="!token" class="login-container" (click)="goToLogin()">
+          <span class="roll">INGRESAR</span>
+        </div>
+      </ng-container>
+
     </div>
   </header>
 </ng-container>

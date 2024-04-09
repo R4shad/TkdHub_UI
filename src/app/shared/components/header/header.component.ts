@@ -79,4 +79,17 @@ export class HeaderComponent implements OnInit {
     const championshipId = this.championship.championshipId;
     this.router.navigate(['/championship', championshipId, 'login']);
   }
+
+  inLogin(): boolean {
+    const urlParts = window.location.href.split('/');
+    const championshipIdIndex = urlParts.indexOf('championship');
+    if (
+      championshipIdIndex !== -1 &&
+      urlParts.length > championshipIdIndex + 2 &&
+      urlParts[championshipIdIndex + 2] === 'login'
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
