@@ -66,7 +66,8 @@
       <div class="participants mt-2 mb-2">
         <input type="text" class="form-control text-fiter" id="filtroTexto" [(ngModel)]="textoFiltro"
           (input)="aplicarFiltroTexto()" placeholder="Buscar por nombre">
-        <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
+        <p *ngIf="participantsFilter.length>0" class="cant">Mostrando {{visibleParticipants}} de {{
+          participantsFilter.length }}</p>
         <button class="btn btn-primary" (click)="verificateAll()">Confirmar
           Todos</button>
       </div>
@@ -111,89 +112,113 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="verified" *ngFor="let participant of participantsFilter">
-              <td [ngClass]="{'verified': participant.verified}" class="club">{{ participant.clubCode }}</td>
-              <td [ngClass]="{'verified': participant.verified}" class="names">
-                <div *ngIf="participant.isEdit">
-                  <input class="form-control " type="text" [(ngModel)]="participant.lastNames">
-                </div>
-                <div *ngIf="!participant.isEdit">
-                  {{ participant.lastNames }}
-                </div>
-              </td>
-              <td [ngClass]="{'verified': participant.verified}" class="names">
-                <div *ngIf="participant.isEdit">
-                  <input class="form-control " type="text" [(ngModel)]="participant.firstNames">
-                </div>
-                <div *ngIf="!participant.isEdit">
-                  {{ participant.firstNames }}
-                </div>
-              </td>
-              <td [ngClass]="{'verified': participant.verified}" class="age">
-                <div *ngIf="participant.isEdit">
-                  <input class="form-control " type="text" [(ngModel)]="participant.age">
-                </div>
-                <div *ngIf="!participant.isEdit">
-                  {{ participant.age }}
-                </div>
-              </td>
-              <td [ngClass]="{'verified': participant.verified}" class="weight">
-                <div *ngIf="participant.isEdit">
-                  <input class="form-control " type="text" [(ngModel)]="participant.weight">
-                </div>
-                <div *ngIf="!participant.isEdit">
-                  {{ participant.weight }}
-                </div>
-              </td>
-              <td [ngClass]="{'verified': participant.verified}" class="grade">
-                <div *ngIf="participant.isEdit">
-                  <select class="form-select " [(ngModel)]="participant.grade">
-                    <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
-                  </select>
-                </div>
-                <div *ngIf="!participant.isEdit">
-                  {{ participant.grade }}
-                </div>
-              </td>
-              <td [ngClass]="{'verified': participant.verified}" class="gender">
-                <div *ngIf="participant.isEdit">
-                  <select class="form-select " [(ngModel)]="participant.gender">
-                    <option [value]="'Masculino'">Masculino</option>
-                    <option [value]="'Femenino'">Femenino</option>
-                  </select>
-                </div>
-                <div *ngIf="!participant.isEdit">
-                  {{ participant.gender }}
-                </div>
-              </td>
-              <td [ngClass]="{'verified': participant.verified}" class="action-column">
-                <div class="action-button" *ngIf="!participant.verified && !participant.isEdit">
-                  <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
-                </div>
-                <div class="action-button" *ngIf="!participant.verified && !participant.isEdit">
-                  <i class="fa fa-check-circle-o" (click)="verificateParticipant(participant)"></i>
-                </div>
-                <div class="action-button" *ngIf="!participant.verified && participant.isEdit">
-                  <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
-                </div>
-                <div class="action-button" *ngIf="!participant.verified && participant.isEdit">
-                  <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
-                </div>
-                <div *ngIf="participant.verified" class="confirmed">
-                  <span *ngIf="participant.verified">Confirmado</span>
-                  <div class="action-button" *ngIf="participant.verified">
-                    <i class="fa fa-times-circle-o px-2 " (click)="discardParticipant(participant)"
-                      aria-hidden="true"></i>
+            <ng-container *ngFor="let participant of displayedParticipants; let i = index">
+              <tr class="verified" *ngIf="i < visibleParticipants">
+                <td [ngClass]="{'verified': participant.verified}" class="club">{{ participant.clubCode }}</td>
+                <td [ngClass]="{'verified': participant.verified}" class="names">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.lastNames">
                   </div>
-                </div>
-              </td>
-            </tr>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.lastNames }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="names">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.firstNames">
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.firstNames }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="age">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.age">
+                  </div>
+                  <ng-container *ngIf="!participant.isEdit">
+                    {{ participant.age }}
+                  </ng-container>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="weight">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.weight">
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.weight }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="grade">
+                  <div *ngIf="participant.isEdit">
+                    <select class="form-select " [(ngModel)]="participant.grade">
+                      <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+                    </select>
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.grade }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="gender">
+                  <div *ngIf="participant.isEdit">
+                    <select class="form-select " [(ngModel)]="participant.gender">
+                      <option [value]="'Masculino'">Masculino</option>
+                      <option [value]="'Femenino'">Femenino</option>
+                    </select>
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.gender }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="action-column">
+                  <div class="action-button" *ngIf="!participant.verified && !participant.isEdit">
+                    <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(participant)"></i>
+                  </div>
+                  <div class="action-button" *ngIf="!participant.verified && !participant.isEdit">
+                    <i class="fa fa-check-circle-o" (click)="verificateParticipant(participant)"></i>
+                  </div>
+                  <div class="action-button" *ngIf="!participant.verified && participant.isEdit">
+                    <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(participant)"></i>
+                  </div>
+                  <div class="action-button" *ngIf="!participant.verified && participant.isEdit">
+                    <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(participant)"></i>
+                  </div>
+                  <div *ngIf="participant.verified" class="confirmed">
+                    <span *ngIf="participant.verified">Confirmado</span>
+                    <div class="action-button" *ngIf="participant.verified">
+                      <i class="fa fa-times-circle-o px-2 " (click)="discardParticipant(participant)"
+                        aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
-
-
         </table>
       </div>
     </div>
+    <div class="text-center mt-3">
+      <div class="left-rows" [ngClass]="{'clickable': visibleParticipants!=10}">
+        <div *ngIf="visibleParticipants===10">
+          <img src="./../../../../../assets/leftL2.png" alt="row">
+          <img src="./../../../../../assets/leftL1.png" alt="row">
+        </div>
+        <div *ngIf="visibleParticipants!=10" (click)="showLessParticipants()">
+          <img src="./../../../../../assets/leftM2.png" alt="row">
+          <img src="./../../../../../assets/leftM1.png" alt="row">
+        </div>
+      </div>
+      <span class="pageN">1</span>
+      <div class="right-rows" [ngClass]="{'clickable': visibleParticipants<participantsFilter.length}">
+        <div *ngIf="visibleParticipants<participantsFilter.length" (click)="showMoreParticipants()">
+          <img src="./../../../../../assets/rightM1.png" alt="row">
+          <img src="./../../../../../assets/rightM2.png" alt="row">
+        </div>
+        <div *ngIf="visibleParticipants>participantsFilter.length">
+          <img src="./../../../../../assets/rightL1.png" alt="row">
+          <img src="./../../../../../assets/rightL2.png" alt="row">
+        </div>
+      </div>
+    </div>
+
     <div class="text-center mt-3">
       <button class="btn btn-primary" (click)="openModal(modalContent)">Finalizar Pesaje</button>
     </div>

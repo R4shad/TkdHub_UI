@@ -69,6 +69,8 @@ export class ParticipantValidationComponent implements OnInit {
   selectedDivision: string = 'Todos';
   verifiedStatus: string = 'Todos';
 
+  visibleParticipants: number = 10;
+
   constructor(
     private api: ApiService,
     private router: Router,
@@ -77,6 +79,18 @@ export class ParticipantValidationComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getData();
+  }
+
+  get displayedParticipants() {
+    return this.participantsFilter.slice(0, this.visibleParticipants);
+  }
+
+  showMoreParticipants() {
+    this.visibleParticipants += 10;
+  }
+
+  showLessParticipants() {
+    this.visibleParticipants -= 10;
   }
 
   filterGender(selected: string) {
