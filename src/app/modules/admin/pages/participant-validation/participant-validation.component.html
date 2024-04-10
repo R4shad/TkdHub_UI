@@ -225,98 +225,199 @@
   </div>
 
   <div *ngIf="championship.stage!='Weigh-in'">
-    <div class="participants mt-4 mb-2">
-      <div class="mb-3">
-        <input type="text" class="form-control " id="filtroTexto" [(ngModel)]="textoFiltro"
-          (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
+    <div class="description-center">
+      <div class="filters-container">
+        <div class="filter">
+          <span class="filterS">Estado</span>
+          <div class="options">
+            <button class="btn btn-filter" [class.selected]="verifiedStatus === 'Todos'"
+              (click)="filterVerified('Todos')">
+              <i class="fa fa-male " aria-hidden="true"></i>Todos</button>
+            <button class="btn btn-filter " [class.selected]="verifiedStatus === 'Sin Verificar'"
+              (click)="filterVerified('Sin Verificar')">
+              <i class="fa fa-ban" aria-hidden="true"></i>Sin Verificar</button>
+            <button class="btn btn-filter " [class.selected]="verifiedStatus === 'Verificado'"
+              (click)="filterVerified('Verificado')">
+              <i class="fa fa-check" aria-hidden="true"></i>Verificados</button>
+          </div>
+        </div>
+        <div class="filter">
+          <span class="filterS">Categorias</span>
+          <div class="options">
+            <button class="btn btn-filter" [class.selected]="selectedCategory === 'Todos'"
+              (click)="filterCategory('Todos')">
+              <i class="fa fa-circle " aria-hidden="true"></i>Ambos</button>
+            <ng-container *ngFor="let category of categories">
+              <button class="btn btn-filter" [class.selected]="selectedCategory === category.categoryName"
+                (click)="filterCategory(category.categoryName)">
+                <i class="fa fa-circle-o" aria-hidden="true"></i>{{category.categoryName}}</button>
+            </ng-container>
+          </div>
+        </div>
       </div>
-      <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
+      <div class="filters-container">
+        <div class="filter">
+          <span class="filterS">Generos</span>
+          <div class="options">
+            <button class="btn btn-filter " [class.selected]="selectedGender === 'Ambos'"
+              (click)="filterGender('Ambos')">
+              <i class="fa fa-transgender " aria-hidden="true"></i>Ambos</button>
+            <button class="btn btn-filter " [class.selected]="selectedGender === 'Femenino'"
+              (click)="filterGender('Femenino')">
+              <i class="fa fa-female" aria-hidden="true"></i>Femenino</button>
+            <button class="btn btn-filter " [class.selected]="selectedGender === 'Masculino'"
+              (click)="filterGender('Masculino')">
+              <i class="fa fa-male" aria-hidden="true"></i>Masculino</button>
+          </div>
+        </div>
+        <div class="filter">
+          <span class="filterS">Edades:</span>
+          <div class="options">
+            <select class="select-filter" [(ngModel)]="selectedAgeInterval"
+              (change)="filterAgeInterval(selectedAgeInterval)">
+              <option value="Todos" [class.selected]="selectedAgeInterval === 'Todos'">Todos</option>
+              <ng-container *ngFor="let ageInterval of ageIntervals">
+                <option [value]="ageInterval.minAge + '-' + ageInterval.maxAge"
+                  [class.selected]="selectedAgeInterval === (ageInterval.minAge + '-' + ageInterval.maxAge)">
+                  {{ ageInterval.minAge }}{{ ageInterval.maxAge === 100 ? '+' : ' - ' + ageInterval.maxAge }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
+    <div class="description-center">
+      <div class="participants mt-2 mb-2">
+        <input type="text" class="form-control text-fiter" id="filtroTexto" [(ngModel)]="textoFiltro"
+          (input)="aplicarFiltroTexto()" placeholder="Buscar por nombre">
+        <p *ngIf="participantsFilter.length>0" class="cant">Mostrando {{visibleParticipants}} de {{
+          participantsFilter.length }}</p>
+        <div class="non"></div>
+      </div>
     </div>
     <div class="table-responsive">
       <div class="table-container">
-        <table class="table">
+        <table class="table ">
           <thead>
             <tr>
-              <th (click)="toggleOrder('clubCode')">Club
+              <th class="code" (click)="toggleOrder('clubCode')">Club
                 <span *ngIf="orderBy === 'clubCode' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
                 <span *ngIf="orderBy === 'clubCode' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
                 <span *ngIf="orderDirection === 'normal'">⇅</span>
               </th>
-              <th (click)="toggleOrder('lastNames')">Apellidos
+              <th class="names" (click)="toggleOrder('lastNames')">Apellidos
                 <span *ngIf="orderBy === 'lastNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
                 <span *ngIf="orderBy === 'lastNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
                 <span *ngIf="orderDirection === 'normal' ">⇅</span>
               </th>
-              <th (click)="toggleOrder('firstNames')">Nombres
+              <th class="names" (click)="toggleOrder('firstNames')">Nombres
                 <span *ngIf="orderBy === 'firstNames' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
                 <span *ngIf="orderBy === 'firstNames' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
                 <span *ngIf="orderDirection === 'normal'">⇅</span>
               </th>
-              <th (click)="toggleOrder('age')">Edad
+              <th class="age" (click)="toggleOrder('age')">Edad
                 <span *ngIf="orderBy === 'age' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
                 <span *ngIf="orderBy === 'age' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
                 <span *ngIf="orderDirection === 'normal'">⇅</span>
               </th>
-              <th (click)="toggleOrder('weight')">Peso
+              <th class="weight" (click)="toggleOrder('weight')">Peso
                 <span *ngIf="orderBy === 'weight' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
                 <span *ngIf="orderBy === 'weight' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
                 <span *ngIf="orderDirection === 'normal'">⇅</span>
               </th>
-              <th (click)="toggleOrder('grade')">Grado
+              <th class="grade" (click)="toggleOrder('grade')">Grado
                 <span *ngIf="orderBy === 'grade' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
                 <span *ngIf="orderBy === 'grade' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
                 <span *ngIf="orderDirection === 'normal'">⇅</span>
               </th>
-              <th (click)="toggleOrder('gender')">Sexo
-                <span *ngIf="orderBy === 'gender' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-                <span *ngIf="orderBy === 'gender' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-                <span *ngIf="orderBy !== 'gender' && orderDirection === 'normal'">⇅</span>
-              </th>
-              <th (click)="toggleOrder('verified')">Acciones
-                <span *ngIf="orderBy === 'verified' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-                <span *ngIf="orderBy === 'verified' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-                <span *ngIf="orderDirection === 'normal'">⇅</span>
-              </th>
-
-
+              <th class="gender">Sexo</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let participant of participantsFilter">
-              <td>{{ participant.clubCode }}</td>
-              <td>
-                {{ participant.lastNames }}
-              </td>
-              <td>
-                {{ participant.firstNames }}
-              </td>
-              <td>
-                {{ participant.age }}
-              </td>
-              <td>
-                {{ participant.weight }}
-              </td>
-              <td>
-                {{ participant.grade }}
-              </td>
-              <td>
-                {{ participant.gender }}
-              </td>
-              <td class="buttons">
-                <div *ngIf="!participant.verified">
-                  No Verificado
-                </div>
-                <div *ngIf="participant.verified">
-                  Verificado
-                </div>
-              </td>
-            </tr>
+            <ng-container *ngFor="let participant of displayedParticipants; let i = index">
+              <tr class="verified" *ngIf="i < visibleParticipants">
+                <td [ngClass]="{'verified': participant.verified}" class="club">{{ participant.clubCode }}</td>
+                <td [ngClass]="{'verified': participant.verified}" class="names">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.lastNames">
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.lastNames }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="names">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.firstNames">
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.firstNames }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="age">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.age">
+                  </div>
+                  <ng-container *ngIf="!participant.isEdit">
+                    {{ participant.age }}
+                  </ng-container>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="weight">
+                  <div *ngIf="participant.isEdit">
+                    <input class="form-control " type="text" [(ngModel)]="participant.weight">
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.weight }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="grade">
+                  <div *ngIf="participant.isEdit">
+                    <select class="form-select " [(ngModel)]="participant.grade">
+                      <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+                    </select>
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.grade }}
+                  </div>
+                </td>
+                <td [ngClass]="{'verified': participant.verified}" class="gender">
+                  <div *ngIf="participant.isEdit">
+                    <select class="form-select " [(ngModel)]="participant.gender">
+                      <option [value]="'Masculino'">Masculino</option>
+                      <option [value]="'Femenino'">Femenino</option>
+                    </select>
+                  </div>
+                  <div *ngIf="!participant.isEdit">
+                    {{ participant.gender }}
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
-
-
         </table>
+      </div>
+    </div>
+    <div class="text-center mt-3">
+      <div class="left-rows" [ngClass]="{'clickable': visibleParticipants!=10}">
+        <div *ngIf="visibleParticipants===10">
+          <img src="./../../../../../assets/leftL2.png" alt="row">
+          <img src="./../../../../../assets/leftL1.png" alt="row">
+        </div>
+        <div *ngIf="visibleParticipants!=10" (click)="showLessParticipants()">
+          <img src="./../../../../../assets/leftM2.png" alt="row">
+          <img src="./../../../../../assets/leftM1.png" alt="row">
+        </div>
+      </div>
+      <span class="pageN">1</span>
+      <div class="right-rows" [ngClass]="{'clickable': visibleParticipants<participantsFilter.length}">
+        <div *ngIf="visibleParticipants<participantsFilter.length" (click)="showMoreParticipants()">
+          <img src="./../../../../../assets/rightM1.png" alt="row">
+          <img src="./../../../../../assets/rightM2.png" alt="row">
+        </div>
+        <div *ngIf="visibleParticipants>participantsFilter.length">
+          <img src="./../../../../../assets/rightL1.png" alt="row">
+          <img src="./../../../../../assets/rightL2.png" alt="row">
+        </div>
       </div>
     </div>
   </div>
