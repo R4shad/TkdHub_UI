@@ -55,6 +55,60 @@
       </div>
     </div>
     <div class="description-center">
+      <div class="filters-container">
+        <div class="filter">
+          <span>Estado</span>
+          <div class="options">
+            <button class="btn btn-filter" (click)="verificateAll()">
+              <i class="fa fa-male " aria-hidden="true"></i>Todos</button>
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-ban" aria-hidden="true"></i>Sin Verificar</button>
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-check" aria-hidden="true"></i>Verificados</button>
+          </div>
+        </div>
+        <div class="filter">
+          <span>Categorias</span>
+          <div class="options">
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-circle" aria-hidden="true"></i>Todos</button>
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-circle-o" aria-hidden="true"></i>Inicial</button>
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-circle-o " aria-hidden="true"></i>Intermedio</button>
+            <button class="btn btn-filter" (click)="verificateAll()">
+              <i class="fa fa-circle-o " aria-hidden="true"></i>Avanzado</button>
+          </div>
+        </div>
+      </div>
+      <div class="filters-container">
+        <div class="filter">
+          <span>Generos</span>
+          <div class="options">
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-transgender " aria-hidden="true"></i>Ambos</button>
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-female" aria-hidden="true"></i>Femenino</button>
+            <button class="btn btn-filter " (click)="verificateAll()">
+              <i class="fa fa-male" aria-hidden="true"></i>Masculino</button>
+          </div>
+        </div>
+        <div class="filter">
+          <span>Categorias</span>
+          <div class="options">
+            <button class="btn btn-filter" (click)="verificateAll()">
+              Todos</button>
+            <button class="btn btn-filter" (click)="verificateAll()">
+              Inicial</button>
+            <button class="btn btn-filter" (click)="verificateAll()">
+              Intermedio</button>
+            <button class="btn btn-filter" (click)="verificateAll()">
+              Avanzado</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="description-center">
       <div class="participants mt-4 mb-2">
         <div class="mb-3">
           <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
