@@ -53,6 +53,8 @@ export class GroupingCompetitorsComponent implements OnInit {
   categories: categoryI[] = [];
   divisions: divisionI[] = [];
 
+  bracketsQuantity: string[] = [];
+
   brackets: bracketWithCompetitorsEI[] = [];
   bracketsFiltered: bracketWithCompetitorsEI[] = [];
 
@@ -66,11 +68,12 @@ export class GroupingCompetitorsComponent implements OnInit {
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
   selectedDivision: string = 'Todos';
+  selectedQuantity: string = 'Todos';
   modalRef?: NgbModalRef | undefined;
-  divisionsFilter: divisionI[] = [];
   ageIntervals: agesI[] = [];
   championship!: ChampionshipI;
 
+  visibleBrackets: number = 1;
   constructor(
     private api: ApiService,
     private router: Router,
@@ -84,6 +87,18 @@ export class GroupingCompetitorsComponent implements OnInit {
     });
 
     this.getData();
+  }
+
+  get displayedBrackets() {
+    return this.bracketsFiltered.slice(0, this.visibleBrackets);
+  }
+
+  showMoreBrackets() {
+    this.visibleBrackets += 1;
+  }
+
+  showLessBrackets() {
+    this.visibleBrackets -= 1;
   }
 
   openModal(content: any) {
@@ -107,6 +122,21 @@ export class GroupingCompetitorsComponent implements OnInit {
       .getBracketsWithCompetitorsToEdit(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
+
+        for (const bracket of this.brackets) {
+          // Obtener la cantidad de participantes en el bracket actual
+          const cant = bracket.competitors.length + '';
+
+          // Si la cantidad de participantes actual no está en el array de cantidades únicas, agregarla
+          if (!this.bracketsQuantity.includes(cant)) {
+            if (cant != '0') {
+              this.bracketsQuantity.push(cant);
+            }
+          }
+        }
+
+        // Ordenar el array de cantidades únicas
+        this.bracketsQuantity.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
         //ordena el lastName de competidores
         this.brackets.forEach((bracket) => {
@@ -282,11 +312,6 @@ export class GroupingCompetitorsComponent implements OnInit {
           });
       }
     }
-
-    //Actualizar la division del competidor.
-    //Actualizar el conteo de la vieja y nueva division.
-    //Actualizar la categoria del competidor.
-    //Actualizar el conteo de la nueva y vieja division.
   }
   cancelEdit(participant: participantCompetitorToEditI) {
     participant.isEdit = false;
@@ -462,7 +487,6 @@ export class GroupingCompetitorsComponent implements OnInit {
   filterGender(selected: string) {
     this.selectedGender = selected;
     this.applyFilters();
-    this.applyDivisionFilter();
   }
 
   filterCategory(categoryName: string) {
@@ -473,56 +497,22 @@ export class GroupingCompetitorsComponent implements OnInit {
   filterAgeInterval(interval: string) {
     this.selectedAgeInterval = interval;
     this.applyFilters();
-    this.applyDivisionFilter();
   }
 
-  filterDivision(divisionWeight: string) {
-    this.selectedDivision = divisionWeight;
-    if (divisionWeight === 'Todos') {
-      this.bracketsFiltered = this.brackets;
-      return;
-    }
-    const [minWeight, maxWeight] = divisionWeight.split('-');
-    this.bracketsFiltered = this.brackets.filter((bracket) => {
-      const division = this.divisions.find(
-        (div) => div.divisionId === bracket.divisionId
-      );
-      if (division) {
-        return (
-          division.minWeight === Number(minWeight) &&
-          division.maxWeight === Number(maxWeight)
-        );
-      } else return;
-    });
-  }
-
-  applyDivisionFilter() {
-    if (this.selectedGender != 'Ambos') {
-      this.divisionsFilter = this.divisions.filter((division) => {
-        const gender = this.selectedGender;
-        return gender === division.gender;
-      });
-      console.log(this.divisionsFilter);
-    }
-    if (this.selectedAgeInterval != 'Todos') {
-      const ageIntervalSelected = this.ageIntervals.find((age) => {
-        const [minAge, maxAge] = this.selectedAgeInterval.split('-');
-        return age.minAge === Number(minAge) && age.maxAge === Number(maxAge);
-      });
-      console.log(ageIntervalSelected);
-      console.log(this.divisionsFilter);
-      if (ageIntervalSelected) {
-        this.divisionsFilter = this.divisionsFilter.filter((division) => {
-          const ageIntervalId = division.ageIntervalId;
-          return ageIntervalId === ageIntervalSelected.ageIntervalId;
-        });
-      }
-      console.log(this.divisionsFilter);
-    }
+  filterQuantity(interval: string) {
+    this.selectedQuantity = interval;
+    this.applyFilters();
   }
 
   applyFilters() {
+    this.visibleBrackets = 1;
     this.bracketsFiltered = this.brackets;
+    // Aplicar filtro de cantidad
+    if (this.selectedQuantity !== 'Todos') {
+      this.bracketsFiltered = this.bracketsFiltered.filter(
+        (bracket) => bracket.competitors.length + '' === this.selectedQuantity
+      );
+    }
     // Aplicar filtro de género
     if (this.selectedGender !== 'Ambos') {
       this.bracketsFiltered = this.bracketsFiltered.filter(
@@ -618,14 +608,12 @@ export class GroupingCompetitorsComponent implements OnInit {
           .decrementCategory(bracket.championshipId, cId)
           .subscribe((data) => {
             if (data.status === 200) {
-              alert('Categoria Decrementada');
             }
           });
         this.api
           .decrementDivision(bracket.championshipId, dId)
           .subscribe((data) => {
             if (data.status === 200) {
-              alert('Division Decrementada');
             }
           });
       }

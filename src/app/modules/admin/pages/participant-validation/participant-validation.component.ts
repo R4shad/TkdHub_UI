@@ -52,7 +52,6 @@ export class ParticipantValidationComponent implements OnInit {
   categoriesWithNumericValue: categoryWithNumericValueI[] = [];
 
   divisions: divisionI[] = [];
-  divisionsFilter: divisionI[] = [];
 
   ageIntervals: agesI[] = [];
   clubs: clubI[] = [];
@@ -66,7 +65,6 @@ export class ParticipantValidationComponent implements OnInit {
   selectedGender: string = 'Ambos';
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
-  selectedDivision: string = 'Todos';
   verifiedStatus: string = 'Todos';
 
   visibleParticipants: number = 10;
@@ -96,7 +94,6 @@ export class ParticipantValidationComponent implements OnInit {
   filterGender(selected: string) {
     this.selectedGender = selected;
     this.applyFilters();
-    this.applyDivisionFilter();
   }
 
   filterVerified(status: string) {
@@ -112,43 +109,9 @@ export class ParticipantValidationComponent implements OnInit {
   filterAgeInterval(interval: string) {
     this.selectedAgeInterval = interval;
     this.applyFilters();
-    this.applyDivisionFilter();
   }
-
-  filterDivision(divisionWeight: string) {
-    this.selectedDivision = divisionWeight;
-    if (divisionWeight === 'Todos') {
-      this.participantsFilter = this.participants;
-      return;
-    }
-
-    const [minWeight, maxWeight] = divisionWeight.split('-');
-    this.participantsFilter = this.participants.filter((participant) => {
-      const weight = participant.weight;
-      return weight >= Number(minWeight) && weight <= Number(maxWeight);
-    });
-  }
-
-  applyDivisionFilter() {
-    if (this.selectedGender != 'Ambos') {
-      this.divisionsFilter = this.divisions.filter((division) => {
-        const gender = this.selectedGender;
-        return gender === division.gender;
-      });
-    }
-    if (this.selectedAgeInterval != 'Todos') {
-      const ageIntervalSelected = this.ageIntervals.filter((age) => {
-        const [minAge, maxAge] = this.selectedAgeInterval.split('-');
-        return age.minAge === Number(minAge) && age.maxAge === Number(maxAge);
-      });
-      this.divisionsFilter = this.divisionsFilter.filter((division) => {
-        const ageIntervalId = division.ageIntervalId;
-        return ageIntervalId === ageIntervalSelected[0].ageIntervalId;
-      });
-    }
-  }
-
   applyFilters() {
+    this.visibleParticipants = 10;
     this.participantsFilter = this.participants;
     // Aplicar filtro de verificado
     if (this.verifiedStatus === 'Verificado') {
@@ -222,7 +185,6 @@ export class ParticipantValidationComponent implements OnInit {
 
     this.api.getChampionshipDivisions(this.championshipId).subscribe((data) => {
       this.divisions = data;
-      this.divisionsFilter = data;
     });
     this.api
       .getChampionshipAgeInterval(this.championshipId)
@@ -521,5 +483,13 @@ export class ParticipantValidationComponent implements OnInit {
     } else {
       console.warn('modalRef no está definido'); // Muestra una advertencia si modalRef no está definido
     }
+  }
+
+  removeTrailingZero(): number {
+    let numStr = this.visibleParticipants.toString();
+    if (numStr.endsWith('0')) {
+      numStr = numStr.slice(0, -1);
+    }
+    return parseFloat(numStr);
   }
 }

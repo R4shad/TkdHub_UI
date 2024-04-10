@@ -206,7 +206,7 @@
           <img src="./../../../../../assets/leftM1.png" alt="row">
         </div>
       </div>
-      <span class="pageN">1</span>
+      <span class="pageN">{{removeTrailingZero()}}</span>
       <div class="right-rows" [ngClass]="{'clickable': visibleParticipants<participantsFilter.length}">
         <div *ngIf="visibleParticipants<participantsFilter.length" (click)="showMoreParticipants()">
           <img src="./../../../../../assets/rightM1.png" alt="row">
@@ -332,6 +332,7 @@
                 <span *ngIf="orderDirection === 'normal'">⇅</span>
               </th>
               <th class="gender">Sexo</th>
+
             </tr>
           </thead>
           <tbody>
@@ -391,6 +392,7 @@
                     {{ participant.gender }}
                   </div>
                 </td>
+
               </tr>
             </ng-container>
           </tbody>
@@ -408,7 +410,7 @@
           <img src="./../../../../../assets/leftM1.png" alt="row">
         </div>
       </div>
-      <span class="pageN">1</span>
+      <span class="pageN">{{removeTrailingZero()}}</span>
       <div class="right-rows" [ngClass]="{'clickable': visibleParticipants<participantsFilter.length}">
         <div *ngIf="visibleParticipants<participantsFilter.length" (click)="showMoreParticipants()">
           <img src="./../../../../../assets/rightM1.png" alt="row">
@@ -420,6 +422,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
