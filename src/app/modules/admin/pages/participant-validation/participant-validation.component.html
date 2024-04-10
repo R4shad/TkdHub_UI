@@ -1,125 +1,76 @@
 <div *ngIf="championship">
   <div *ngIf="championship.stage==='Weigh-in'">
-    <div class="filtros">
-      <p class="cant">Estado:</p>
-      <!-- Botones para filtrar por Verificado -->
-      <div class="button-container mb-1">
-        <button class="button" [class.selected]="verifiedStatus === 'Todos'"
-          (click)="filterVerified('Todos')">Todos</button>
-        <button class="button" [class.selected]="verifiedStatus === 'Sin Verificar'"
-          (click)="filterVerified('Sin Verificar')">Sin Verificar</button>
-        <button class="button" [class.selected]="verifiedStatus === 'Verificado'"
-          (click)="filterVerified('Verificado')">Verificado</button>
-      </div>
-      <p class="cant">Generos:</p>
-      <!-- Botones para filtrar por género -->
-      <div class="button-container mb-1">
-        <button class="button" [class.selected]="selectedGender === 'Ambos'"
-          (click)="filterGender('Ambos')">Ambos</button>
-        <button class="button" [class.selected]="selectedGender === 'Femenino'"
-          (click)="filterGender('Femenino')">Femenino</button>
-        <button class="button" [class.selected]="selectedGender === 'Masculino'"
-          (click)="filterGender('Masculino')">Masculino</button>
-      </div>
-      <!-- Botones para filtrar por categoría -->
-      <p class="cant">Categorias:</p>
-      <div class="button-container mb-1">
-        <button class="button" [class.selected]="selectedCategory === 'Todos'"
-          (click)="filterCategory('Todos')">Todos</button>
-        <button *ngFor="let category of categories" class="button"
-          [class.selected]="selectedCategory === category.categoryName"
-          (click)="filterCategory(category.categoryName)">{{ category.categoryName }}</button>
-      </div>
-      <!-- Botones para filtrar por intervalo de edades -->
-      <p class="cant">Edades:</p>
-      <div class="button-container mb-1">
-        <button class="button" [class.selected]="selectedAgeInterval === 'Todos'"
-          (click)="filterAgeInterval('Todos')">Todos</button>
-        <button *ngFor="let ageInterval of ageIntervals" class="button"
-          [class.selected]="selectedAgeInterval === (ageInterval.minAge + '-' + ageInterval.maxAge)"
-          (click)="filterAgeInterval(ageInterval.minAge + '-' + ageInterval.maxAge)">
-          {{ ageInterval.minAge }}{{ ageInterval.maxAge === 100 ? '+' : ' - ' + ageInterval.maxAge }}
-        </button>
-      </div>
-      <!-- Botones para filtrar por divisiones -->
-      <p class="cant" *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos'">Divisiones:</p>
-      <div class="button-container mb-1"
-        *ngIf="selectedGender !== 'Ambos' && selectedAgeInterval !== 'Todos' && divisionsFilter.length">
-        <button class="button text-sss" [class.selected]="selectedDivision === 'Todos'"
-          (click)="filterDivision('Todos')">Todos</button>
-        <button *ngFor="let division of divisionsFilter" class="button"
-          [class.selected]="selectedAgeInterval === (division.minWeight + '-' + division.maxWeight)"
-          (click)="filterDivision(division.minWeight + '-' + division.maxWeight)">
-          {{ division.minWeight }}{{ division.maxWeight === 100 ? '+' : ' - ' + division.maxWeight }}
-        </button>
-      </div>
-    </div>
     <div class="description-center">
       <div class="filters-container">
         <div class="filter">
-          <span>Estado</span>
+          <span class="filterS">Estado</span>
           <div class="options">
-            <button class="btn btn-filter" (click)="verificateAll()">
+            <button class="btn btn-filter" [class.selected]="verifiedStatus === 'Todos'"
+              (click)="filterVerified('Todos')">
               <i class="fa fa-male " aria-hidden="true"></i>Todos</button>
-            <button class="btn btn-filter " (click)="verificateAll()">
+            <button class="btn btn-filter " [class.selected]="verifiedStatus === 'Sin Verificar'"
+              (click)="filterVerified('Sin Verificar')">
               <i class="fa fa-ban" aria-hidden="true"></i>Sin Verificar</button>
-            <button class="btn btn-filter " (click)="verificateAll()">
+            <button class="btn btn-filter " [class.selected]="verifiedStatus === 'Verificado'"
+              (click)="filterVerified('Verificado')">
               <i class="fa fa-check" aria-hidden="true"></i>Verificados</button>
           </div>
         </div>
         <div class="filter">
-          <span>Categorias</span>
+          <span class="filterS">Categorias</span>
           <div class="options">
-            <button class="btn btn-filter " (click)="verificateAll()">
-              <i class="fa fa-circle" aria-hidden="true"></i>Todos</button>
-            <button class="btn btn-filter " (click)="verificateAll()">
-              <i class="fa fa-circle-o" aria-hidden="true"></i>Inicial</button>
-            <button class="btn btn-filter " (click)="verificateAll()">
-              <i class="fa fa-circle-o " aria-hidden="true"></i>Intermedio</button>
-            <button class="btn btn-filter" (click)="verificateAll()">
-              <i class="fa fa-circle-o " aria-hidden="true"></i>Avanzado</button>
+            <button class="btn btn-filter" [class.selected]="selectedCategory === 'Todos'"
+              (click)="filterCategory('Todos')">
+              <i class="fa fa-circle " aria-hidden="true"></i>Ambos</button>
+            <ng-container *ngFor="let category of categories">
+              <button class="btn btn-filter" [class.selected]="selectedCategory === category.categoryName"
+                (click)="filterCategory(category.categoryName)">
+                <i class="fa fa-circle-o" aria-hidden="true"></i>{{category.categoryName}}</button>
+            </ng-container>
           </div>
         </div>
       </div>
       <div class="filters-container">
         <div class="filter">
-          <span>Generos</span>
+          <span class="filterS">Generos</span>
           <div class="options">
-            <button class="btn btn-filter " (click)="verificateAll()">
+            <button class="btn btn-filter " [class.selected]="selectedGender === 'Ambos'"
+              (click)="filterGender('Ambos')">
               <i class="fa fa-transgender " aria-hidden="true"></i>Ambos</button>
-            <button class="btn btn-filter " (click)="verificateAll()">
+            <button class="btn btn-filter " [class.selected]="selectedGender === 'Femenino'"
+              (click)="filterGender('Femenino')">
               <i class="fa fa-female" aria-hidden="true"></i>Femenino</button>
-            <button class="btn btn-filter " (click)="verificateAll()">
+            <button class="btn btn-filter " [class.selected]="selectedGender === 'Masculino'"
+              (click)="filterGender('Masculino')">
               <i class="fa fa-male" aria-hidden="true"></i>Masculino</button>
           </div>
         </div>
         <div class="filter">
-          <span>Categorias</span>
+          <span class="filterS">Edades:</span>
           <div class="options">
-            <button class="btn btn-filter" (click)="verificateAll()">
-              Todos</button>
-            <button class="btn btn-filter" (click)="verificateAll()">
-              Inicial</button>
-            <button class="btn btn-filter" (click)="verificateAll()">
-              Intermedio</button>
-            <button class="btn btn-filter" (click)="verificateAll()">
-              Avanzado</button>
+            <select class="select-filter" [(ngModel)]="selectedAgeInterval"
+              (change)="filterAgeInterval(selectedAgeInterval)">
+              <option value="Todos" [class.selected]="selectedAgeInterval === 'Todos'">Todos</option>
+              <ng-container *ngFor="let ageInterval of ageIntervals">
+                <option [value]="ageInterval.minAge + '-' + ageInterval.maxAge"
+                  [class.selected]="selectedAgeInterval === (ageInterval.minAge + '-' + ageInterval.maxAge)">
+                  {{ ageInterval.minAge }}{{ ageInterval.maxAge === 100 ? '+' : ' - ' + ageInterval.maxAge }}
+                </option>
+              </ng-container>
+            </select>
           </div>
         </div>
       </div>
     </div>
     <div class="description-center">
-      <div class="participants mt-4 mb-2">
-        <div class="mb-3">
-          <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
-            (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
-        </div>
+      <div class="participants mt-2 mb-2">
+        <input type="text" class="form-control text-fiter" id="filtroTexto" [(ngModel)]="textoFiltro"
+          (input)="aplicarFiltroTexto()" placeholder="Buscar por nombre">
         <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>
         <button class="btn btn-primary" (click)="verificateAll()">Confirmar
           Todos</button>
       </div>
     </div>
-
     <div class="table-responsive">
       <div class="table-container">
         <table class="table ">
@@ -155,18 +106,8 @@
                 <span *ngIf="orderBy === 'grade' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
                 <span *ngIf="orderDirection === 'normal'">⇅</span>
               </th>
-              <th class="gender" (click)="toggleOrder('gender')">Sexo
-                <span *ngIf="orderBy === 'gender' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-                <span *ngIf="orderBy === 'gender' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-                <span *ngIf="orderBy !== 'gender' && orderDirection === 'normal'">⇅</span>
-              </th>
-              <th class="actions" (click)="toggleOrder('verified')">Acciones
-                <span *ngIf="orderBy === 'verified' && orderDirection === 'asc'" class="fa fa-arrow-up"></span>
-                <span *ngIf="orderBy === 'verified' && orderDirection === 'desc'" class="fa fa-arrow-down"></span>
-                <span *ngIf="orderDirection === 'normal'">⇅</span>
-              </th>
-
-
+              <th class="gender">Sexo</th>
+              <th class="actions">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -174,7 +115,7 @@
               <td [ngClass]="{'verified': participant.verified}" class="club">{{ participant.clubCode }}</td>
               <td [ngClass]="{'verified': participant.verified}" class="names">
                 <div *ngIf="participant.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="participant.lastNames">
+                  <input class="form-control " type="text" [(ngModel)]="participant.lastNames">
                 </div>
                 <div *ngIf="!participant.isEdit">
                   {{ participant.lastNames }}
@@ -182,7 +123,7 @@
               </td>
               <td [ngClass]="{'verified': participant.verified}" class="names">
                 <div *ngIf="participant.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="participant.firstNames">
+                  <input class="form-control " type="text" [(ngModel)]="participant.firstNames">
                 </div>
                 <div *ngIf="!participant.isEdit">
                   {{ participant.firstNames }}
@@ -190,7 +131,7 @@
               </td>
               <td [ngClass]="{'verified': participant.verified}" class="age">
                 <div *ngIf="participant.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="participant.age">
+                  <input class="form-control " type="text" [(ngModel)]="participant.age">
                 </div>
                 <div *ngIf="!participant.isEdit">
                   {{ participant.age }}
@@ -198,7 +139,7 @@
               </td>
               <td [ngClass]="{'verified': participant.verified}" class="weight">
                 <div *ngIf="participant.isEdit">
-                  <input class="form-control text-S" type="text" [(ngModel)]="participant.weight">
+                  <input class="form-control " type="text" [(ngModel)]="participant.weight">
                 </div>
                 <div *ngIf="!participant.isEdit">
                   {{ participant.weight }}
@@ -206,7 +147,7 @@
               </td>
               <td [ngClass]="{'verified': participant.verified}" class="grade">
                 <div *ngIf="participant.isEdit">
-                  <select class="form-select text-S" [(ngModel)]="participant.grade">
+                  <select class="form-select " [(ngModel)]="participant.grade">
                     <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
                   </select>
                 </div>
@@ -216,7 +157,7 @@
               </td>
               <td [ngClass]="{'verified': participant.verified}" class="gender">
                 <div *ngIf="participant.isEdit">
-                  <select class="form-select text-S" [(ngModel)]="participant.gender">
+                  <select class="form-select " [(ngModel)]="participant.gender">
                     <option [value]="'Masculino'">Masculino</option>
                     <option [value]="'Femenino'">Femenino</option>
                   </select>
@@ -261,7 +202,7 @@
   <div *ngIf="championship.stage!='Weigh-in'">
     <div class="participants mt-4 mb-2">
       <div class="mb-3">
-        <input type="text" class="form-control text-S" id="filtroTexto" [(ngModel)]="textoFiltro"
+        <input type="text" class="form-control " id="filtroTexto" [(ngModel)]="textoFiltro"
           (input)="aplicarFiltroTexto()" placeholder="Ingrese texto de filtro">
       </div>
       <p class="cant">Cantidad de Participantes: {{ participantsFilter.length }}</p>

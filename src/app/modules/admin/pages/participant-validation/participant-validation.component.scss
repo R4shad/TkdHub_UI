@@ -60,6 +60,7 @@ i {
 }
 .actions {
   width: 160px;
+  cursor: auto;
 }
 .code {
   width: 100px;
@@ -75,11 +76,10 @@ i {
 }
 .gender {
   width: 155px;
-  padding-top: 8px;
+  cursor: auto;
 }
 .grade {
   width: 200px;
-  padding-top: 8px;
 }
 .table-responsive {
   display: flex;
@@ -134,7 +134,9 @@ i {
 .cant {
   font-family: "Inter", sans-serif;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
+  color: black;
+  margin-bottom: 0;
 }
 .form-control:focus {
   border-color: #5d0e41;
@@ -151,16 +153,34 @@ tr {
 
 input {
   font-size: 16px;
+  height: 32px;
 }
 select {
   font-size: 16px;
   padding-top: 0;
   padding-bottom: 0;
+  height: 32px;
 }
+
+.select-filter {
+  width: 550px;
+  height: 50px;
+  font-size: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  border-color: #b6b6b6;
+  border-radius: 8px 8px 8px 8px;
+
+  font-family: "Inter", sans-serif;
+  color: #b6b6b6;
+}
+
 select:focus {
   border-color: #5d0e41;
   box-shadow: none;
-  background-color: #ff204e33;
 }
 span {
   font-size: 16px;
@@ -172,11 +192,14 @@ span {
   justify-content: space-around;
 }
 .filters-container {
+  margin-top: 40px;
   width: 1313px;
   display: flex;
   justify-content: space-between;
 }
 .options {
+  margin-top: 10px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 }
@@ -197,6 +220,14 @@ span {
     color: black;
   }
   padding: 0;
+
+  &.selected {
+    background: #ff204e33;
+    color: #ff204e;
+    i {
+      color: #ff204e;
+    }
+  }
 }
 
 .btn-filter:hover {
@@ -210,4 +241,14 @@ span {
 
 .filter {
   width: 550px;
+}
+.filterS {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+}
+.text-fiter {
+  width: 254px;
+  height: 50px;
 }
