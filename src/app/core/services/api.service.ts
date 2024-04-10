@@ -456,13 +456,35 @@ export class ApiService {
     categoryId: number,
     championshipId: number
   ): Observable<number> {
+    console.log(participantId);
+    console.log(divisionId);
+    console.log(categoryId);
+    console.log(championshipId);
+
     return new Observable<number>((observer) => {
       this.deleteCompetitorPid(participantId).subscribe(
         (response: responseCompetitorI) => {
-          if (response.status === 201) {
-            this.decrementCategory(championshipId, categoryId);
-            this.decrementDivision(championshipId, divisionId);
-            observer.complete();
+          console.log(response);
+          if (response.status === 200) {
+            const decrementDivision$ = this.decrementDivision(
+              championshipId,
+              divisionId
+            );
+            const decrementCategory$ = this.decrementCategory(
+              championshipId,
+              categoryId
+            );
+
+            forkJoin([decrementDivision$, decrementCategory$]).subscribe(
+              ([responseDivision, responseCategory]) => {
+                observer.next(200);
+                observer.complete();
+              },
+              (error) => {
+                observer.error(error);
+                observer.complete();
+              }
+            );
           } else {
             observer.next(404);
             observer.complete();
@@ -501,10 +523,14 @@ export class ApiService {
     championshipId: number,
     categoryId: number
   ): Observable<responseI> {
+    console.log('EN DECREMENT CATEGORY');
+    console.log(championshipId);
+    console.log(categoryId);
     let direccionCategory =
-      this.APIurl + 'category/increment/' + championshipId + '/' + categoryId;
-
+      this.APIurl + 'category/decrement/' + championshipId + '/' + categoryId;
+    console.log(direccionCategory);
     const requestCategory = this.http.put<responseI>(direccionCategory, {});
+    console.log(requestCategory);
     return requestCategory;
   }
 
@@ -512,10 +538,13 @@ export class ApiService {
     championshipId: number,
     divisionId: number
   ): Observable<responseI> {
+    console.log(championshipId);
+    console.log(divisionId);
     let direccionDivision =
-      this.APIurl + 'division/increment/' + championshipId + '/' + divisionId;
+      this.APIurl + 'division/decrement/' + championshipId + '/' + divisionId;
 
     const requestDivision = this.http.put<responseI>(direccionDivision, {});
+    console.log(requestDivision);
     return requestDivision;
   }
 

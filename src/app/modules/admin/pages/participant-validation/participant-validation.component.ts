@@ -301,8 +301,8 @@ export class ParticipantValidationComponent implements OnInit {
     this.api
       .deleteCompetitorAndDecrementCategoryAndDivision(
         participant.id,
-        competitorCategoryId,
         competitorDivisionId,
+        competitorCategoryId,
         this.championshipId
       )
       .subscribe((response: number) => {

@@ -51,13 +51,17 @@
                   {{ club.email }}
                 </div>
               </td>
-              <td class="text-center">
-                <div *ngIf="!club.isEdit">
+              <td class="action-column">
+                <div class="action-button" *ngIf="!club.isEdit">
                   <i class="fa fa-pencil px-2" aria-hidden="true" (click)="onEdit(club)"></i>
+                </div>
+                <div class="action-button" *ngIf="!club.isEdit">
                   <i class="fa fa-trash" aria-hidden="true" (click)="onDelete(club)"></i>
                 </div>
-                <div *ngIf="club.isEdit">
+                <div class="action-button" *ngIf="club.isEdit">
                   <i class="fa fa-floppy-o px-2" aria-hidden="true" (click)="confirmEdit(club)"></i>
+                </div>
+                <div class="action-button" *ngIf="club.isEdit">
                   <i class="fa fa-times-circle" aria-hidden="true" (click)="cancelEdit(club)"></i>
                 </div>
               </td>
