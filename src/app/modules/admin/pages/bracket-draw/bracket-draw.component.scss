@@ -197,7 +197,13 @@
 i {
   font-size: 20px;
   top: 10px;
+  opacity: 0;
 }
+
+i:hover {
+  opacity: 1;
+}
+
 .form-control,
 .form-select:focus {
   outline: none !important;
@@ -295,6 +301,12 @@ i {
   display: flex;
   justify-content: center;
   height: 42.6px;
+}
+.text-center-b {
+  display: flex;
+  justify-content: center;
+  height: 42.6px;
+  margin-bottom: 10px;
 }
 .description-center {
   display: flex;
