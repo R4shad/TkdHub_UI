@@ -373,9 +373,11 @@ i:hover {
   display: flex;
   justify-content: space-between;
 }
+.op1 {
+  opacity: 1;
+}
 .btn-filter {
   background: #f9f9f9;
-  color: black;
 
   height: 42px;
   font-family: "Inter", sans-serif;

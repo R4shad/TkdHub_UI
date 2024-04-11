@@ -4,6 +4,8 @@
 .text-M {
   font-size: 20x;
   margin-bottom: 0px;
+  padding-right: 60px;
+  padding-left: 60px;
 }
 .buttons {
   display: flex;
@@ -11,7 +13,7 @@
 }
 .bracket-description {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .bloque {
@@ -24,14 +26,14 @@
 .bracket-container {
   width: 100%;
   display: flex;
-  height: 710px;
+  height: 690px;
+  display: flex;
   align-items: center;
 }
 .bracket {
   display: flex;
   margin: 10px;
   width: 100%;
-  height: fit-content;
   justify-content: center;
 }
 
@@ -66,9 +68,11 @@
   display: flex;
   align-items: center;
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid #ff204e;
   position: relative;
-  min-height: 32px;
+  min-height: 31px;
+  padding-left: 8px;
+  width: 246px;
 }
 .competitor.blue {
   border-radius: 0 8px 0 0;
@@ -79,6 +83,9 @@
 
 .competitor span {
   padding-left: 8px;
+
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
 }
 
 .competitor span:last-child {
@@ -98,6 +105,7 @@
   text-overflow: ellipsis;
   font-size: 16px;
   max-width: 184px;
+  width: 184px;
 }
 
 .match-lines {
@@ -116,9 +124,9 @@
 }
 
 .line.horizontal {
-  height: 1px;
+  height: 3px;
   width: 13px;
-  left: -1px;
+  left: 0px;
 }
 
 .match-lines.alt {
@@ -127,8 +135,8 @@
 .match-number {
   display: flex;
   align-items: center;
-  width: 24px;
-  border: 1px solid black;
+  width: 25px;
+  border: 1px solid #ff204e;
   font-size: 16px;
   padding-left: 2px;
   border-radius: 8px 0 0 8px;
@@ -141,24 +149,28 @@
 .winner {
   height: fit-content;
   //background: #a1a16d;
-  background: rgba(255, 204, 0, 1);
 }
 .blue {
-  background: rgba(0, 119, 204, 0.4);
-  &.won {
-    background: rgba(0, 119, 204, 0.8);
-  }
+  //background: #0077cc;
+  background: #ffffff;
+
+  color: #ff204e;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
 }
 .red {
-  background: rgba(255, 68, 68, 0.4);
-  &.won {
-    background: rgba(255, 68, 68, 0.8);
-  }
+  //background: #ff4444;
+  background: #ff204e;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
 }
 
 .line.vertical {
   height: 44px;
-  width: 1px;
+  width: 3px;
   left: 11px;
 }
 .match:nth-child(even) .line.vertical {
@@ -179,11 +191,19 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: "Inter", sans-serif;
+  color: #00224d;
 }
 i {
   font-size: 20px;
   top: 10px;
+  opacity: 0;
 }
+
+i:hover {
+  opacity: 1;
+}
+
 .form-control,
 .form-select:focus {
   outline: none !important;
@@ -209,6 +229,236 @@ i {
   position: relative;
   display: inline-block;
 }
-.score {
-  padding-right: 4px;
+//FIltros
+
+.filtros {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  width: 0;
+}
+
+.selected {
+  background-color: #6d88a1; /* Cambiar al color deseado */
+}
+.text-sss {
+  font-size: 12px;
+}
+.btn-primary {
+  background: white;
+  color: #a0153e;
+  border: 1px solid #a0153e;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  width: 240px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bDescription {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.non {
+  width: 240px;
+}
+
+.btn-primary:hover {
+  background: #ff204e;
+  color: white;
+  border: 1px solid #ff204e;
+  i {
+    color: white;
+  }
+}
+.buttonsS {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  align-items: center;
+}
+.text-center {
+  display: flex;
+  justify-content: center;
+  height: 42.6px;
+}
+.text-center-b {
+  display: flex;
+  justify-content: center;
+  height: 42.6px;
+  margin-bottom: 10px;
+}
+.description-center {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bracket-description {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  justify-content: space-between;
+  width: 1470px;
+
+  font-weight: 700;
+  font-size: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.cant {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+  margin-bottom: 0;
+}
+
+.select-grouping {
+  max-width: 200px;
+}
+
+.select-filter {
+  width: 550px;
+  height: 50px;
+  font-size: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  border-color: #b6b6b6;
+  border-radius: 8px 8px 8px 8px;
+
+  font-family: "Inter", sans-serif;
+  color: #b6b6b6;
+}
+
+.filter {
+  width: 550px;
+}
+.filters-container {
+  margin-top: 40px;
+  width: 1313px;
+  display: flex;
+  justify-content: space-between;
+}
+.options {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.op1 {
+  opacity: 1;
+}
+.btn-filter {
+  background: #f9f9f9;
+
+  height: 42px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  width: 117px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  i {
+    color: black;
+  }
+  padding: 0;
+
+  &.selected {
+    background: #ff204e33;
+    color: #ff204e;
+    i {
+      color: #ff204e;
+    }
+  }
+}
+
+.btn-filter:hover {
+  background: #ff204e33;
+  color: #ff204e;
+
+  i {
+    color: #ff204e;
+  }
+}
+
+.fiter {
+  width: 550px;
+}
+
+.filterGrouping {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.filterS {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+}
+.text-fiter {
+  width: 254px;
+  height: 50px;
+}
+.pageN {
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-family: "Monda", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: black;
+}
+img {
+  width: 12px;
+  height: 12px;
+}
+.clickable {
+  cursor: pointer;
+}
+.textL {
+  text-align: left;
+}
+.cantComp {
+  width: 300px;
+  height: 50px;
+  background: #ff204e;
+  color: white;
+  border-radius: 10px 0 0 10px;
+  font-weight: 200;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
 }
