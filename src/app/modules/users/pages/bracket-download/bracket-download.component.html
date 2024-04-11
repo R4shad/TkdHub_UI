@@ -4,29 +4,32 @@
       <div *ngIf="brackets.length > 0">
         <div>
           <div id="pdfDescription">
-            <h1 class="text-center">
-              LLAVES
-            </h1>
-            <div class="brackets-description">
-              <p class="text-L">{{ championship.championshipName}}</p>
-              <p class="text-L">{{ getChampionshipDate()}}</p>
+            <div class="text-center">
+              <div class="brackets-description">
+                <span>{{ championship.championshipName}}</span>
+                <span>{{formatFecha(championship.championshipDate)}}</span>
+              </div>
             </div>
           </div>
           <div [attr.id]="'bracket' + i" *ngFor="let bracket of brackets ; let i = index;">
-            <hr>
-            <div class="bracket-description">
-              <p class="text-M">{{ getBracketCategoryName(bracket)}}</p>
-              <p class="text-M">{{ getBracketGrouping(bracket) }}</p>
-              <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket)===0">
-                (- {{getBracketMaxWeightInterval(bracket)}} Kg)
-              </p>
-              <p class="text-M" *ngIf="getBracketMinWeightInterval(bracket) != 0">
-                ({{getBracketMinWeightInterval(bracket)}} -
-                {{getBracketMaxWeightInterval(bracket)}} Kg)
-              </p>
+            <div class="text-center">
+              <div class="bracket-description">
+                <span>{{ getBracketCategoryName(bracket)}}</span>
+                <span>{{ getBracketGrouping(bracket) }}</span>
+                <span *ngIf="getBracketMinWeightInterval(bracket)===0">
+                  (- {{getBracketMaxWeightInterval(bracket)}} Kg)
+                </span>
+                <span *ngIf="getBracketMinWeightInterval(bracket) != 0">
+                  ({{getBracketMinWeightInterval(bracket)}} -
+                  {{getBracketMaxWeightInterval(bracket)}} Kg)
+                </span>
 
-              <p class="text-M">{{ bracket.competitors[0].participant.gender}}</p>
-              <p class="text-M">Cantidad de Competidores: {{bracket.competitors.length}}</p>
+                <span *ngIf="bracket.competitors.length>0">{{ bracket.competitors[0].participant.gender}}</span>
+
+                <div class="cantComp">
+                  <span>Competidores: {{bracket.competitors.length}}</span>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -111,25 +114,6 @@
     </div>
   </div>
 </div>
-
-
-<ng-template #modalContent let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">ALERTA</h4>
-  </div>
-  <div class="modal-body">
-    <div class='form-input-container'>
-      <div class='description'>
-        <label>Una vez finalizado la edicion de Llaves </label>
-        <label>no se podran realizar modificaciones.</label>
-      </div>
-      <div class="botones">
-        <button class="btn btn-primary" (click)="c('Close')">Cancelar</button>
-        <button class="btn btn-primary">Confirmar</button>
-      </div>
-    </div>
-  </div>
-</ng-template>
 
 <div *ngIf="downloading" class="overlay">
   <div class="message">Descargando {{ progress }}/{{ total }}</div>

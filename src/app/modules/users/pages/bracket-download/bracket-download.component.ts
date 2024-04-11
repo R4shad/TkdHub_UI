@@ -49,12 +49,34 @@ export class BracketDownloadComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
     });
-
     this.getData();
   }
 
   openModal(content: any) {
     this.modalRef = this.modalService.open(content);
+  }
+  formatFecha(fecha: string): string {
+    const meses = [
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
+    ];
+
+    const fechaObj = new Date(fecha);
+    const dia = fechaObj.getDate();
+    const mes = meses[fechaObj.getMonth()];
+    const año = fechaObj.getFullYear();
+
+    return `${dia} de ${mes} del ${año}`;
   }
   getData() {
     this.route.paramMap.subscribe((params) => {
@@ -71,7 +93,7 @@ export class BracketDownloadComponent implements OnInit {
 
         setTimeout(() => {
           this.generatePDF();
-        }, 3000);
+        }, 4000);
       });
 
     this.api
@@ -173,7 +195,7 @@ export class BracketDownloadComponent implements OnInit {
     this.downloading = true;
     console.log('ENTRE');
     const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgWidth = 210;
+    const imgWidth = 230;
     const imgHeight = 125; // Altura de la imagen del bracket
     const topMargin = 0; // Margen superior
 
@@ -193,20 +215,20 @@ export class BracketDownloadComponent implements OnInit {
         this.progress = index + 1;
 
         if (index === 0) {
-          pdf.addImage(descriptionImgData, 'PNG', 0, 0, imgWidth, 15);
+          pdf.addImage(descriptionImgData, 'PNG', -15, 5, imgWidth, 5);
           y = topMargin + 15;
         }
         if (index > 0 && index % 2 === 0) {
           pdf.addPage();
           y = topMargin + 15;
-          pdf.addImage(descriptionImgData, 'PNG', 0, 0, imgWidth, 15);
+          pdf.addImage(descriptionImgData, 'PNG', -15, 5, imgWidth, 5);
         }
 
         const bracketData: any = document.getElementById(`bracket${index}`);
         if (bracketData) {
           const bracketCanvas = await html2canvas(bracketData);
           const bracketImgData = bracketCanvas.toDataURL('image/png');
-          pdf.addImage(bracketImgData, 'PNG', 0, y, imgWidth, imgHeight);
+          pdf.addImage(bracketImgData, 'PNG', -15, y, imgWidth, imgHeight);
           y += imgHeight + 10; // Actualizar la posición Y para el próximo bracket
 
           // Si es el último bracket, guardar el PDF
@@ -219,19 +241,6 @@ export class BracketDownloadComponent implements OnInit {
     } else {
       console.error('Elemento pdfDescription no encontrado.');
       this.downloading = false;
-    }
-  }
-
-  getChampionshipDate(): string {
-    const res = this.datePipe.transform(
-      this.championship.championshipDate,
-      'dd MMMM yyyy',
-      'es'
-    );
-    if (res) {
-      return res;
-    } else {
-      return '';
     }
   }
 }
