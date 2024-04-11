@@ -552,23 +552,6 @@ export class GroupingCompetitorsComponent implements OnInit {
       }
     }
   }
-  /*
-  getValidGradesForCategory(category: categoryI): string[] {
-    const validGrades: string[] = [];
-
-    const valorMin = obtenerValorNumerico(category.gradeMin);
-    const valorMax = obtenerValorNumerico(category.gradeMax);
-
-    for (let i = valorMin; i <= valorMax; i++) {
-      const color = obtenerColor(i);
-      if (color) {
-        validGrades.push(color);
-      }
-    }
-
-    return validGrades;
-  }
-*/
   onDelete(
     competitor: completeCompetitorToEditI,
     bracket: bracketWithCompetitorsEI

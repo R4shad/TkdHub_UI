@@ -297,8 +297,8 @@ export class ApiService {
     return this.http.delete<responseCompetitorI>(direccion);
   }
 
-  deleteBracket(bracket: number): Observable<responseBracketI> {
-    let direccion = this.APIurl + 'bracket/' + bracket;
+  deleteBracket(bracketId: number): Observable<responseBracketI> {
+    let direccion = this.APIurl + 'bracket/' + bracketId;
     return this.http.delete<responseBracketI>(direccion);
   }
 

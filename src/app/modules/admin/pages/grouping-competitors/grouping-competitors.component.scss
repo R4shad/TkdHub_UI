@@ -209,6 +209,9 @@ span {
 }
 .filter {
   width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .filters-container {
   margin-top: 40px;

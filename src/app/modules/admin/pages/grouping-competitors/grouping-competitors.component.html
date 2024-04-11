@@ -280,14 +280,14 @@
                 <span class="bDescription">{{ getBracketGrouping(bracket) }}</span>
                 <span class="bDescription"
                   *ngIf="getBracketMinWeightInterval(bracket) !== 0 && getBracketMaxWeightInterval(bracket) !== 100">
-                  {{ getBracketMinWeightInterval(bracket) }} - {{ getBracketMaxWeightInterval(bracket) }} Kg
+                  ({{ getBracketMinWeightInterval(bracket) }} - {{ getBracketMaxWeightInterval(bracket) }} Kg)
                 </span>
                 <span class="bDescription"
                   *ngIf="getBracketMinWeightInterval(bracket) !== 0 && getBracketMaxWeightInterval(bracket) === 100">
-                  +{{ getBracketMinWeightInterval(bracket) }} Kg
+                  (+{{ getBracketMinWeightInterval(bracket) }} Kg)
                 </span>
                 <span class="bDescription" *ngIf="getBracketMinWeightInterval(bracket) === 0">
-                  -{{ getBracketMaxWeightInterval(bracket) }} Kg
+                  (-{{ getBracketMaxWeightInterval(bracket) }} Kg)
                 </span>
                 <div *ngIf="bracket.competitors.length>0">
                   <div *ngIf="bracket.competitors[0].participant.gender==='Masculino'">

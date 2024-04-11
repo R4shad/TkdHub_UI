@@ -33,11 +33,13 @@ export class BracketDrawComponent implements OnInit {
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
   selectedDivision: string = 'Todos';
+  selectedQuantity: string = 'Todos';
   modalRef?: NgbModalRef | undefined;
-  divisionsFilter: divisionI[] = [];
   ageIntervals: agesI[] = [];
   championship!: ChampionshipI;
 
+  bracketsQuantity: string[] = [];
+  visibleBrackets: number = 1;
   constructor(
     private api: ApiService,
     private router: Router,
@@ -51,6 +53,18 @@ export class BracketDrawComponent implements OnInit {
     });
 
     this.getData();
+  }
+
+  get displayedBrackets() {
+    return this.bracketsFiltered.slice(0, this.visibleBrackets);
+  }
+
+  showMoreBrackets() {
+    this.visibleBrackets += 1;
+  }
+
+  showLessBrackets() {
+    this.visibleBrackets -= 1;
   }
 
   openModal(content: any) {
@@ -69,18 +83,36 @@ export class BracketDrawComponent implements OnInit {
       .subscribe((data) => {
         this.brackets = data;
 
-        this.api
-          .getMatches(this.championshipId, this.brackets[0].bracketId)
-          .subscribe((data) => {
-            if (!data[0].matchNumber) {
-              this.api.enumerateMatch(this.championshipId).subscribe((data) => {
-                this.getData();
-              });
+        for (const bracket of this.brackets) {
+          // Obtener la cantidad de participantes en el bracket actual
+          const cant = bracket.competitors.length + '';
+
+          // Si la cantidad de participantes actual no está en el array de cantidades únicas, agregarla
+          if (!this.bracketsQuantity.includes(cant)) {
+            if (cant != '0') {
+              this.bracketsQuantity.push(cant);
             }
-          });
+          }
+        }
+        this.bracketsQuantity.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+        setTimeout(() => {
+          this.api
+            .getMatches(this.championshipId, this.brackets[0].bracketId)
+            .subscribe((data) => {
+              if (!data[0].matchNumber) {
+                this.api
+                  .enumerateMatch(this.championshipId)
+                  .subscribe((data) => {
+                    this.getData();
+                  });
+              }
+            });
+        }, 5000);
 
         console.log(this.brackets);
-        this.bracketsFiltered = this.brackets;
+        setTimeout(() => {
+          this.bracketsFiltered = this.brackets;
+        }, 3000);
       });
 
     this.api
@@ -176,7 +208,6 @@ export class BracketDrawComponent implements OnInit {
   filterGender(selected: string) {
     this.selectedGender = selected;
     this.applyFilters();
-    this.applyDivisionFilter();
   }
 
   filterCategory(categoryName: string) {
@@ -187,7 +218,6 @@ export class BracketDrawComponent implements OnInit {
   filterAgeInterval(interval: string) {
     this.selectedAgeInterval = interval;
     this.applyFilters();
-    this.applyDivisionFilter();
   }
 
   filterDivision(divisionWeight: string) {
@@ -210,29 +240,20 @@ export class BracketDrawComponent implements OnInit {
     });
   }
 
-  applyDivisionFilter() {
-    if (this.selectedGender != 'Ambos') {
-      this.divisionsFilter = this.divisions.filter((division) => {
-        const gender = this.selectedGender;
-        return gender === division.gender;
-      });
-    }
-    if (this.selectedAgeInterval != 'Todos') {
-      const ageIntervalSelected = this.ageIntervals.find((age) => {
-        const [minAge, maxAge] = this.selectedAgeInterval.split('-');
-        return age.minAge === Number(minAge) && age.maxAge === Number(maxAge);
-      });
-      if (ageIntervalSelected) {
-        this.divisionsFilter = this.divisionsFilter.filter((division) => {
-          const ageIntervalId = division.ageIntervalId;
-          return ageIntervalId === ageIntervalSelected.ageIntervalId;
-        });
-      }
-    }
+  filterQuantity(interval: string) {
+    this.selectedQuantity = interval;
+    this.applyFilters();
   }
 
   applyFilters() {
+    this.visibleBrackets = 1;
     this.bracketsFiltered = this.brackets;
+    // Aplicar filtro de cantidad
+    if (this.selectedQuantity !== 'Todos') {
+      this.bracketsFiltered = this.bracketsFiltered.filter(
+        (bracket) => bracket.competitors.length + '' === this.selectedQuantity
+      );
+    }
     // Aplicar filtro de género
     if (this.selectedGender !== 'Ambos') {
       this.bracketsFiltered = this.bracketsFiltered.filter(

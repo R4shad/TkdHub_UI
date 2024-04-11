@@ -125,6 +125,15 @@ export class TwelveParticipantsBracketComponent implements OnInit {
         this.final = this.matchesWithCompetitors.find(
           (match) => match.round === 'final'
         )!;
+
+        console.log(this.eights1);
+        console.log(this.eights2);
+        console.log(this.eights3);
+        console.log(this.eights4);
+        console.log(this.eights5);
+        console.log(this.eights6);
+        console.log(this.eights7);
+        console.log(this.eights8);
       });
   }
 
