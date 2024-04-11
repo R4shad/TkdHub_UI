@@ -4,7 +4,6 @@
       <span class="cant">Cantidad de Clubes: {{ clubs.length }}</span>
       <button class="btn btn-primary" (click)="addClub()">Agregar</button>
     </div>
-
     <div class="table-responsive">
       <div class="table-container">
         <table class="table ">
@@ -77,61 +76,35 @@
   </div>
 
   <div *ngIf="championship.stage!='ClubRegistration'">
-    <div class="participants mt-4 mb-2">
-      <p class="cant">Cantidad de Clubes: {{ clubs.length }}</p>
-      <div>
-        <button class="mx-1 btn btn-outline-primary  btn-block text-L" (click)="returnToSummary()">Volver</button>
-
-      </div>
+    <div class="buttonsS mt-4 mb-2">
+      <span class="cant">Cantidad de Clubes: {{ clubs.length }}</span>
     </div>
-
     <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Codigo de Club</th>
-            <th>Nombre del club</th>
-            <th>Nombre del coach</th>
-            <th>Email del coach</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let club of clubs" class="text-S">
-            <td>
-              <div *ngIf="club.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="club.clubCode">
-              </div>
-              <div *ngIf="!club.isEdit">
-                {{ club.clubCode }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="club.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="club.name">
-              </div>
-              <div *ngIf="!club.isEdit">
-                {{ club.name }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="club.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="club.coachName">
-              </div>
-              <div *ngIf="!club.isEdit">
-                {{ club.coachName }}
-              </div>
-            </td>
-            <td>
-              <div *ngIf="club.isEdit">
-                <input class="form-control text-S" type="text" [(ngModel)]="club.email">
-              </div>
-              <div *ngIf="!club.isEdit">
-                {{ club.email }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-container">
+        <table class="table ">
+          <thead>
+            <tr>
+              <th class="code">Codigo</th>
+              <th class="names">Nombre del club</th>
+              <th class="names">Nombre del coach</th>
+              <th class="names">Email del coach</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let club of clubs" class="text-S">
+              <td>{{ club.clubCode }}
+              </td>
+              <td>{{ club.name }}
+              </td>
+              <td>{{ club.coachName }}
+              </td>
+              <td>{{ club.email }}
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ import {
   responseResponsibleI,
   responsiblePI,
   responsibleEditI,
+  responseResponsiblesRI,
 } from 'src/app/shared/models/responsible';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ChampionshipI } from 'src/app/shared/models/Championship';
@@ -43,6 +44,8 @@ export class ResponsibleRegistrationComponent implements OnInit {
 
   displayResponsibles() {
     this.api.getResponsibles(this.championshipId).subscribe((data) => {
+      console.log('AAAAAAAAAAAAAA');
+      console.log(data);
       const responsiblesWithEditFlag = data.map((responsible) => ({
         ...responsible,
         isEdit: false,
@@ -72,11 +75,13 @@ export class ResponsibleRegistrationComponent implements OnInit {
     console.log(newResponsible);
     this.api
       .postResponsible(this.championshipId, newResponsible)
-      .subscribe((response: responseResponsibleI) => {
+      .subscribe((response: responseResponsiblesRI) => {
+        console.log('ASDASDDDDDDDDDDDDDD');
+        console.log(response);
         console.log(response.status);
-        if (response.status == 201) {
+        if (response.status == 200) {
           const newResponsibleEditable: responsibleEI = {
-            responsibleId: response.data.responsibleId,
+            responsibleId: response.data.id,
             name: newResponsible.name,
             email: newResponsible.email,
             isEdit: true,

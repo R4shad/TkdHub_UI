@@ -93,7 +93,7 @@ export class BracketDownloadComponent implements OnInit {
 
         setTimeout(() => {
           this.generatePDF();
-        }, 4000);
+        }, 2000);
       });
 
     this.api
@@ -195,8 +195,8 @@ export class BracketDownloadComponent implements OnInit {
     this.downloading = true;
     console.log('ENTRE');
     const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgWidth = 230;
-    const imgHeight = 125; // Altura de la imagen del bracket
+    const imgWidth = 265;
+    const imgHeight = 120; // Altura de la imagen del bracket
     const topMargin = 0; // Margen superior
 
     // Conteo total de brackets a descargar
@@ -215,20 +215,20 @@ export class BracketDownloadComponent implements OnInit {
         this.progress = index + 1;
 
         if (index === 0) {
-          pdf.addImage(descriptionImgData, 'PNG', -15, 5, imgWidth, 5);
+          pdf.addImage(descriptionImgData, 'PNG', -30, 5, imgWidth, 10);
           y = topMargin + 15;
         }
         if (index > 0 && index % 2 === 0) {
           pdf.addPage();
           y = topMargin + 15;
-          pdf.addImage(descriptionImgData, 'PNG', -15, 5, imgWidth, 5);
+          pdf.addImage(descriptionImgData, 'PNG', -30, 5, imgWidth, 10);
         }
 
         const bracketData: any = document.getElementById(`bracket${index}`);
         if (bracketData) {
           const bracketCanvas = await html2canvas(bracketData);
           const bracketImgData = bracketCanvas.toDataURL('image/png');
-          pdf.addImage(bracketImgData, 'PNG', -15, y, imgWidth, imgHeight);
+          pdf.addImage(bracketImgData, 'PNG', -25, y, imgWidth, imgHeight);
           y += imgHeight + 10; // Actualizar la posición Y para el próximo bracket
 
           // Si es el último bracket, guardar el PDF

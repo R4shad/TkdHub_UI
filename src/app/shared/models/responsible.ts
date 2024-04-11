@@ -3,6 +3,11 @@ export interface responsibleI {
   name: string;
   email: string;
 }
+export interface responsibleRI {
+  id: string;
+  name: string;
+  email: string;
+}
 export interface responsibleEditI {
   id: string;
   name: string;
@@ -21,6 +26,11 @@ export interface responseResponsibleI {
 export interface responseResponsiblesI {
   status: number;
   data: responsibleI[];
+}
+
+export interface responseResponsiblesRI {
+  status: number;
+  data: responsibleRI;
 }
 
 export interface responseResponsiblePI {

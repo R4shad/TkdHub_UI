@@ -87,6 +87,7 @@ import { ChampionshipStage } from 'src/app/shared/models/enums';
 import {
   responseResponsibleI,
   responseResponsiblesI,
+  responseResponsiblesRI,
   responsibleEditI,
   responsibleI,
   responsiblePI,
@@ -188,9 +189,9 @@ export class ApiService {
   postResponsible(
     championshipId: number,
     newResponsible: responsiblePI
-  ): Observable<responseResponsibleI> {
+  ): Observable<responseResponsiblesRI> {
     let direccion = this.APIurl + 'responsible/' + championshipId;
-    return this.http.post<responseResponsibleI>(direccion, newResponsible);
+    return this.http.post<responseResponsiblesRI>(direccion, newResponsible);
   }
   /*
   getAges(): Observable<agesI[]> {

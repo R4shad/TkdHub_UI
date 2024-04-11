@@ -141,7 +141,17 @@
   padding-left: 2px;
   border-radius: 8px 0 0 8px;
 }
+.number {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "Inter", sans-serif;
+  color: #00224d;
 
+  transform: rotate(90deg);
+
+  padding-bottom: 3px;
+}
 .winner.competitor {
   border-radius: 8px 8px 8px 8px;
 }
@@ -186,14 +196,7 @@
   min-width: 270px;
   max-width: 270px;
 }
-.number {
-  writing-mode: vertical-lr;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: "Inter", sans-serif;
-  color: #00224d;
-}
+
 i {
   font-size: 20px;
   top: 10px;
