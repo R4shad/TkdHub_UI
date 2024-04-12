@@ -19,6 +19,7 @@ import { TenParticipantsBracketComponent } from './components/ten-participants-b
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DefineWinnerModalComponent } from './components/define-winner-modal/define-winner-modal.component';
 import { ThreeParticipantsBracketComponent } from './components/three-participants-bracket/three-participants-bracket.component';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     BracketResultsComponent,
@@ -39,6 +40,6 @@ import { ThreeParticipantsBracketComponent } from './components/three-participan
     DefineWinnerModalComponent,
     ThreeParticipantsBracketComponent,
   ],
-  imports: [CommonModule, NgbModule],
+  imports: [CommonModule, NgbModule, FormsModule],
 })
 export class ResponsiblesModule {}

@@ -87,12 +87,9 @@
 .competitor span:last-child {
   padding-right: 4px;
 }
-.score {
-  margin-left: auto;
-}
 
 .clubCode {
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .name {
@@ -135,7 +132,10 @@
 
 .winner {
   height: fit-content;
-  //background: #a1a16d;
+  color: #ff204e;
+  font-weight: 600 !important;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
 }
 .blue {
   //background: #0077cc;
@@ -186,7 +186,6 @@
 .number {
   //writing-mode: tb;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
   font-family: "Inter", sans-serif;
   color: #00224d;

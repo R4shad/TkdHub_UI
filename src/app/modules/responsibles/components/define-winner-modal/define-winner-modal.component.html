@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Selecciona el resultado del combate</h4>
+        <h4 class="modal-title">Selecciona el ganador</h4>
         <button type="button" class="btn-close" (click)="closeModel()" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
@@ -49,11 +49,10 @@
           <span>El competidor Azul gano el combate.</span>
         </div>
         <div class="buttons">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="closeModel()">Cancelar</button>
           <button type="button" class="btn btn-primary px-2" data-bs-dismiss="modal"
             (click)="confirmWinner()">Confirmar</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeModel()">Close</button>
         </div>
-
       </div>
     </div>
   </div>

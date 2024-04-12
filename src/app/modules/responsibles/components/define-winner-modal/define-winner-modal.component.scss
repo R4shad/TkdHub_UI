@@ -17,22 +17,24 @@
 .rectangle {
   font-size: 20px;
   cursor: pointer;
-  border: 1px solid black;
+  border: 1px solid #ff204e;
 
   &:hover {
-    border-width: 2px; /* Aumentamos el grosor del borde al pasar el ratón por encima */
+    border-width: 4px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
   }
 
   &.active {
-    border-width: 2px; /* Aumentamos el grosor del borde cuando está activo */
-
-    .blue {
-      background: rgba(0, 119, 204, 1);
-    }
-    .red {
-      background: rgba(255, 68, 68, 1);
-    }
+    border-width: 4px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
   }
+}
+span {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .blue,
@@ -42,9 +44,29 @@
 }
 
 .blue {
-  background: rgba(0, 119, 204, 0.6);
+  background: white;
+  color: #ff204e;
 }
 
 .red {
-  background: rgba(255, 68, 68, 0.6);
+  background: #ff204e;
+  color: white;
+}
+.btn-primary {
+  background: white;
+  color: #ff204e;
+  border: 1px solid #ff204e;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  width: 160px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
