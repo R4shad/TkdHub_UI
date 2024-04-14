@@ -1,43 +1,42 @@
-<div>
-  <section class="selector">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-4" (click)="selectUser('trainer')" [ngClass]="{ 'selected': userLogin === 'Entrenador' }">
-          <div class="card">
-            <div class="card-body">
-              <div class="text-center">
-                <h4 class="">Entrenador</h4>
+<section class="h-100 gradient-form" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-10">
+        <div class="card rounded-3 text-black">
+          <div class="row g-0">
+            <div class="col-lg-6">
+              <div class="card-body p-md-5 mx-md-4">
+                <div class="text-center">
+                  <img src="./../../../../../assets/tkd_logo.jpg" style="width: 185px;" alt="logo">
+                  <h4 class="mt-1 mb-5 pb-1 text-L">Iniciar Sesión</h4>
+                </div>
+                <form>
+                  <div class="form-outline mb-4">
+                    <input [(ngModel)]="email" type="email" id="form2Example11" name="username"
+                      class="form-control text-M" />
+                    <label class="form-label text-M" for="form2Example11">Email</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input [(ngModel)]="password" type="password" id="form2Example22" name="password"
+                      class="form-control text-M" />
+                    <label class="form-label text-M" for="form2Example22">Contraseña</label>
+                  </div>
+                  <div class="text-center pt-1 mb-5 pb-1">
+                    <button (click)="login()" class="btn btn-primary  " type="button ">Iniciar
+                      Sesión</button>
+                  </div>
+                </form>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-xl-4" (click)="selectUser('responsible')"
-          [ngClass]="{ 'selected': userLogin === 'Responsable' }">
-          <div class="card">
-            <div class="card-body">
-              <div class="text-center">
-                <h4 class="">Responsable</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4" (click)="selectUser('organizer')" [ngClass]="{ 'selected': userLogin === 'Organizador' }">
-          <div class="card">
-            <div class="card-body">
-              <div class="text-center">
-                <h4 class="">Organizador</h4>
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                <span class="text-logo">Tkd</span>
+                <span class="text-logo-2">Hub</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
-</div>
-
-
-<div>
-  <app-organizer-login *ngIf="userLogin==='organizer'"></app-organizer-login>
-  <app-trainer-login *ngIf="userLogin==='trainer'"></app-trainer-login>
-  <app-responsible-login *ngIf="userLogin==='responsible'"></app-responsible-login>
-</div>
+  </div>
+</section>

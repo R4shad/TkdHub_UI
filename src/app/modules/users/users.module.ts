@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { OrganizerLoginComponent } from './components/organizer-login/organizer-login.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ChampionshipViewComponent } from './pages/championship-view/championship-view.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
-import { TrainerLoginComponent } from './components/trainer-login/trainer-login.component';
-import { ResponsibleLoginComponent } from './components/responsible-login/responsible-login.component';
 import { BracketViwerComponent } from './pages/bracket-viwer/bracket-viwer.component';
 
 import { EightParticipantsBracketComponent } from './components/eight-participants-bracket/eight-participants-bracket.component';
@@ -29,14 +26,10 @@ import { BracketDownloadComponent } from './pages/bracket-download/bracket-downl
 import { CreateUserPasswordComponent } from './pages/create-user-password/create-user-password.component';
 @NgModule({
   declarations: [
-    OrganizerLoginComponent,
     MainPageComponent,
     ChampionshipViewComponent,
     LoginComponent,
-    TrainerLoginComponent,
-    ResponsibleLoginComponent,
     BracketViwerComponent,
-
     TwoParticipantsBracketComponent,
     EightParticipantsBracketComponent,
     FourParticipantsBracketComponent,

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizerLoginComponent } from '../../components/organizer-login/organizer-login.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -7,6 +6,8 @@ import { OrganizerLoginComponent } from '../../components/organizer-login/organi
 })
 export class LoginComponent implements OnInit {
   userLogin: string = 'trainer';
+  email: string = '';
+  password: string = '';
   constructor() {}
 
   ngOnInit(): void {}
@@ -14,4 +15,6 @@ export class LoginComponent implements OnInit {
   selectUser(user: string): void {
     this.userLogin = user;
   }
+
+  login() {}
 }
