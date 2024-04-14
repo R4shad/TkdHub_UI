@@ -8,7 +8,7 @@ import {
   responseChampionshipI,
   responseChampionshipsI,
 } from 'src/app/shared/models/Championship';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tokenI } from 'src/app/shared/models/token';
 import {
@@ -260,6 +260,31 @@ export class ApiService {
         return response.status;
       })
     );
+  }
+
+  updateUserPassword(
+    rol: string,
+    email: string,
+    password: string
+  ): Observable<responseI> {
+    console.log(rol);
+    console.log(email);
+    console.log(password);
+    let direccion = '';
+    if (rol === 'Coach') {
+      console.log('YES');
+    }
+    console.log();
+    if (rol === 'Organizador') {
+      direccion = this.APIurl + 'championship/password/update/' + email;
+    } else if (rol === 'Anotador') {
+      direccion = this.APIurl + 'responsible/password/update/' + email;
+    } else if (rol === 'Coach') {
+      direccion = this.APIurl + 'club/password/' + email;
+    } else {
+      return of({ status: 404, message: 'Error al guardar la contraseña' });
+    }
+    return this.http.patch<responseI>(direccion, { password });
   }
 
   getChampionshipCategory(championshipId: number): Observable<categoryI[]> {

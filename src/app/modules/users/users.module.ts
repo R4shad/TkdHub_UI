@@ -26,6 +26,7 @@ import { ElevenParticipantsBracketComponent } from './components/eleven-particip
 import { TenParticipantsBracketComponent } from './components/ten-participants-bracket/ten-participants-bracket.component';
 import { ThreeParticipantsBracketComponent } from './components/three-participants-bracket/three-participants-bracket.component';
 import { BracketDownloadComponent } from './pages/bracket-download/bracket-download.component';
+import { CreateUserPasswordComponent } from './pages/create-user-password/create-user-password.component';
 @NgModule({
   declarations: [
     OrganizerLoginComponent,
@@ -53,6 +54,7 @@ import { BracketDownloadComponent } from './pages/bracket-download/bracket-downl
 
     ThreeParticipantsBracketComponent,
     BracketDownloadComponent,
+    CreateUserPasswordComponent,
   ],
   imports: [CommonModule, FormsModule],
   providers: [AuthService, DatePipe],
