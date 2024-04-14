@@ -82,10 +82,21 @@
   cursor: not-allowed;
 }
 
-.table {
+.table-responsive {
+  display: flex;
+  justify-content: center;
+}
+
+.table-container {
+  width: 60%;
   border: 1px solid #b6b6b6;
-  border-collapse: separate;
   border-radius: 8px 8px 0px 0px;
+  overflow: hidden; /* Para ocultar el borde de la tabla */
+}
+
+.table {
+  width: 100%;
+  margin: 0;
 }
 
 th {

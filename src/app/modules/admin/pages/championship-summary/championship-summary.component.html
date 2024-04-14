@@ -1,7 +1,4 @@
-<div *ngIf="championship">
-  <h4 class="text-center pb-4 pt-2 mt-4">Progreso del Campeonato</h4>
-</div>
-<div class='progress-bar-container'>
+<div class='progress-bar-container mt-4'>
   <div class="container">
     <div class="progress-container">
       <div class="progress" id="progress"> </div>
@@ -18,137 +15,133 @@
   </div>
 </div>
 
-<div class="container-fluid d-flex justify-content-center mt-4">
-  <div class="row col-10">
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Etapa</th>
-            <th>Descripción</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="text-S">
-            <td>1</td>
-            <td>Configura las Divisiones y Categorias.</td>
-            <td *ngIf="stage<=1">Pendiente</td>
-            <td *ngIf="stage>1">Realizado</td>
-            <td>
-              <div class="action-button">
-                <i *ngIf="stage === 1" class="fa fa-cog px-2" aria-hidden="true"
-                  (click)="goToChampionshipConfiguration()"></i>
-                <i *ngIf="stage >1" class="fa fa-eye px-2" aria-hidden="true"
-                  (click)="goToChampionshipConfiguration()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-S">
-            <td>2</td>
-            <td>Registra a los Clubes y Entrenadores</td>
-            <td *ngIf="stage<=2">Pendiente</td>
-            <td *ngIf="stage>2">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 2" class="action-button">
-                <i *ngIf="stage === 2" class="fa fa-user-plus px-2" aria-hidden="true"
-                  (click)="goToTraineeRegistration()"></i>
-                <i *ngIf="stage >2" class="fa fa-eye px-2" aria-hidden="true" (click)="goToTraineeRegistration()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-S">
-            <td>3</td>
-            <td>Los entrenadores de cada club estan Inscribiendo a sus Competidores.</td>
-            <td *ngIf="stage<=3">Pendiente</td>
-            <td *ngIf="stage>3">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 3" class="action-button">
-                <i *ngIf="stage === 3" class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-                <i *ngIf="stage >3" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-S">
-            <td>4</td>
-            <td>Pesaje: Valida los datos de cada uno de los Competidores.</td>
-            <td *ngIf="stage<=4">Pendiente</td>
-            <td *ngIf="stage>4">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 4" class="action-button">
-                <i *ngIf="stage === 4" class="fa fa-check-square-o px-2" aria-hidden="true"
-                  (click)="goToParticipantValidation()"></i>
-                <i *ngIf="stage >4" class="fa fa-eye px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-S">
-            <td>5</td>
-            <td>Creacion y edicion de las Agrupaciones.</td>
-            <td *ngIf="stage<=5">Pendiente</td>
-            <td *ngIf="stage>5">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 5" class="action-button">
-                <i *ngIf="stage === 5" class="fa fa-pencil  px-2" aria-hidden="true"
-                  (click)="goToCompetitorsGrouping()"></i>
-                <i *ngIf="stage >5" class="fa fa-eye px-2" aria-hidden="true" (click)="goToCompetitorsGrouping()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-S">
-            <td>6</td>
-            <td>Creacion y edicion de las Llaves</td>
-            <td *ngIf="stage<=6">Pendiente</td>
-            <td *ngIf="stage>6">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 6" class="action-button">
-                <i *ngIf="stage === 6" class="fa fa-pencil px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-                <i *ngIf="stage >6" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-S">
-            <td>7</td>
-            <td>Registro de los Responsables, ellos son encargados de registrar a los ganadores de cada combate.</td>
-            <td *ngIf="stage<=7">Pendiente</td>
-            <td *ngIf="stage>7">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 7" class="action-button">
-                <i *ngIf="stage === 7" class="fa fa-user-plus  px-2" aria-hidden="true"
-                  (click)="goToResponsibleRegistration()"></i>
-                <i *ngIf="stage >7" class="fa fa-eye px-2" aria-hidden="true"
-                  (click)="goToResponsibleRegistration()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class=" text-S">
-            <td>8</td>
-            <td>Registrando de los ganadores de cada combate.</td>
-            <td *ngIf="stage<=8">Pendiente</td>
-            <td *ngIf="stage>8">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 8" class="action-button">
-                <i *ngIf="stage === 8" class="fa fa-eye  px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-                <i *ngIf="stage >8" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-S">
-            <td>9</td>
-            <td>Fin del campeonato.</td>
-            <td *ngIf="stage<=9">Pendiente</td>
-            <td *ngIf="stage>9">Realizado</td>
-            <td>
-              <div *ngIf="stage >= 9" class="action-button">
-                <i *ngIf="stage === 9" class="fa fa-file-text-o  px-2" aria-hidden="true"
-                  (click)="goToBracketDraw()"></i>
-                <i *ngIf="stage >9" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="table-responsive mt-4">
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Etapa</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="text-S">
+          <td>1</td>
+          <td>Configura las Divisiones y Categorias.</td>
+          <td *ngIf="stage<=1">Pendiente</td>
+          <td *ngIf="stage>1">Realizado</td>
+          <td>
+            <div class="action-button">
+              <i *ngIf="stage === 1" class="fa fa-cog px-2" aria-hidden="true"
+                (click)="goToChampionshipConfiguration()"></i>
+              <i *ngIf="stage >1" class="fa fa-eye px-2" aria-hidden="true"
+                (click)="goToChampionshipConfiguration()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-S">
+          <td>2</td>
+          <td>Registra a los Clubes y Entrenadores</td>
+          <td *ngIf="stage<=2">Pendiente</td>
+          <td *ngIf="stage>2">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 2" class="action-button">
+              <i *ngIf="stage === 2" class="fa fa-user-plus px-2" aria-hidden="true"
+                (click)="goToTraineeRegistration()"></i>
+              <i *ngIf="stage >2" class="fa fa-eye px-2" aria-hidden="true" (click)="goToTraineeRegistration()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-S">
+          <td>3</td>
+          <td>Los entrenadores de cada club estan Inscribiendo a sus Competidores.</td>
+          <td *ngIf="stage<=3">Pendiente</td>
+          <td *ngIf="stage>3">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 3" class="action-button">
+              <i *ngIf="stage === 3" class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+              <i *ngIf="stage >3" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-S">
+          <td>4</td>
+          <td>Pesaje: Valida los datos de cada uno de los Competidores.</td>
+          <td *ngIf="stage<=4">Pendiente</td>
+          <td *ngIf="stage>4">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 4" class="action-button">
+              <i *ngIf="stage === 4" class="fa fa-check-square-o px-2" aria-hidden="true"
+                (click)="goToParticipantValidation()"></i>
+              <i *ngIf="stage >4" class="fa fa-eye px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-S">
+          <td>5</td>
+          <td>Creacion y edicion de las Agrupaciones.</td>
+          <td *ngIf="stage<=5">Pendiente</td>
+          <td *ngIf="stage>5">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 5" class="action-button">
+              <i *ngIf="stage === 5" class="fa fa-pencil  px-2" aria-hidden="true"
+                (click)="goToCompetitorsGrouping()"></i>
+              <i *ngIf="stage >5" class="fa fa-eye px-2" aria-hidden="true" (click)="goToCompetitorsGrouping()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-S">
+          <td>6</td>
+          <td>Creacion y edicion de las Llaves</td>
+          <td *ngIf="stage<=6">Pendiente</td>
+          <td *ngIf="stage>6">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 6" class="action-button">
+              <i *ngIf="stage === 6" class="fa fa-pencil px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+              <i *ngIf="stage >6" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-S">
+          <td>7</td>
+          <td>Registro de los Responsables, ellos son encargados de registrar a los ganadores de cada combate.</td>
+          <td *ngIf="stage<=7">Pendiente</td>
+          <td *ngIf="stage>7">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 7" class="action-button">
+              <i *ngIf="stage === 7" class="fa fa-user-plus  px-2" aria-hidden="true"
+                (click)="goToResponsibleRegistration()"></i>
+              <i *ngIf="stage >7" class="fa fa-eye px-2" aria-hidden="true" (click)="goToResponsibleRegistration()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class=" text-S">
+          <td>8</td>
+          <td>Registrando de los ganadores de cada combate.</td>
+          <td *ngIf="stage<=8">Pendiente</td>
+          <td *ngIf="stage>8">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 8" class="action-button">
+              <i *ngIf="stage === 8" class="fa fa-eye  px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+              <i *ngIf="stage >8" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-S">
+          <td>9</td>
+          <td>Fin del campeonato.</td>
+          <td *ngIf="stage<=9">Pendiente</td>
+          <td *ngIf="stage>9">Realizado</td>
+          <td>
+            <div *ngIf="stage >= 9" class="action-button">
+              <i *ngIf="stage === 9" class="fa fa-file-text-o  px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+              <i *ngIf="stage >9" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
