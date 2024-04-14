@@ -76,6 +76,7 @@ export class HeaderComponent implements OnInit {
   logOut(): void {
     this.authService.logout();
     localStorage.removeItem('token');
+    this.authService.setAuthenticated(false, '');
     this.token = null;
     this.router.navigate(['/']);
   }
