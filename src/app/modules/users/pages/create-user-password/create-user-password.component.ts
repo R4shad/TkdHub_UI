@@ -10,6 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CreateUserPasswordComponent implements OnInit {
   email: string = '';
   rol: string = '';
+
+  password1: string = '';
+  password2: string = '';
   differentPasswords: boolean = false;
   constructor(
     private api: ApiService,
@@ -38,30 +41,28 @@ export class CreateUserPasswordComponent implements OnInit {
     });
   }
 
-  submitForm(championshipForm: any) {
-    if (championshipForm.valid) {
-      const formData = championshipForm.value;
-      if (formData.password1 !== formData.password2) {
-        this.differentPasswords = true; // Establecer la bandera si las contraseñas son diferentes
-      } else {
-        this.differentPasswords = false; // Restablecer la bandera si las contraseñas son iguales
-        const password = formData.password1;
-
-        this.api.updateUserPassword(this.rol, this.email, password).subscribe({
-          next: (response) => {
-            console.log(response);
-            if (response.status === 200) {
-              alert('Creada correctamente');
-              championshipForm.reset();
-            }
-          },
-          error: (error) => {
-            console.error('Error al crear:', error);
-          },
-        });
-      }
+  submitForm() {
+    if (this.password1 !== this.password2) {
+      this.differentPasswords = true; // Establecer la bandera si las contraseñas son diferentes
     } else {
-      console.log('Formulario no válido');
+      this.differentPasswords = false; // Restablecer la bandera si las contraseñas son iguales
+
+      const password = this.password1;
+
+      // Llama a tu método de actualización de contraseña aquí
+      this.api.updateUserPassword(this.rol, this.email, password).subscribe({
+        next: (response) => {
+          console.log(response);
+          if (response.status === 200) {
+            alert('Contraseña creada correctamente');
+            this.password1 = ''; // Limpia el campo de contraseña
+            this.password2 = ''; // Limpia el campo de repetir contraseña
+          }
+        },
+        error: (error) => {
+          console.error('Error al crear contraseña:', error);
+        },
+      });
     }
   }
 }
