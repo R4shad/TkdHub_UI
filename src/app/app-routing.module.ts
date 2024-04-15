@@ -19,22 +19,13 @@ import { BracketViwerComponent } from './modules/users/pages/bracket-viwer/brack
 import { BracketDownloadComponent } from './modules/users/pages/bracket-download/bracket-download.component';
 import { ResponsibleRegistrationComponent } from './modules/admin/pages/responsible-registration/responsible-registration.component';
 import { CreateUserPasswordComponent } from './modules/users/pages/create-user-password/create-user-password.component';
+
+import { AuthGuard } from './auth.guard';
+
 const routes: Routes = [
   {
     path: 'Rashad/crearCampeonato',
     component: ChampionshipCreatorComponent,
-  },
-  {
-    path: 'Registro-Clubes',
-    component: TrainerRegistrationComponent,
-  },
-  {
-    path: 'Vista-Clubes',
-    component: ChampionshipSummaryComponent,
-  },
-  {
-    path: 'Vista-Competidores',
-    component: CompetitorViewComponent,
   },
   {
     path: '',
@@ -51,41 +42,57 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Organizer',
     component: ChampionshipSummaryComponent, // Componente para los detalles del campeonato
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Organizer/TraineeRegistration',
     component: TrainerRegistrationComponent, // Componente para los detalles del campeonato
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Organizer/ResponsibleRegistration',
     component: ResponsibleRegistrationComponent, // Componente para los detalles del campeonato
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Organizer/ParticipantValidation',
     component: ParticipantValidationComponent, // Componente para los detalles del campeonato
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Organizer/ChampionshipConfiguration',
     component: ChampionshipConfigurationComponent,
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Organizer/Grouping',
     component: GroupingCompetitorsComponent,
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Organizer/BracketDraw',
     component: BracketDrawComponent,
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Organizer/BracketDraw/DownloadBracket',
     component: BracketDownloadComponent,
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'championship/:championshipId/Coach/:clubCode',
     component: CompetitorViewComponent,
   },
   {
-    path: 'championship/:championshipId/Responsible/BracketResults',
+    path: 'championship/:championshipId/Scorer/BracketResults',
     component: BracketResultsComponent,
   },
 

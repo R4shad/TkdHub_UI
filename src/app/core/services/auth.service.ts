@@ -10,11 +10,13 @@ export class AuthService {
   isAuthenticated$: Observable<boolean> =
     this.isAuthenticatedSubject.asObservable();
 
-  setAuthenticated(value: boolean, data: string): void {
-    this.isAuthenticatedSubject.next(value);
-    if (data != 'null') {
-      localStorage.setItem('token', data);
+  setAuthenticated(value: boolean, token: string | null): void {
+    if (token) {
+      localStorage.setItem('token', token);
+    } else {
+      localStorage.removeItem('token');
     }
+    this.isAuthenticatedSubject.next(value);
   }
 
   getToken(): string | null {
@@ -22,7 +24,6 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.setAuthenticated(false, 'null');
+    this.setAuthenticated(false, null);
   }
 }
