@@ -1,28 +1,22 @@
-<div>
-  <div class='championship-title'>
-    <h1>Campeonatos</h1>
+<div class="slider-container">
+  <div *ngFor="let c of cant; let i = index" class="slide" [class.active]="i === currentSlideIndex">
+    <img [src]="'./../../../../../assets/fondos/wp' + (i + 1) + '.jpg'" alt="Slide {{i + 1}}">
   </div>
+</div>
 
-
-  <div class="rectangulo-container">
-    <div class="rectangulo" *ngFor="let championship of championships"
-      (click)="navigateToChampionship(championship.championshipId)">
+<div class="rectangulo-container">
+  <ng-container *ngFor="let championship of displayedChampionships">
+    <div class="rectangulo">
       <div class="informacion">
         <span class="titulo">{{championship.championshipName}}</span>
         <span class="date">{{formatFecha(championship.championshipDate)}}</span>
-
         <ng-container [ngSwitch]="championship.stage">
-          <span class="status" *ngSwitchCase="'InitialConfiguration'">Etapa Inicial</span>
-          <span class="status" *ngSwitchCase="'ClubRegistration'">Etapa de registro de Clubes</span>
-          <span class="status" *ngSwitchCase="'Registrations'">Etapa de registro de Competidores</span>
-          <span class="status" *ngSwitchCase="'Weigh-in'">Etapa de pesaje</span>
-          <span class="status" *ngSwitchCase="'Groupings'">Etapa de agrupaciones</span>
-          <span class="status" *ngSwitchCase="'BracketDraw'">Etapa de creación de llaves</span>
-          <span class="status" *ngSwitchCase="'ResponsiblesRegistration'">Etapa de registro de responsables</span>
-          <span class="status" *ngSwitchCase="'CombatRecord'">Etapa de combates</span>
-          <span class="status" *ngSwitchCase="'End'">Finalizado</span>
+          <!-- Tus casos ngSwitch -->
         </ng-container>
       </div>
     </div>
-  </div>
+  </ng-container>
+</div>
+<div class="text-center">
+  <button class="btn btn-primaryS mt-3" (click)="loadMoreChampionships()">Ver Más</button>
 </div>

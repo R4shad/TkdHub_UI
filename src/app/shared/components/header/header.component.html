@@ -13,7 +13,8 @@
     <div class="center">
       <!-- <i class="fa fa-chevron-left" aria-hidden="true" (click)="goBack()"></i> -->
       <div class="center logo">
-        <p class="text-logo">TkdHub</p>
+        <span class="text-logo">Tkd</span>
+        <span class="text-logo-2">Hub</span>
       </div>
     </div>
     <div class="bot">
@@ -23,11 +24,19 @@
     </div>
     <div class="center">
       <ng-container *ngIf="!inLogin()">
-        <div *ngIf="isOrganizer()" class="login-container" (click)="logOut()">
+        <div *ngIf="getRoleType()==='Organizer'" class="login-container" (click)="logOut()">
           <span class="roll">Organizador</span>
           <span class="logOut">Cerrar Sesión</span>
         </div>
-        <div *ngIf="!isOrganizer()" class="login-container" (click)="goToLogin()">
+        <div *ngIf="getRoleType()==='Coach'" class="login-container" (click)="logOut()">
+          <span class="roll">Coach</span>
+          <span class="logOut">Cerrar Sesión</span>
+        </div>
+        <div *ngIf="getRoleType()==='Poiner'" class="login-container" (click)="logOut()">
+          <span class="roll">Poiner</span>
+          <span class="logOut">Cerrar Sesión</span>
+        </div>
+        <div *ngIf="getRoleType()===''" class="login-container" (click)="goToLogin()">
           <span class="roll">INGRESAR</span>
         </div>
       </ng-container>

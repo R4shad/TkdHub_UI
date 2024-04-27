@@ -10,23 +10,37 @@ import { Router } from '@angular/router';
 })
 export class MainPageComponent implements OnInit {
   championships: ChampionshipI[] = [];
+  displayedChampionships: ChampionshipI[] = [];
+  currentSlideIndex: number = 0;
+  cant = new Array(7);
+  chunkSize = 1; // Cantidad de campeonatos a cargar por vez
 
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     console.log('OnInit called');
     this.showAllChampionships();
+    this.startSlider();
   }
 
   showAllChampionships() {
     this.api.getAllChampionships().subscribe((data) => {
       this.championships = data;
+      this.displayedChampionships = this.championships.slice(0, 1);
     });
   }
 
   navigateToChampionship(championshipId: number) {
     const url = `/championship/${championshipId}`;
     this.router.navigateByUrl(url);
+  }
+
+  loadMoreChampionships() {
+    const endIndex = Math.min(
+      this.displayedChampionships.length + this.chunkSize,
+      this.championships.length
+    );
+    this.displayedChampionships = this.championships.slice(0, endIndex);
   }
 
   formatFecha(fecha: string): string {
@@ -51,5 +65,15 @@ export class MainPageComponent implements OnInit {
     const año = fechaObj.getFullYear();
 
     return `${dia} de ${mes} del ${año}`;
+  }
+
+  startSlider() {
+    setInterval(() => {
+      if (this.currentSlideIndex >= 7) {
+        this.currentSlideIndex = 1;
+      }
+      this.currentSlideIndex =
+        (this.currentSlideIndex + 1) % this.championships.length;
+    }, 5000); // Cambia cada 5 segundos
   }
 }

@@ -23,6 +23,7 @@ import {
 } from 'src/app/modules/admin/utils/participantValidation.utils';
 import { agesI } from 'src/app/shared/models/ages';
 import { divisionI } from 'src/app/shared/models/division';
+import { ChampionshipI } from 'src/app/shared/models/Championship';
 
 interface ParticipantEI extends participantI {
   isEdit: boolean;
@@ -39,6 +40,7 @@ export class CompetitorViewComponent implements OnInit {
   participants: ParticipantEI[] = [];
   participantsFilter: ParticipantEI[] = [];
   filtroSexo = new FormControl('');
+  championship!: ChampionshipI;
   championshipId: number = 0;
   clubCode: string = '';
 
@@ -52,6 +54,14 @@ export class CompetitorViewComponent implements OnInit {
 
   orderBy: string = '';
   orderDirection: 'asc' | 'desc' | 'normal' = 'normal';
+
+  selectedGender: string = 'Ambos';
+  selectedCategory: string = 'Todos';
+  selectedAgeInterval: string = 'Todos';
+
+  visibleParticipants: number = 10;
+  visibleParticipantsIndex: number = 0;
+  increment: number = 10;
   constructor(
     private api: ApiService,
     private router: Router,
@@ -62,9 +72,37 @@ export class CompetitorViewComponent implements OnInit {
     this.getData();
   }
 
+  get displayedParticipants() {
+    return this.participantsFilter.slice(0, this.visibleParticipants);
+  }
+
+  showAll() {
+    this.increment = this.participantsFilter.length;
+  }
+
+  paginate() {
+    this.increment = 10;
+  }
+
+  showMoreParticipants() {
+    this.visibleParticipants += 10;
+    this.visibleParticipantsIndex += 10;
+  }
+
+  showLessParticipants() {
+    this.visibleParticipants -= 10;
+    this.visibleParticipantsIndex -= 10;
+    if (this.visibleParticipantsIndex < 0) {
+      this.visibleParticipantsIndex = 0;
+    }
+  }
+
   getData() {
     this.route.paramMap.subscribe((params) => {
       this.championshipId = Number(params.get('championshipId'));
+    });
+    this.api.getChampionshipInfo(this.championshipId).subscribe((data) => {
+      this.championship = data;
     });
     this.route.paramMap.subscribe((params) => {
       this.clubCode = params.get('clubCode')!;
@@ -300,6 +338,60 @@ export class CompetitorViewComponent implements OnInit {
     }
   }
 
+  filterGender(selected: string) {
+    this.selectedGender = selected;
+    this.applyFilters();
+  }
+
+  filterCategory(categoryName: string) {
+    this.selectedCategory = categoryName;
+    this.applyFilters();
+  }
+
+  filterAgeInterval(interval: string) {
+    this.selectedAgeInterval = interval;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.visibleParticipants = 10;
+    this.participantsFilter = this.participants;
+
+    // Aplicar filtro de género
+    if (this.selectedGender !== 'Ambos') {
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => participant.gender === this.selectedGender
+      );
+    }
+
+    // Aplicar filtro de categoría
+    if (this.selectedCategory !== 'Todos') {
+      const category: categoryI | undefined = this.categories.find(
+        (category) => category.categoryName === this.selectedCategory
+      );
+      if (category) {
+        const validGrades = this.getValidGradesForCategory(category);
+        this.participantsFilter = this.participantsFilter.filter(
+          (participant) => validGrades.includes(participant.grade)
+        );
+      }
+    }
+
+    // Aplicar filtro de intervalo de edades si se proporcionan minAge y maxAge
+    if (this.selectedAgeInterval !== 'Todos') {
+      const [minAge, maxAge] = this.selectedAgeInterval.split('-');
+      console.log(minAge);
+      console.log(maxAge);
+      this.participantsFilter = this.participantsFilter.filter(
+        (participant) => {
+          const age = participant.age;
+          return age >= Number(minAge) && age <= Number(maxAge);
+        }
+      );
+      console.log(this.participantsFilter);
+    }
+  }
+
   filter() {
     if (this.orderBy) {
       this.participantsFilter.sort((a, b) => {
@@ -323,5 +415,29 @@ export class CompetitorViewComponent implements OnInit {
         }
       });
     }
+  }
+
+  getValidGradesForCategory(category: categoryI): string[] {
+    const validGrades: string[] = [];
+
+    const valorMin = obtenerValorNumerico(category.gradeMin);
+    const valorMax = obtenerValorNumerico(category.gradeMax);
+
+    for (let i = valorMin; i <= valorMax; i++) {
+      const color = obtenerColor(i);
+      if (color) {
+        validGrades.push(color);
+      }
+    }
+
+    return validGrades;
+  }
+
+  removeTrailingZero(): number {
+    let numStr = this.visibleParticipants.toString();
+    if (numStr.endsWith('0')) {
+      numStr = numStr.slice(0, -1);
+    }
+    return parseFloat(numStr);
   }
 }

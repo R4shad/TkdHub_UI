@@ -104,16 +104,30 @@ export class HeaderComponent implements OnInit {
     return false;
   }
 
-  isOrganizer(): boolean {
+  getRoleType(): string {
     const urlParts = window.location.href.split('/');
     const championshipIdIndex = urlParts.indexOf('championship');
+
     if (
       championshipIdIndex !== -1 &&
       urlParts.length > championshipIdIndex + 2 &&
       urlParts[championshipIdIndex + 2] === 'Organizer'
     ) {
-      return true;
+      return 'Organizer';
+    } else if (
+      championshipIdIndex !== -1 &&
+      urlParts.length > championshipIdIndex + 2 &&
+      urlParts[championshipIdIndex + 2] === 'Coach'
+    ) {
+      return 'Coach';
+    } else if (
+      championshipIdIndex !== -1 &&
+      urlParts.length > championshipIdIndex + 2 &&
+      urlParts[championshipIdIndex + 2] === 'Poiner'
+    ) {
+      return 'Poiner';
+    } else {
+      return '';
     }
-    return false;
   }
 }

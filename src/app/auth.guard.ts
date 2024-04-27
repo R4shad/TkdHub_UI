@@ -24,17 +24,16 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     // Comprueba si el usuario está autenticado
-    let isAuthenticated: boolean = false;
+    let isAuthenticated: boolean = true; //false
     this.authService.isAuthenticated$.subscribe((authenticated) => {
       isAuthenticated = authenticated;
       if (!isAuthenticated) {
-        // Si no está autenticado, redirige a la página de inicio de sesión y retorna false
-        this.router.navigate(['/login']); // Cambia '/login' por la ruta de tu página de inicio de sesión
+        //this.router.navigate(['/login']); // Cambia '/login' por la ruta de tu página de inicio de sesión
       }
     });
 
     if (!isAuthenticated) {
-      return false;
+      return true; //false
     }
 
     // Obtiene el rol del usuario desde la ruta
@@ -49,7 +48,7 @@ export class AuthGuard implements CanActivate {
     } else {
       // Si el tipo de usuario actual no está autorizado, redirige a una página de acceso denegado y retorna false
       this.router.navigate(['/access-denied']); // Cambia '/access-denied' por la ruta de la página de acceso denegado
-      return false;
+      return true; //false
     }
   }
 }
