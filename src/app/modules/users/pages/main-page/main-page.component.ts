@@ -18,14 +18,21 @@ export class MainPageComponent implements OnInit {
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('OnInit called');
     this.showAllChampionships();
     this.startSlider();
   }
 
   showAllChampionships() {
     this.api.getAllChampionships().subscribe((data) => {
-      this.championships = data;
+      this.championships = data.sort((a, b) => {
+        return (
+          new Date(a.championshipDate).getTime() -
+          new Date(b.championshipDate).getTime()
+        );
+      });
+
+      this.championships.reverse();
+      console.log(this.championships);
       this.displayedChampionships = this.championships.slice(0, 1);
     });
   }

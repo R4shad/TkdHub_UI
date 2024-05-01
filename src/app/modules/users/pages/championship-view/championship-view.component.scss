@@ -4,6 +4,12 @@
 
   text-align: center; /* Centrar el texto dentro de los elementos */
 }
+.container {
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .informacion {
   flex: 1;
 }

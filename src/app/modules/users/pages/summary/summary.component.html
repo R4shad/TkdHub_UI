@@ -1,0 +1,86 @@
+<div *ngIf="championship">
+  <div class="mt-4 mb-4">
+    <div *ngIf="bracketResults.length>0">
+      <div class="description-center">
+        <div class="participants mt-2 mb-2">
+          <span *ngIf="bracketResults.length>0" class="cant">Mostrando {{visibleBrackets}} de {{
+            bracketResults.length }}</span>
+        </div>
+      </div>
+      <ng-container *ngFor="let bracket of displayedBrackets; let i = index">
+        <div *ngIf="i < visibleBrackets">
+          <div class="text-center">
+            <div class="bracket-description">
+              <span>{{ getBracketCategoryName(bracket.categoryId) }}</span>
+              <span>{{ getBracketGrouping(bracket.divisionId) }}</span>
+              <span *ngIf="getBracketMinWeightInterval(bracket) !== 0 && getBracketMaxWeightInterval(bracket) !== 100">
+                ( {{ getBracketMinWeightInterval(bracket.divisionId) }} - {{
+                getBracketMaxWeightInterval(bracket.divisionId) }} Kg)
+              </span>
+              <span
+                *ngIf="getBracketMinWeightInterval(bracket.divisionId) !== 0 && getBracketMaxWeightInterval(bracket.divisionId) === 100">
+                (+{{ getBracketMinWeightInterval(bracket.divisionId) }} Kg)
+              </span>
+              <span *ngIf="getBracketMinWeightInterval(bracket.divisionId) === 0">
+                ( -{{ getBracketMaxWeightInterval(bracket.divisionId) }} Kg)
+              </span>
+              <span>{{bracket.results[0].gender}}</span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr class="bg text-white">
+                    <th>Medalla</th>
+                    <th>Apellido y Nombre</th>
+                    <th>Club</th>
+                    <th>Edad</th>
+                    <th>Peso</th>
+                    <th>Grado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let result of bracket.results">
+                    <tr>
+                      <td>{{ result.position }}</td>
+                      <td>{{ result.firstNames }} {{ result.lastNames }}</td>
+                      <td>{{ result.clubCode }}</td>
+                      <td>{{ result.age }}</td>
+                      <td>{{ result.weight }} Kg</td>
+                      <td>{{ result.grade }}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="text-center mt-3">
+      <div class="left-rows" [ngClass]="{'clickable': visibleBrackets!=1}">
+        <div *ngIf="visibleBrackets===1">
+          <img src="./../../../../../assets/leftL2.png" alt="row">
+          <img src="./../../../../../assets/leftL1.png" alt="row">
+        </div>
+        <div *ngIf="visibleBrackets!=1" (click)="showLessBrackets()">
+          <img src="./../../../../../assets/leftM2.png" alt="row">
+          <img src="./../../../../../assets/leftM1.png" alt="row">
+        </div>
+      </div>
+      <span class="pageN">{{visibleBrackets}}</span>
+      <div class="right-rows" [ngClass]="{'clickable': visibleBrackets<bracketResults.length}">
+        <div *ngIf="visibleBrackets<bracketResults.length" (click)="showMoreBrackets()">
+          <img src="./../../../../../assets/rightM1.png" alt="row">
+          <img src="./../../../../../assets/rightM2.png" alt="row">
+        </div>
+        <div *ngIf="visibleBrackets>=bracketResults.length">
+          <img src="./../../../../../assets/rightL1.png" alt="row">
+          <img src="./../../../../../assets/rightL2.png" alt="row">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

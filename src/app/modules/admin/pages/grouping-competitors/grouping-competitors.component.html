@@ -338,32 +338,33 @@
             </div>
           </div>
         </ng-container>
-      </div>
-      <div class="text-center mt-3">
-        <div class="left-rows" [ngClass]="{'clickable': visibleBrackets!=1}">
-          <div *ngIf="visibleBrackets===1">
-            <img src="./../../../../../assets/leftL2.png" alt="row">
-            <img src="./../../../../../assets/leftL1.png" alt="row">
+        <div class="text-center mt-3">
+          <div class="left-rows" [ngClass]="{'clickable': visibleBrackets!=1}">
+            <div *ngIf="visibleBrackets===1">
+              <img src="./../../../../../assets/leftL2.png" alt="row">
+              <img src="./../../../../../assets/leftL1.png" alt="row">
+            </div>
+            <div *ngIf="visibleBrackets!=1" (click)="showLessBrackets()">
+              <img src="./../../../../../assets/leftM2.png" alt="row">
+              <img src="./../../../../../assets/leftM1.png" alt="row">
+            </div>
           </div>
-          <div *ngIf="visibleBrackets!=1" (click)="showLessBrackets()">
-            <img src="./../../../../../assets/leftM2.png" alt="row">
-            <img src="./../../../../../assets/leftM1.png" alt="row">
-          </div>
-        </div>
-        <span class="pageN">{{visibleBrackets}}</span>
-        <div class="right-rows" [ngClass]="{'clickable': visibleBrackets<bracketsFiltered.length}">
-          <div *ngIf="visibleBrackets<bracketsFiltered.length" (click)="showMoreBrackets()">
-            <img src="./../../../../../assets/rightM1.png" alt="row">
-            <img src="./../../../../../assets/rightM2.png" alt="row">
-          </div>
-          <div *ngIf="visibleBrackets>=bracketsFiltered.length">
-            <img src="./../../../../../assets/rightL1.png" alt="row">
-            <img src="./../../../../../assets/rightL2.png" alt="row">
+          <span class="pageN">{{visibleBrackets}}</span>
+          <div class="right-rows" [ngClass]="{'clickable': visibleBrackets<bracketsFiltered.length}">
+            <div *ngIf="visibleBrackets<bracketsFiltered.length" (click)="showMoreBrackets()">
+              <img src="./../../../../../assets/rightM1.png" alt="row">
+              <img src="./../../../../../assets/rightM2.png" alt="row">
+            </div>
+            <div *ngIf="visibleBrackets>=bracketsFiltered.length">
+              <img src="./../../../../../assets/rightL1.png" alt="row">
+              <img src="./../../../../../assets/rightL2.png" alt="row">
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <ng-template #modalContent let-c="close" let-d="dismiss">
     <div class="modal-header">
       <h4 class="modal-title">ALERTA</h4>

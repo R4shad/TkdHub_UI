@@ -130,4 +130,8 @@ export class HeaderComponent implements OnInit {
       return '';
     }
   }
+
+  goHome(){
+    this.router.navigate(['/']);
+  }
 }

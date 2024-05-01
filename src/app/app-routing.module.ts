@@ -21,6 +21,7 @@ import { ResponsibleRegistrationComponent } from './modules/admin/pages/responsi
 import { CreateUserPasswordComponent } from './modules/users/pages/create-user-password/create-user-password.component';
 
 import { AuthGuard } from './auth.guard';
+import { SummaryComponent } from './modules/users/pages/summary/summary.component';
 
 const routes: Routes = [
   {
@@ -90,6 +91,10 @@ const routes: Routes = [
   {
     path: 'championship/:championshipId/Coach/:clubCode',
     component: CompetitorViewComponent,
+  },
+  {
+    path: 'championship/:championshipId/Summary',
+    component: SummaryComponent,
   },
   {
     path: 'championship/:championshipId/Scorer/BracketResults',

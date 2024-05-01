@@ -769,6 +769,15 @@ export class ApiService {
     );
   }
 
+  getDivisionsByChampionship(championshipId: number): Observable<divisionI[]> {
+    let direccion = this.APIurl + 'division/' + championshipId;
+    return this.http.get<responseDivisionsI>(direccion).pipe(
+      map((response: responseDivisionsI) => {
+        return response.data;
+      })
+    );
+  }
+
   postBracket(
     bracket: bracketI
   ): Observable<responseBracketWithCompetitorToEditI> {
@@ -794,6 +803,26 @@ export class ApiService {
     let direccion = this.APIurl + 'bracket/withCompetitors/' + championshipId;
     return this.http.get<responseBracketWithCompetitorsToEditI>(direccion).pipe(
       map((response: responseBracketWithCompetitorsToEditI) => {
+        return response.data;
+      })
+    );
+  }
+
+  getBracketsResults(
+    championshipId: number
+  ): Observable<bracketWithCompetitorsEI[]> {
+    let direccion = this.APIurl + 'bracket/results/' + championshipId;
+    return this.http.get<any>(direccion).pipe(
+      map((response: any) => {
+        return response.data;
+      })
+    );
+  }
+
+  getCompetitors(championshipId: number): Observable<completeCompetitorI[]> {
+    let direccion = this.APIurl + 'bracket/withCompetitors/' + championshipId;
+    return this.http.get<responseCompleteCompetitorI>(direccion).pipe(
+      map((response: responseCompleteCompetitorI) => {
         return response.data;
       })
     );

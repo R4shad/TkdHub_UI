@@ -6,13 +6,10 @@
 
 <div class="rectangulo-container">
   <ng-container *ngFor="let championship of displayedChampionships">
-    <div class="rectangulo">
+    <div class="rectangulo" (click)="navigateToChampionship(championship.championshipId)">
       <div class="informacion">
         <span class="titulo">{{championship.championshipName}}</span>
         <span class="date">{{formatFecha(championship.championshipDate)}}</span>
-        <ng-container [ngSwitch]="championship.stage">
-          <!-- Tus casos ngSwitch -->
-        </ng-container>
       </div>
     </div>
   </ng-container>
