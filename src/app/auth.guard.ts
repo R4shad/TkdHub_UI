@@ -38,7 +38,7 @@ export class AuthGuard implements CanActivate {
 
     // Obtiene el rol del usuario desde la ruta
     const segments = state.url.split('/');
-    const roleIndex = segments.indexOf('championship') + 2; // El índice del rol es dos segmentos después de 'championshipId'
+    const roleIndex = segments.indexOf('Championship') + 2; // El índice del rol es dos segmentos después de 'championshipId'
     const currentUserRole = segments[roleIndex] as string; // Asegúrate de que se interprete como una cadena
 
     // Comprueba el tipo de usuario

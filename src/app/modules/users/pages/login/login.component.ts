@@ -47,10 +47,10 @@ export class LoginComponent implements OnInit {
         this.password
       )
       .subscribe((data) => {
-        console.log(data);
+        console.log('a', data);
         this.authService.setAuthenticated(true, data.token);
         this.router.navigate([
-          'championship/' + this.championship.championshipId + '/Organizer',
+          'Championship/' + this.championship.championshipId + '/Organizer',
         ]);
         localStorage.setItem('token', data.token);
       });

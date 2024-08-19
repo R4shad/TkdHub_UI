@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit {
 
   getChampionshipIdFromUrl(): number {
     const urlParts = window.location.href.split('/');
-    const championshipIdIndex = urlParts.indexOf('championship');
+    const championshipIdIndex = urlParts.indexOf('Championship');
     if (
       championshipIdIndex !== -1 &&
       urlParts.length > championshipIdIndex + 1
@@ -93,7 +93,7 @@ export class HeaderComponent implements OnInit {
 
   inLogin(): boolean {
     const urlParts = window.location.href.split('/');
-    const championshipIdIndex = urlParts.indexOf('championship');
+    const championshipIdIndex = urlParts.indexOf('Championship');
     if (
       championshipIdIndex !== -1 &&
       urlParts.length > championshipIdIndex + 2 &&
@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit {
 
   getRoleType(): string {
     const urlParts = window.location.href.split('/');
-    const championshipIdIndex = urlParts.indexOf('championship');
+    const championshipIdIndex = urlParts.indexOf('Championship');
 
     if (
       championshipIdIndex !== -1 &&
