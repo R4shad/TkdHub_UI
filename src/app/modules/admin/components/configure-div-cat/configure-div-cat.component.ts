@@ -174,6 +174,7 @@ export class ConfigureDivCatComponent implements OnInit {
       this.api
         .updateChampionshipStage(this.championshipId)
         .subscribe((data) => {
+          console.log(data);
           if (data === 200) {
             if (this.modalRef != undefined) {
               this.modalRef.close(); // Cierra modalRef solo si está definido

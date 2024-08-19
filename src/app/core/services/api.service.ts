@@ -257,7 +257,8 @@ export class ApiService {
     let direccion = this.APIurl + 'championship/updateStage/' + championshipId;
     return this.http.put<responseI>(direccion, {}).pipe(
       map((response: any) => {
-        return response.status;
+        console.log('RESPUESTA:', response);
+        return 200;
       })
     );
   }
