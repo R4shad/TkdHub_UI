@@ -83,12 +83,12 @@ export class HeaderComponent implements OnInit {
 
   goBack() {
     const championshipId = this.championship.championshipId;
-    this.router.navigate(['/championship', championshipId, 'Organizer']);
+    this.router.navigate(['/Championship', championshipId, 'Organizer']);
   }
 
   goToLogin() {
     const championshipId = this.championship.championshipId;
-    this.router.navigate(['/championship', championshipId, 'login']);
+    this.router.navigate(['/Championship', championshipId, 'login']);
   }
 
   inLogin(): boolean {
@@ -123,15 +123,15 @@ export class HeaderComponent implements OnInit {
     } else if (
       championshipIdIndex !== -1 &&
       urlParts.length > championshipIdIndex + 2 &&
-      urlParts[championshipIdIndex + 2] === 'Poiner'
+      urlParts[championshipIdIndex + 2] === 'Scorer'
     ) {
-      return 'Poiner';
+      return 'Scorer';
     } else {
       return '';
     }
   }
 
-  goHome(){
+  goHome() {
     this.router.navigate(['/']);
   }
 }

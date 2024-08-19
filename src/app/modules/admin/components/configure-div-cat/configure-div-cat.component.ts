@@ -179,7 +179,7 @@ export class ConfigureDivCatComponent implements OnInit {
               this.modalRef.close(); // Cierra modalRef solo si está definido
             }
             this.router.navigate([
-              '/championship',
+              '/Championship',
               this.championshipId,
               'Organizer',
             ]);

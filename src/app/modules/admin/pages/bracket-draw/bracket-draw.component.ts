@@ -305,7 +305,7 @@ export class BracketDrawComponent implements OnInit {
               this.modalRef.close(); // Cierra modalRef solo si está definido
             }
             this.router.navigate([
-              '/championship',
+              '/Championship',
               this.championshipId,
               'Organizer',
             ]);
@@ -316,7 +316,7 @@ export class BracketDrawComponent implements OnInit {
   }
 
   generatePDF(): void {
-    const url = `/championship/${this.championshipId}/Organizer/BracketDraw/DownloadBracket`;
+    const url = `/Championship/${this.championshipId}/Organizer/BracketDraw/DownloadBracket`;
     window.open(url, '_blank');
   }
 }

@@ -1,7 +1,7 @@
 <div *ngIf="championship">
-  <div class="mt-4 mb-4" *ngIf="championship.stage==='Groupings'">
-    <div class="text-center mt-4">
-      <button *ngIf="brackets.length===0" class="mx-1 btn btn-primary" (click)="createGroupings()">Crear
+  <div class="mb-4" *ngIf="championship.stage==='Groupings'">
+    <div *ngIf="brackets.length===0" class="text-center">
+      <button class="mx-1 btn btn-primary" (click)="createGroupings()">Crear
         Agrupaciones</button>
     </div>
     <div *ngIf="brackets.length>0">
@@ -168,7 +168,7 @@
         </div>
       </ng-container>
     </div>
-    <div class="text-center mt-3">
+    <div class="text-center ">
       <div class="left-rows" [ngClass]="{'clickable': visibleBrackets!=1}">
         <div *ngIf="visibleBrackets===1">
           <img src="./../../../../../assets/leftL2.png" alt="row">
@@ -198,8 +198,8 @@
 
   </div>
 
-  <div class="mt-4 mb-4" *ngIf="championship.stage!='Groupings'">
-    <div class="text-center mt-4">
+  <div class=" mb-4" *ngIf="championship.stage!='Groupings'">
+    <div class="text-center">
       <div *ngIf="brackets.length>0">
         <div class="description-center">
           <div class="filters-container">

@@ -132,7 +132,7 @@ export class ResponsibleRegistrationComponent implements OnInit {
   }
 
   returnToSummary() {
-    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
+    this.router.navigate(['/Championship', this.championshipId, 'Organizer']);
   }
 
   confirm() {
@@ -150,7 +150,7 @@ export class ResponsibleRegistrationComponent implements OnInit {
                     this.modalRef.close();
                   }
                   this.router.navigate([
-                    '/championship',
+                    '/Championship',
                     this.championshipId,
                     'Organizer',
                   ]);

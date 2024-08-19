@@ -25,7 +25,7 @@ import { SummaryComponent } from './modules/users/pages/summary/summary.componen
 
 const routes: Routes = [
   {
-    path: 'Rashad/crearCampeonato',
+    path: 'Rashad/CrearCampeonato',
     component: ChampionshipCreatorComponent,
   },
   {
@@ -33,81 +33,81 @@ const routes: Routes = [
     component: MainPageComponent,
   },
   {
-    path: 'championship/:championshipId',
+    path: 'Championship/:championshipId',
     component: ChampionshipViewComponent, // Componente para los detalles del campeonato
   },
   {
-    path: 'championship/:championshipId/login',
+    path: 'Championship/:championshipId/login',
     component: LoginComponent, // Componente para los detalles del campeonato
   },
   {
-    path: 'championship/:championshipId/Organizer',
+    path: 'Championship/:championshipId/Organizer',
     component: ChampionshipSummaryComponent, // Componente para los detalles del campeonato
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Organizer/TraineeRegistration',
+    path: 'Championship/:championshipId/Organizer/TraineeRegistration',
     component: TrainerRegistrationComponent, // Componente para los detalles del campeonato
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Organizer/ResponsibleRegistration',
+    path: 'Championship/:championshipId/Organizer/ResponsibleRegistration',
     component: ResponsibleRegistrationComponent, // Componente para los detalles del campeonato
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Organizer/ParticipantValidation',
+    path: 'Championship/:championshipId/Organizer/ParticipantValidation',
     component: ParticipantValidationComponent, // Componente para los detalles del campeonato
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Organizer/ChampionshipConfiguration',
+    path: 'Championship/:championshipId/Organizer/ChampionshipConfiguration',
     component: ChampionshipConfigurationComponent,
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Organizer/Grouping',
+    path: 'Championship/:championshipId/Organizer/Grouping',
     component: GroupingCompetitorsComponent,
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Organizer/BracketDraw',
+    path: 'Championship/:championshipId/Organizer/BracketDraw',
     component: BracketDrawComponent,
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Organizer/BracketDraw/DownloadBracket',
+    path: 'Championship/:championshipId/Organizer/BracketDraw/DownloadBracket',
     component: BracketDownloadComponent,
     canActivate: [AuthGuard], // Aplica la protección de autenticación
     data: { expectedRoles: ['Organizer'] }, // Especifica los roles permitidos para esta ruta
   },
   {
-    path: 'championship/:championshipId/Coach/:clubCode',
+    path: 'Championship/:championshipId/Coach/:clubCode',
     component: CompetitorViewComponent,
   },
   {
-    path: 'championship/:championshipId/Summary',
+    path: 'Championship/:championshipId/Summary',
     component: SummaryComponent,
   },
   {
-    path: 'championship/:championshipId/Scorer/BracketResults',
+    path: 'Championship/:championshipId/Scorer/BracketResults',
     component: BracketResultsComponent,
   },
 
   {
-    path: 'championship/:championshipId/BracketViwer',
+    path: 'Championship/:championshipId/BracketViwer',
     component: BracketViwerComponent,
   },
 
   {
-    path: 'championship/:championshipId/CreatePassword/:user/:email',
+    path: 'Championship/:championshipId/CreatePassword/:user/:email',
     component: CreateUserPasswordComponent,
   },
 ];

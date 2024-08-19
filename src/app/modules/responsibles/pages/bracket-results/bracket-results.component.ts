@@ -157,7 +157,7 @@ export class BracketResultsComponent implements OnInit {
   }
 
   returnToSummary() {
-    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
+    this.router.navigate(['/Championship', this.championshipId, 'Organizer']);
   }
 
   filterGender(selected: string) {

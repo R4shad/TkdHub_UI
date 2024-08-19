@@ -109,8 +109,8 @@ export class TrainerRegistrationComponent implements OnInit {
     this.api
       .editClub(this.championshipId, this.correntClubCode, newClub)
       .subscribe((response: responseClubI) => {
+        alert('Editado correctamente');
         if (response.status == 200) {
-          alert('Editado correctamente');
           club.isEdit = false;
         }
       });
@@ -133,7 +133,7 @@ export class TrainerRegistrationComponent implements OnInit {
   }
 
   returnToSummary() {
-    this.router.navigate(['/championship', this.championshipId, 'Organizer']);
+    this.router.navigate(['/Championship', this.championshipId, 'Organizer']);
   }
 
   confirm() {
@@ -151,7 +151,7 @@ export class TrainerRegistrationComponent implements OnInit {
                     this.modalRef.close();
                   }
                   this.router.navigate([
-                    '/championship',
+                    '/Championship',
                     this.championshipId,
                     'Organizer',
                   ]);

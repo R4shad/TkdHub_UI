@@ -38,7 +38,7 @@ export class MainPageComponent implements OnInit {
   }
 
   navigateToChampionship(championshipId: number) {
-    const url = `/championship/${championshipId}`;
+    const url = `/Championship/${championshipId}`;
     this.router.navigateByUrl(url);
   }
 

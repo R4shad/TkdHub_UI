@@ -59,7 +59,7 @@ export class WeightSelectorComponent implements OnInit {
             if (this.modalRef != undefined) {
               this.modalRef.close();
               this.router.navigate([
-                '/championship',
+                '/Championship',
                 this.ageInterval.championshipId,
                 'Organizer',
               ]);
@@ -79,7 +79,7 @@ export class WeightSelectorComponent implements OnInit {
               if (this.modalRef != undefined) {
                 this.modalRef.close();
                 this.router.navigate([
-                  '/championship',
+                  '/Championship',
                   this.ageInterval.championshipId,
                   'Organizer',
                 ]);

@@ -57,6 +57,7 @@ export class CreateUserPasswordComponent implements OnInit {
             alert('Contraseña creada correctamente');
             this.password1 = ''; // Limpia el campo de contraseña
             this.password2 = ''; // Limpia el campo de repetir contraseña
+            this.router.navigate(['/']);
           }
         },
         error: (error) => {

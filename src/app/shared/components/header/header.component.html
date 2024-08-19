@@ -11,7 +11,6 @@
 <ng-container *ngIf="championship.championshipId!=0">
   <header class='header-container'>
     <div class="center">
-      <!-- <i class="fa fa-chevron-left" aria-hidden="true" (click)="goBack()"></i> -->
       <div class="center logo">
         <span class="text-logo">Tkd</span>
         <span class="text-logo-2">Hub</span>
@@ -32,8 +31,8 @@
           <span class="roll">Coach</span>
           <span class="logOut">Cerrar Sesión</span>
         </div>
-        <div *ngIf="getRoleType()==='Poiner'" class="login-container" (click)="logOut()">
-          <span class="roll">Poiner</span>
+        <div *ngIf="getRoleType()==='Scorer'" class="login-container" (click)="logOut()">
+          <span class="roll">Anotador</span>
           <span class="logOut">Cerrar Sesión</span>
         </div>
         <div *ngIf="getRoleType()===''" class="login-container" (click)="goToLogin()">
