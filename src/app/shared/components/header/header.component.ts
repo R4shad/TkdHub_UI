@@ -74,6 +74,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut(): void {
+    this.championship.championshipId = 0;
+
     this.authService.logout();
     localStorage.removeItem('token');
     this.authService.setAuthenticated(false, '');

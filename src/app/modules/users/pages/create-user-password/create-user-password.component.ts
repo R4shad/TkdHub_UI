@@ -43,6 +43,7 @@ export class CreateUserPasswordComponent implements OnInit {
 
   submitForm() {
     if (this.password1 !== this.password2) {
+      alert('Las contraseñas no coinciden');
       this.differentPasswords = true; // Establecer la bandera si las contraseñas son diferentes
     } else {
       this.differentPasswords = false; // Restablecer la bandera si las contraseñas son iguales

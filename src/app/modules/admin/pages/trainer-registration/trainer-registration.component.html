@@ -1,6 +1,6 @@
 <div class="container" *ngIf="championship">
   <div *ngIf="championship.stage==='ClubRegistration'">
-    <div class="buttonsS mt-4 mb-2">
+    <div class="buttonsS">
       <span class="cant">Cantidad de Clubes: {{ clubs.length }}</span>
       <button class="btn btn-primary" (click)="addClub()">Agregar</button>
     </div>
@@ -76,7 +76,7 @@
   </div>
 
   <div *ngIf="championship.stage!='ClubRegistration'">
-    <div class="buttonsS mt-4 mb-2">
+    <div class="buttonsS">
       <span class="cant">Cantidad de Clubes: {{ clubs.length }}</span>
     </div>
     <div class="table-responsive">

@@ -61,8 +61,9 @@
           <td *ngIf="stage>3">Realizado</td>
           <td>
             <div *ngIf="stage >= 3" class="action-button">
-              <i *ngIf="stage === 3" class="fa fa-user-plus px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
-              <i *ngIf="stage >3" class="fa fa-eye px-2" aria-hidden="true" (click)="goToBracketDraw()"></i>
+              <i *ngIf="stage === 3" class="fa fa-user-plus px-2" aria-hidden="true"
+                (click)="goToParticipantValidation()"></i>
+              <i *ngIf="stage >3" class="fa fa-eye px-2" aria-hidden="true" (click)="goToParticipantValidation()"></i>
             </div>
           </td>
         </tr>

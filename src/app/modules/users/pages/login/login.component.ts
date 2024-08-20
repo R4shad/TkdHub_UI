@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { ChampionshipI } from 'src/app/shared/models/Championship';
+import { of } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -41,18 +42,32 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.api
-      .getOrganizerToken(
-        this.championship.championshipId,
-        this.email,
-        this.password
+      .getToken(this.championship.championshipId, this.email, this.password)
+      .pipe(
+        catchError((error) => {
+          if (error.status === 404) {
+            alert('El usuario no se encontro.');
+          } else {
+            alert('Contraseña incorrecta.');
+          }
+          return of(null); // Retorna un observable nulo para que la subscripción no falle
+        })
       )
       .subscribe((data) => {
-        console.log('a', data);
-        this.authService.setAuthenticated(true, data.token);
-        this.router.navigate([
-          'Championship/' + this.championship.championshipId + '/Organizer',
-        ]);
-        localStorage.setItem('token', data.token);
+        console.log(data);
+        if (data) {
+          // Solo continúa si no hubo error
+          this.authService.setAuthenticated(true, data.token);
+          this.router.navigate([
+            'Championship/' +
+              this.championship.championshipId +
+              '/' +
+              data.role +
+              '/' +
+              data.clubCode,
+          ]);
+          localStorage.setItem('token', data.token);
+        }
       });
   }
 }

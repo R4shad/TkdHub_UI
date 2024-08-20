@@ -1,6 +1,9 @@
 <div class="container" *ngIf="championship">
   <div class="c " *ngIf="championship.stage==='Weigh-in'">
     <div class="description-center">
+      <span class="clubName">CLUB {{clubName}}</span>
+    </div>
+    <div class="description-center">
       <div class="filters-container">
         <div class="filter">
           <span class="filterS">Categorias</span>
@@ -48,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div class="buttonsS mt-4 mb-2">
+    <div class="buttonsS">
       <span class="cant">Competidores registrados: {{ participantsFilter.length }}</span>
 
       <button class="btn btn-primary" (click)="addParticipant()">Agregar</button>
@@ -210,6 +213,7 @@
   </div>
 
   <div class="c " *ngIf="championship.stage!='Weigh-in'">
+    <span class="clubName">CLUB {{clubName}}</span>
     <div class="description-center">
       <div class="filters-container">
         <div class="filter">
@@ -258,7 +262,7 @@
         </div>
       </div>
     </div>
-    <div class="buttonsS2 mt-4 mb-2">
+    <div class="buttonsS2 ">
       <span class="cant">Cantidad de Competidores: {{ participantsFilter.length }}</span>
 
     </div>

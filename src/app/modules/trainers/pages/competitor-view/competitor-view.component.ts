@@ -58,7 +58,7 @@ export class CompetitorViewComponent implements OnInit {
   selectedGender: string = 'Ambos';
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
-
+  clubName: string = '';
   visibleParticipants: number = 10;
   visibleParticipantsIndex: number = 0;
   increment: number = 10;
@@ -108,6 +108,16 @@ export class CompetitorViewComponent implements OnInit {
       this.clubCode = params.get('clubCode')!;
     });
 
+    this.api.getClubs(this.championshipId).subscribe((data) => {
+      const club = data.find((item) => item.clubCode === this.clubCode);
+
+      if (club) {
+        this.clubName = club.name.toUpperCase();
+      } else {
+        console.log('Club not found');
+      }
+    });
+
     this.api
       .getChampionshipCategories(this.championshipId)
       .subscribe((data) => {
@@ -146,6 +156,8 @@ export class CompetitorViewComponent implements OnInit {
       .getChampionshipAgeInterval(this.championshipId)
       .subscribe((data) => {
         this.ageIntervals = data;
+
+        this.ageIntervals.sort((a, b) => a.minAge - b.minAge);
       });
   }
 

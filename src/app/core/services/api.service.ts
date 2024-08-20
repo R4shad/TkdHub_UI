@@ -124,7 +124,7 @@ export class ApiService {
     );
   }
 
-  getOrganizerToken(
+  getToken(
     championshipId: number,
     email: string,
     password: string
@@ -141,6 +141,7 @@ export class ApiService {
         'Content-Type': 'application/json',
       }),
     };
+
     return this.http.post<tokenI>(direccion, body, httpOptions);
   }
 
@@ -281,7 +282,8 @@ export class ApiService {
     } else if (rol === 'Anotador') {
       direccion = this.APIurl + 'responsible/password/update/' + email;
     } else if (rol === 'Coach') {
-      direccion = this.APIurl + 'club/password/' + email;
+      console.log('ENTRE RUTA CLUB PASS');
+      direccion = this.APIurl + 'club/coach/password/' + email;
     } else {
       return of({ status: 404, message: 'Error al guardar la contraseña' });
     }
