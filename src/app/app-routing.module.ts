@@ -91,6 +91,8 @@ const routes: Routes = [
   {
     path: 'Championship/:championshipId/Coach/:clubCode',
     component: CompetitorViewComponent,
+    canActivate: [AuthGuard], // Aplica la protección de autenticación
+    data: { expectedRoles: ['Coach'] }, // Especifica los roles permitidos para esta ruta
   },
   {
     path: 'Championship/:championshipId/Summary',

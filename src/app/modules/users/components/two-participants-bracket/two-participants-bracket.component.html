@@ -10,6 +10,7 @@
           <div class="match-competitors" *ngIf="(final$ | async) as quarters1">
             <div class="match-competitors" *ngIf="(final$ | async) as final">
               <div class="competitor blue" [ngClass]="{'won': final.blueRounds === 2}">
+                <span class="clubCode">{{ (final$ | async)?.blueCompetitor?.participant?.clubCode }}</span>
                 <span class="name">{{ (final$ | async)?.blueCompetitor?.participant?.fullName }}</span>
                 <span class="score" *ngIf="showScore(quarters1)">{{(final$ | async)?.blueRounds}}</span>
               </div>

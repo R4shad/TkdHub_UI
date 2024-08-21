@@ -168,7 +168,7 @@
         </div>
       </ng-container>
     </div>
-    <div class="text-center ">
+    <div class="text-center " *ngIf="brackets.length>0">
       <div class="left-rows" [ngClass]="{'clickable': visibleBrackets!=1}">
         <div *ngIf="visibleBrackets===1">
           <img src="./../../../../../assets/leftL2.png" alt="row">

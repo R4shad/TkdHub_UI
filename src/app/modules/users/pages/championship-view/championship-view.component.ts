@@ -51,4 +51,9 @@ export class ChampionshipViewComponent implements OnInit {
 
     return `${dia} de ${mes} del ${año}`;
   }
+  goToBracketView() {
+    this.router.navigate([
+      'Championship/' + this.championship.championshipId + '/BracketViwer',
+    ]);
+  }
 }

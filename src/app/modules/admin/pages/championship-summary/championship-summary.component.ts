@@ -119,6 +119,12 @@ export class ChampionshipSummaryComponent implements OnInit {
     this.router.navigate([currentRoute, 'ResponsibleRegistration']);
   }
 
+  goToChampionshipSummary() {
+    const currentRoute = this.getCurrentRoute();
+    const updatedRoute = currentRoute.replace('/Organizer', '/Summary');
+    this.router.navigate([updatedRoute]);
+  }
+
   goToBracketResults() {
     const currentRoute = this.getCurrentRoute();
     const parts = currentRoute.split('/');

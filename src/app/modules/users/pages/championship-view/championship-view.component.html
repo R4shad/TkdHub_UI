@@ -9,9 +9,13 @@
       <span class="status" *ngSwitchCase="'Weigh-in'">Etapa de pesaje</span>
       <span class="status" *ngSwitchCase="'Groupings'">Etapa de agrupaciones</span>
       <span class="status" *ngSwitchCase="'BracketDraw'">Etapa de creación de llaves</span>
-      <span class="status" *ngSwitchCase="'ResponsiblesRegistration'">Etapa de registro de responsables</span>
-      <span class="status" *ngSwitchCase="'CombatRecord'">Etapa de combates</span>
-      <span class="status" *ngSwitchCase="'End'">Finalizado</span>
+      <span class="status" *ngSwitchCase="'ResponsiblesRegistration'">Las llaves ya están disponibles, míralas
+        presionando el botón</span>
+      <span class="status" *ngSwitchCase="'CombatRecord'">Revisa el progreso de las llaves presionando el botón</span>
+      <div class="text-center pt-1  mb-1 pb-1">
+        <button (click)="goToBracketView()" class="btn btn-primaryS  " type="button ">Ver llaves</button>
+      </div>
+      <span class="status" *ngSwitchCase="'End'">El campeonato ha finalizado, mira los resultados finales</span>
     </ng-container>
     <span class="date">{{formatFecha(championship.championshipDate)}}</span>
 

@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
         })
       )
       .subscribe((data) => {
+        console.log('ASDASDASDS');
         console.log(data);
         if (data) {
           // Solo continúa si no hubo error
