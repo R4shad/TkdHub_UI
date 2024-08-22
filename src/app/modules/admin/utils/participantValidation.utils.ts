@@ -4,6 +4,8 @@ import { divisionI } from 'src/app/shared/models/division';
 
 export function obtenerValorNumerico(grado: string): number {
   switch (grado.toLowerCase()) {
+    case 'blanco':
+      return 0;
     case 'franja amarillo':
       return 1;
     case 'amarillo':
@@ -31,6 +33,8 @@ export function obtenerValorNumerico(grado: string): number {
 
 export function obtenerColor(valor: number): string {
   switch (valor) {
+    case 0:
+      return 'blanco';
     case 1:
       return 'franja amarillo';
     case 2:

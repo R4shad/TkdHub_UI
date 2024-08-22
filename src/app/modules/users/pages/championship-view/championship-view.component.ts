@@ -56,4 +56,10 @@ export class ChampionshipViewComponent implements OnInit {
       'Championship/' + this.championship.championshipId + '/BracketViwer',
     ]);
   }
+
+  goToChampionshipSummary() {
+    this.router.navigate([
+      'Championship/' + this.championship.championshipId + '/Summary',
+    ]);
+  }
 }

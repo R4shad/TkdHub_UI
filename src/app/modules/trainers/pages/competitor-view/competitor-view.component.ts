@@ -174,7 +174,7 @@ export class CompetitorViewComponent implements OnInit {
       const valorMax = obtenerValorNumerico(categoria.gradeMax);
 
       for (let i = valorMin; i <= valorMax; i++) {
-        // Llama a obtenerColor con el valor numérico actual de la iteración
+        // Llama a obtenerColor con el valor numérico validGradesctual de la iteración
         const color = obtenerColor(i);
 
         if (color) {
@@ -182,6 +182,7 @@ export class CompetitorViewComponent implements OnInit {
         }
       }
     }
+    console.log(coloresValidos);
     return coloresValidos;
   }
 

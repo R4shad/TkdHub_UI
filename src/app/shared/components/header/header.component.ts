@@ -134,6 +134,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goHome() {
+    this.championship.championshipId = 0;
     this.router.navigate(['/']);
   }
 }

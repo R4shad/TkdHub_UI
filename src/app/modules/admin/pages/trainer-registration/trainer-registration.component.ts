@@ -78,7 +78,7 @@ export class TrainerRegistrationComponent implements OnInit {
         .postClub(this.championshipId, newClub)
         .subscribe((response: responseClubI) => {
           console.log(response.status);
-          if (response.status == 201) {
+          if (response.status == 201 || response.status == 200) {
             const newClubEditable: clubEI = {
               clubCode: newClub.clubCode,
               name: newClub.name,
