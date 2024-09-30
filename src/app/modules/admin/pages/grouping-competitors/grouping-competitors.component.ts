@@ -118,34 +118,7 @@ export class GroupingCompetitorsComponent implements OnInit {
         this.competitors = data;
       });
 
-    this.api
-      .getBracketsWithCompetitorsToEdit(this.championshipId)
-      .subscribe((data) => {
-        this.brackets = data;
-
-        for (const bracket of this.brackets) {
-          // Obtener la cantidad de participantes en el bracket actual
-          const cant = bracket.competitors.length + '';
-
-          // Si la cantidad de participantes actual no está en el array de cantidades únicas, agregarla
-          if (!this.bracketsQuantity.includes(cant)) {
-            if (cant != '0') {
-              this.bracketsQuantity.push(cant);
-            }
-          }
-        }
-
-        // Ordenar el array de cantidades únicas
-        this.bracketsQuantity.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
-
-        //ordena el lastName de competidores
-        this.brackets.forEach((bracket) => {
-          if (bracket.competitors && bracket.competitors.length > 0) {
-            bracket.competitors.sort(this.compareParticipants);
-          }
-        });
-        this.bracketsFiltered = this.brackets;
-      });
+    this.getBrackets();
     this.api
       .getCategoriesWithCompetitors(this.championshipId)
       .subscribe((data) => {
@@ -178,6 +151,38 @@ export class GroupingCompetitorsComponent implements OnInit {
               )
             );
           });
+      });
+  }
+
+  getBrackets() {
+    this.api
+      .getBracketsWithCompetitorsToEdit(this.championshipId)
+      .subscribe((data) => {
+        this.brackets = data;
+
+        for (const bracket of this.brackets) {
+          // Obtener la cantidad de participantes en el bracket actual
+          const cant = bracket.competitors.length + '';
+
+          // Si la cantidad de participantes actual no está en el array de cantidades únicas, agregarla
+          if (!this.bracketsQuantity.includes(cant)) {
+            if (cant != '0') {
+              this.bracketsQuantity.push(cant);
+            }
+          }
+        }
+
+        // Ordenar el array de cantidades únicas
+        this.bracketsQuantity.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+
+        //ordena el lastName de competidores
+        this.brackets.forEach((bracket) => {
+          if (bracket.competitors && bracket.competitors.length > 0) {
+            bracket.competitors.sort(this.compareParticipants);
+          }
+        });
+        this.bracketsFiltered = this.brackets;
+        console.log(this.bracketsFiltered);
       });
   }
 
@@ -262,6 +267,7 @@ export class GroupingCompetitorsComponent implements OnInit {
           .decrementCategory(competitor.championshipId, competitor.categoryId)
           .subscribe((data) => {
             if (data.status === 200) {
+              this.resetFilters();
               this.api
                 .incrementCategoryAndDivision(
                   competitor.championshipId,
@@ -569,8 +575,11 @@ export class GroupingCompetitorsComponent implements OnInit {
         .deleteCompetitor(competitor.competitorId)
         .subscribe((response: responseCompetitorI) => {
           console.log('RESPONSE 01:', response);
+          console.log(response);
           if (response.status == 200) {
             //Hay   que eliminar el bracket, el competidor, y reducir el numero en categoria y division.
+            this.resetFilters();
+            this.getBrackets();
             alert('Competidor Eliminado correctamente');
           }
         });
@@ -578,29 +587,45 @@ export class GroupingCompetitorsComponent implements OnInit {
         (c) => c.competitorId != competitor.competitorId
       );
       console.log('COMPETITORS: ', bracket.competitors);
-      if (bracket.competitors.length === 0) {
+      if (
+        bracket.competitors.length === 0 ||
+        bracket.competitors.length === 1
+      ) {
+        console.log('eliminar bracket');
         this.api
           .deleteBracket(bracket.bracketId)
           .subscribe((response: responseBracketI) => {
+            console.log('RESPONSE DEL ELIMINAR:', response);
             if (response.status == 200) {
-              alert('Eliminado correctamente');
+              //alert('Eliminado correctamente');
             }
           });
       } else {
+        console.log('Toca decrementar');
         this.api
           .decrementCategory(bracket.championshipId, cId)
           .subscribe((data) => {
+            console.log('RESPONSE DEL decrementar category:', data);
             if (data.status === 200) {
             }
           });
         this.api
           .decrementDivision(bracket.championshipId, dId)
           .subscribe((data) => {
+            console.log('RESPONSE DEL decrementar division:', data);
             if (data.status === 200) {
             }
           });
       }
     }
+  }
+
+  resetFilters() {
+    this.bracketsFiltered = this.brackets;
+    this.selectedAgeInterval = 'Todos';
+    this.selectedCategory = 'Todos';
+    this.selectedGender = 'Ambos';
+    this.selectedQuantity = 'Todos';
   }
 
   confirm() {

@@ -10,7 +10,7 @@
           <div class="options">
             <button class="btn btn-filter" [class.selected]="selectedCategory === 'Todos'"
               (click)="filterCategory('Todos')">
-              <i class="fa fa-circle " aria-hidden="true"></i>Ambos</button>
+              <i class="fa fa-circle " aria-hidden="true"></i>Todos</button>
             <ng-container *ngFor="let category of categories">
               <button class="btn btn-filter" [class.selected]="selectedCategory === category.categoryName"
                 (click)="filterCategory(category.categoryName)">
@@ -221,7 +221,7 @@
           <div class="options">
             <button class="btn btn-filter" [class.selected]="selectedCategory === 'Todos'"
               (click)="filterCategory('Todos')">
-              <i class="fa fa-circle " aria-hidden="true"></i>Ambos</button>
+              <i class="fa fa-circle " aria-hidden="true"></i>Todos</button>
             <ng-container *ngFor="let category of categories">
               <button class="btn btn-filter" [class.selected]="selectedCategory === category.categoryName"
                 (click)="filterCategory(category.categoryName)">

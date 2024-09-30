@@ -367,6 +367,7 @@ export class CompetitorViewComponent implements OnInit {
   }
 
   applyFilters() {
+    this.visibleParticipantsIndex = 0;
     this.visibleParticipants = 10;
     this.participantsFilter = this.participants;
 
@@ -384,9 +385,11 @@ export class CompetitorViewComponent implements OnInit {
       );
       if (category) {
         const validGrades = this.getValidGradesForCategory(category);
+        console.log('VALIDOS:', validGrades);
         this.participantsFilter = this.participantsFilter.filter(
           (participant) => validGrades.includes(participant.grade)
         );
+        console.log('VALIDOS:', validGrades);
       }
     }
 

@@ -45,7 +45,8 @@ p {
   font-size: 29px;
   line-height: 35.1px;
   font-weight: 700;
-  width: min-content;
+  //width: min-content;
+  width: 200px;
   display: block;
   text-align: center;
 }
@@ -70,7 +71,6 @@ i {
 .logo {
   justify-content: center;
   cursor: pointer;
-  
 }
 .login-container {
   cursor: pointer;

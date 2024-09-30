@@ -48,6 +48,8 @@ export class MainPageComponent implements OnInit {
       this.championships.length
     );
     this.displayedChampionships = this.championships.slice(0, endIndex);
+    console.log(this.displayedChampionships.length);
+    console.log(this.championships.length);
   }
 
   formatFecha(fecha: string): string {

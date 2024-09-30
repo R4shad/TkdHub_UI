@@ -82,7 +82,8 @@ export class BracketDrawComponent implements OnInit {
       .getBracketsWithCompetitors(this.championshipId)
       .subscribe((data) => {
         this.brackets = data;
-
+        console.log('BRACKETS::');
+        console.log(this.brackets);
         for (const bracket of this.brackets) {
           // Obtener la cantidad de participantes en el bracket actual
           const cant = bracket.competitors.length + '';

@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
     this.authService.isAuthenticated$.subscribe((authenticated) => {
       isAuthenticated = authenticated;
       if (!isAuthenticated) {
-        //this.router.navigate(['/login']); // Cambia '/login' por la ruta de tu página de inicio de sesión
+        this.router.navigate(['/login']); // Cambia '/login' por la ruta de tu página de inicio de sesión
       }
     });
 
