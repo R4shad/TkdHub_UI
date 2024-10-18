@@ -36,6 +36,10 @@
           <span class="roll">Anotador</span>
           <span class="logOut">Cerrar Sesión</span>
         </div>
+        <div *ngIf="getRoleType()==='Administrator'" class="login-container" (click)="logOut()">
+          <span class="roll">Administrador</span>
+          <span class="logOut">Cerrar Sesión</span>
+        </div>
         <div *ngIf="getRoleType()===''" class="login-container" (click)="goToLogin()">
           <span class="roll">INGRESAR</span>
         </div>

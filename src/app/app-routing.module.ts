@@ -25,7 +25,7 @@ import { SummaryComponent } from './modules/users/pages/summary/summary.componen
 
 const routes: Routes = [
   {
-    path: 'Rashad/CrearCampeonato',
+    path: 'Administrator/CrearCampeonato',
     component: ChampionshipCreatorComponent,
   },
   {

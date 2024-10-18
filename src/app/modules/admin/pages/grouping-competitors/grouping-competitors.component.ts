@@ -318,6 +318,31 @@ export class GroupingCompetitorsComponent implements OnInit {
           });
       }
     }
+
+    let bracketDecreased = this.brackets.find(
+      (bracket) => bracket.bracketId === this.bracketEditing.bracketId
+    );
+
+    if (bracketDecreased != null) {
+      if (
+        bracketDecreased.competitors.length === 0 ||
+        bracketDecreased.competitors.length === 1
+      ) {
+        console.log('eliminar bracket');
+        this.api
+          .deleteBracket(bracketDecreased.bracketId)
+          .subscribe((response: responseBracketI) => {
+            console.log('RESPONSE DEL ELIMINAR:', response);
+            if (response.status == 200) {
+              //alert('Eliminado correctamente');
+            }
+          });
+      }
+    }
+
+    this.visibleBrackets = 1;
+    this.resetFilters();
+    this.getBrackets();
   }
   cancelEdit(participant: participantCompetitorToEditI) {
     participant.isEdit = false;
@@ -578,6 +603,7 @@ export class GroupingCompetitorsComponent implements OnInit {
           console.log(response);
           if (response.status == 200) {
             //Hay   que eliminar el bracket, el competidor, y reducir el numero en categoria y division.
+            this.visibleBrackets = 1;
             this.resetFilters();
             this.getBrackets();
             alert('Competidor Eliminado correctamente');

@@ -28,7 +28,7 @@ export class BracketDrawComponent implements OnInit {
 
   divisions: divisionI[] = [];
   categories: categoryI[] = [];
-
+  loads: number = 0;
   selectedGender: string = 'Ambos';
   selectedCategory: string = 'Todos';
   selectedAgeInterval: string = 'Todos';
@@ -100,7 +100,8 @@ export class BracketDrawComponent implements OnInit {
           this.api
             .getMatches(this.championshipId, this.brackets[0].bracketId)
             .subscribe((data) => {
-              if (!data[0].matchNumber) {
+              if (this.loads < 2) {
+                this.loads = this.loads + 1;
                 this.api
                   .enumerateMatch(this.championshipId)
                   .subscribe((data) => {
@@ -108,7 +109,7 @@ export class BracketDrawComponent implements OnInit {
                   });
               }
             });
-        }, 5000);
+        }, 3000);
 
         console.log(this.brackets);
         setTimeout(() => {

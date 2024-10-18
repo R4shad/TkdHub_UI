@@ -162,28 +162,28 @@ export class CompetitorViewComponent implements OnInit {
   }
 
   getValidGrades(): string[] {
-    const coloresValidos: string[] = [];
+    const coloresValidos: Set<string> = new Set();
 
     const categoriasOrdenadas = this.categories.sort(
       (a, b) =>
         obtenerValorNumerico(a.gradeMin) - obtenerValorNumerico(b.gradeMin)
     );
-
+    console.log('B', categoriasOrdenadas);
     for (const categoria of categoriasOrdenadas) {
       const valorMin = obtenerValorNumerico(categoria.gradeMin);
       const valorMax = obtenerValorNumerico(categoria.gradeMax);
 
       for (let i = valorMin; i <= valorMax; i++) {
-        // Llama a obtenerColor con el valor numérico validGradesctual de la iteración
+        // Llama a obtenerColor con el valor numérico actual de la iteración
         const color = obtenerColor(i);
 
         if (color) {
-          coloresValidos.push(color);
+          coloresValidos.add(color);
         }
       }
     }
-    console.log(coloresValidos);
-    return coloresValidos;
+    console.log('AAAAAAAAAAAAAAAAAAAAAA', Array.from(coloresValidos));
+    return Array.from(coloresValidos);
   }
 
   goToParticipantRegistration() {
@@ -380,16 +380,16 @@ export class CompetitorViewComponent implements OnInit {
 
     // Aplicar filtro de categoría
     if (this.selectedCategory !== 'Todos') {
+      console.log(this.selectedCategory);
       const category: categoryI | undefined = this.categories.find(
         (category) => category.categoryName === this.selectedCategory
       );
       if (category) {
         const validGrades = this.getValidGradesForCategory(category);
-        console.log('VALIDOS:', validGrades);
+        console.log('B', validGrades);
         this.participantsFilter = this.participantsFilter.filter(
           (participant) => validGrades.includes(participant.grade)
         );
-        console.log('VALIDOS:', validGrades);
       }
     }
 
@@ -435,10 +435,10 @@ export class CompetitorViewComponent implements OnInit {
 
   getValidGradesForCategory(category: categoryI): string[] {
     const validGrades: string[] = [];
-
+    console.log('EN METODO:', category);
     const valorMin = obtenerValorNumerico(category.gradeMin);
     const valorMax = obtenerValorNumerico(category.gradeMax);
-
+    console.log(valorMin, valorMax);
     for (let i = valorMin; i <= valorMax; i++) {
       const color = obtenerColor(i);
       if (color) {

@@ -59,14 +59,19 @@ export class LoginComponent implements OnInit {
         if (data) {
           // Solo continúa si no hubo error
           this.authService.setAuthenticated(true, data.token);
-          this.router.navigate([
-            'Championship/' +
-              this.championship.championshipId +
-              '/' +
-              data.role +
-              '/' +
-              data.clubCode,
-          ]);
+          if (data.role === 'Administrator') {
+            this.router.navigate([data.role + '/' + data.clubCode]);
+          } else {
+            this.router.navigate([
+              'Championship/' +
+                this.championship.championshipId +
+                '/' +
+                data.role +
+                '/' +
+                data.clubCode,
+            ]);
+          }
+
           localStorage.setItem('token', data.token);
         }
       });

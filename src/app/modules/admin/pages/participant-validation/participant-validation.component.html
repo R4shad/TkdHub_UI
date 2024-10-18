@@ -66,10 +66,10 @@
       <div class="participants mt-2 mb-2">
         <input type="text" class="form-control text-fiter" id="filtroTexto" [(ngModel)]="textoFiltro"
           (input)="aplicarFiltroTexto()" placeholder="Buscar por nombre">
-        <p *ngIf="participantsFilter.length>0 && visibleParticipants<participantsFilter.length" class="cant">Mostrando
+        <p *ngIf="participantsFilter.length>0 && visibleParticipants<=participantsFilter.length" class="cant">Mostrando
           {{visibleParticipants}} de {{
           participantsFilter.length }}</p>
-        <p *ngIf="participantsFilter.length>0 && visibleParticipants>=participantsFilter.length" class="cant">Mostrando
+        <p *ngIf="participantsFilter.length>0 && visibleParticipants>participantsFilter.length" class="cant">Mostrando
           1 de {{
           participantsFilter.length }}</p>
         <button class="btn btn-primary" (click)="verificateAll()">Confirmar

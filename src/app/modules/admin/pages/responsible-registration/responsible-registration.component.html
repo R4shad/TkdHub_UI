@@ -2,7 +2,7 @@
   <div *ngIf="championship.stage==='ResponsiblesRegistration'">
     <div class="text-center mt-4 mb-2">
       <div class="buttonsS ">
-        <span class="cant">Cantidad de Responsables: {{ responsibles.length }}</span>
+        <span class="cant">Cantidad de Anotadores: {{ responsibles.length }}</span>
         <button class="btn btn-primary" (click)="addResponsible()">Agregar</button>
       </div>
     </div>
@@ -63,7 +63,7 @@
   <div *ngIf="championship.stage!='ResponsiblesRegistration'">
     <div class="text-center mt-4 mb-2">
       <div class="buttonsS ">
-        <span class="cant">Cantidad de Responsables: {{ responsibles.length }}</span>
+        <span class="cant">Cantidad de Anotadores: {{ responsibles.length }}</span>
       </div>
     </div>
     <div class="container">
