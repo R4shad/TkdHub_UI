@@ -64,7 +64,29 @@ export class ConfigureDivCatComponent implements OnInit {
       });
   }
   openModal(content: any) {
-    this.modalRef = this.modalService.open(content);
+    if (this.validateCategories()) {
+      this.modalRef = this.modalService.open(content);
+    } else {
+      alert('Revisa tus categorias, se estan solapando.');
+    }
+  }
+
+  validateCategories(): boolean {
+    for (let i = 0; i < this.categories.length - 1; i++) {
+      const currentCategory = this.categories[i];
+      const nextCategory = this.categories[i + 1];
+
+      const currentMaxIndex = this.validGrades.indexOf(
+        currentCategory.gradeMax
+      );
+      const nextMinIndex = this.validGrades.indexOf(nextCategory.gradeMin);
+
+      if (currentMaxIndex >= nextMinIndex) {
+        return false; // There's an overlap
+      }
+    }
+
+    return true; // No overlaps found
   }
 
   deleteAge(ageRemoved: agesEI) {
@@ -110,6 +132,19 @@ export class ConfigureDivCatComponent implements OnInit {
   championshipId: number = 0;
   categories: categoryEI[] = [];
   categoryRegistered: boolean = false;
+  validGrades = [
+    'blanco',
+    'franja amarillo',
+    'amarillo',
+    'franja verde',
+    'verde',
+    'franja azul',
+    'azul',
+    'franja rojo',
+    'rojo',
+    'negro',
+  ];
+
   initCategory() {
     this.route.paramMap
       .pipe(

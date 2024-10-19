@@ -86,7 +86,9 @@
                 </td>
                 <td>
                   <div *ngIf="category.isEdit">
-                    <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMin">
+                    <select class="form-select" [(ngModel)]="category.gradeMin">
+                      <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+                    </select>
                   </div>
                   <div *ngIf="!category.isEdit">
                     {{ category.gradeMin }}
@@ -94,12 +96,14 @@
                 </td>
                 <td>
                   <div *ngIf="category.isEdit">
-                    <input class="form-control text-S" type="text" [(ngModel)]="category.gradeMax">
+                    <select class="form-select" [(ngModel)]="category.gradeMax">
+                      <option *ngFor="let grade of validGrades" [value]="grade">{{ grade }}</option>
+                    </select>
                   </div>
                   <div *ngIf="!category.isEdit">
                     {{ category.gradeMax }}
                   </div>
-                </td>
+
 
                 <td class="action-column">
                   <div class="action-button" *ngIf="!category.isEdit">

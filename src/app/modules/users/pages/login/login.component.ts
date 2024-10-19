@@ -76,4 +76,10 @@ export class LoginComponent implements OnInit {
         }
       });
   }
+
+  forgotPassword() {
+    this.router.navigate([
+      'Championship/' + this.championship.championshipId + '/forgotPassword',
+    ]);
+  }
 }

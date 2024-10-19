@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../../core/services/api.service';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-championship-creator',
   templateUrl: './championship-creator.component.html',
@@ -10,11 +11,13 @@ export class ChampionshipCreatorComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submitForm(championshipForm: any) {
-    if (championshipForm.valid) {
+  submitForm(championshipForm: NgForm) {
+    if (
+      championshipForm.valid &&
+      this.validateEmail(championshipForm.value.email)
+    ) {
       const formData = championshipForm.value;
       console.log(formData);
-
       this.api.createChampionship(formData).subscribe({
         next: (response) => {
           if (response.status === 201) {
@@ -29,8 +32,17 @@ export class ChampionshipCreatorComponent implements OnInit {
       });
     } else {
       console.log('Formulario no válido');
+      if (!this.validateEmail(championshipForm.value.email)) {
+        alert('Correo electrónico no válido');
+      }
     }
   }
+
+  validateEmail(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@(hotmail|gmail)\.com$/;
+    return regex.test(email);
+  }
+
   insertInitialData(championshipId: number) {
     this.api.postChampionshipDivision(championshipId).subscribe((data) => {
       console.log(data);

@@ -290,6 +290,16 @@ export class ApiService {
     return this.http.patch<responseI>(direccion, { password });
   }
 
+  sendEmail(championshipID: number, email: string): Observable<responseI> {
+    let direccion =
+      this.APIurl +
+      'championship/' +
+      championshipID +
+      '/updatePassword/' +
+      email;
+    return this.http.patch<responseI>(direccion, {});
+  }
+
   getChampionshipCategory(championshipId: number): Observable<categoryI[]> {
     let direccion = this.APIurl + 'category/' + championshipId;
     return this.http.get<responseCategoryI>(direccion).pipe(

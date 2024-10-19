@@ -22,6 +22,7 @@ import { CreateUserPasswordComponent } from './modules/users/pages/create-user-p
 
 import { AuthGuard } from './auth.guard';
 import { SummaryComponent } from './modules/users/pages/summary/summary.component';
+import { ForgotPasswordComponent } from './modules/users/pages/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -106,6 +107,10 @@ const routes: Routes = [
   {
     path: 'Championship/:championshipId/BracketViwer',
     component: BracketViwerComponent,
+  },
+  {
+    path: 'Championship/:championshipId/forgotPassword',
+    component: ForgotPasswordComponent,
   },
 
   {

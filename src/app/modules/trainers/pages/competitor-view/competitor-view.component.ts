@@ -241,25 +241,46 @@ export class CompetitorViewComponent implements OnInit {
   }
 
   confirmEdit(participant: ParticipantEI) {
-    const newParticipant: participantToEditI = {
-      lastNames: participant.lastNames,
-      firstNames: participant.firstNames,
-      age: participant.age,
-      weight: participant.weight,
-      grade: participant.grade,
-      gender: participant.gender,
-    };
-    this.api
-      .editParticipant(this.championshipId, participant.id, newParticipant)
-      .subscribe((response: responseParticipantToEditI) => {
-        if (response.status == 200) {
-          alert('Editado correctamente');
-          participant.isEdit = false;
+    console.log(!this.isValidString(participant.lastNames));
+    console.log(!this.isValidString(participant.firstNames));
+    console.log(!this.isValidNumber(participant.age));
+    if (!this.isValidString(participant.lastNames)) {
+      alert('El apellido es incorrecto. Por favor, ingrese solo letras.');
+    } else if (!this.isValidString(participant.firstNames)) {
+      alert('El nombre es incorrecto. Por favor, ingrese solo letras.');
+    } else if (!this.isValidNumber(participant.age)) {
+      alert('La edad es incorrecta. Por favor, ingrese solo números.');
+    } else if (!this.isValidNumber(participant.weight)) {
+      alert('El peso es incorrecto. Por favor, ingrese solo números.');
+    } else {
+      const newParticipant: participantToEditI = {
+        lastNames: participant.lastNames,
+        firstNames: participant.firstNames,
+        age: participant.age,
+        weight: participant.weight,
+        grade: participant.grade,
+        gender: participant.gender,
+      };
+      this.api
+        .editParticipant(this.championshipId, participant.id, newParticipant)
+        .subscribe((response: responseParticipantToEditI) => {
+          if (response.status == 200) {
+            alert('Editado correctamente');
+            participant.isEdit = false;
+            this.getCompetitorDivision(participant);
+            this.getCategory(participant);
+          }
+        });
+    }
+  }
 
-          this.getCompetitorDivision(participant);
-          this.getCategory(participant);
-        }
-      });
+  isValidString(input: string): boolean {
+    const regex = /^[a-zA-Z\s]+$/;
+    return regex.test(input); // Retorna true si es válido
+  }
+
+  isValidNumber(input: any): boolean {
+    return /^[0-9]+$/.test(input); // Retorna true si es válido
   }
 
   onDelete(participant: ParticipantEI) {

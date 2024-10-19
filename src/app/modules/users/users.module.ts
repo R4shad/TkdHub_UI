@@ -25,6 +25,7 @@ import { ThreeParticipantsBracketComponent } from './components/three-participan
 import { BracketDownloadComponent } from './pages/bracket-download/bracket-download.component';
 import { CreateUserPasswordComponent } from './pages/create-user-password/create-user-password.component';
 import { SummaryComponent } from './pages/summary/summary.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 @NgModule({
   declarations: [
     MainPageComponent,
@@ -50,6 +51,7 @@ import { SummaryComponent } from './pages/summary/summary.component';
     BracketDownloadComponent,
     CreateUserPasswordComponent,
     SummaryComponent,
+    ForgotPasswordComponent,
   ],
   imports: [CommonModule, FormsModule],
   providers: [AuthService, DatePipe],

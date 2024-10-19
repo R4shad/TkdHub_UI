@@ -96,24 +96,35 @@ export class TrainerRegistrationComponent implements OnInit {
     }
   }
 
+  validateEmail(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@(hotmail|gmail)\.com$/;
+    return regex.test(email);
+  }
+
   confirmEdit(club: clubEI) {
-    club.clubCode = club.clubCode.toUpperCase();
-    const newClub: clubI = {
-      name: club.name,
-      clubCode: club.clubCode.toUpperCase(),
-      email: club.email,
-      coachName: club.coachName,
-    };
-    console.log(this.correntClubCode);
-    console.log(newClub);
-    this.api
-      .editClub(this.championshipId, this.correntClubCode, newClub)
-      .subscribe((response: responseClubI) => {
-        alert('Editado correctamente');
-        if (response.status == 200) {
-          club.isEdit = false;
-        }
-      });
+    if (this.validateEmail(club.email)) {
+      club.clubCode = club.clubCode.toUpperCase();
+      const newClub: clubI = {
+        name: club.name,
+        clubCode: club.clubCode.toUpperCase(),
+        email: club.email,
+        coachName: club.coachName,
+      };
+      console.log(this.correntClubCode);
+      console.log(newClub);
+      this.api
+        .editClub(this.championshipId, this.correntClubCode, newClub)
+        .subscribe((response: responseClubI) => {
+          alert('Editado correctamente');
+          if (response.status == 200) {
+            club.isEdit = false;
+          }
+        });
+    } else {
+      alert(
+        "'El correo electrónico no tiene un formato válido. Debe ser de hotmail.com o gmail.com."
+      );
+    }
   }
 
   onDelete(club: clubEI) {

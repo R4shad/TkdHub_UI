@@ -1,5 +1,5 @@
 <div class="container mt-5">
-  <form #championshipForm="ngForm" class="formC">
+  <form #championshipForm="ngForm" class="formC" (ngSubmit)="submitForm(championshipForm)">
     <div class="mb-3">
       <label for="championshipName" class="form-label">Nombre del Campeonato</label>
       <input type="text" class="form-control" id="championshipName" name="championshipName" ngModel required>
@@ -11,13 +11,18 @@
     <div class="mb-3">
       <label for="email" class="form-label">Email del Organizador</label>
       <input type="email" class="form-control" id="email" name="email" ngModel required>
+      <div
+        *ngIf="!validateEmail(championshipForm.value.email) && (championshipForm.controls['email']?.dirty || championshipForm.controls['email']?.touched)"
+        class="invalid-feedback">
+        El correo electrónico debe ser de hotmail.com o gmail.com
+      </div>
     </div>
     <div class="mb-3">
       <label for="championshipDate" class="form-label">Fecha del Campeonato</label>
       <input type="date" class="form-control" id="championshipDate" name="championshipDate" ngModel required>
     </div>
     <div class="text-center">
-      <button type="submit" class="btn btn-primary" (click)="submitForm(championshipForm)">Crear</button>
+      <button type="submit" class="btn btn-primary">Crear</button>
     </div>
   </form>
 </div>
