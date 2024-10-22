@@ -598,6 +598,17 @@ export class ApiService {
     );
   }
 
+  getChampionshipCompetitorsNotParticipating(
+    championshipId: number
+  ): Observable<completeCompetitorI[]> {
+    let direccion = this.APIurl + 'competitor/notParticipate/' + championshipId;
+    return this.http.get<responseCompleteCompetitorI>(direccion).pipe(
+      map((response: responseCompleteCompetitorI) => {
+        return response.data;
+      })
+    );
+  }
+
   getParticipantsClub(
     ChampionshipId: number,
     clubCode: string

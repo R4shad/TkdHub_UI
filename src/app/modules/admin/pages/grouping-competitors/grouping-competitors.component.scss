@@ -77,6 +77,13 @@ i {
   display: flex;
   justify-content: center;
 }
+.table-responsive2 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: fit-content;
+  padding-left: 250px;
+}
 .container {
   width: 100%;
   display: flex;
@@ -126,6 +133,20 @@ i {
   height: 42.6px;
   margin-bottom: 10px;
   margin-top: 40px;
+}
+.notParticipate {
+  height: 200px;
+}
+.text {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+}
+.text-centerNC {
+  justify-content: center;
+  height: 42.6px;
+  margin-bottom: 10px;
 }
 .description-center {
   display: flex;

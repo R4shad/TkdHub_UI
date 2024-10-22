@@ -48,6 +48,7 @@ export class HeaderComponent implements OnInit {
         });
       }
       console.log(this.championshipId);
+      console.log('A', this.getRoleType());
     });
 
     this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
@@ -128,6 +129,12 @@ export class HeaderComponent implements OnInit {
       urlParts[championshipIdIndex + 2] === 'Scorer'
     ) {
       return 'Scorer';
+    } else if (
+      championshipIdIndex !== -1 &&
+      urlParts.length > championshipIdIndex + 2 &&
+      urlParts[championshipIdIndex + 2] === 'Administrator'
+    ) {
+      return 'Administrator';
     } else {
       return '';
     }

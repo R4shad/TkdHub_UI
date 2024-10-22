@@ -49,6 +49,7 @@ import { ChampionshipI } from 'src/app/shared/models/Championship';
 export class GroupingCompetitorsComponent implements OnInit {
   championshipId: number = 0;
   competitors: completeCompetitorI[] = [];
+  competitorsNotParticipating: completeCompetitorI[] = [];
   validGrades: string[] = [];
   categories: categoryI[] = [];
   divisions: divisionI[] = [];
@@ -117,6 +118,11 @@ export class GroupingCompetitorsComponent implements OnInit {
       .subscribe((data) => {
         this.competitors = data;
       });
+    this.api
+      .getChampionshipCompetitorsNotParticipating(this.championshipId)
+      .subscribe((data) => {
+        this.competitorsNotParticipating = data;
+      });
 
     this.getBrackets();
     this.api
@@ -151,6 +157,14 @@ export class GroupingCompetitorsComponent implements OnInit {
               )
             );
           });
+      });
+  }
+
+  getCompetitorsNotParticipating() {
+    this.api
+      .getChampionshipCompetitorsNotParticipating(this.championshipId)
+      .subscribe((data) => {
+        this.competitorsNotParticipating = data;
       });
   }
 
@@ -606,6 +620,7 @@ export class GroupingCompetitorsComponent implements OnInit {
             this.visibleBrackets = 1;
             this.resetFilters();
             this.getBrackets();
+            this.getCompetitorsNotParticipating();
             alert('Competidor Eliminado correctamente');
           }
         });
