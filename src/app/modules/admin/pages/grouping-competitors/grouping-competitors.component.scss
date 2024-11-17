@@ -82,7 +82,6 @@ i {
   justify-content: center;
   flex-direction: column;
   width: fit-content;
-  padding-left: 250px;
 }
 .container {
   width: 100%;
@@ -132,7 +131,7 @@ i {
   justify-content: center;
   height: 42.6px;
   margin-bottom: 10px;
-  margin-top: 40px;
+  margin-top: 40px !important;
 }
 .notParticipate {
   height: 200px;
@@ -147,6 +146,10 @@ i {
   justify-content: center;
   height: 42.6px;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 80px;
 }
 .description-center {
   display: flex;

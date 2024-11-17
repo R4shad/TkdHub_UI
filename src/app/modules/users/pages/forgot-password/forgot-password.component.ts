@@ -30,7 +30,7 @@ export class ForgotPasswordComponent implements OnInit {
       next: (response) => {
         console.log(response);
         if (response.status === 200) {
-          alert('Contraseña creada correctamente');
+          alert('Correo enviado correctamente');
           this.router.navigate(['/']);
         }
       },

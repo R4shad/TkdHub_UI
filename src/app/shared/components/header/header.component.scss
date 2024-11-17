@@ -3,7 +3,9 @@
   display: flex;
   justify-content: left;
   padding: 0 10px;
-  height: 90px;
+
+  align-items: center;
+  justify-content: space-between;
 }
 .header-container {
   background: #ff204e;
@@ -11,6 +13,9 @@
   justify-content: space-between;
   padding: 0 10px;
   height: 90px;
+
+  //align-items: center;
+  justify-content: space-between;
 }
 .championship-name {
   background-color: white;

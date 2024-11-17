@@ -142,6 +142,7 @@ export class ConfigureDivCatComponent implements OnInit {
     'azul',
     'franja rojo',
     'rojo',
+    'franja negro',
     'negro',
   ];
 

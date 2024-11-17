@@ -5,6 +5,10 @@
       <span class="text-logo-2">Hub</span>
     </div>
     <button *ngIf="token" class="btn btn-outline-success" (click)="logOut()">Logout</button>
+    <div *ngIf="getRoleType()==='Administrator'" class="login-container" (click)="logOut()">
+      <span class="roll">Administrador</span>
+      <span class="logOut">Cerrar Sesión</span>
+    </div>
   </header>
 </ng-container>
 
@@ -22,7 +26,6 @@
       </div>
     </div>
     <div class="center">
-
       <ng-container *ngIf="!inLogin()">
         <div *ngIf="getRoleType()==='Organizer'" class="login-container" (click)="logOut()">
           <span class="roll">Organizador</span>

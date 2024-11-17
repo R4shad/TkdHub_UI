@@ -192,7 +192,7 @@
       </div>
     </div>
 
-    <div class="notParticipate">
+    <div class="notParticipate" *ngIf="bracketsFiltered.length>0">
       <div class="text-center mt-4">
         <p class="text">No Participan</p>
       </div>
@@ -405,6 +405,50 @@
               <img src="./../../../../../assets/rightL1.png" alt="row">
               <img src="./../../../../../assets/rightL2.png" alt="row">
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notParticipate" *ngIf="bracketsFiltered.length>0">
+      <div class="text-center mt-2">
+        <p class="text">No Participan</p>
+      </div>
+      <div class="text-centerNC ">
+        <div class="table-responsive2">
+          <div class="table-container">
+            <table class="table ">
+              <thead>
+                <tr class="bg text-white">
+                  <th class="names">Apellido y Nombre</th>
+                  <th class="code">Club</th>
+                  <th class="age">Edad</th>
+                  <th class="weight">Peso</th>
+                  <th class="grade">Grado</th>
+                  <th class="gender">Sexo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let competitor of competitorsNotParticipating">
+                  <td>
+                    {{ joinNames(competitor.participant.lastNames,competitor.participant.firstNames) }}
+                  </td>
+                  <td>
+                    {{ competitor.participant.clubCode }}
+                  </td>
+                  <td>
+                    {{ competitor.participant.age }}
+                  </td>
+                  <td>
+                    {{ competitor.participant.weight }} Kg
+                  </td>
+                  <td>
+                    {{ competitor.participant.grade }}
+                  </td>
+                  <td>{{ competitor.participant.gender }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

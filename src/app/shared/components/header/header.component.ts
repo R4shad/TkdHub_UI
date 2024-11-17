@@ -110,7 +110,7 @@ export class HeaderComponent implements OnInit {
   getRoleType(): string {
     const urlParts = window.location.href.split('/');
     const championshipIdIndex = urlParts.indexOf('Championship');
-
+    const Admin = urlParts.indexOf('Administrator');
     if (
       championshipIdIndex !== -1 &&
       urlParts.length > championshipIdIndex + 2 &&
@@ -129,13 +129,10 @@ export class HeaderComponent implements OnInit {
       urlParts[championshipIdIndex + 2] === 'Scorer'
     ) {
       return 'Scorer';
-    } else if (
-      championshipIdIndex !== -1 &&
-      urlParts.length > championshipIdIndex + 2 &&
-      urlParts[championshipIdIndex + 2] === 'Administrator'
-    ) {
+    } else if (urlParts.length > championshipIdIndex + 2 && Admin === 3) {
       return 'Administrator';
     } else {
+      console.log(Admin);
       return '';
     }
   }
