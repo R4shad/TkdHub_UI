@@ -33,7 +33,7 @@ Este es el **frontend** de la aplicación **TKD-HUB**, una plataforma web diseñ
 
 ```bash
 # Clona el repositorio
-git clone https://github.com/tu-usuario/tkd-hub-ui.git
+git clone https://github.com/R4shad/tkd-hub-ui.git
 
 # Entra a la carpeta
 cd tkd-hub-ui
